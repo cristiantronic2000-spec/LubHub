@@ -2,18 +2,21 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
     <title>Línea de trabajo · Lubricentro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Inter:wght@400;500;700&display=swap">
     <!--
     ===================================================================================
-    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.24 (un solo archivo, sin compilar)
+    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.25 (un solo archivo, sin compilar)
     QUÉ HACE: muestra en tiempo real qué trabajos están en cola, en proceso, en pausa o
     completados, con cronómetro, tiempos estimados, notas y bitácora de eventos.
     MODO DEMO (sin Firebase): carga los datos del prototipo (3 talleres, 8 trabajos);
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.25: (1) barra de menú inferior realmente fija: la página ya no se desplaza, solo el contenido (#app) lo hace dentro del espacio sobre la barra, así no se mueve ni deja ver el fondo; (2) Dashboard: al tocar un trabajo en proceso se abre como ventana sobre el Dashboard; al cerrarla se sigue en el Dashboard, salvo que se edite, pause o elimine (entonces va a Línea de trabajo); (3) ventanas: ocupan el espacio libre sin tapar la barra de menú (también con el teclado abierto), cabecera y botones inferiores fijos y el contenido se desliza entre ellos; se corrigió el orden de capas (el formulario/avisos quedaban detrás de la orden abierta); (4) Mapa de procesos: orden Mapa → Buscador → Resumen → lo demás; al tocar el buscador flota arriba con el mapa visible y la zona del vehículo resaltada; (5) rendimiento: sin desenfoques costosos, simulación de tráfico a 30 fps y pausada cuando no se ve, redibujado sin cambios omitido, cronómetro en pausa con la app oculta.
     CAMBIOS v0.24: (1) intermitentes, luces de freno, balizas y luces altas; (2) puerta y estacionamiento del taller (en el mapa y en la simulación); (3) autos blancos/negros y camiones blancos; (4) ventanas con scroll interno y botones fijos; (5) barra inferior más baja; (6) globos de proceso ajustados al iPhone vertical.
        CAMBIOS v0.23: (1) más flujo por la calle principal (la horizontal) en ambos sentidos; (2) los vehículos de la calle secundaria (la vertical) esperan en la línea de detención y doblan a la derecha hacia la principal cuando hay espacio;
     (3) las entradas al taller se animan desde ambos sentidos de la principal (desde el sentido contrario el auto cruza el carril de enfrente cuando está libre) y el mismo vehículo sale después hacia la derecha; el camión que entra sigue siendo raro.
@@ -4288,6 +4291,227 @@
         .rc {
             gap: 4px
         }
+    }/* ---- v0.25 · estructura fija ---- */
+    :root {
+        --vvt: 0px;
+        --vvh: 100vh;
+        --avh: calc(100vh - var(--nh))
+    }
+
+    @supports (height: 100dvh) {
+        :root {
+            --vvh: 100dvh;
+            --avh: calc(100dvh - var(--nh))
+        }
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        overscroll-behavior: none;
+        background: #fff;
+        scroll-behavior: auto !important
+    }/* La página no se desplaza: lo hace #app, entre el borde superior y la barra de menú. Así la barra nunca se mueve ni deja ver el fondo */
+
+    #app {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: var(--nh);
+        max-width: none;
+        margin: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+        background: #fff;
+        padding: max(16px, env(safe-area-inset-top)) max(12px, calc(50% - 228px)) 28px
+    }
+
+    #nav {
+        z-index: 50;
+        background: #fff;
+        transform: translateZ(0);
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        user-select: none
+    }
+
+    .fabw {
+        bottom: 12px
+    }/* Ventanas (formularios, avisos, ayuda): ocupan el espacio libre sobre la barra, nunca la tapan */
+
+    .bd {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: var(--vvt, 0px);
+        bottom: auto;
+        height: var(--avh);
+        z-index: 40;
+        overflow: hidden;
+        padding: calc(env(safe-area-inset-top, 0px) + 10px) 10px 10px;
+        background: rgba(255, 255, 255, .88);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none
+    }
+
+    .bd .box {
+        max-height: 100%;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 16px
+    }
+
+    .bd .box.fx {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0
+    }
+
+    .box.fx > .bh {
+        flex: none;
+        padding: 16px 16px 10px;
+        border-bottom: 1px solid var(--line2);
+        background: #fff
+    }
+
+    .box.fx > .bb {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding: 12px 16px 16px
+    }
+
+    .box.fx > .bf {
+        flex: none;
+        position: static;
+        margin: 0;
+        padding: 10px 16px 12px;
+        border-top: 1px solid var(--line2);
+        background: #fff
+    }
+
+    .box.fx > .btns.bf {
+        border-top: 1px solid var(--line2)
+    }
+
+    .box.c > .btns:last-child {
+        position: static;
+        margin: 14px 0 0;
+        padding: 0 0 16px
+    }
+
+    .box.c {
+        padding-bottom: 0
+    }/* Orden abierta (ventana): cabecera con X fija, cuerpo con scroll, botones inferiores fijos */
+
+    .item.op::before {
+        top: var(--vvt, 0px);
+        bottom: auto;
+        left: 0;
+        right: 0;
+        position: fixed;
+        height: var(--avh);
+        z-index: 30;
+        background: rgba(255, 255, 255, .88);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none
+    }
+
+    .card.open {
+        z-index: 31;
+        top: calc(var(--vvt, 0px) + env(safe-area-inset-top, 0px) + 10px);
+        bottom: auto;
+        height: calc(var(--avh) - env(safe-area-inset-top, 0px) - 20px)
+    }
+
+    .card.open > .det {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        padding: 0
+    }
+
+    .card.open .dtop {
+        flex: none;
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid var(--line2);
+        background: #fff
+    }
+
+    .card.open .dbody {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding: 12px 14px 16px
+    }
+
+    .card.open > .det > .ft {
+        flex: none;
+        position: static;
+        margin: 0;
+        padding: 10px 14px 12px;
+        border-top: 1px solid var(--line2);
+        background: #fff
+    }
+
+    #alb {
+        z-index: 70
+    }/* Mapa de procesos: buscador flotante con el mapa siempre visible */
+
+    .mslot {
+        position: relative
+    }
+
+    .mtop.msf {
+        position: fixed;
+        top: calc(var(--vvt, 0px) + env(safe-area-inset-top, 0px) + 8px);
+        left: max(8px, calc(50% - 232px));
+        right: max(8px, calc(50% - 232px));
+        z-index: 35;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border: 1.5px solid var(--line);
+        border-radius: 22px;
+        padding: 6px 10px 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .22)
+    }
+
+    .mtop.msf .msw {
+        order:-1
+    }
+
+    .mtop.msf .srch {
+        margin: 4px 0 2px
+    }
+
+    .mtop.msf .mapw {
+        margin: 6px auto 0;
+        width: min(100%, max(140px, calc((var(--vvh) - 175px - env(safe-area-inset-top, 0px)) * .649)))
+    }
+
+    .mz.hit > rect {
+        stroke: #111;
+        stroke-width: 1.2;
+        animation: hitp 1s ease-in-out infinite
+    }
+
+    @keyframes hitp {
+        50% {
+            stroke-opacity: .2
+        }
     }
     </style>
 </head>
@@ -4473,6 +4697,9 @@
             return d.toISOString()
         };
     const R = {
+        ah: '',
+        nv: '',
+        mh: '',
         view: null,
         open: null,
         pk: null,
@@ -4483,6 +4710,33 @@
         pop: null,
         flash: null
     };
+    const dashOut = (id, fl) => {
+        A.go({
+            v: 'linea'
+        });
+        if (fl) {
+            mark('flash', id, 1300);
+            render(1);
+            setTimeout(() => document.querySelector('.card.flash')?.scrollIntoView({
+                block: 'center',
+                behavior: 'smooth'
+            }), 120)
+        }
+    }; // v0.25: tras editar/pausar/eliminar desde la ventana del Dashboard se pasa a Línea de trabajo
+    function mMap() {
+        const w = $('.mapw');
+        if (w)
+            w.innerHTML = mapaSvg() + (jpop() || zpop())
+    }
+    function mUpd() {
+        const M = mM();
+        S.mj = M.some(j => j.id == S.mj) ? S.mj : (M[0]?.id || null);
+        S.zp = null;
+        const r = $('#mres');
+        if (r)
+            r.innerHTML = mres();
+        mMap()
+    } // v0.25: actualiza resultados y mapa sin redibujar la pantalla (el teclado sigue abierto)
     const mark = (k, v, ms) => {
         R[k] = v;
         setTimeout(() => {
@@ -4525,12 +4779,12 @@
             P = A.filter(j => j.estado == 'proceso').sort((a, b) => a.tiempos.ingresoISO.localeCompare(b.tiempos.ingresoISO)),
             Zs = ZA().filter(z => zjobs(z.id).length),
             gl = (e, n, i) => `<div class="gl ${!n ? 'z0' : ''}" role="button" tabindex="0" data-a="dflt" data-e="${e}" title="${e == 'completado' ? 'Completadas hoy' : ESTADO[e]}"><b>${n}</b><i class="dot ${e}"></i>${ic(i, 'g-' + e)}</div>`,
-            prow = j => `<div class="item"><div class="card"><div class="row prw" data-a="dopen" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot proceso"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div><div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
+            prow = j => `<div class="item"><div class="card"><div class="row prw" data-a="dpop" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot proceso"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div><div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
         return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
          <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg">${gl('proceso', c.proceso, 'build')}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
-         <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>
+         <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="dsec"><h2>Trabajos más solicitados</h2>${kpiTop()}</div>
          <div class="sm" style="text-align:center;margin-top:18px">v0.21</div>`
     }
@@ -5232,11 +5486,22 @@
     }
     (function trfLoop(ts) {
         requestAnimationFrame(trfLoop);
-        const E = document.querySelectorAll('.vh');
-        if (!E.length || document.hidden) {
+        if (document.hidden) {
             TRF.last = 0;
             return
         }
+        if (ts - (TRF.t || 0) < 32)
+            return;
+        TRF.t = ts; // ~30 fps: suficiente para vehículos lentos y mucho más liviano
+        const E = TRF.E && TRF.E[0] && TRF.E[0].isConnected ? TRF.E : (TRF.E = document.querySelectorAll('.vh'));
+        if (!E.length) {
+            TRF.last = 0;
+            return
+        }
+        if ((S.modal && S.modal.k != 'mapaed') || (S.open && S.view == 'home')) {
+            TRF.last = 0;
+            return
+        } // tapado por una ventana: no se anima
         if (!TRF.on()) {
             E.forEach(e => e.setAttribute('opacity', 0));
             TRF.last = 0;
@@ -5274,7 +5539,9 @@
     })(0);
     function mapaSvg(ed, dash) {
         const Z = ed ? S.cfg.zonas : ZA(),
-            vh = dash ? clamp(Math.max(147.5, ...Z.map(z => z.y + z.h)) + .6, 90, MH) : MH; // ed = modo edición (tocar elige la zona en vez de abrir el popup; ahí sí se ven los nombres)
+            vh = dash ? clamp(Math.max(147.5, ...Z.map(z => z.y + z.h)) + .6, 90, MH) : MH;
+        const hj = !ed && !dash && S.mj ? get(S.mj) : null,
+            hz = hj && hj.estado != 'completado' ? zof(hj) : null; // ed = modo edición (tocar elige la zona en vez de abrir el popup; ahí sí se ven los nombres)
         return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/><rect x="18" y="60" width="19" height="48" fill="#e2e2e2"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>${ed ? '' : carsSvg(vh)}` +
         Z.map(z => {
             const c = cnt(zjobs(z.id)),
@@ -5282,7 +5549,7 @@
                 cx = z.x + z.w / 2,
                 cy = z.y + z.h / 2;
             const nb = !ed && !dash && S.mf ? c[S.mf] : 0;
-            return `<g class="mz ${c.late ? 'late' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}"><rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`
+            return `<g class="mz ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}"><rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`
         }).join('') + '</svg>'
     }
     const leg = () => `<div class="leg">${ZA().map((z, i) => `<button class="zc" data-a="zpop" data-z="${z.id}"><b>${String.fromCharCode(65 + i)}</b>${esc(z.nombre)}<small>${cnt(zjobs(z.id)).total}</small>${cnt(zjobs(z.id)).pausa ? '<span class="zbg" title="Tiene trabajos en pausa">!</span>' : ''}</button>`).join('')}</div>`;
@@ -5291,7 +5558,7 @@
         if (!z || z.activo === false)
             return '';
         const c = cnt(zjobs(z.id)),
-            dn = z.y < MH * .2; // popup de la zona: arriba del rectángulo (o abajo si queda cerca del borde)
+            dn = z.y < MH * .2 || S.mfl; // popup de la zona: arriba del rectángulo (o abajo si queda cerca del borde)
         return `<div class="zpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 22, 78)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%"><b>${esc(z.nombre)}</b>${[['proceso', 'En proceso'], ['cola', 'En cola'], ['pausa', 'En pausa']].map(([e, t]) => `<div class="zp ${!c[e] ? 'z0' : ''}"><i class="dot ${e}"></i><b>${c[e]}</b><small>${t}</small></div>`).join('')}<button class="zgo" data-a="go" data-v="zona" data-z="${z.id}" title="Abrir ${esc(z.nombre)}">${ic('arrow_circle_right')}</button></div>`
     };
     /* v0.20 · buscador del Mapa de procesos: patente, OT o cliente → burbuja del mapa con el proceso y botón para verlo */
@@ -5317,14 +5584,14 @@
             const z = zn(zof(j));
             if (!z || z.activo === false)
                 return '';
-            const dn = z.y < MH * .2;
+            const dn = z.y < MH * .2 || S.mfl;
             return `<div class="zpop jpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 26, 74)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%">${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${j.estado}"></i><span>${ESTADO[j.estado]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><button class="zgo" data-a="dopen" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`
         };
     function vMapa() {
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Mapa de procesos</h1></div>
+         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw" data-a="zpop" data-z="">${mapaSvg()}${jpop() || zpop()}</div><div class="msw">${msrch()}</div></div></div>
          <h3 class="ctr">Resumen de trabajos totales <span class="mut" style="font-weight:400">· toca para ver en el mapa</span></h3>${sumM(cnt(S.jobs.filter(j => j.estado != 'completado')))}
-         ${msrch()}
-         <div class="mapw" data-a="zpop" data-z="">${mapaSvg()}${jpop() || zpop()}</div>${leg()}
+         ${leg()}
          <div class="sum g2" style="margin-top:14px"><div role="button" tabindex="0" data-a="go" data-v="comp">${ic('history')}<span><small>Revisar<br>históricos</small></span></div><div role="button" tabindex="0" data-a="kpi">${ic('query_stats')}<span><small>Revisar<br>KPI</small></span></div></div>
          <div class="ctr" style="margin-top:14px"><button class="wide" data-a="mapaed">Modificar el mapa de taller</button></div>`
     }
@@ -5973,7 +6240,7 @@
         return k
     }
     function helpbox() {
-        return `<div class="bd" style="z-index:9" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
+        return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
     }
     const detail = j => {
         const t = j.tiempos,
@@ -5982,8 +6249,8 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="hd"><i class="dot ${j.estado}"></i><div>${plate(j.vehiculo.patente, 'l')}<div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div>
-         <div class="hd" style="justify-content:space-between;margin-top:10px"><div><b style="font-size:20px">${ESTADO[j.estado]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${j.estado}"></i><div>${plate(j.vehiculo.patente, 'l')}<div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+         <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[j.estado]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${Math.round(t.estSeg / 60)} min ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
          ${sec('Datos del vehículo', 'directions_car')}
          <div class="vg">${[['marca', 'Marca'], ['modelo', 'Modelo'], ['version', 'Versión'], ['motor', 'Motor'], ['combustible', 'Combustible']].map(([k, l]) => `<div><label>${l}</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" value="${esc(j.vehiculo[k] || '')}"></div>`).join('')}<div><label>Kilometraje</label><input type="number" inputmode="numeric" min="0" placeholder="0" data-ch="veh" ${lock ? 'disabled' : ''} data-k="km" data-id="${j.id}" value="${j.vehiculo.km || ''}"></div></div>${otros(j)}
@@ -5995,7 +6262,7 @@
          <div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
          <div><h3>Problemas con la OT</h3><div class="chips" style="flex-wrap:nowrap"><button data-a="alerta" data-id="${j.id}" style="font-size:11px">${ic('fact_check')} Solicitar revisión</button><button data-a="sup" data-id="${j.id}" title="WhatsApp de supervisión">${ic('sms')}</button></div>${j.alertas.filter(a => a.estado == 'abierta').map(a => `<div class="sm al">${ic('warning')} ${esc(a.texto)} <button data-a="alres" data-id="${j.id}" data-i="${a.id}" style="border:0;padding:0" title="Resolver">${ic('done')}</button></div>`).join('')}</div></div>
          ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
-         <div class="ft"><button data-a="help" title="Ayuda">${ic('help')}</button><button data-a="log" title="Bitácora">${ic('history')}</button><button data-a="del" data-id="${j.id}" title="Eliminar">${ic('delete')}</button>
+         </div><div class="ft"><button data-a="help" title="Ayuda">${ic('help')}</button><button data-a="log" title="Bitácora">${ic('history')}</button><button data-a="del" data-id="${j.id}" title="Eliminar">${ic('delete')}</button>
          ${j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button>` : `<button data-a="ini" data-id="${j.id}" title="${j.estado == 'pausa' ? 'Reanudar' : 'Iniciar'}">${ic(j.estado == 'pausa' ? 'replay' : 'play_arrow')}</button>`}
          ${j.estado != 'completado' ? `<button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : '<span></span>'}<button data-a="edit" data-id="${j.id}" title="Editar esta orden">${ic('edit')}</button></div></div>`
     };
@@ -6201,32 +6468,75 @@
         const opts = S.cfg.motivos.filter(x => x.activo).map(x => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('');
         return `<div class="bd" data-a="cerrar"><div class="box c">${m.k == 'del' ? `${ic('delete', 'big t-del')}<p><b>¿Continuar con eliminar orden?</b></p><div class="btns"><button data-a="delok" data-id="${m.id}">Eliminar orden</button><button data-a="cerrar">Volver</button></div>` : `${ic('pause', 'big t-mid')}<p><b>Motivo de la pausa</b></p><p><select id="mot">${opts}</select></p><div class="btns"><button data-a="pauok" data-id="${m.id}">Pausar</button><button data-a="cerrar">Volver</button></div>`}</div></div>`
     }
+    function winScr() {
+        return [...document.querySelectorAll('#modal .box')].map(b => b.querySelector(':scope>.bb') || b)
+    }
+    function fixWin() {
+        // v0.25: cada ventana = cabecera fija + cuerpo con scroll + botones fijos
+        document.querySelectorAll('#modal .box:not(.c):not(.fx)').forEach(b => {
+            const c = [...b.children];
+            if (c.length < 2)
+                return;
+            const h = [c.shift()];
+            if (h[0].tagName == 'B' && c[0]?.classList.contains('sm'))
+                h.push(c.shift());
+            const l = c[c.length - 1],
+                f = l && l.matches('.ft,.btns') ? c.pop() : null,
+                H = document.createElement('div'),
+                B = document.createElement('div');
+            H.className = 'bh';
+            H.append(...h);
+            B.className = 'bb';
+            B.append(...c);
+            b.classList.add('fx');
+            b.append(H, B);
+            if (f) {
+                f.classList.add('bf');
+                b.append(f)
+            }
+        })
+    }
     function render(f) {
         ensureZ(); // f=1 fuerza redibujar aunque haya un campo en foco
         if (!f && document.activeElement?.matches('input,textarea,select'))
             return;
         const V = {
-            home: dash,
-            mapa: vMapa,
-            zona: vZona,
-            linea,
-            comp: completas,
-            cfg: config
-        };
-        const y = scrollY,
-            sc = [...document.querySelectorAll('#modal .box')].map(e => e.scrollTop);
-        const ds = document.querySelector('.card.open .det')?.scrollTop || 0; // conserva el scroll al redibujar
-        $('#app').innerHTML = V[S.view]();
-        $('#nav').innerHTML = navbar();
-        $('#modal').innerHTML = modal() + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
-        scrollTo(0, y);
-        document.querySelectorAll('#modal .box').forEach((e, i) => e.scrollTop = sc[i] || 0);
+                home: dash,
+                mapa: vMapa,
+                zona: vZona,
+                linea,
+                comp: completas,
+                cfg: config
+            },
+            app = $('#app'),
+            y = app.scrollTop,
+            sc = winScr().map(e => e.scrollTop),
+            ds = document.querySelector('.card.open .dbody')?.scrollTop || 0; // conserva el scroll al redibujar
+        const ah = V[S.view](),
+            nh = navbar(),
+            mh = modal() + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+        if (ah !== R.ah) {
+            app.innerHTML = ah;
+            R.ah = ah;
+            app.scrollTop = y
+        } // solo se toca el DOM si cambió algo
+        if (nh !== R.nv) {
+            $('#nav').innerHTML = nh;
+            R.nv = nh
+        }
+        if (mh !== R.mh) {
+            $('#modal').innerHTML = mh;
+            R.mh = mh;
+            fixWin();
+            winScr().forEach((e, i) => e.scrollTop = sc[i] || 0)
+        }
         {
-            const d = document.querySelector('.card.open .det');
-            if (d)
+            const d = document.querySelector('.card.open .dbody');
+            if (d && ds)
                 d.scrollTop = ds
         }
-        anim()
+        anim();
+        vvSync()
     }
 
     /* ============ 7. EVENTOS (cada data-a="x" del HTML llama a A.x) ============ */
@@ -6606,10 +6916,13 @@
             j.tiempos.desvSeg = j.tiempos.realSeg - j.tiempos.estSeg;
         if (ch.length)
             ev(j, 'editado', ch.join(', '));
+        const h = S.view == 'home' && S.open == j.id;
         D = null;
         S.modal = null;
         mark('flash', j.id, 1300);
         saveJob(j);
+        if (h)
+            dashOut(j.id, 1);
         toast('check', 'Orden actualizada')
     }
     const A = {
@@ -6845,7 +7158,7 @@
         msel: d => {
             S.mj = d.id;
             S.zp = null;
-            render(1)
+            mUpd()
         },
         mqclr: () => {
             S.ms = '';
@@ -6890,6 +7203,13 @@
             if ($('#lst'))
                 stagger($('#lst'))
         },
+        dpop: d => {
+            S.open = d.id;
+            S.log = 0;
+            S.pk = null;
+            render(1)
+        },
+        // v0.25: desde el Dashboard el trabajo se abre como ventana y al cerrar se sigue en el Dashboard
         dopen: d => {
             A.go({
                 v: 'linea'
@@ -7136,8 +7456,11 @@
             const v = $('#mot').value;
             if (!v)
                 return;
+            const h = S.view == 'home' && S.open == d.id;
             S.modal = null;
             mover(d.id, 'pausar', v);
+            if (h)
+                dashOut(d.id, 1);
             toast('pause', 'Orden de trabajo pausada')
         },
         del: d => {
@@ -7148,8 +7471,11 @@
             render(1)
         },
         delok: d => {
+            const h = S.view == 'home' && S.open == d.id;
             S.modal = null;
             delJob(d.id);
+            if (h)
+                dashOut(d.id, 0);
             toast('delete', 'Orden eliminada')
         },
         hecho: d => {
@@ -7583,15 +7909,7 @@
         }
         if (t.id == 'mq') {
             S.ms = t.value;
-            const M = mM();
-            S.mj = M.some(j => j.id == S.mj) ? S.mj : (M[0]?.id || null);
-            S.zp = null;
-            const r = $('#mres');
-            if (r)
-                r.innerHTML = mres();
-            const w = $('.mapw');
-            if (w)
-                w.innerHTML = mapaSvg() + (jpop() || zpop())
+            mUpd()
         }
         if (t.id == 'q') {
             S.q = t.value;
@@ -7744,6 +8062,8 @@
             render()
     }
     setInterval(() => {
+        if (document.hidden)
+            return;
         document.querySelectorAll('[data-c]').forEach(n => {
             const j = get(n.dataset.c);
             if (j) {
@@ -7784,6 +8104,79 @@
             month: '2-digit'
         }) + ' ' + hm(iso),
         dtLocal = ms => new Date(ms - new Date(ms).getTimezoneOffset() * 6e4).toISOString().slice(0, 16);
+
+    /* ---- v0.25 · medidas de pantalla (barra, teclado) y buscador flotante del Mapa ---- */
+    function vvSync() {
+        const v = window.visualViewport,
+            h = v ? v.height : innerHeight,
+            t = v ? v.offsetTop : 0,
+            nb = $('#nav'),
+            nh = nb ? nb.offsetHeight : 78,
+            kb = innerHeight - h - t > 140,
+            r = document.documentElement.style;
+        r.setProperty('--vvh', h + 'px');
+        r.setProperty('--vvt', t + 'px');
+        if (nh)
+            r.setProperty('--nh', nh + 'px');
+        r.setProperty('--avh', Math.max(120, h - (kb ? 0 : nh)) + 'px')
+    }
+    {
+        let q = 0;
+        const s = () => {
+            if (q)
+                return;
+            q = requestAnimationFrame(() => {
+                q = 0;
+                vvSync()
+            })
+        };
+        addEventListener('resize', s);
+        addEventListener('orientationchange', s);
+        visualViewport?.addEventListener('resize', s);
+        visualViewport?.addEventListener('scroll', s);
+        if (window.ResizeObserver)
+            new ResizeObserver(s).observe($('#nav'));
+        vvSync()
+    }
+    function msf(on) {
+        const t = $('#mtop'),
+            s = $('#mslot');
+        if (!t || !s)
+            return;
+        if (on) {
+            clearTimeout(R.mft);
+            if (!t.classList.contains('msf')) {
+                s.style.height = t.offsetHeight + 'px';
+                t.classList.add('msf');
+                S.mfl = 1;
+                mMap()
+            }
+        }
+        else if (t.classList.contains('msf')) {
+            t.classList.remove('msf');
+            s.style.height = '';
+            S.mfl = 0;
+            mMap();
+            $('#app').scrollTop = 0
+        }
+    }
+    document.addEventListener('focusin', e => {
+        if (e.target.id == 'mq')
+            msf(1)
+    });
+    document.addEventListener('focusout', e => {
+        if (e.target.id == 'mq') {
+            clearTimeout(R.mft);
+            R.mft = setTimeout(() => {
+                if (document.activeElement?.id != 'mq')
+                    msf(0)
+            }, 220)
+        }
+    });
+    document.addEventListener('pointerdown', e => {
+        if (document.activeElement?.id == 'mq' && e.target.closest('#mtop') && !e.target.closest('input'))
+            e.preventDefault()
+    }); // tocar resultados no cierra el teclado
     await initDB();
     render(1);
     </script>
