@@ -2,20 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-visual">
     <title>Línea de trabajo · Lubricentro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Inter:wght@400;500;700&display=swap">
     <!--
     ===================================================================================
-    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.25 (un solo archivo, sin compilar)
+    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.36 (un solo archivo, sin compilar)
     QUÉ HACE: muestra en tiempo real qué trabajos están en cola, en proceso, en pausa o
     completados, con cronómetro, tiempos estimados, notas y bitácora de eventos.
     MODO DEMO (sin Firebase): carga los datos del prototipo (3 talleres, 8 trabajos);
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.36: los autos de calles laterales y los que doblan al taller esperan menos (cuanto más esperan, menor hueco aceptan); menos tráfico de fondo (más tiempo entre autos y menos autos que entran al taller) para evitar tacos; sin alerta de taco: al reiniciarse el mapa (solo o con el botón) las calles parpadean.
+    CAMBIOS v0.35: las alertas, avisos y ventanas de pantalla completa se ven bien en el navegador: se corrigió una regla antigua (inset:auto!important) que anulaba left/right y dejaba la ventana encogida y pegada a la izquierda; ahora la sombra cubre todo el ancho y la ventana queda centrada sobre la barra inferior.
+    CAMBIOS v0.34: doble toque sobre un auto que no es de una orden de trabajo (autos de fondo) lo desvanece; reaparece más tarde por otra calle. Los vehículos de órdenes no se ven afectados.
+    CAMBIOS v0.33: (1) ventanas, alertas y banners ajustados a la pantalla (el banner sigue al área visible, respeta las zonas seguras laterales y nada se sale del ancho); (2) la sombra de la ventana también cubre la barra inferior, pero sus botones se siguen pudiendo presionar; (3) botón Reiniciar mapa (esquina superior izquierda del mapa) y detección automática de tacos: si un vehículo queda detenido demasiado tiempo el mapa se reinicia solo; (4) los autos ya no bajan la velocidad al pasar frente al taller (se quitó la zona lenta aleatoria, ya no frenan por autos que doblan hacia el taller y la calle solo cede cuando una salida lleva esperando más de 2,5 s).
+    CAMBIOS v0.32 (puerta del taller, como antes de v0.30 pero con prioridades): orden de prioridad = (1) vehículos que SALEN del taller, (2) vehículos reales que esperan para ir a su zona, (3) autos de fondo que entran/salen, (4) calle principal, que ahora CEDE el paso a quien sale o entra (ya no al revés). El que sale ya no cede a la calle principal ni queda bloqueado por un taco: los autos del carril → se detienen antes de la puerta mientras hay una salida en curso o esperando, y la salida arranca en cuanto la zona de incorporación está despejada. Quien entra desde el carril ← obtiene el paso casi de inmediato.
+    CAMBIOS v0.31: los vehículos reales (esperando para ir a su zona, entrar o salir) tienen prioridad sobre los autos de fondo: los de fondo no empiezan a entrar ni a salir mientras un vehículo real espera, y los reales ya no esperan por los de fondo que solo están en fila.
+    CAMBIOS v0.30: (1) saludo corregido: de 20:00 a 4:59 dice buenas noches (de 0:00 a 4:59 decía tardes); (2) puerta del taller: el que sale cede el paso a la calle principal y se detiene en la puerta si viene un vehículo, quien va a entrar espera en la línea de detención mientras alguien sale o espera salir, y la salida despeja la puerta antes de que entre el siguiente.
+    CAMBIOS v0.29: el taller ya no admite un solo vehículo moviéndose: si el de adelante ya está a distancia segura, el siguiente entra o sale sin esperar (mismo sentido); entrar y salir a la vez sigue siendo exclusivo y cada uno guarda distancia con el de adelante.
+    CAMBIOS v0.28 (reúne v0.26, v0.27.1 y v0.27.2): estacionamiento E y plazas por zona con vehículos en vivo (llegan, esperan, pasan a su zona y salen), turno de llegada en la puerta, sin zoom del navegador, ventanas ajustadas al área visible del móvil y Mapa de procesos con mapa grande en recuadro y buscador debajo.
+    CAMBIOS v0.27.2: (1) el navegador ya no hace zoom al escribir (viewport sin zoom, campos a 16 px, sin pellizco ni doble toque); (2) ventanas emergentes ajustadas al área visible del móvil (ya no quedan pegadas ni cortadas, botones siempre al alcance); (3) Mapa de procesos: mapa más grande dentro de un recuadro redondeado con el buscador debajo.
+    CAMBIOS v0.27.1: (1) los vehículos ya no se teletransportan al cambiar un trabajo con el mapa oculto: se desplazan a su zona o salen del taller en cuanto el mapa se ve (solo la carga inicial se ubica al instante); (2) cola de entrada por orden de llegada: quien llega después a la puerta espera a quien ya estaba (entrando o saliendo).
+    CAMBIOS v0.26: Mapa de procesos con estacionamiento (E, 11 plazas: 8+3 como el boceto) y plazas dentro de cada zona (4/4/2/2, editables en Modificar el mapa). Los vehículos reales se ven en vivo: llegan al crearse la orden, esperan en el estacionamiento (plaza blanca 20%), pasan a la plaza de su zona al iniciar y salen al completar. Las plazas vacías admiten autos de fondo que se desocupan si hacen falta. Tocar un vehículo abre su burbuja con los datos básicos.
     CAMBIOS v0.25: (1) barra de menú inferior realmente fija: la página ya no se desplaza, solo el contenido (#app) lo hace dentro del espacio sobre la barra, así no se mueve ni deja ver el fondo; (2) Dashboard: al tocar un trabajo en proceso se abre como ventana sobre el Dashboard; al cerrarla se sigue en el Dashboard, salvo que se edite, pause o elimine (entonces va a Línea de trabajo); (3) ventanas: ocupan el espacio libre sin tapar la barra de menú (también con el teclado abierto), cabecera y botones inferiores fijos y el contenido se desliza entre ellos; se corrigió el orden de capas (el formulario/avisos quedaban detrás de la orden abierta); (4) Mapa de procesos: orden Mapa → Buscador → Resumen → lo demás; al tocar el buscador flota arriba con el mapa visible y la zona del vehículo resaltada; (5) rendimiento: sin desenfoques costosos, simulación de tráfico a 30 fps y pausada cuando no se ve, redibujado sin cambios omitido, cronómetro en pausa con la app oculta.
     CAMBIOS v0.24: (1) intermitentes, luces de freno, balizas y luces altas; (2) puerta y estacionamiento del taller (en el mapa y en la simulación); (3) autos blancos/negros y camiones blancos; (4) ventanas con scroll interno y botones fijos; (5) barra inferior más baja; (6) globos de proceso ajustados al iPhone vertical.
        CAMBIOS v0.23: (1) más flujo por la calle principal (la horizontal) en ambos sentidos; (2) los vehículos de la calle secundaria (la vertical) esperan en la línea de detención y doblan a la derecha hacia la principal cuando hay espacio;
@@ -4060,6 +4072,44 @@
     }
 
     .vh {
+        pointer-events:none
+    }
+
+    .vh .hit {
+        pointer-events:none
+    }
+
+    .vh.rl .hit {
+        pointer-events: all;
+        cursor:pointer
+    }
+
+    .mapw .vh:not(.rl) .hit {
+        pointer-events:all
+    }
+
+    .dmap .vh .hit, .dmap .vh.rl .hit {
+        pointer-events: none !important
+    }
+
+    .mapw .sl {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .45;
+        pointer-events:none
+    }
+
+    .mapw .sl.se {
+        fill:#b3b3b3
+    }
+
+    .mapw .sl.occ {
+        fill: #fff;
+        fill-opacity: .2;
+        transition:fill-opacity .3s
+    }
+
+    .eq {
         pointer-events: none
     }/* ---- v0.24 · iPhone vertical ---- */
     :root {
@@ -4489,12 +4539,8 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, .22)
     }
 
-    .mtop.msf .msw {
-        order:-1
-    }
-
     .mtop.msf .srch {
-        margin: 4px 0 2px
+        margin: 6px 0 2px
     }
 
     .mtop.msf .mapw {
@@ -4512,6 +4558,295 @@
         50% {
             stroke-opacity: .2
         }
+    }/* ---- v0.27.2 · sin zoom, ventanas al área visible, mapa grande en recuadro con buscador debajo ---- */
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        touch-action: manipulation
+    }
+
+    button, [data-a], input, select, textarea, label {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent
+    }
+
+    input, select, textarea {
+        font-size: 16px !important
+    }
+
+    .bd {
+        overscroll-behavior: contain
+    }
+
+    .mtop {
+        border: 1.5px solid var(--line);
+        border-radius: 24px;
+        padding: 8px 10px 12px;
+        background: #fff;
+        max-width: 520px;
+        margin: 8px auto 0
+    }
+
+    .mtop:not(.msf) .mapw {
+        margin: 4px auto 6px;
+        width: min(100%, max(260px, calc((100vh - 270px) * .649)))
+    }
+
+    @supports (height: 100svh) {
+        .mtop:not(.msf) .mapw {
+            width: min(100%, max(260px, calc((100svh - 270px) * .649)))
+        }
+    }
+
+    .mtop .srch {
+        margin: 6px 0 0
+    }/* ---- v0.33 · ventanas/banners ajustados, sombra sobre la barra (sin bloquear sus botones), botón reiniciar mapa ---- */
+    #alb {
+        top: calc(var(--vvt, 0px) + max(8px, env(safe-area-inset-top, 0px)));
+        box-sizing: border-box;
+        padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px))
+    }
+
+    .alb {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: min(460px, 100%);
+        min-width: 0
+    }
+
+    .alb .tx {
+        min-width: 0;
+        overflow-wrap:anywhere
+    }
+
+    .alb button, .alb .dot {
+        flex: none
+    }
+
+    .bd {
+        position: fixed;
+        inset: auto;
+        top: var(--vvt, 0px);
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: auto;
+        height: var(--avh);
+        box-sizing: border-box;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
+        padding-bottom: 10px;
+        padding-left: max(10px, env(safe-area-inset-left, 0px));
+        padding-right: max(10px, env(safe-area-inset-right, 0px))
+    }
+
+    .bd .box {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: min(440px, 100%);
+        overflow-wrap: anywhere
+    }
+
+    .card.open {
+        box-sizing: border-box;
+        left: max(10px, env(safe-area-inset-left, 0px));
+        right: max(10px, env(safe-area-inset-right, 0px))
+    }
+
+    #nav::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, .78);
+        box-shadow: inset 0 10px 14px -10px rgba(0, 0, 0, .28);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s
+    }
+
+    body.ovl #nav::after {
+        opacity: 1
+    }
+
+    .mapw .mrst {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        z-index: 4;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff;
+        border: 1.25px solid var(--line);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .14)
+    }
+
+    .mapw .mrst .material-symbols-outlined {
+        font-size: 20px
+    }
+
+    .mapw .mrst:active {
+        transform: scale(.92)
+    }
+
+    @keyframes stb {
+        0%, 100% {
+            fill:#e6e6e6
+        }
+
+        50% {
+            fill: #fff
+        }
+    }
+
+    .mapw .st.stb {
+        animation: stb .45s ease-in-out 4
+    }/* v0.37 P2: resplandor de autos con proceso, confirmar finalizar, anillo por zona */
+    .vh .gl, .vh .gl2 {
+        pointer-events: none
+    }
+
+    .vh.rl .gl {
+        animation:vgl 3.6s ease-in-out infinite
+    }
+
+    .vh.rl .gl2 {
+        animation: vgl2 3.6s ease-in-out infinite
+    }
+
+    .vh.rl.cq .gl, .vh.rl.cq .gl2 {
+        animation-duration: 1.7s
+    }
+
+    .vh.rl.ps .gl {
+        fill: #ff2d2d;
+        animation:vgp .8s ease-in-out infinite
+    }
+
+    .vh.rl.ps .gl2 {
+        fill: #ff2d2d;
+        animation: vgp2 .8s ease-in-out infinite
+    }
+
+    @keyframes vgl {
+        0%, 100% {
+            opacity:.08
+        }
+
+        50% {
+            opacity:.95
+        }
+    }
+
+    @keyframes vgl2 {
+        0%, 100% {
+            opacity:0
+        }
+
+        50% {
+            opacity: .45
+        }
+    }
+
+    @keyframes vgp {
+        0%, 100% {
+            opacity:0
+        }
+
+        50% {
+            opacity:.95
+        }
+    }
+
+    @keyframes vgp2 {
+        0%, 100% {
+            opacity:0
+        }
+
+        50% {
+            opacity: .5
+        }
+    }
+
+    .mz.mzo rect {
+        display:none
+    }
+
+    .mz.mzo .zring {
+        stroke-width: .5
+    }
+
+    .jpop .zbt {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap:14px
+    }
+
+    .jpop .zfin {
+        color: #1f9d55
+    }
+
+    .zcf {
+        margin-top:6px
+    }
+
+    .zcf b {
+        display: block;
+        font-size: 12.5px;
+        margin-bottom:6px
+    }
+
+    .zcf div {
+        display: flex;
+        gap: 8px;
+        justify-content: center
+    }
+
+    .zcf button {
+        border: 1.25px solid var(--line);
+        border-radius: 14px;
+        padding: 6px 12px;
+        font-size: 12.5px;
+        font-weight: 600;
+        background:#fff
+    }
+
+    .zcf .zyes {
+        background: #111;
+        color: #fff;
+        border-color: #111
+    }/* v0.38: boton de cliente en el buscador y accion principal en la burbuja */
+    .srch .mcb {
+        border: 0;
+        padding: 2px 6px;
+        border-radius: 12px;
+        color:#8d8d8d
+    }
+
+    .srch .mcb.on {
+        background: #111;
+        color: #fff
+    }
+
+    .jpop .zact {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border: 1.25px solid #111;
+        background: #111;
+        color: #fff;
+        border-radius: 18px;
+        padding: 5px 12px 5px 8px;
+        font-size: 13px;
+        font-weight:700
+    }
+
+    .jpop .zact .material-symbols-outlined {
+        font-size: 20px
     }
     </style>
 </head>
@@ -4726,7 +5061,7 @@
     function mMap() {
         const w = $('.mapw');
         if (w)
-            w.innerHTML = mapaSvg() + (jpop() || zpop())
+            w.innerHTML = mapaSvg() + (vpop() || jpop() || zpop())
     }
     function mUpd() {
         const M = mM();
@@ -4761,7 +5096,7 @@
     };
     const greet = () => {
         const h = new Date().getHours();
-        return h >= 5 && h < 12 ? 'buenos días' : h < 20 ? 'buenas tardes' : 'buenas noches'
+        return h >= 5 && h < 12 ? 'buenos días' : h >= 12 && h < 20 ? 'buenas tardes' : 'buenas noches'
     }; // 5-11:59 días · 12-19:59 tardes · 20-4:59 noches
     const dDate = () => {
             const d = new Date();
@@ -4855,7 +5190,8 @@
 
     /* ============ MAPA DE PROCESOS · ZONAS Y SUB-ZONAS ============ */
     // El plano usa coordenadas 0-100 (ancho) x 0-84 (alto). Cada zona es un rectángulo; sus sub-zonas son las plataformas con zonaId.
-    const ZCOL = ['#f9a1bb', '#f77ba1', '#f0447d', '#ff8087', '#f6b3c7', '#e8628e'],
+    const ZCOL = ['#b9d3f5', '#f5b8b8', '#f8e7a0', '#bfe3c4'],
+        ZDK = ['#2f6fd0', '#d64545', '#d6a800', '#3a9a55'],
         MW = 100,
         MH = 154; // plano vertical como en el boceto
     const defZonas = () => [{
@@ -4865,7 +5201,8 @@
         x: 54,
         y: 45,
         w: 24,
-        h: 36
+        h: 36,
+        pl: 4
     }, {
         id: 'Z2',
         nombre: 'Zona 2',
@@ -4873,7 +5210,8 @@
         x: 65,
         y: 81,
         w: 13,
-        h: 43
+        h: 43,
+        pl: 4
     }, {
         id: 'Z3',
         nombre: 'Zona 3',
@@ -4881,7 +5219,8 @@
         x: 32,
         y: 124,
         w: 33,
-        h: 23
+        h: 23,
+        pl: 2
     }, {
         id: 'Z4',
         nombre: 'Zona 4',
@@ -4889,7 +5228,8 @@
         x: 6,
         y: 130,
         w: 26,
-        h: 17
+        h: 17,
+        pl: 2
     }];
     function ensureZ() {
         const c = S.cfg;
@@ -4908,6 +5248,10 @@
                 }));
             c.mapaV = 2
         }
+        c.zonas.forEach((z, k) => {
+            if (z.pl == null)
+                z.pl = [4, 4, 2, 2][k] ?? 2
+        }); // v0.26: plazas por zona
         const f = c.zonas[0].id;
         c.plataformas.forEach(p => {
             if (!c.zonas.some(z => z.id == p.zonaId))
@@ -5038,11 +5382,11 @@
                 sh: H - 28.1
             }),
             // aproximación a la puerta: desde → giro a la derecha; desde ← giro a la izquierda cruzando el carril contrario
-            PIn = mk([[0, yl(0, 4.2)], [GX - 9, yl(GX - 9, 4.2)], ...bez([GX - 9, yl(GX - 9, 4.2)], [GX, yl(GX, 4.2)], [GX, GY]).slice(1)], {
+            PIn = mk([[0, yl(0, 4.2)], [GX - 9, yl(GX - 9, 4.2)], ...bez([GX - 9, yl(GX - 9, 4.2)], [GX - 2.3, yl(GX, 4.2)], [GX - 2.3, GY]).slice(1)], {
                 vm: VM.E,
                 f: [1, 0]
             }),
-            PInW = mk([[100, yl(100, -4.2)], [GX + 10, yl(GX + 10, -4.2)], ...bez([GX + 10, yl(GX + 10, -4.2)], [GX, yl(GX, -4.2)], [GX, GY]).slice(1)], {
+            PInW = mk([[100, yl(100, -4.2)], [GX + 10, yl(GX + 10, -4.2)], ...bez([GX + 10, yl(GX + 10, -4.2)], [GX - 2.3, yl(GX, -4.2)], [GX - 2.3, GY]).slice(1)], {
                 vm: VM.W,
                 f: [1, 0]
             });
@@ -5063,53 +5407,180 @@
         PInW.y = YT(PInW.cum[1] - .5, PInW.cum[19], ['E'], 30, 42);
         [PSR, PNR, PInW].forEach(p => p.y.nl = 1);
         const G = [GX, GY],
+            GI = [GX - 2.3, GY],
+            GO = [GX + 2.3, GY],
+            LI = GX - 2.3,
+            LO = GX + 2.3,
             A0 = loc(-27, 0),
-            SLOTS = [];
-        for (const t of [-18, -6, 6, 18])
-            for (const u of [-5, 5]) {
-                // 8 plazas: rutas de entrada (pin) y salida (pout) de cada una
-                const B = loc(t - 7, 0),
-                    S = loc(t, u),
-                    ax = [DX, DY],
-                    pl = (p, k) => [p[0] + ax[0] * k, p[1] + ax[1] * k],
-                    side = u < 0 ? 'R' : 'L';
-                const a = cub(G, [GX, GY + 10], pl(A0, -8), A0),
-                    pin = [...a, B, ...cub(B, pl(B, 5), pl(S, -5), S)],
-                    ib = a.length;
-                const PI = mk(pin, {
-                    vm: VM.E,
-                    f: [0, 0],
-                    inl: 1,
-                    sz: [0, 1e4, .6]
-                });
-                PI.sig = [[PI.cum[ib] - 1, PI.len, side]];
-                PI.hold = PI.cum[ib - 1]; // punto de espera: justo antes del recuadro
+            SLOTS = [],
+            jam = {
+                n: 0,
+                cb: null,
+                at: -99
+            };
 
-                const b = cub(S, pl(S, -5), pl(B, 5), B),
-                    c = cub(A0, pl(A0, -8), [GX, GY + 10], G),
-                    ig = b.length + 1 + c.length,
-                    po = [...b, A0, ...c, ...bez(G, [GX, yl(GX, 4.2)], [MX, yl(MX, 4.2)]).slice(1), [100, yl(100, 4.2)]],
-                    PO = mk(po, {
-                        vm: VM.E,
+        /* v0.26 · plazas: E (8+3) y plazas dentro de cada zona. Todas salen de la puerta G por el carril x=LX y entran de frente a su plaza */
+        const LX = 35.2,
+            lay = {},
+            E3 = [91.8, 108.8],
+            fil = (R, r) => {
+                const o = [R[0]];
+                for (let i = 1; i < R.length - 1; i++) {
+                    const a = R[i - 1],
+                        b = R[i],
+                        c = R[i + 1],
+                        d1 = Math.hypot(b[0] - a[0], b[1] - a[1]),
+                        d2 = Math.hypot(c[0] - b[0], c[1] - b[1]),
+                        q = Math.min(r, d1 / 2, d2 / 2);
+                    if (q < .3) {
+                        o.push(b);
+                        continue
+                    }
+                    o.push(...bez([b[0] - (b[0] - a[0]) / d1 * q, b[1] - (b[1] - a[1]) / d1 * q], b, [b[0] + (c[0] - b[0]) / d2 * q, b[1] + (c[1] - b[1]) / d2 * q], 6))
+                }
+                o.push(R[R.length - 1]);
+                return o
+            },
+            simp = R => {
+                const o = [];
+                for (const p of R) {
+                    const l = o[o.length - 1];
+                    if (l && Math.hypot(p[0] - l[0], p[1] - l[1]) < .05)
+                        continue;
+                    o.push(p);
+                    while (o.length >= 3) {
+                        const a = o[o.length - 3],
+                            b = o[o.length - 2],
+                            c = o[o.length - 1],
+                            u = [b[0] - a[0], b[1] - a[1]],
+                            w = [c[0] - b[0], c[1] - b[1]];
+                        if (Math.abs(u[0] * w[1] - u[1] * w[0]) < 1e-4)
+                            o.splice(o.length - 2, 1);
+                        else
+                            break
+                    }
+                }
+                return o
+            },
+            // quita puntos alineados y retrocesos
+            addSlot = (k, x, y, w, h, dir, zy) => {
+                const cx = x + w / 2,
+                    cy = y + h / 2,
+                    gR = (g, Lx) => {
+                        let R;
+                        const I = [Lx, g[1] + 5]; // v0.37: pista izquierda (LI) para entrar y derecha (LO) para salir en el primer tramo
+                        if (k == 'E')
+                            R = [g, I, [Lx, cy], [cx, cy]];
+                        else if (dir == 'H') {
+                            if (cx > 37 && cy > E3[0] - 2.8 && cy < E3[1] + 2.8) {
+                                const yf = cy < 100 ? 85 : 115;
+                                R = [g, I, [Lx, yf], [52, yf], [52, cy], [cx, cy]]
+                            } else
+                                R = [g, I, [Lx, cy], [cx, cy]]
+                        }
+                        else {
+                            const Yc = Math.min((109 + zy) / 2, zy - 4);
+                            R = [g, I, [Lx, Yc], [cx, Yc], [cx, cy]]
+                        }
+                        if (R[2][1] < g[1] + 6)
+                            R.splice(1, 1);
+                        return simp(R)
+                    },
+                    R = gR(GI, LI),
+                    RO = gR(GO, LO),
+                    pin = mk(fil(R, 5), {
+                        vm: VM.E * 1.7,
+                        f: [0, 0],
+                        inl: 1,
+                        sz: [0, 1e4, 1]
+                    }),
+                    rv = fil(simp([...RO].reverse()), 5),
+                    ig = rv.length,
+                    PO = mk([...rv, ...bez(GO, [GO[0], yl(GX, 4.2)], [MX, yl(MX, 4.2)]).slice(1), [100, yl(100, 4.2)]], {
+                        vm: VM.E * 2.4,
                         f: [0, 1],
                         inl: 1,
                         out: 1
                     });
                 PO.SM = PO.cum[ig + 17];
-                PO.iGs = PO.cum[ig] + 2;
+                PO.iGs = PO.cum[ig] + 10;
+                PO.y = {
+                    s: PO.cum[ig - 1] - 1,
+                    end: PO.SM,
+                    lanes: ['E'],
+                    a0: GX - 3,
+                    b0: MX + 5,
+                    nl: 1
+                };
                 PO.seg = [[PO.SM - 7, PO.len + 1, 'E']];
-                PO.sig = [[0, PO.cum[b.length], u < 0 ? 'R' : 'L'], [PO.cum[ig] - 2, PO.SM, 'R']];
-                PO.sz = [0, PO.SM - 4, .6];
+                PO.sig = [[PO.cum[ig] - 2, PO.SM, 'R']];
+                PO.sz = [0, PO.SM - 4, .9];
                 SLOTS.push({
-                    pin: PI,
+                    k,
+                    x,
+                    y,
+                    w,
+                    h,
+                    cx,
+                    cy,
+                    dir,
+                    raw: R,
+                    pin,
                     pout: PO,
-                    o: 0
+                    o: 0,
+                    v: null,
+                    rsv: null
                 })
-            }
-        const defs = [['car', 'E', '#f7f7f7', .2], ['car', 'E', '#2c2c2c', .15], ['car', 'E', '#999', .1], ['truck', 'E', '#f1f1f1', .14],
-            ['car', 'W', '#2f2f2f', .2], ['car', 'W', '#f4f4f4', .15], ['car', 'W', '#9f9f9f', .1], ['truck', 'W', '#ececec', 0],
-            ['car', 'S', '#fafafa', 0], ['car', 'S', '#a0a0a0', 0], ['car', 'N', '#303030', 0], ['car', 'N', '#f5f5f5', 0], ['car', 'N', '#939393', 0]],
-            IDL = [[[4, 12], [10, 20]], [[2, 8], [12, 26]]],
+            },
+            layZ = z => {
+                const n = clamp(+z.pl || 0, 0, 12);
+                if (!n)
+                    return;
+                const r = clamp(Math.min(z.w, z.h) / 2 - .8, 1.6, 3.8);
+                if (z.h >= z.w) {
+                    const sw = 10.4,
+                        sh = 5.8,
+                        nb = Math.ceil(n / 2),
+                        bh = 2 * sh,
+                        x0 = z.x + Math.min(3.9, (z.w - sw) / 2); // autos de lado, bloques de 2 apilados
+                    for (let b = 0; b < nb; b++) {
+                        const y0 = nb == 1 ? z.y + 3.3 : z.y + 3.3 + b * (z.h - 6.6 - bh) / (nb - 1);
+                        for (let k = 0; k < 2 && b * 2 + k < n; k++)
+                            addSlot(z.id, x0, y0 + k * sh, sw, sh, 'H', z.y)
+                    }
+                    lay[z.id] = {
+                        cx: z.w >= x0 - z.x + sw + 2 * r + 1.6 ? x0 + sw + r + .8 : z.x + z.w / 2,
+                        cy: z.y + z.h / 2
+                    }
+                }
+                else {
+                    const sw = 5.9,
+                        sh = 10.4,
+                        cols = Math.max(1, Math.min(n, Math.floor((z.w - 9) / sw))),
+                        rows = Math.ceil(n / cols),
+                        rw = cols * sw,
+                        left = z.x + z.w / 2 > 40,
+                        x0 = left ? z.x + 4 : z.x + z.w - 2 - rw,
+                        y0 = z.y + Math.max(0, (z.h - rows * sh) / 2);
+                    for (let i = 0; i < n; i++)
+                        addSlot(z.id, x0 + (i % cols) * sw, y0 + Math.floor(i / cols) * sh, sw, sh, 'V', z.y);
+                    lay[z.id] = {
+                        cx: left ? x0 + rw + (z.x + z.w - x0 - rw) / 2 : z.x + (x0 - z.x) / 2,
+                        cy: z.y + z.h / 2
+                    }
+                }
+            },
+            rebuildCfg = () => {
+                let Z = [];
+                try {
+                    Z = ZA()
+                } catch (e) {}
+                return Z
+            };
+        let sig = '',
+            sg = 0;
+        const defs = [['car', 'E', '#f7f7f7', .04], ['car', 'E', '#2c2c2c', .03], ['truck', 'E', '#f1f1f1', .02], ['car', 'W', '#2f2f2f', .04], ['car', 'W', '#f4f4f4', .03], ['truck', 'W', '#ececec', 0], ['car', 'S', '#fafafa', 0], ['car', 'N', '#303030', 0]],
+            IDL = [[[40, 90], [70, 130]], [[28, 64], [80, 160]]],
             rnd = (a, b) => a + Math.random() * (b - a);
         let clk = 0;
         const V = defs.map(([k, ln, col, p], i) => ({
@@ -5124,7 +5595,7 @@
                 s: 0,
                 v: 0,
                 st: 'idle',
-                t: Math.random() * 14,
+                t: Math.random() * 70,
                 cross: false,
                 id: i,
                 f: 1,
@@ -5152,12 +5623,33 @@
             dg = v => dl(v) || (xin(v) ? 'E' : null),
             runs = v => v.st == 'run' || v.st == 'gw',
             inl = v => v.st == 'run' && v.P.inl && (!v.P.out || v.s < v.P.iGs),
-            busy = v => V.some(o => o !== v && (o.st == 'turn' || (o.st == 'run' && o.P.out && o.s < o.P.iGs))),
+            realPend = () => V.some(o => o.job && (o.st == 'gw' || o.st == 'pw' || (o.st == 'park' && (o.ns || o.leave)))),
+            // hay un vehículo real esperando moverse
+            tk = v => v.st == 'pw' ? V.some(o => o !== v && o.gt != null && o.gt < v.gt && o.st == 'pw' && (!v.job || o.job)) : V.some(o => o !== v && o.st == 'pw' && o.job || o !== v && o.gt != null && o.gt < v.gt && o.st == 'gw' && (!v.job || o.job || o.st == 'gw')),
+            // v0.32: salir manda sobre entrar; salidas entre sí por orden de llegada
+            exitAct = v => V.some(o => o !== v && o.slot && ((o.st == 'pw' && o.job && o.gt != null && clk - o.gt > 2.5) || (o.st == 'turn' && o.P && o.P.out) || (o.st == 'run' && o.P && o.P.out && o.s < o.P.SM))),
+            // hay una salida esperando o en curso: la calle principal debe ceder // turno: los reales solo esperan a reales o a quien ya está en la puerta
+            busy = v => (!v.job && realPend()) || V.some(o => o !== v && (o.st == 'turn' || (o.st == 'pw' && o.job) || (o.st == 'run' && o.P.out && o.s < o.P.iGs))),
             // solo una salida en curso frena a los que llegan a la puerta
+            ins = v => V.some(o => o !== v && (o.st == 'turn' || (o.st == 'run' && o.P.inl && (!o.P.out || o.s < o.P.iGs)))),
+            // v0.26: un solo vehículo moviéndose dentro del taller
+            kd = o => o.P.out ? 'out' : o.P.x ? 'x' : 'in',
+            blk = (v, kind, P) => {
+                const pa = [at(P, 0), at(P, 8)];
+                return V.some(o => {
+                    if (o === v || !(o.st == 'turn' || (o.st == 'run' && o.P.inl && (!o.P.out || o.s < o.P.iGs))))
+                        return false;
+                    if (kd(o) != kind || kind == 'x')
+                        return true;
+                    const q = at(o.P, o.s);
+                    return pa.some(p => Math.hypot(p.x - q.x, p.y - q.y) < 10.5)
+                })
+            },
+            // v0.29: mismo sentido → basta distancia segura
             rectBusy = v => V.some(o => o !== v && (o.st == 'turn' || (o.st == 'run' && o.P.inl && ((!o.P.out && o.s >= o.P.hold - 8) || (o.P.out && o.s < o.P.iGs))))),
             // la puerta y el pasillo del taller admiten un vehículo a la vez
-            conflict = (v, tA, tc, Y) => {
-                const pad = 1.5;
+            conflict = (v, tA, tc, Y, ky=0) => {
+                const pad = 1.5 - ky * .15; // v0.36: con paciencia, acepta huecos más chicos
                 for (const d of V) {
                     const g = d !== v && runs(d) && !d.yd && !d.qy && !xin(d) && dg(d);
                     if (!g || !Y.lanes.includes(g))
@@ -5185,10 +5677,13 @@
                 }
                 return false
             },
-            canMerge = (v, P) => {
-                const tm = P.SM / (VM.E * .75) + .9;
-                return !V.some(o => o !== v && runs(o) && dg(o) == 'E' && Math.abs(lx(o) + VM.E * K * tm - MX) < (v.L + o.L) / 2 + 7)
-            },
+            canMerge = (v, P) => !V.some(o => {
+                if (o === v || !runs(o) || dg(o) != 'E')
+                    return false;
+                const x = lx(o);
+                return x > GX - 5.7 - o.L / 2 && x < MX + (v.L + o.L) / 2 + 7
+            }),
+            // v0.32: ventana de la puerta libre (la calle ya está frenada por exitAct)
             spawn = v => {
                 if (v.ln == 'E')
                     return !V.some(o => o !== v && runs(o) && dg(o) == 'E' && lx(o) < (o.L + v.L) / 2 + 14);
@@ -5203,25 +5698,63 @@
                 if (g) {
                     const q = o => g == 'E' ? lx(o) : -lx(o);
                     for (const o of V)
-                        if (o !== v && runs(o) && dl(o) == g && q(o) > q(v) && (!b || q(o) < q(b)))
-                            b = o;
-                    v.ld = b;
+                        if (o !== v && runs(o) && dl(o) == g && q(o) > q(v) && !(o.P === PIn && v.P !== PIn && o.s > PIn.cum[1] + 2) && (!b || q(o) < q(b)))
+                            b = o; // v0.33: quien ya dobló hacia el taller no frena a los de atrásv.ld=b;
                     return b && (q(b) - q(v)) / K - (v.L + b.L) / 2 - 1.6
                 }
-                const sh = v.P.inl && !v.P.out;
+                if (v.P.inl) {
+                    const out = !!v.P.out,
+                        gd = o => o.P.out ? o.P.iGs - o.s : o.s;
+                    let bd = 1e9; // distancia a la puerta: mismo sentido, el de adelante manda
+                    for (const o of V)
+                        if (o !== v && o.st == 'run' && o.P.inl && !!o.P.out == out && (!out || o.s < o.P.iGs)) {
+                            const d = out ? gd(v) - gd(o) : gd(o) - gd(v);
+                            if (d > 0 && d < bd) {
+                                bd = d;
+                                b = o
+                            }
+                        }
+                    v.ld = null;
+                    return b && bd - (v.L + b.L) / 2 - 1.6
+                }
                 for (const o of V)
-                    if (o !== v && runs(o) && (o.P === v.P || (sh && o.st == 'run' && o.P.inl && !o.P.out)) && o.s > v.s && (!b || o.s < b.s))
+                    if (o !== v && runs(o) && o.P === v.P && o.s > v.s && (!b || o.s < b.s))
                         b = o;
                 return b && b.s - b.L / 2 - (v.s + v.L / 2) - 1.6
             },
             step = dt => {
                 clk += dt;
                 const Z = PInW.y;
+                {
+                    let ns = 0,
+                        mx = 0;
+                    for (const v of V) {
+                        const w = v.st == 'run';
+                        if (w && v.v < .05) {
+                            v.stk = (v.stk || 0) + dt;
+                            if (v.stk > 15 && !v.job && !v.fd && (v.P === PIn || v.P === PInW)) {
+                                v.fd = .6;
+                                continue
+                            }
+                            if (v.stk > 15)
+                                ns++;
+                            if (v.stk > mx)
+                                mx = v.stk
+                        } else
+                            v.stk = 0
+                    } // v0.33: detector de tacos
+                    if (clk - jam.at > 20 && (mx > 40 || ns >= 4)) {
+                        jam.at = clk;
+                        jam.n++;
+                        reset();
+                        jam.cb && jam.cb('auto')
+                    }
+                }
                 // cortesía: el que viene por el carril → y va a pasar frente a quien espera para girar a la izquierda le cede el paso (2 destellos de luces altas)
                 for (const w of V)
                     if (w.P === PInW && w.st == 'run' && !w.cross && w.s >= Z.s - 3 && w.v < .5) {
                         w.wt += dt;
-                        if (w.wt > 1.6 && !V.some(e => e.yd === w)) {
+                        if (w.wt > .4 && !V.some(e => e.yd === w)) {
                             let b = null,
                                 bd = 0;
                             for (const e of V) {
@@ -5241,18 +5774,66 @@
                         }
                     }
                 for (const v of V) {
+                    if (v.fd > 0) {
+                        v.fd -= dt;
+                        if (v.fd <= 0) {
+                            v.fd = 0;
+                            for (const o of [v.slot, v.ns])
+                                if (o && o.v === v) {
+                                    o.o = 0;
+                                    o.v = null
+                                }
+                            v.slot = v.ns = null;
+                            v.P = null;
+                            v.st = 'idle';
+                            v.s = 0;
+                            v.v = 0;
+                            v.yd = null;
+                            v.cross = false;
+                            v.gt = null;
+                            v.stk = 0;
+                            v.ln = v.home;
+                            v.t = rnd(12, 24)
+                        }
+                        continue
+                    } // v0.34: desvaneciéndose
                     if (v.st == 'idle') {
+                        if (v.dead)
+                            continue;
+                        if (v.job) {
+                            if (v.snap)
+                                continue;
+                            if (!v.slot && !claim(v, 0))
+                                continue;
+                            v.t -= dt;
+                            if (v.t > 0)
+                                continue;
+                            v.ln = 'E';
+                            if (spawn(v)) {
+                                v.P = PIn;
+                                v.s = 0;
+                                v.st = 'run';
+                                v.v = PIn.vm * .7;
+                                v.cross = false;
+                                v.wt = 0;
+                                v.yd = null;
+                                v.f = rnd(.92, 1.08);
+                                v.sl = null
+                            }
+                            continue
+                        }
                         v.t -= dt;
                         if (v.t <= 0) {
                             v.ln = v.home;
                             if (spawn(v)) {
                                 const r = Math.random(),
-                                    fs = SLOTS.filter(s => !s.o),
-                                    go = (v.ln == 'E' || v.ln == 'W') && r < v.p && fs.length;
+                                    fs = SLOTS.filter(s => !s.o && !s.rsv && s.k == 'E'),
+                                    go = (v.ln == 'E' || v.ln == 'W') && v.k != 'truck' && r < v.p && fs.length && !realPend();
                                 v.P = v.ln == 'E' ? (go ? PIn : PE) : v.ln == 'W' ? (go ? PInW : PW) : v.ln == 'S' ? PSR : PNR;
                                 if (go) {
                                     v.slot = fs[Math.floor(Math.random() * fs.length)];
-                                    v.slot.o = 1
+                                    v.slot.o = 1;
+                                    v.slot.v = v
                                 }
                                 v.st = 'run';
                                 v.s = 0;
@@ -5262,13 +5843,16 @@
                                 v.wt = 0;
                                 v.yd = null;
                                 v.f = v.k == 'truck' ? rnd(.8, 1) : rnd(.84, 1.16);
-                                v.sl = (v.P === PE || v.P === PW) && Math.random() < .4 ? (a => [a, a + rnd(9, 22)])(rnd(8, 60)) : null
+                                v.sl = null /* v0.33: sin tramo lento aleatorio (frenaba frente al taller) */
                             }
                         }
                         continue
                     }
                     if (v.st == 'gw') {
-                        if (!busy(v)) {
+                        if (v.gt == null)
+                            v.gt = clk;
+                        if (!blk(v, 'in', v.slot.pin) && !tk(v)) {
+                            v.gt = null;
                             v.P = v.slot.pin;
                             v.s = 0;
                             v.st = 'run'
@@ -5276,15 +5860,34 @@
                         continue
                     }
                     if (v.st == 'park') {
+                        if (v.job) {
+                            if (v.leave)
+                                v.st = 'pw';
+                            else if (v.ns && !V.some(o => (o.P === PIn || o.P === PInW) && o.st == 'gw')) {
+                                const Q = xf(v.slot, v.ns);
+                                if (!blk(v, 'x', Q)) {
+                                    v.P = Q;
+                                    v.s = 0;
+                                    v.st = 'turn';
+                                    v.t = .5
+                                }
+                            }
+                            continue
+                        }
                         v.t -= dt;
                         if (v.t <= 0)
                             v.st = 'pw';
                         continue
                     }
                     if (v.st == 'pw') {
-                        if (!busy(v) && !V.some(o => o.st == 'run' && o.P.inl && !o.P.out) && !V.some(o => (o.P === PIn || o.P === PInW) && (o.st == 'gw' || (o.st == 'run' && o.P.len - o.s < 32))) && canMerge(v, v.slot.pout)) {
+                        if (v.gt == null)
+                            v.gt = clk;
+                        if ((v.job || !realPend()) && !blk(v, 'out', v.slot.pout) && !tk(v) && canMerge(v, v.slot.pout)) {
+                            v.gt = null;
+                            v.cross = false;
+                            v.yd = null;
                             v.st = 'turn';
-                            v.t = .9;
+                            v.t = .5;
                             v.P = v.slot.pout;
                             v.s = 0
                         }
@@ -5295,8 +5898,10 @@
                         if (v.t <= 0) {
                             v.st = 'run';
                             v.v = 0;
-                            v.slot.o = 0;
-                            v.slot = null
+                            const od = v.slot;
+                            od.o = 0;
+                            od.v = null;
+                            v.slot = v.ns || null
                         }
                         continue
                     }
@@ -5342,7 +5947,19 @@
                         if (rem > -.5)
                             vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, rem)))
                     } // espera dentro del taller, antes del estacionamiento
-                    const Y = P.y;
+                    const Y = P.out ? null : P.y; // v0.32: quien sale nunca cede a la calle principal
+                    if (P === PE && clk > sg && exitAct(v)) {
+                        if (v.v < .05) {
+                            v.ys = (v.ys || 0) + dt;
+                            if (v.ys > 4) {
+                                sg = clk + 7;
+                                v.ys = 0
+                            }
+                        }
+                        const rem = (GX - 5.2 - (lx(v) + v.L / 2)) / K;
+                        if (rem > -.5)
+                            vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, rem)))
+                    } // la calle principal cede a quien sale
                     if (Y && !v.cross) {
                         const f = v.s + v.L / 2,
                             gap = Y.s - f,
@@ -5351,9 +5968,14 @@
                             da = (vm * vm - v.v * v.v) / (2 * AC),
                             tc = dist > da ? (vm - v.v) / AC + (dist - da) / vm : (Math.sqrt(v.v * v.v + 2 * AC * dist) - v.v) / AC,
                             tA = Math.max(gap, 0) / Math.max(v.v, .5 * vm);
-                        if (!conflict(v, tA, tc, Y)) {
-                            if (gap < .5)
-                                v.cross = true
+                        if (gap < 1.5 && v.v < .3)
+                            v.yw = (v.yw || 0) + dt;
+                        const ky = Math.min(v.yw || 0, 12);
+                        if (!conflict(v, tA, tc * (1 - ky * .03), Y, ky)) {
+                            if (gap < .5) {
+                                v.cross = true;
+                                v.yw = 0
+                            }
                         }
                         else if (f > Y.s + .8)
                             v.cross = true;
@@ -5373,9 +5995,15 @@
                             v.st = 'gw';
                         else if (P.inl && !P.out) {
                             v.st = 'park';
-                            v.pt = v.t = v.k == 'truck' ? rnd(20, 36) : rnd(12, 28)
+                            v.ns = null;
+                            v.pt = v.t = v.job ? 1e9 : v.k == 'truck' ? rnd(20, 36) : rnd(12, 28)
                         }
                         else {
+                            if (v.job) {
+                                v.job = null;
+                                v.dead = 1;
+                                v.leave = 0
+                            }
                             v.st = 'idle';
                             v.s = 0;
                             v.yd = null;
@@ -5398,8 +6026,10 @@
                     p = at(P, v.s);
                 let o = OP,
                     a = p.a;
+                if (v.fd > 0)
+                    o *= clamp(v.fd / .6, 0, 1);
                 if (v.st == 'turn')
-                    a += 180 * clamp(v.t / .9, 0, 1); // gira en el lugar antes de salir
+                    a += 180 * clamp(v.t / .5, 0, 1); // gira en el lugar antes de salir
                 if (v.st == 'run') {
                     if (P.f[0])
                         o *= clamp(v.s / RF, 0, 1);
@@ -5429,7 +6059,7 @@
                             else
                                 R = 1
                         }
-                const hz = (v.st == 'turn' || (v.st == 'run' && v.v > .05)) && P && (q => q.x >= 18 && q.x <= 37 && q.y >= 60 && q.y <= 108)(at(P, v.s)); // balizas: solo al moverse dentro del estacionamiento
+                const hz = (v.st == 'turn' || (v.st == 'run' && v.v > .05 && P && P.inl && at(P, v.s).y > GY + 1)); // balizas: solo al moverse dentro del estacionamiento
                 return {
                     l: (L || hz) && ph,
                     r: (R || hz) && ph,
@@ -5448,7 +6078,8 @@
                     x = L / 2,
                     y = W / 2 - .4,
                     lt = `<path class="hb" d="M${x},${-y} L${x + 7},${-y - 2.4} L${x + 7},${y + 2.4} L${x},${y}Z" fill="#fff" opacity="0"/><circle class="fl" cx="${x - .5}" cy="${-y}" r=".5" fill="#ffa200" opacity="0"/><circle class="fr" cx="${x - .5}" cy="${y}" r=".5" fill="#ffa200" opacity="0"/><circle class="rl" cx="${-x + .5}" cy="${-y}" r=".5" fill="#ffa200" opacity="0"/><circle class="rr" cx="${-x + .5}" cy="${y}" r=".5" fill="#ffa200" opacity="0"/><rect class="bk" x="${-x - .1}" y="${-y - .2}" width=".7" height=".9" fill="#f00" opacity="0"/><rect class="bk" x="${-x - .1}" y="${y - .7}" width=".7" height=".9" fill="#f00" opacity="0"/>`;
-                return (v.k == 'truck' ?
+                const gw = `<rect class="gl2" x="${-x - 2.4}" y="${-W / 2 - 2.4}" width="${L + 4.8}" height="${W + 4.8}" rx="3.4" fill="#fff" opacity="0"/><rect class="gl" x="${-x - 1.1}" y="${-W / 2 - 1.1}" width="${L + 2.2}" height="${W + 2.2}" rx="2.2" fill="#fff" opacity="0"/>`;
+                return gw + (v.k == 'truck' ?
                 `<rect x="${-x}" y="${-W / 2}" width="${L - 3.3}" height="${W}" rx=".6" fill="${c}"${st}/><rect x="${x - 3.1}" y="${-W / 2 + .2}" width="3.1" height="${W - .4}" rx="1" fill="${c}" style="filter:brightness(.85)"${st}/><rect x="${x - 1.5}" y="${-W / 2 + .6}" width=".9" height="${W - 1.2}" rx=".3" fill="${gl}" opacity="${ga}"/>`
                 : `<rect x="${-x}" y="${-W / 2}" width="${L}" height="${W}" rx="1.1" fill="${c}"${st}/><rect x="${L * .12}" y="${-W / 2 + .4}" width="${L * .2}" height="${W - .8}" rx=".5" fill="${gl}" opacity="${ga}"/>`) + lt
             },
@@ -5459,6 +6090,343 @@
                     return true
                 }
             };
+
+        /* v0.26 · vehículos reales: un vehículo por trabajo activo. cola → plaza E; proceso/pausa → plaza de su zona; completado → sale */
+        const CG = [['#2f6fd0', '#3a82e6', '#2559b0', '#4a90e2'], ['#d64545', '#e5584f', '#bf3333', '#ee6a5a'], ['#e0b000', '#f0c419', '#c99a00', '#f5d33b'], ['#3a9a55', '#45ad63', '#2e8046', '#58bd73']],
+            zcol = (j, id) => {
+                const i = Math.max(0, S.cfg.zonas.findIndex(z => z.id == zof(j))),
+                    g = CG[i % CG.length],
+                    h = [...String(id)].reduce((a, c) => a + c.charCodeAt(0), 0);
+                return g[h % g.length]
+            };
+        let g0 = 0,
+            mm = 0;
+        const mkV = () => ({
+                k: 'car',
+                ln: 'E',
+                home: 'E',
+                col: '#f7f7f7',
+                p: 0,
+                L: 7.4,
+                W: 3.8,
+                P: null,
+                s: 0,
+                v: 0,
+                st: 'idle',
+                t: 0,
+                cross: false,
+                id: V.length,
+                f: 1,
+                yd: null,
+                qy: false,
+                hbT: 0,
+                brT: 0,
+                wt: 0,
+                yt: 0,
+                slot: null,
+                sl: null,
+                pt: 0,
+                ld: null,
+                dead: 1,
+                job: null,
+                ns: null
+            }),
+            want = v => {
+                const j = get(v.job);
+                if (!j || j.estado == 'cola')
+                    return 'E';
+                const z = zof(j);
+                return SLOTS.some(o => o.k == z) ? z : 'E'
+            },
+            free = (k, v) => SLOTS.find(o => o.k == k && !o.o && (!o.rsv || o.rsv === v)),
+            own = (v, o) => {
+                o.o = 1;
+                o.v = v;
+                if (o.rsv === v)
+                    o.rsv = null
+            },
+            kick = o => {
+                const b = o.v;
+                if (b && !b.job) {
+                    b.st = 'idle';
+                    b.slot = null;
+                    b.P = null;
+                    b.s = 0;
+                    b.v = 0;
+                    b.t = rnd(8, 16)
+                }
+                o.o = 0;
+                o.v = null
+            },
+            acq = (v, k, snap) => {
+                let o = free(k, v);
+                if (!o && k == 'E') {
+                    const ev = SLOTS.filter(q => q.k == 'E' && q.o && q.v && !q.v.job && (!q.rsv || q.rsv === v)); // desocupa un auto de fondo si el estacionamiento está lleno
+                    if (snap) {
+                        if (ev[0]) {
+                            kick(ev[0]);
+                            o = ev[0]
+                        }
+                    } else {
+                        const t = ev.find(q => q.v.st == 'park');
+                        if (t) {
+                            t.rsv = v;
+                            t.v.t = 0
+                        }
+                    }
+                }
+                if (o)
+                    own(v, o);
+                return o || null
+            },
+            claim = (v, snap) => {
+                const k = want(v),
+                    o = acq(v, k, snap) || (k != 'E' ? acq(v, 'E', snap) : null);
+                if (o)
+                    v.slot = o;
+                return o
+            },
+            place = (v, o) => {
+                if (v.slot && v.slot !== o && v.slot.v === v) {
+                    v.slot.o = 0;
+                    v.slot.v = null
+                }
+                v.slot = o;
+                v.ns = null;
+                v.P = o.pin;
+                v.s = o.pin.len;
+                v.v = 0;
+                v.st = 'park';
+                v.t = 1e9;
+                v.snap = 0;
+                v.yd = null;
+                v.brT = 0
+            },
+            kill = v => {
+                for (const o of [v.slot, v.ns])
+                    if (o && o.v === v) {
+                        o.o = 0;
+                        o.v = null
+                    }
+                v.slot = v.ns = null;
+                v.P = null;
+                v.st = 'idle';
+                v.s = 0;
+                v.v = 0;
+                v.job = null;
+                v.dead = 1;
+                v.leave = 0;
+                v.snap = 0
+            },
+            xf = (A, B) => {
+                const ra = A.raw,
+                    rb = B.raw;
+                let k = 0;
+                while (k + 1 < ra.length && k + 1 < rb.length && ra[k + 1][0] == rb[k + 1][0] && ra[k + 1][1] == rb[k + 1][1])
+                    k++;
+                return mk(fil(simp([...ra.slice(k).reverse(), ...rb.slice(k + 1)]), 5), {
+                    vm: VM.E * 1.7,
+                    f: [0, 0],
+                    inl: 1,
+                    x: 1,
+                    sz: [0, 1e4, 1]
+                })
+            },
+            // de plaza a plaza por el pasillo
+            reset = () => {
+                sig = '';
+                for (const o of SLOTS) {
+                    o.o = 0;
+                    o.v = null;
+                    o.rsv = null
+                }
+                for (const v of V) {
+                    if (v.job && v.leave) {
+                        kill(v);
+                        continue
+                    }
+                    v.slot = v.ns = null;
+                    v.P = null;
+                    v.st = 'idle';
+                    v.s = 0;
+                    v.v = 0;
+                    v.cross = false;
+                    v.yd = null;
+                    v.gt = null;
+                    v.stk = 0;
+                    v.wt = 0;
+                    v.yt = 0;
+                    v.brT = 0;
+                    v.t = v.job ? 0 : rnd(2, 10);
+                    if (v.job)
+                        v.snap = 1
+                }
+                g0 = Date.now();
+                rebuild()
+            },
+            // reinicia el mapa: los reales vuelven a su plaza, los de fondo reaparecen
+            rebuild = () => {
+                const Z = rebuildCfg(),
+                    sg = JSON.stringify(Z.map(z => [z.id, z.x, z.y, z.w, z.h, z.pl]));
+                if (sg === sig && SLOTS.length)
+                    return false;
+                sig = sg;
+                for (const v of V)
+                    if (v.slot || v.ns) {
+                        v.slot = v.ns = null;
+                        v.P = null;
+                        v.st = 'idle';
+                        v.s = 0;
+                        v.v = 0;
+                        v.t = v.job ? 0 : rnd(4, 10);
+                        if (v.job)
+                            v.snap = 1
+                    }
+                SLOTS.length = 0;
+                for (const k in lay)
+                    delete lay[k];
+                for (let i = 0; i < 8; i++)
+                    addSlot('E', 18, 63.5 + i * 5.66, 10.7, 5.66, 'H', 0);
+                for (let i = 0; i < 3; i++)
+                    addSlot('E', 37.8, 91.8 + i * 5.66, 10.5, 5.66, 'H', 0);
+                for (const z of Z)
+                    layZ(z);
+                return true
+            },
+            sync0 = vis => {
+                rebuild();
+                const now = Date.now(),
+                    A = S.jobs.filter(j => j.estado != 'completado');
+                if (A.length && !g0)
+                    g0 = now;
+                const snap = !!(g0 && now - g0 < 3500); // al cargar o con el mapa oculto no se anima: se ubica de inmediato
+                for (const o of SLOTS)
+                    if (o.rsv && (!o.rsv.job || o.rsv.leave))
+                        o.rsv = null;
+                for (const v of V) {
+                    if (!v.job || v.leave)
+                        continue;
+                    const j = get(v.job);
+                    if (j && j.estado != 'completado')
+                        continue;
+                    if (v.st == 'idle' || snap)
+                        kill(v);
+                    else
+                        v.leave = 1
+                }
+                for (const j of A) {
+                    const id = String(j.id);
+                    if (V.some(v => v.job === id && !v.leave))
+                        continue;
+                    let v = V.find(o => o.dead);
+                    if (!v) {
+                        v = mkV();
+                        V.push(v)
+                    }
+                    const tk = /cami[oó]n|furg[oó]n|truck/i.test((j.vehiculo.marca || '') + ' ' + (j.vehiculo.modelo || '')),
+                        h = [...id].reduce((a, c) => a + c.charCodeAt(0), 0);
+                    Object.assign(v, {
+                        dead: 0,
+                        job: id,
+                        leave: 0,
+                        k: tk ? 'truck' : 'car',
+                        col: zcol(j, id),
+                        L: tk ? 9.6 : 7.4,
+                        W: tk ? 4.1 : 3.8,
+                        P: null,
+                        s: 0,
+                        v: 0,
+                        st: 'idle',
+                        t: snap ? 0 : rnd(0, .6),
+                        slot: null,
+                        ns: null,
+                        snap: snap ? 1 : 0,
+                        cross: false,
+                        yd: null,
+                        qy: false,
+                        brT: 0,
+                        hbT: 0,
+                        wt: 0,
+                        yt: 0
+                    })
+                }
+                for (const v of V) {
+                    if (!v.job || v.leave)
+                        continue;
+                    {
+                        const jj = get(v.job);
+                        if (jj)
+                            v.col = zcol(jj, v.job)
+                    }
+                    const cur = v.ns || v.slot;
+                    if (v.st == 'idle') {
+                        if (snap) {
+                            const o = cur || claim(v, 1);
+                            if (o)
+                                place(v, o)
+                        } else
+                            v.snap = 0;
+                        continue
+                    }
+                    if (snap && v.st != 'park') {
+                        if (cur)
+                            place(v, cur);
+                        continue
+                    }
+                    if (v.st == 'park' && !v.ns) {
+                        const k = want(v);
+                        if (v.slot.k != k) {
+                            const o = acq(v, k, snap);
+                            if (o) {
+                                if (snap)
+                                    place(v, o);
+                                else
+                                    v.ns = o
+                            }
+                        }
+                    }
+                }
+            },
+            bad = () => {
+                for (const j of S.jobs)
+                    if (j.estado != 'completado' && !V.some(v => v.job === String(j.id) && !v.leave))
+                        return 1;
+                for (const v of V) {
+                    if (!v.job || v.leave)
+                        continue;
+                    const j = get(v.job);
+                    if (!j || j.estado == 'completado')
+                        return 1;
+                    if (v.st == 'park' && !v.ns && v.slot && (v.slot.v !== v || (v.slot.k !== want(v) && free(want(v), v))))
+                        return 1
+                }
+                return 0
+            },
+            // v0.37: datos del mapa distintos a los actuales
+            sync = vis => {
+                sync0(vis);
+                const n = Date.now();
+                if (g0 && n - g0 < 4000) {
+                    mm = 0;
+                    return
+                }
+                if (bad()) {
+                    if (!mm)
+                        mm = n;
+                    else if (n - mm > 3000) {
+                        mm = 0;
+                        reset();
+                        jam.cb && jam.cb('data')
+                    }
+                } else
+                    mm = 0
+            },
+            vg = (v, h) => {
+                const p = pose(v, h),
+                    r = !!v.job && !v.leave;
+                return `<g class="vh${r ? ' rl' : ''}" data-v="${v.id}" data-h="${h}"${r ? ` data-a="vtap" data-id="${v.job}"` : ''} transform="translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})" opacity="${p.o.toFixed(2)}">${shape(v)}<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/></g>`
+            };
+        rebuild();
         for (let i = 0; i < 600; i++)
             step(.1);
         return {
@@ -5468,21 +6436,33 @@
             shape,
             on,
             lights,
+            reset,
+            jam,
+            fade: id => {
+                const v = V[id];
+                if (!v || v.job || v.fd > 0 || v.st == 'idle' || v.dead)
+                    return false;
+                v.fd = .6;
+                return true
+            },
             last: 0,
             GX,
             GY,
             A0,
-            loc
+            loc,
+            SLOTS,
+            lay,
+            sync,
+            rebuild,
+            vg,
+            byJob: id => V.find(o => o.job == id && !o.leave)
         }
     })();
 
     function carsSvg(h) {
         if (!TRF.on())
             return '';
-        return TRF.V.map(v => {
-            const p = TRF.pose(v, h);
-            return `<g class="vh" data-v="${v.id}" data-h="${h}" transform="translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})" opacity="${p.o.toFixed(2)}">${TRF.shape(v)}</g>`
-        }).join('')
+        return `<g class="vl" data-h="${h}">${TRF.V.map(v => TRF.vg(v, h)).join('')}</g>`
     }
     (function trfLoop(ts) {
         requestAnimationFrame(trfLoop);
@@ -5490,13 +6470,35 @@
             TRF.last = 0;
             return
         }
+        let E = TRF.E && TRF.E[0] && TRF.E[0].isConnected ? TRF.E : (TRF.E = document.querySelectorAll('.vh'));
+        const vis = E.length > 0 && !(S.modal && S.modal.k != 'mapaed') && !(S.open && S.view == 'home') && TRF.on();
+        if (ts - (TRF.u || 0) > 400) {
+            TRF.u = ts;
+            try {
+                TRF.sync(vis)
+            } catch (x) {
+                console.error(x)
+            }
+            document.querySelectorAll('.sl[data-s]').forEach(r => {
+                const q = TRF.SLOTS[+r.dataset.s];
+                r.classList.toggle('occ', !!(q && q.k == 'E' && q.v && q.v.job && q.v.st == 'park'))
+            })
+        } // v0.26: plaza E ocupada por un vehículo en cola → blanco 20%
         if (ts - (TRF.t || 0) < 32)
             return;
         TRF.t = ts; // ~30 fps: suficiente para vehículos lentos y mucho más liviano
-        const E = TRF.E && TRF.E[0] && TRF.E[0].isConnected ? TRF.E : (TRF.E = document.querySelectorAll('.vh'));
         if (!E.length) {
             TRF.last = 0;
             return
+        }
+        const vl = document.querySelectorAll('.vl');
+        if (vl.length && E.length < TRF.V.length * vl.length) {
+            vl.forEach(l => {
+                const h = +l.dataset.h;
+                for (let i = l.children.length; i < TRF.V.length; i++)
+                    l.insertAdjacentHTML('beforeend', TRF.vg(TRF.V[i], h))
+            });
+            TRF.E = E = document.querySelectorAll('.vh')
         }
         if ((S.modal && S.modal.k != 'mapaed') || (S.open && S.view == 'home')) {
             TRF.last = 0;
@@ -5512,12 +6514,40 @@
         if (dt)
             TRF.step(dt);
         E.forEach(e => {
-            const p = TRF.pose(TRF.V[+e.dataset.v], +e.dataset.h);
+            const v = TRF.V[+e.dataset.v],
+                r = !!v.job && !v.leave;
+            if (r !== e._r) {
+                e._r = r;
+                e.classList.toggle('rl', r);
+                if (r)
+                    e.setAttribute('data-a', 'vtap');
+                else
+                    e.removeAttribute('data-a')
+            }
+            if (r && e.dataset.id != v.job)
+                e.dataset.id = v.job;
+            const sg = v.k + v.col + v.L;
+            if (e._sg !== sg) {
+                e._sg = sg;
+                e.innerHTML = TRF.shape(v) + '<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/>';
+                e._q = null
+            }
+            {
+                const jj = r ? get(v.job) : null,
+                    cc = jj ? (jj.estado == 'cola' ? 'cq' : jj.estado == 'pausa' ? 'ps' : '') : '';
+                if (e._c !== cc) {
+                    e.classList.remove('cq', 'ps');
+                    if (cc)
+                        e.classList.add(cc);
+                    e._c = cc
+                }
+            }
+            const p = TRF.pose(v, +e.dataset.h);
             e.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})`);
             e.setAttribute('opacity', p.o.toFixed(2));
             if (p.o < .02)
                 return;
-            const l = TRF.lights(TRF.V[+e.dataset.v]),
+            const l = TRF.lights(v),
                 q = e._q || (e._q = {
                     fl: e.querySelector('.fl'),
                     fr: e.querySelector('.fr'),
@@ -5535,22 +6565,68 @@
             q.rr.setAttribute('opacity', o(l.r));
             q.hb.setAttribute('opacity', l.hb ? .66 : 0);
             q.bk.forEach(k => k.setAttribute('opacity', o(l.bk)))
-        })
+        });
+        if (!TRF.jam.cb)
+            TRF.jam.cb = w => {
+                S.vp = null;
+                blinkSt()
+            };
+        const vid = S.vp || S.mj;
+        if (vid && S.view == 'mapa') {
+            const bp = document.querySelector('.vpop'),
+                j = get(vid);
+            if (!j || j.estado == 'completado') {
+                if (S.vp == vid)
+                    S.vp = null;
+                bp && bp.remove()
+            }
+            else if (bp) {
+                const v = TRF.byJob(vid);
+                if (v) {
+                    const p = TRF.pose(v, MH);
+                    bp.style.left = clamp(p.x / MW * 100, 22, 78).toFixed(1) + '%';
+                    bp.style.top = (p.y / MH * 100).toFixed(1) + '%';
+                    bp.classList.toggle('dn', p.y < MH * .2);
+                    bp.style.opacity = p.o > .3 ? 1 : 0
+                }
+            }
+            else if (!S.zp && ts - (TRF.m || 0) > 600) {
+                TRF.m = ts;
+                const v = TRF.byJob(vid);
+                if (v && v.st != 'idle' && TRF.pose(v, MH).o > .3)
+                    mMap()
+            }
+        }
     })(0);
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault(), {
+        passive: false
+    })); // iOS: sin zoom de pellizco
+    document.addEventListener('touchmove', e => {
+        if (e.touches.length > 1)
+            e.preventDefault()
+    }, {
+        passive: false
+    });
     function mapaSvg(ed, dash) {
+        let ZO = [];
+        TRF.rebuild();
         const Z = ed ? S.cfg.zonas : ZA(),
             vh = dash ? clamp(Math.max(147.5, ...Z.map(z => z.y + z.h)) + .6, 90, MH) : MH;
         const hj = !ed && !dash && S.mj ? get(S.mj) : null,
             hz = hj && hj.estado != 'completado' ? zof(hj) : null; // ed = modo edición (tocar elige la zona en vez de abrir el popup; ahí sí se ven los nombres)
-        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/><rect x="18" y="60" width="19" height="48" fill="#e2e2e2"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>${ed ? '' : carsSvg(vh)}` +
+        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon class="st" points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect class="st" x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/><polygon points="18,63.5 28.4,58.6 28.4,45.4 43.6,41.4 43.6,108.8 18,108.8" fill="#b3b3b3"/><line x1="${TRF.GX}" y1="${TRF.GY + 3}" x2="${TRF.GX}" y2="62" stroke="#fff" stroke-width=".35" stroke-dasharray="1.6 1.2" opacity=".85"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>` +
         Z.map(z => {
             const c = cnt(zjobs(z.id)),
                 r = clamp(Math.min(z.w, z.h) / 2 - .8, 1.6, 3.8),
-                cx = z.x + z.w / 2,
-                cy = z.y + z.h / 2;
+                ly = TRF.lay[z.id] || {},
+                cx = ly.cx ?? z.x + z.w / 2,
+                cy = ly.cy ?? z.y + z.h / 2;
             const nb = !ed && !dash && S.mf ? c[S.mf] : 0;
-            return `<g class="mz ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}"><rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`
-        }).join('') + '</svg>'
+            const gt = o => `<g class="mz${o} ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}">`;
+            ZO.push(gt(' mzo') + `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" style="stroke:${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`);
+            return gt('') + `<rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}</g>`
+        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
+        `<g class="eq" role="img" aria-label="Estacionamiento: ${S.jobs.filter(j => j.estado == 'cola').length} en cola"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado == 'cola').length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
     }
     const leg = () => `<div class="leg">${ZA().map((z, i) => `<button class="zc" data-a="zpop" data-z="${z.id}"><b>${String.fromCharCode(65 + i)}</b>${esc(z.nombre)}<small>${cnt(zjobs(z.id)).total}</small>${cnt(zjobs(z.id)).pausa ? '<span class="zbg" title="Tiene trabajos en pausa">!</span>' : ''}</button>`).join('')}</div>`;
     const zpop = () => {
@@ -5565,10 +6641,10 @@
     const mmatch = j => {
             const n = x => String(x || '').toUpperCase().replace(/[^A-Z0-9Ñ]/g, ''),
                 q = n(S.ms);
-            return !!q && [j.vehiculo.patente, j.ot, j.cliente.nombre].some(x => n(x).includes(q))
+            return !!q && (S.mc ? [j.cliente.nombre] : [j.vehiculo.patente, j.ot]).some(x => n(x).includes(q))
         },
         mM = () => S.ms.trim() ? S.jobs.filter(j => j.estado != 'completado' && mmatch(j)) : [],
-        msrch = () => `<div class="srch">${ic('search')}<input id="mq" type="text" enterkeyhint="search" autocomplete="off" placeholder="Buscar patente, OT o cliente" value="${esc(S.ms)}"><button data-a="mqclr" title="Limpiar">${ic('close')}</button></div><div id="mres">${mres()}</div>`,
+        msrch = () => `<div class="srch">${ic('search')}<input id="mq" type="text" enterkeyhint="search" autocomplete="off" placeholder="${S.mc ? 'Buscar cliente' : 'Buscar patente u OT'}" value="${esc(S.ms)}"><button class="mcb ${S.mc ? 'on' : ''}" data-a="mcl" title="${S.mc ? 'Buscando por cliente (tocar para volver a patente/OT)' : 'Buscar por cliente'}" aria-pressed="${!!S.mc}">${ic('person')}</button><button data-a="mqclr" title="Limpiar">${ic('close')}</button></div><div id="mres">${mres()}</div>`,
         mres = () => {
             if (!S.ms.trim())
                 return '';
@@ -5576,6 +6652,15 @@
             if (!M.length)
                 return '<div class="sm mnone">Sin resultados en los procesos activos.</div>';
             return M.length > 1 ? `<div class="zf mres" role="group" aria-label="Resultados"><span class="sm">${M.length} resultados</span>${M.map(j => `<button class="zc ${S.mj == j.id ? 'sel' : ''}" data-a="msel" data-id="${j.id}">${esc(j.vehiculo.patente)}${j.ot ? ' · ' + esc(j.ot) : ''}</button>`).join('')}</div>` : ''
+        },
+        AC = {
+            iniciar: ['iniciar', 'Iniciar', 'play_arrow', '¿Iniciar este proceso?'],
+            reanudar: ['iniciar', 'Reanudar', 'play_arrow', '¿Reanudar este proceso?'],
+            completar: ['completar', 'Salir', 'logout', '¿Sacar el vehículo y finalizar el proceso?']
+        },
+        jcard = (j, z) => {
+            const ac = j.estado == 'pausa' ? AC.reanudar : j.estado == 'cola' ? AC.iniciar : AC.completar;
+            return `${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${j.estado}"></i><span>${ESTADO[j.estado]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div>${S.mfc == j.id ? `<div class="zcf"><b>${AC[S.mfa || 'completar'][3]}</b><div><button class="zno" data-a="mfno">Cancelar</button><button class="zyes" data-a="mfok" data-id="${j.id}">${AC[S.mfa || 'completar'][1]}</button></div></div>` : `<div class="zbt"><button class="zact" data-a="mfin" data-id="${j.id}" data-ac="${ac[0]}">${ic(ac[2])} ${ac[1]}</button><button class="zgo" data-a="dopen" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`}`
         },
         jpop = () => {
             const j = S.mj && get(S.mj);
@@ -5585,11 +6670,36 @@
             if (!z || z.activo === false)
                 return '';
             const dn = z.y < MH * .2 || S.mfl;
-            return `<div class="zpop jpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 26, 74)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%">${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${j.estado}"></i><span>${ESTADO[j.estado]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><button class="zgo" data-a="dopen" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`
+            return `<div class="zpop jpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 26, 74)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%">${jcard(j, z)}</div>`
+        },
+        vpop = () => {
+            const id = S.vp || S.mj,
+                j = id && get(id);
+            if (!j || j.estado == 'completado')
+                return '';
+            const v = TRF.byJob(j.id);
+            if (!S.vp && (!v || v.st == 'idle' || !TRF.on()))
+                return '';
+            const p = v ? TRF.pose(v, MH) : {
+                x: 50,
+                y: 60
+            };
+            const dn = p.y < MH * .2; // v0.26: burbuja de un vehículo (sigue su posición)
+            return `<div class="zpop jpop vpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(p.x / MW * 100, 22, 78).toFixed(1)}%;top:${(p.y / MH * 100).toFixed(1)}%">${jcard(j, zn(zof(j)) || {nombre: '—'})}</div>`
         };
+    function blinkSt() {
+        const q = () => document.querySelectorAll('.st');
+        q().forEach(e => {
+            e.classList.remove('stb');
+            void e.getBoundingClientRect();
+            e.classList.add('stb')
+        });
+        clearTimeout(R.bst);
+        R.bst = setTimeout(() => q().forEach(e => e.classList.remove('stb')), 1800)
+    } // v0.36: las calles parpadean al reiniciar el mapa
     function vMapa() {
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Mapa de procesos</h1></div>
-         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw" data-a="zpop" data-z="">${mapaSvg()}${jpop() || zpop()}</div><div class="msw">${msrch()}</div></div></div>
+         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw" data-a="zpop" data-z=""><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button>${mapaSvg()}${vpop() || jpop() || zpop()}</div><div class="msw">${msrch()}</div></div></div>
          <h3 class="ctr">Resumen de trabajos totales <span class="mut" style="font-weight:400">· toca para ver en el mapa</span></h3>${sumM(cnt(S.jobs.filter(j => j.estado != 'completado')))}
          ${leg()}
          <div class="sum g2" style="margin-top:14px"><div role="button" tabindex="0" data-a="go" data-v="comp">${ic('history')}<span><small>Revisar<br>históricos</small></span></div><div role="button" tabindex="0" data-a="kpi">${ic('query_stats')}<span><small>Revisar<br>KPI</small></span></div></div>
@@ -5651,6 +6761,7 @@
          <div class="zed"><input data-ch="znom" data-z="${s.id}" value="${esc(s.nombre)}" aria-label="Nombre de la zona">
          <div class="zpad"><span class="sm">Mover</span>${st('arrow_back', 'Izquierda', 'zmv', 'data-dx="-2" data-dy="0"')}${st('arrow_upward', 'Arriba', 'zmv', 'data-dx="0" data-dy="-2"')}${st('arrow_downward', 'Abajo', 'zmv', 'data-dx="0" data-dy="2"')}${st('arrow_forward', 'Derecha', 'zmv', 'data-dx="2" data-dy="0"')}</div>
          <div class="zpad"><span class="sm">Ancho</span>${st('remove', 'Más angosta', 'zrs', 'data-dw="-2"')}${st('add', 'Más ancha', 'zrs', 'data-dw="2"')}<span class="sm" style="margin-left:8px">Alto</span>${st('remove', 'Más baja', 'zrs', 'data-dh="-2"')}${st('add', 'Más alta', 'zrs', 'data-dh="2"')}</div>
+         <div class="zpad"><span class="sm">Plazas</span>${st('remove', 'Menos plazas', 'zpl', 'data-d="-1"')}<b>${s.pl ?? 0}</b>${st('add', 'Más plazas', 'zpl', 'data-d="1"')}</div>
          <div class="zpad"><span class="sm" style="flex:1">${S.cfg.plataformas.filter(p => p.zonaId == s.id).length} sub-zonas</span>${st(s.activo === false ? 'visibility_off' : 'visibility', 'Mostrar u ocultar en el mapa', 'zact', '')}${st('delete', 'Eliminar zona', 'zdel', '')}</div></div>
          <div class="add"><input id="zn_new" placeholder="Nueva zona"><button data-a="zadd" title="Agregar zona">${ic('add')}</button></div><div class="btns" style="margin-top:12px"><button data-a="cerrar">Listo</button></div></div></div>`
     }
@@ -5797,44 +6908,75 @@
         c.plataformas.forEach(p => p.zonaId = zz[p.nombre]);
         c.mecanicos = L(['Mecánica Uno', 'Mecánica Dos']);
         c.recepcion = L(['Recepción Uno']);
-        const mk = o => {
+        const V = {
+                'LT·KC·95': ['Toyota', 'Corolla', 'XEi', '1.8 L', 'Bencina', 84200],
+                'ST·WD·87': ['Hyundai', 'Accent', 'GL', '1.6 L', 'Bencina', 61350],
+                'GH·JK·21': ['Kia', 'Morning', 'EX', '1.2 L', 'Bencina', 47800],
+                'BD·RT·53': ['Suzuki', 'Swift', 'GLX', '1.2 L', 'Bencina', 39500],
+                'YZ·SS·87': ['Chevrolet', 'Sail', 'LS', '1.4 L', 'Bencina', 72100],
+                'FB·ST·63': ['Nissan', 'Versa', 'Advance', '1.6 L', 'Bencina', 98400],
+                'TB·VY·45': ['Ford', 'Ranger', 'XLT 4x4', '3.2 L Turbo', 'Diésel', 143900],
+                'RT·PL·44': ['Mazda', '3', 'Sport', '2.0 L', 'Bencina', 56700],
+                'KP·LM·12': ['Peugeot', '208', 'Active', '1.2 L', 'Bencina', 33200],
+                'WX·CV·38': ['Mitsubishi', 'L200', 'Katana', '2.4 L Turbo', 'Diésel', 121000],
+                'CC·DD·11': ['Toyota', 'Hilux', 'SR', '2.4 L Turbo', 'Diésel', 109500],
+                'JJ·KK·22': ['Subaru', 'XV', 'Limited', '2.0 L', 'Bencina', 68900],
+                'MM·NN·33': ['Renault', 'Duster', 'Intens', '1.6 L', 'Bencina', 77300],
+                'NN·PP·41': ['MG', 'ZS', 'Comfort', '1.5 L', 'Bencina', 24100],
+                'HK·ZL·09': ['Chevrolet', 'Spark', 'LT', '1.2 L', 'Bencina', 58600],
+                'PR·QS·76': ['Citroën', 'C3', 'Feel', '1.2 L', 'Bencina', 41800],
+                'VD·FG·54': ['Honda', 'CR-V', 'EX', '2.4 L', 'Bencina', 92700],
+                'BK·MN·18': ['Volkswagen', 'Gol', 'Trendline', '1.6 L', 'Bencina', 104300],
+                'XC·TR·62': ['Fiat', 'Strada', 'Working', '1.4 L', 'Bencina', 66200],
+                'DL·WZ·35': ['Great Wall', 'Poer', 'Elite', '2.0 L Turbo', 'Diésel', 88400],
+                'GT·HY·70': ['Changan', 'CS35', 'Luxury', '1.6 L', 'Bencina', 37900],
+                'RS·JB·28': ['JAC', 'T6', '4x4', '2.0 L Turbo', 'Diésel', 95100],
+                'LF·CX·47': ['Chery', 'Tiggo 2', 'Comfort', '1.5 L', 'Bencina', 52400],
+                'ZP·NM·83': ['Nissan', 'Kicks', 'Sense', '1.6 L', 'Bencina', 29800]
+            },
+            mk = o => {
                 const s = o.s.map(cd => c.catalogo.find(x => x.cod == cd)).map(x => ({
                         cod: x.cod,
                         nombre: x.nombre,
                         grupo: x.grupo,
                         cat: x.cat,
                         estSeg: x.min * 60,
-                        hecho: false
+                        hecho: o.e == 'completado'
                     })),
+                    vh = V[o.pat] || ['', '', '', '', '', 0],
                     j = {
                         v: 1,
                         id: uid(),
                         ot: o.ot || '',
                         estado: o.e,
-                        prioridad: 'normal',
+                        prioridad: o.pr || 'normal',
                         plataformaId: id(o.p),
                         mecanicoId: o.me ? id(o.me) : '',
                         ingresadoPor: {
-                            id: id('Recepción Uno'),
-                            nombre: 'Recepción Uno'
+                            id: id(o.rec || 'Recepción Uno'),
+                            nombre: o.rec || 'Recepción Uno'
                         },
                         titulo: o.t,
                         vehiculo: {
                             patente: o.pat,
                             patenteN: o.pat.replace(/[^A-Z0-9]/g, ''),
-                            marca: '',
-                            modelo: '',
-                            version: '',
-                            motor: '',
-                            combustible: '',
-                            km: 0
+                            marca: vh[0],
+                            modelo: vh[1],
+                            version: vh[2],
+                            motor: vh[3],
+                            combustible: vh[4],
+                            km: vh[5]
                         },
                         cliente: {
                             nombre: o.cli || '',
-                            telefono: ''
+                            telefono: o.tel || ''
                         },
                         servicios: s,
-                        repuestos: [],
+                        repuestos: (o.rp || []).map(r => ({
+                            grupo: r[0],
+                            nombre: r[1],
+                            cant: r[2] || 1
+                        })),
                         tiempos: {
                             ingresoISO: H(o.h, o.m),
                             estSeg: s.reduce((a, x) => a + x.estSeg, 0),
@@ -5852,7 +6994,7 @@
                             id: uid(),
                             tipo: 'orden',
                             texto: o.n,
-                            autor: 'Recepción Uno',
+                            autor: o.rec || 'Recepción Uno',
                             fechaISO: H(o.h, o.m)
                         }] : [],
                         alertas: [],
@@ -5868,48 +7010,89 @@
                 return j
             },
             AB = ['ALINEACION', 'BALANCEO'],
-            AF = ['ACEITE_MOTOR', 'FILTRO_ACEITE'];
+            AF = ['ACEITE_MOTOR', 'FILTRO_ACEITE'],
+            MB = [...AF, 'FILTRO_AIRE', 'FRENO_REVISION'],
+            FR = ['FRENO_PASTILLAS'],
+            P1 = 'Plataforma 1',
+            P2 = 'Plataforma 2',
+            TF = 'Taller de frenos',
+            P3 = 'Plataforma 3',
+            AL = 'Alineador',
+            M1 = 'Mecánica Uno',
+            M2 = 'Mecánica Dos',
+            M3 = 'Mecánica Tres',
+            M4 = 'Mecánica Cuatro',
+            R2 = 'Recepción Dos',
+            ACE = [['Aceites motor', '5W-30', 4], ['Filtros', 'Aceite']],
+            ACD = [['Aceites motor', '5W-40', 6], ['Filtros', 'Aceite']],
+            PAS = [['Frenos', 'Pastillas'], ['Líquidos', 'Líquido frenos DOT4']];
+        c.mecanicos = L([M1, M2, M3, M4]);
+        c.recepcion = L(['Recepción Uno', R2]);
         S.jobs = [
         mk({
             ot: '527',
             e: 'proceso',
-            p: 'Plataforma 1',
-            me: 'Mecánica Uno',
+            p: P1,
+            me: M1,
             pat: 'LT·KC·95',
             cli: 'Cristian Alvarado',
+            tel: '+56 9 8123 4567',
             t: 'Cambio de aceite y filtros',
             s: [...AF, 'FILTRO_POLEN', 'FILTRO_AIRE', 'FRENO_REVISION', 'ESCANER'],
             h: 10,
             m: 55,
             run: 1351,
+            rp: [...ACE, ['Filtros', 'Polen'], ['Filtros', 'Aire']],
             n: 'Realizar cambio de aceite, inspección frenos y un escaneo. Avisar en caso de encontrar algún problema en la inspección.'
         }),
         mk({
             e: 'cola',
-            p: 'Plataforma 1',
+            p: P1,
             pat: 'ST·WD·87',
+            cli: 'Francisca Muñoz',
+            tel: '+56 9 7654 3210',
             t: 'Alineación y Balanceo',
             s: AB,
             h: 11,
             m: 8
+        }),
+        mk({
+            ot: '532',
+            e: 'cola',
+            p: P1,
+            pat: 'HK·ZL·09',
+            cli: 'Pablo Retamal',
+            tel: '+56 9 6234 8890',
+            t: 'Mantenimiento Básico',
+            s: MB,
+            h: 11,
+            m: 50,
+            rp: ACE,
+            rec: R2,
+            n: 'Cliente espera en sala. Revisar luces.'
         }),
         mk({
             ot: '526',
             e: 'proceso',
-            p: 'Plataforma 2',
-            me: 'Mecánica Dos',
+            p: P2,
+            me: M2,
             pat: 'GH·JK·21',
+            cli: 'Daniela Fuentes',
+            tel: '+56 9 9456 1203',
             t: 'Cambio de aceite y filtros',
             s: AF,
             h: 10,
             m: 55,
-            run: 900
+            run: 900,
+            rp: ACE
         }),
         mk({
             ot: '528',
             e: 'cola',
-            p: 'Plataforma 2',
+            p: P2,
             pat: 'BD·RT·53',
+            cli: 'Matías Contreras',
+            tel: '+56 9 5567 7821',
             t: 'Alineación y Balanceo',
             s: AB,
             h: 11,
@@ -5917,100 +7100,281 @@
         }),
         mk({
             e: 'cola',
-            p: 'Plataforma 2',
+            p: P2,
             pat: 'YZ·SS·87',
+            cli: 'Sofía Araya',
+            tel: '+56 9 8890 3345',
             t: 'Mantenimiento Básico',
-            s: [...AF, 'FILTRO_AIRE', 'FRENO_REVISION'],
+            s: MB,
             h: 11,
-            m: 17
+            m: 17,
+            rp: ACE
+        }),
+        mk({
+            ot: '533',
+            e: 'cola',
+            p: P2,
+            pat: 'PR·QS·76',
+            cli: 'Ignacio Valdés',
+            tel: '+56 9 7311 2468',
+            t: 'Cambio de aceite y filtros',
+            s: AF,
+            h: 11,
+            m: 55,
+            rp: ACE,
+            pr: 'alta',
+            rec: R2
         }),
         mk({
             ot: '525',
             e: 'pausa',
-            p: 'Taller de frenos',
-            me: 'Mecánica Uno',
+            p: TF,
+            me: M1,
             pat: 'FB·ST·63',
+            cli: 'Andrea Parra',
+            tel: '+56 9 6678 9012',
             t: 'Cambio de pastillas',
-            s: ['FRENO_PASTILLAS'],
+            s: FR,
             h: 10,
-            m: 15
+            m: 15,
+            rp: PAS,
+            n: 'Pastillas traseras pendientes de llegada.'
         }),
         mk({
             ot: '524',
             e: 'proceso',
-            p: 'Taller de frenos',
-            me: 'Mecánica Dos',
+            p: TF,
+            me: M3,
             pat: 'TB·VY·45',
+            cli: 'Transportes Rojas Ltda.',
+            tel: '+56 2 2765 4321',
             t: 'Cambio de aceite y filtros',
             s: AF,
             h: 10,
             m: 34,
-            run: 2400
+            run: 2400,
+            rp: ACD,
+            n: 'Vehículo de flota. Entregar informe de inspección.'
         }),
         mk({
             e: 'cola',
-            p: 'Taller de frenos',
+            p: TF,
             pat: 'RT·PL·44',
+            cli: 'Camila Herrera',
+            tel: '+56 9 8456 7788',
             t: 'Rectificación de discos',
             s: ['FRENO_RECTIFICACION'],
             h: 11,
             m: 20
         }),
         mk({
+            ot: '534',
+            e: 'cola',
+            p: TF,
+            pat: 'VD·FG·54',
+            cli: 'Jorge Navarro',
+            tel: '+56 9 9012 3456',
+            t: 'Discos y pastillas',
+            s: ['FRENO_PASTILLAS', 'FRENO_DISCOS'],
+            h: 12,
+            m: 2,
+            rp: [['Frenos', 'Pastillas'], ['Frenos', 'Discos']],
+            rec: R2
+        }),
+        mk({
+            ot: '529',
+            e: 'proceso',
+            p: P3,
+            me: M4,
+            pat: 'CC·DD·11',
+            cli: 'Constructora Del Valle SpA',
+            tel: '+56 2 2890 1122',
+            t: 'Cambio de aceite y filtros',
+            s: AF,
+            h: 11,
+            m: 30,
+            run: 700,
+            rp: ACD
+        }),
+        mk({
+            e: 'cola',
+            p: P3,
+            pat: 'JJ·KK·22',
+            cli: 'Valentina Rojas',
+            tel: '+56 9 7788 9900',
+            t: 'Alineación y Balanceo',
+            s: AB,
+            h: 11,
+            m: 40
+        }),
+        mk({
+            ot: '535',
+            e: 'pausa',
+            p: P3,
+            me: M2,
+            pat: 'GT·HY·70',
+            cli: 'Felipe Castro',
+            tel: '+56 9 6123 4455',
+            t: 'Cambio de bujías',
+            s: ['BUJIAS'],
+            h: 11,
+            m: 5,
+            rp: [['Eléctrico', 'Bujías', 4]]
+        }),
+        mk({
+            ot: '530',
+            e: 'proceso',
+            p: AL,
+            me: M3,
+            pat: 'NN·PP·41',
+            cli: 'Carolina Bustos',
+            tel: '+56 9 8765 0987',
+            t: 'Alineación y Balanceo',
+            s: AB,
+            h: 11,
+            m: 10,
+            run: 1100
+        }),
+        mk({
+            e: 'cola',
+            p: AL,
+            pat: 'MM·NN·33',
+            cli: 'Sebastián Pizarro',
+            tel: '+56 9 5432 1098',
+            t: 'Alineación y Balanceo',
+            s: AB,
+            h: 11,
+            m: 45
+        }),
+        mk({
+            e: 'cola',
+            p: AL,
+            pat: 'LF·CX·47',
+            cli: 'Marcela Díaz',
+            tel: '+56 9 7099 8123',
+            t: 'Rotación y balanceo',
+            s: ['ROTACION', 'BALANCEO'],
+            h: 12,
+            m: 10,
+            rec: R2
+        }),
+        mk({
             ot: '523',
             e: 'completado',
-            p: 'Plataforma 1',
-            me: 'Mecánica Uno',
+            p: P1,
+            me: M1,
             pat: 'KP·LM·12',
+            cli: 'Tomás Figueroa',
+            tel: '+56 9 9345 6712',
             t: 'Cambio de aceite y filtros',
             s: AF,
             h: 9,
             m: 10,
             h2: 10,
             m2: 2,
-            real: 3120
+            real: 3120,
+            rp: ACE
         }),
         mk({
             ot: '522',
             e: 'completado',
-            p: 'Taller de frenos',
-            me: 'Mecánica Dos',
+            p: TF,
+            me: M2,
             pat: 'WX·CV·38',
+            cli: 'Agrícola Los Aromos',
+            tel: '+56 72 255 3344',
             t: 'Cambio de pastillas',
-            s: ['FRENO_PASTILLAS'],
+            s: FR,
             h: 8,
             m: 40,
             h2: 9,
             m2: 55,
-            real: 4500
+            real: 4500,
+            rp: PAS
         }),
         mk({
-            ot: '529',
-            e: 'proceso',
-            p: 'Plataforma 3',
-            me: 'Mecánica Uno',
-            pat: 'CC·DD·11',
+            ot: '521',
+            e: 'completado',
+            p: P2,
+            me: M4,
+            pat: 'BK·MN·18',
+            cli: 'Patricio Orellana',
+            tel: '+56 9 8234 5671',
+            t: 'Mantenimiento Básico',
+            s: MB,
+            h: 8,
+            m: 20,
+            h2: 9,
+            m2: 30,
+            real: 4100,
+            rp: ACE
+        }),
+        mk({
+            ot: '520',
+            e: 'completado',
+            p: AL,
+            me: M3,
+            pat: 'XC·TR·62',
+            cli: 'Gabriela Soto',
+            tel: '+56 9 7456 2290',
+            t: 'Alineación y Balanceo',
+            s: AB,
+            h: 8,
+            m: 5,
+            h2: 9,
+            m2: 12,
+            real: 3900
+        }),
+        mk({
+            ot: '519',
+            e: 'completado',
+            p: P3,
+            me: M4,
+            pat: 'DL·WZ·35',
+            cli: 'Inversiones Costa Norte',
+            tel: '+56 2 2677 8800',
             t: 'Cambio de aceite y filtros',
             s: AF,
-            h: 11,
+            h: 7,
+            m: 50,
+            h2: 8,
+            m2: 41,
+            real: 2950,
+            rp: ACD
+        }),
+        mk({
+            ot: '518',
+            e: 'completado',
+            p: P1,
+            me: M2,
+            pat: 'RS·JB·28',
+            cli: 'Luis Maldonado',
+            tel: '+56 9 6543 2109',
+            t: 'Aceite caja y diferencial',
+            s: ['ACEITE_CAJA', 'ACEITE_DIFERENCIAL'],
+            h: 7,
             m: 30,
-            run: 700
-        }), mk({
-            e: 'cola',
-            p: 'Plataforma 3',
-            pat: 'JJ·KK·22',
-            t: 'Alineación y Balanceo',
-            s: AB,
-            h: 11,
-            m: 40
-        }), mk({
-            e: 'cola',
-            p: 'Alineador',
-            pat: 'MM·NN·33',
-            t: 'Alineación y Balanceo',
-            s: AB,
-            h: 11,
-            m: 45
+            h2: 9,
+            m2: 5,
+            real: 5400,
+            rp: [['Transmisión', 'Aceite caja', 3], ['Transmisión', 'Diferencial', 2]]
+        }),
+        mk({
+            ot: '517',
+            e: 'completado',
+            p: TF,
+            me: M3,
+            pat: 'ZP·NM·83',
+            cli: 'Natalia Vergara',
+            tel: '+56 9 8901 2347',
+            t: 'Cambio de pastillas',
+            s: FR,
+            h: 7,
+            m: 15,
+            h2: 8,
+            m2: 30,
+            real: 3600,
+            rp: PAS
         })];
         S.cfg = c;
         localStorage.lubri_jobs = JSON.stringify(S.jobs);
@@ -6220,7 +7584,7 @@
        Si agregas una función o pantalla, agrégala aquí. */
     const HELP = {
         home: ['Dashboard', [['wb_sunny', 'Saludo según la hora, con fecha y hora en vivo'], ['warehouse', 'Mapa: solo el número de trabajos por zona; el borde blanco parpadea suave si la zona está activa'], ['build', 'Globos: resumen del día (en proceso, en pausa, en cola y completadas hoy); tocar uno abre la Línea de trabajo filtrada; con 0 el punto queda quieto y apagado'], ['add', 'Nuevo trabajo: botón negro bajo "Ver en línea de trabajo'], ['format_list_numbered', 'Trabajos en proceso ahora: tocar uno lo abre; pausar o completar desde los botones de la derecha'], ['garage', 'Talleres activos: acceso directo al detalle de cada zona con procesos, pausas o colas'], ['query_stats', 'Flujo y rendimiento: KPI del taller (puntualidad, tiempos, ingresadas, espera en cola, pausas, reaperturas, por mecánico, motivos de pausa)'], ['autorenew', 'Trabajos más solicitados: tipo, cantidad y recurrencia ("1 cada X") de los trabajos, y vehículos que vuelven'], ['dashboard', 'Barra inferior: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Configuración']]],
-        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
+        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
         det: ['Detalle de la orden', [['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide confirmación)'], ['close', 'Cerrar el detalle']]],
@@ -6536,6 +7900,7 @@
                 d.scrollTop = ds
         }
         anim();
+        document.body.classList.toggle('ovl', !!document.querySelector('#modal .bd:not([style*="pointer-events"]),.item.op,.card.open'));
         vvSync()
     }
 
@@ -7150,15 +8515,64 @@
             render(1)
         },
         nop: () => {},
-        zpop: d => {
+        mfin: d => {
+            S.mfc = d.id;
+            S.mfa = d.ac;
+            mMap()
+        },
+        mfno: () => {
+            S.mfc = null;
+            mMap()
+        },
+        mfok: d => {
+            const a = S.mfa || 'completar';
+            S.mfc = null;
+            if (a == 'completar') {
+                S.vp = null;
+                S.mj = null;
+                S.zp = null
+            }
+            mover(d.id, a)
+        },
+        mreset: () => {
+            S.mfc = null;
+            S.vp = null;
+            S.zp = null;
+            TRF.reset();
+            blinkSt()
+        },
+        vtap: d => {
+            S.mfc = null;
+            S.vp = S.vp == d.id ? null : d.id;
+            S.zp = null;
             S.mj = null;
+            mMap()
+        },
+        zpl: d => {
+            const z = zn(d.z);
+            z.pl = clamp((z.pl ?? 0) + +d.d, 0, 12);
+            saveCfg()
+        },
+        zpop: d => {
+            S.mfc = null;
+            S.mj = null;
+            S.vp = null;
             S.zp = d.z && S.zp != d.z ? d.z : null;
             render(1)
         },
         msel: d => {
+            S.mfc = null;
+            S.vp = null;
             S.mj = d.id;
             S.zp = null;
             mUpd()
+        },
+        mcl: () => {
+            S.mc = !S.mc;
+            S.mj = null;
+            S.vp = null;
+            render(1);
+            $('#mq')?.focus()
         },
         mqclr: () => {
             S.ms = '';
@@ -7167,6 +8581,7 @@
             $('#mq')?.focus()
         },
         mflt: d => {
+            S.vp = null;
             S.mf = S.mf == d.e ? null : d.e;
             S.zp = null;
             render(1)
@@ -7286,7 +8701,8 @@
                     x: clamp(8 + (n * 7) % 55, 0, MW - 22),
                     y: clamp(10 + (n * 17) % 110, 0, MH - 18),
                     w: 22,
-                    h: 18
+                    h: 18,
+                    pl: 2
                 };
             S.cfg.zonas.push(z);
             S.zs = z.id;
@@ -7319,6 +8735,8 @@
             saveCfg()
         },
         go: d => {
+            S.mfc = null;
+            S.vp = null;
             S.ms = '';
             S.mj = null;
             S.df = {
@@ -7764,6 +9182,28 @@
             a.click()
         }
     };
+    {
+        let lt = {
+            t: 0,
+            id: null
+        }; // v0.34: doble toque sobre un auto de fondo → se desvanece
+        document.addEventListener('pointerup', e => {
+            const g = e.target.closest && e.target.closest('.vh');
+            if (!g || g.classList.contains('rl')) {
+                lt.id = null;
+                return
+            }
+            const id = +g.dataset.v,
+                n = performance.now();
+            if (lt.id === id && n - lt.t < 400) {
+                lt.id = null;
+                TRF.fade(id)
+            } else {
+                lt.id = id;
+                lt.t = n
+            }
+        })
+    }
     document.addEventListener('click', e => {
         const b = e.target.closest('[data-a]');
         if (b) {
