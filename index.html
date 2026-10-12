@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Inter:wght@400;500;700&display=swap">
     <!--
     ===================================================================================
-    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.23 (un solo archivo, sin compilar)
+    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.24 (un solo archivo, sin compilar)
     QUÉ HACE: muestra en tiempo real qué trabajos están en cola, en proceso, en pausa o
     completados, con cronómetro, tiempos estimados, notas y bitácora de eventos.
     MODO DEMO (sin Firebase): carga los datos del prototipo (3 talleres, 8 trabajos);
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
-    CAMBIOS v0.23: (1) más flujo por la calle principal (la horizontal) en ambos sentidos; (2) los vehículos de la calle secundaria (la vertical) esperan en la línea de detención y doblan a la derecha hacia la principal cuando hay espacio;
+    CAMBIOS v0.24: (1) intermitentes, luces de freno, balizas y luces altas; (2) puerta y estacionamiento del taller (en el mapa y en la simulación); (3) autos blancos/negros y camiones blancos; (4) ventanas con scroll interno y botones fijos; (5) barra inferior más baja; (6) globos de proceso ajustados al iPhone vertical.
+       CAMBIOS v0.23: (1) más flujo por la calle principal (la horizontal) en ambos sentidos; (2) los vehículos de la calle secundaria (la vertical) esperan en la línea de detención y doblan a la derecha hacia la principal cuando hay espacio;
     (3) las entradas al taller se animan desde ambos sentidos de la principal (desde el sentido contrario el auto cruza el carril de enfrente cuando está libre) y el mismo vehículo sale después hacia la derecha; el camión que entra sigue siendo raro.
     CAMBIOS v0.22: (1) Autos más grandes y camiones (3) en las calles; la calle horizontal tiene preferencia en el cruce: los vehículos de la vertical esperan en la línea de detención hasta que haya espacio; todos aparecen y se desvanecen
     exactamente en los límites de las calles; (2) algunos autos y, muy rara vez, un camión (el mismo que sale) entran al taller y vuelven a salir; (3) los vehículos también circulan en el Mapa de procesos; (4) los avisos de atraso / por vencer duran 7 s
@@ -4057,6 +4058,236 @@
 
     .vh {
         pointer-events: none
+    }/* ---- v0.24 · iPhone vertical ---- */
+    :root {
+        --nb: calc(env(safe-area-inset-bottom, 0px) * .5);
+        --nh: calc(78px + var(--nb))
+    }
+
+    #nav {
+        padding-bottom: var(--nb)
+    }
+
+    #nav button, #nav button:is( *) {
+        padding: 12px 2px 12px
+    }
+
+    #app {
+        padding-bottom: calc(var(--nh) + 84px)
+    }
+
+    .fabw {
+        bottom: calc(var(--nh) + 12px)
+    }/* Inicio: mapa grande con indicadores al lado; botones debajo, lado a lado */
+
+    .dmap {
+        gap:12px
+    }
+
+    .dmap .mapw {
+        flex: 0 0 58%;
+        width:58%
+    }
+
+    .dgr {
+        gap:0
+    }
+
+    .dbt {
+        display: flex;
+        gap: 10px;
+        margin-top:16px
+    }
+
+    .dbt > * {
+        flex: 1;
+        min-width: 0;
+        width:auto
+    }
+
+    .dbt .dgo {
+        justify-content: center;
+        border:1.25px solid var(--line)
+    }
+
+    .dbt .dnew {
+        padding: 10px 8px
+    }/* Ventanas: el contenido se desplaza dentro y los botones (.ft / .btns) quedan siempre a la vista */
+
+    .bd {
+        align-items: center;
+        overflow: hidden;
+        padding: calc(env(safe-area-inset-top, 0px) + 10px) 10px calc(10px + var(--nb))
+    }
+
+    .bd .box {
+        max-height: 100%;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 16px 16px 0;
+        border-radius: 24px
+    }
+
+    .box > .ft, .box > .btns:last-child {
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+        background: #fff;
+        margin: 14px -16px 0;
+        padding: 10px 16px 14px
+    }
+
+    .box > .ft {
+        border-top: 1px solid var(--line2)
+    }
+
+    .box.c > .btns:last-child {
+        border-top: 0
+    }
+
+    .box.c {
+        padding-bottom: 0
+    }/* Orden abierta: hoja integrada sobre la barra, con desplazamiento interno y botones fijos */
+
+    .item.op {
+        min-height: 64px;
+        animation: none !important;
+        transform: none !important
+    }
+
+    .item.op::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        background: rgba(255, 255, 255, .72);
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px)
+    }
+
+    .card.open {
+        position: fixed;
+        z-index: 6;
+        left: 10px;
+        right: 10px;
+        max-width: 460px;
+        margin: 0 auto;
+        top: calc(env(safe-area-inset-top, 0px) + 10px);
+        bottom: calc(var(--nh) + 10px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0 !important;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, .28)
+    }
+
+    .card.open > .det {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding: 14px 14px 0
+    }
+
+    .card.open .ft {
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+        background: #fff;
+        margin: 12px -14px 0;
+        padding: 10px 14px 12px;
+        border-top: 1px solid var(--line2)
+    }
+
+    @media (max-width: 480px) {
+        #app {
+            padding-left: 12px;
+            padding-right: 12px
+        }
+
+        .item {
+            gap:6px
+        }
+
+        .item.sub {
+            margin-left:0
+        }
+
+        .arr {
+            font-size: 26px !important;
+            margin-top: 4px
+        }
+
+        .card:not(.open) {
+            padding: 10px 12px
+        }
+
+        .row {
+            gap:8px
+        }
+
+        .row > .dot {
+            width: 14px;
+            height: 14px
+        }
+
+        #app .row .mid > div, #app .row .mid .sv {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip
+        }
+
+        #app .row .mid .sv {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            overflow-wrap: anywhere
+        }
+
+        #app .row .mid > div:first-child {
+            flex-wrap: wrap;
+            gap: 3px 8px;
+            margin-bottom: 3px
+        }
+
+        #app .row .pl.s {
+            padding:1px 6px
+        }
+
+        #app .row .pl.s b {
+            font-size: 15px;
+            letter-spacing: .6px
+        }
+
+        #app .tg.rt {
+            min-width: 0;
+            height: 20px;
+            padding: 0 7px
+        }
+
+        .side {
+            min-width:42px
+        }
+
+        .side button {
+            padding: 0 6px
+        }
+
+        .prw .po {
+            min-width:40px
+        }
+
+        #app .prw .pz {
+            font-size: 14px
+        }
+
+        .rc {
+            gap: 4px
+        }
     }
     </style>
 </head>
@@ -4296,7 +4527,7 @@
             gl = (e, n, i) => `<div class="gl ${!n ? 'z0' : ''}" role="button" tabindex="0" data-a="dflt" data-e="${e}" title="${e == 'completado' ? 'Completadas hoy' : ESTADO[e]}"><b>${n}</b><i class="dot ${e}"></i>${ic(i, 'g-' + e)}</div>`,
             prow = j => `<div class="item"><div class="card"><div class="row prw" data-a="dopen" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot proceso"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div><div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
         return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
-         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg">${gl('proceso', c.proceso, 'build')}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div></div>
+         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg">${gl('proceso', c.proceso, 'build')}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
          <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>
@@ -4459,17 +4690,16 @@
                 y = Math.max(.5, cy - r - 1.7 - h);
             return `<g class="zbub ${e}"><rect x="${(cx - w / 2).toFixed(2)}" y="${y.toFixed(2)}" width="${w}" height="${h}" rx="2.3"/><polygon points="${(cx - 1.2).toFixed(2)},${(y + h - .3).toFixed(2)} ${(cx + 1.2).toFixed(2)},${(y + h - .3).toFixed(2)} ${cx.toFixed(2)},${(y + h + 1.3).toFixed(2)}"/><text x="${cx.toFixed(2)}" y="${(y + h / 2 + .1).toFixed(2)}" font-size="3.1" text-anchor="middle" dominant-baseline="central">${n}</text></g>`
         };
-    /* v0.23 · tráfico animado del mapa (autos y camiones). Simulación con estado propio: no se reinicia al redibujar la pantalla.
-       Calle principal = la diagonal ("horizontal", dos sentidos). Calle secundaria = la vertical: sus vehículos esperan y doblan a la principal (o la cruzan). */
+    /* v0.24 · tráfico animado del mapa. Calle principal = diagonal (2 sentidos); secundaria = vertical (dobla a la principal).
+       Taller: puerta en el muro (GX,GY) y estacionamiento (rectángulo inclinado) medidos del plano. Los vehículos que entran estacionan, esperan con las balizas y salen. */
     const TRF = (() => {
         const H = MH,
             yl = (x, o) => 43.3 - .2795 * x + o,
             AC = 3.4,
             BR = 7,
             RF = 7,
-            OP = .72,
+            OP = .96,
             K = .963,
-            // AC/BR: aceleración y frenado (u/s²) · RF: largo del desvanecido en los límites de la calle · K: x por unidad de recorrido en la diagonal
             mk = (pts, o) => {
                 const cum = [0];
                 for (let i = 1; i < pts.length; i++)
@@ -4487,6 +4717,14 @@
                 const t = i / n,
                     u = 1 - t;
                 return [u * u * a[0] + 2 * u * t * b[0] + t * t * c[0], u * u * a[1] + 2 * u * t * b[1] + t * t * c[1]]
+            }),
+            cub = (a, b, c, d, n=16) => Array.from({
+                length: n + 1
+            }, (_, i) => {
+                const t = i / n,
+                    u = 1 - t,
+                    w = [u * u * u, 3 * u * u * t, 3 * u * t * t, t * t * t];
+                return [w[0] * a[0] + w[1] * b[0] + w[2] * c[0] + w[3] * d[0], w[0] * a[1] + w[1] * b[1] + w[2] * c[1] + w[3] * d[1]]
             }),
             at = (P, s) => {
                 s = clamp(s, 0, P.len);
@@ -4509,9 +4747,15 @@
                 S: H / 26,
                 N: H / 29
             },
-            // velocidad por carril (u/s): 24 a 29 s por recorrido
-            // desvío de un recorrido: primer tramo recto, curva y el resto
-            turn = (a, c, b, rest, n=18) => [...bez(a, c, b, n).slice(0, 1), ...bez(a, c, b, n).slice(1), ...rest],
+            GX = 35.2,
+            GY = 49.5 - .2646 * (GX - 13),
+            MX = GX + 9,
+            // puerta del taller y punto donde la salida se incorpora a la calle
+            PC = [27.5, 84],
+            DX = 0,
+            DY = 1,
+            loc = (t, u) => [PC[0] + u, PC[1] + t],
+            // estacionamiento: eje t (largo) y u (ancho)
             PE = mk([[0, yl(0, 4.2)], [100, yl(100, 4.2)]], {
                 vm: VM.E,
                 seg: [[0, LEN + 1, 'E']],
@@ -4529,8 +4773,6 @@
                 a0,
                 b0
             }),
-            // línea de detención de la secundaria: dónde espera, hasta dónde cruza y a quién cede
-            // secundaria → principal: giro a la derecha (S baja y dobla hacia la izquierda de la pantalla; N sube y dobla hacia la derecha)
             PSR = mk([[83.6, 0], [83.6, 10.5], ...bez([83.6, 10.5], [83.6, yl(83.6, -4.2)], [83.6 - 5.2 * K, yl(83.6, -4.2) + 5.2 * .2689]).slice(1), [0, yl(0, -4.2)]], {
                 vm: VM.W,
                 f: [1, 1],
@@ -4541,53 +4783,107 @@
                 f: [1, 1],
                 sh: H - 28.1
             }),
-            // entrada al taller desde el sentido →: giro a la derecha; desde el sentido ←: giro a la izquierda cruzando el carril contrario
-            PIn = mk([[0, yl(0, 4.2)], [38, yl(38, 4.2)], ...bez([38, yl(38, 4.2)], [49, yl(49, 4.2)], [49, 46]).slice(1), [49, 60]], {
+            // aproximación a la puerta: desde → giro a la derecha; desde ← giro a la izquierda cruzando el carril contrario
+            PIn = mk([[0, yl(0, 4.2)], [GX - 9, yl(GX - 9, 4.2)], ...bez([GX - 9, yl(GX - 9, 4.2)], [GX, yl(GX, 4.2)], [GX, GY]).slice(1)], {
                 vm: VM.E,
-                f: [1, 0],
-                hide: 1
+                f: [1, 0]
             }),
-            PInW = mk([[100, yl(100, -4.2)], [66, yl(66, -4.2)], ...bez([66, yl(66, -4.2)], [60, yl(60, -4.2)], [60, 36]).slice(1), [60, 56]], {
+            PInW = mk([[100, yl(100, -4.2)], [GX + 10, yl(GX + 10, -4.2)], ...bez([GX + 10, yl(GX + 10, -4.2)], [GX, yl(GX, -4.2)], [GX, GY]).slice(1)], {
                 vm: VM.W,
-                f: [1, 0],
-                hide: 1
-            }),
-            POut = mk([[31, 60], [31, 46], ...bez([31, 46], [31, yl(31, 4.2)], [42, yl(42, 4.2)]).slice(1), [100, yl(100, 4.2)]], {
-                vm: VM.E,
-                f: [0, 1],
-                hide: 1
-            }),
-            SM = POut.cum[19]; // distancia de la salida hasta que se incorpora a la calle
-        PIn.seg = [[0, PIn.cum[1], 'E']];
-        PInW.seg = [[0, PInW.cum[1], 'W']];
-        POut.seg = [[SM, POut.len + 1, 'E']];
+                f: [1, 0]
+            });
+        PIn.seg = [[0, PIn.len - 1, 'E']];
+        PInW.seg = [[0, PInW.len - 1, 'W']];
+        PIn.sig = [[PIn.cum[1] - 8, PIn.len, 'R']];
+        PInW.sig = [[PInW.cum[1] - 8, PInW.len, 'L']];
+        PIn.sz = [PIn.cum[1] - 6, PIn.len, .55];
+        PInW.sz = [PInW.cum[1] - 6, PInW.len, .55];
         PSR.seg = [[PSR.cum[19], PSR.len + 1, 'W']];
         PNR.seg = [[PNR.cum[19], PNR.len + 1, 'E']];
+        PSR.sig = [[PSR.cum[1] - 4, PSR.cum[19], 'R']];
+        PNR.sig = [[PNR.cum[1] - 4, PNR.cum[19], 'R']];
+        PSR.sz = [PSR.cum[1] - 5, PSR.cum[19], .6];
+        PNR.sz = [PNR.cum[1] - 5, PNR.cum[19], .6];
         PSR.y = YT(9.4, PSR.cum[19] + 3, ['W'], 75, 84);
         PNR.y = YT(H - 29.4, PNR.cum[19] + 3, ['E'], 87, 90);
-        PInW.y = YT(PInW.cum[1] - .5, PInW.cum[19], ['E'], 57, 63);
-        [PSR, PNR, PInW].forEach(p => p.y.nl = 1); // nl: no suma el largo del vehículo (se incorpora a la calle o termina de cruzar)
-        const defs = [['car', 'E', '#8d8d8d', .2], ['car', 'E', '#a9a9a9', .15], ['car', 'E', '#999', .1], ['truck', 'E', '#7a7a7a', .14],
-            ['car', 'W', '#a2a2a2', .2], ['car', 'W', '#8a8a8a', .15], ['car', 'W', '#9f9f9f', .1], ['truck', 'W', '#858585', 0],
-            ['car', 'S', '#939393', 0], ['car', 'S', '#adadad', 0], ['car', 'N', '#a6a6a6', 0], ['car', 'N', '#8c8c8c', 0], ['car', 'N', '#939393', 0]],
+        PInW.y = YT(PInW.cum[1] - .5, PInW.cum[19], ['E'], 30, 42);
+        [PSR, PNR, PInW].forEach(p => p.y.nl = 1);
+        const G = [GX, GY],
+            A0 = loc(-27, 0),
+            SLOTS = [];
+        for (const t of [-18, -6, 6, 18])
+            for (const u of [-5, 5]) {
+                // 8 plazas: rutas de entrada (pin) y salida (pout) de cada una
+                const B = loc(t - 7, 0),
+                    S = loc(t, u),
+                    ax = [DX, DY],
+                    pl = (p, k) => [p[0] + ax[0] * k, p[1] + ax[1] * k],
+                    side = u < 0 ? 'R' : 'L';
+                const a = cub(G, [GX, GY + 10], pl(A0, -8), A0),
+                    pin = [...a, B, ...cub(B, pl(B, 5), pl(S, -5), S)],
+                    ib = a.length;
+                const PI = mk(pin, {
+                    vm: VM.E,
+                    f: [0, 0],
+                    inl: 1,
+                    sz: [0, 1e4, .6]
+                });
+                PI.sig = [[PI.cum[ib] - 1, PI.len, side]];
+                PI.hold = PI.cum[ib - 1]; // punto de espera: justo antes del recuadro
+
+                const b = cub(S, pl(S, -5), pl(B, 5), B),
+                    c = cub(A0, pl(A0, -8), [GX, GY + 10], G),
+                    ig = b.length + 1 + c.length,
+                    po = [...b, A0, ...c, ...bez(G, [GX, yl(GX, 4.2)], [MX, yl(MX, 4.2)]).slice(1), [100, yl(100, 4.2)]],
+                    PO = mk(po, {
+                        vm: VM.E,
+                        f: [0, 1],
+                        inl: 1,
+                        out: 1
+                    });
+                PO.SM = PO.cum[ig + 17];
+                PO.iGs = PO.cum[ig] + 2;
+                PO.seg = [[PO.SM - 7, PO.len + 1, 'E']];
+                PO.sig = [[0, PO.cum[b.length], u < 0 ? 'R' : 'L'], [PO.cum[ig] - 2, PO.SM, 'R']];
+                PO.sz = [0, PO.SM - 4, .6];
+                SLOTS.push({
+                    pin: PI,
+                    pout: PO,
+                    o: 0
+                })
+            }
+        const defs = [['car', 'E', '#f7f7f7', .2], ['car', 'E', '#2c2c2c', .15], ['car', 'E', '#999', .1], ['truck', 'E', '#f1f1f1', .14],
+            ['car', 'W', '#2f2f2f', .2], ['car', 'W', '#f4f4f4', .15], ['car', 'W', '#9f9f9f', .1], ['truck', 'W', '#ececec', 0],
+            ['car', 'S', '#fafafa', 0], ['car', 'S', '#a0a0a0', 0], ['car', 'N', '#303030', 0], ['car', 'N', '#f5f5f5', 0], ['car', 'N', '#939393', 0]],
             IDL = [[[4, 12], [10, 20]], [[2, 8], [12, 26]]],
-            // descanso fuera de la calle antes de volver a entrar [secundaria, principal] × [auto, camión] (segundos)
-            rnd = (a, b) => a + Math.random() * (b - a),
-            V = defs.map(([k, ln, col, p], i) => ({
+            rnd = (a, b) => a + Math.random() * (b - a);
+        let clk = 0;
+        const V = defs.map(([k, ln, col, p], i) => ({
                 k,
                 ln,
                 home: ln,
                 col,
                 p,
-                L: k == 'truck' ? 9 : 5.6,
-                W: k == 'truck' ? 3.3 : 2.9,
+                L: k == 'truck' ? 11.5 : 7.4,
+                W: k == 'truck' ? 4.1 : 3.8,
                 P: null,
                 s: 0,
                 v: 0,
                 st: 'idle',
                 t: Math.random() * 14,
                 cross: false,
-                id: i
+                id: i,
+                f: 1,
+                yd: null,
+                qy: false,
+                hbT: 0,
+                brT: 0,
+                wt: 0,
+                yt: 0,
+                slot: null,
+                sl: null,
+                pt: 0,
+                ld: null
             })),
             xOf = v => at(v.P, v.s).x,
             dl = v => {
@@ -4596,43 +4892,48 @@
                         return g;
                 return null
             },
-            // sentido de la calle principal en que va (si va por ella)
-            lx = v => v.P === POut && v.s < SM ? 42 - (SM - v.s) * K : xOf(v),
-            // posición equivalente en el carril
-            dg = v => dl(v) || (v.P === POut && v.s < SM ? 'E' : null),
-            runs = v => v.st == 'run',
+            xin = v => v.P.out && v.s < v.P.SM,
+            // saliendo: todavía dentro del taller
+            lx = v => xin(v) ? MX - (v.P.SM - v.s) * K : xOf(v),
+            dg = v => dl(v) || (xin(v) ? 'E' : null),
+            runs = v => v.st == 'run' || v.st == 'gw',
+            inl = v => v.st == 'run' && v.P.inl && (!v.P.out || v.s < v.P.iGs),
+            busy = v => V.some(o => o !== v && (o.st == 'turn' || (o.st == 'run' && o.P.out && o.s < o.P.iGs))),
+            // solo una salida en curso frena a los que llegan a la puerta
+            rectBusy = v => V.some(o => o !== v && (o.st == 'turn' || (o.st == 'run' && o.P.inl && ((!o.P.out && o.s >= o.P.hold - 8) || (o.P.out && o.s < o.P.iGs))))),
+            // la puerta y el pasillo del taller admiten un vehículo a la vez
             conflict = (v, tA, tc, Y) => {
-                const pad = .6;
+                const pad = 1.5;
                 for (const d of V) {
-                    const g = d !== v && runs(d) && dg(d);
+                    const g = d !== v && runs(d) && !d.yd && !d.qy && !xin(d) && dg(d);
                     if (!g || !Y.lanes.includes(g))
                         continue;
                     const c = d.L / 2 + 1,
                         a = Y.a0 - c,
                         b = Y.b0 + c,
                         x = lx(d),
-                        vx = VM[g] * K;
+                        vx = VM[g] * K * 1.22;
                     let tin,
                         tout;
                     if (g == 'E') {
                         if (x > b)
                             continue;
                         tin = Math.max(0, (a - x) / vx);
-                        tout = (b - x) / vx
+                        tout = (b - x) / (vx * .8)
                     } else {
                         if (x < a)
                             continue;
                         tin = Math.max(0, (x - b) / vx);
-                        tout = (x - a) / vx
+                        tout = (x - a) / (vx * .8)
                     }
                     if (tin < tA + tc + pad && tout > tA - pad)
                         return true
                 }
                 return false
             },
-            canMerge = v => {
-                const tm = SM / VM.E;
-                return !V.some(o => o !== v && runs(o) && dg(o) == 'E' && Math.abs(lx(o) + VM.E * K * tm - 42) < (v.L + o.L) / 2 + 4)
+            canMerge = (v, P) => {
+                const tm = P.SM / (VM.E * .75) + .9;
+                return !V.some(o => o !== v && runs(o) && dg(o) == 'E' && Math.abs(lx(o) + VM.E * K * tm - MX) < (v.L + o.L) / 2 + 7)
             },
             spawn = v => {
                 if (v.ln == 'E')
@@ -4644,56 +4945,155 @@
             leader = v => {
                 let b = null;
                 const g = dl(v);
+                v.ld = null;
                 if (g) {
                     const q = o => g == 'E' ? lx(o) : -lx(o);
                     for (const o of V)
                         if (o !== v && runs(o) && dl(o) == g && q(o) > q(v) && (!b || q(o) < q(b)))
                             b = o;
+                    v.ld = b;
                     return b && (q(b) - q(v)) / K - (v.L + b.L) / 2 - 1.6
                 }
+                const sh = v.P.inl && !v.P.out;
                 for (const o of V)
-                    if (o !== v && runs(o) && o.P === v.P && o.s > v.s && (!b || o.s < b.s))
+                    if (o !== v && runs(o) && (o.P === v.P || (sh && o.st == 'run' && o.P.inl && !o.P.out)) && o.s > v.s && (!b || o.s < b.s))
                         b = o;
                 return b && b.s - b.L / 2 - (v.s + v.L / 2) - 1.6
             },
             step = dt => {
+                clk += dt;
+                const Z = PInW.y;
+                // cortesía: el que viene por el carril → y va a pasar frente a quien espera para girar a la izquierda le cede el paso (2 destellos de luces altas)
+                for (const w of V)
+                    if (w.P === PInW && w.st == 'run' && !w.cross && w.s >= Z.s - 3 && w.v < .5) {
+                        w.wt += dt;
+                        if (w.wt > 1.6 && !V.some(e => e.yd === w)) {
+                            let b = null,
+                                bd = 0;
+                            for (const e of V) {
+                                if (e.P !== PE || e.st != 'run' || e.yd || e.qy)
+                                    continue;
+                                const d = (Z.a0 - e.L / 2 - 1 - 3 - lx(e)) / K - e.L / 2;
+                                if (d > 3 && d < 45 && e.v * e.v / (2 * d) < BR * .75 && (!b || d < bd)) {
+                                    b = e;
+                                    bd = d
+                                }
+                            }
+                            if (b) {
+                                b.yd = w;
+                                b.hbT = 0;
+                                b.yt = 0
+                            }
+                        }
+                    }
                 for (const v of V) {
                     if (v.st == 'idle') {
                         v.t -= dt;
                         if (v.t <= 0) {
                             v.ln = v.home;
                             if (spawn(v)) {
-                                const r = Math.random();
-                                v.P = v.ln == 'E' ? (r < v.p ? PIn : PE) : v.ln == 'W' ? (r < v.p ? PInW : PW) : v.ln == 'S' ? PSR : PNR;
+                                const r = Math.random(),
+                                    fs = SLOTS.filter(s => !s.o),
+                                    go = (v.ln == 'E' || v.ln == 'W') && r < v.p && fs.length;
+                                v.P = v.ln == 'E' ? (go ? PIn : PE) : v.ln == 'W' ? (go ? PInW : PW) : v.ln == 'S' ? PSR : PNR;
+                                if (go) {
+                                    v.slot = fs[Math.floor(Math.random() * fs.length)];
+                                    v.slot.o = 1
+                                }
                                 v.st = 'run';
                                 v.s = 0;
-                                v.v = v.P.vm;
-                                v.cross = false
+                                v.P.inl;
+                                v.v = v.P.vm * .7;
+                                v.cross = false;
+                                v.wt = 0;
+                                v.yd = null;
+                                v.f = v.k == 'truck' ? rnd(.8, 1) : rnd(.84, 1.16);
+                                v.sl = (v.P === PE || v.P === PW) && Math.random() < .4 ? (a => [a, a + rnd(9, 22)])(rnd(8, 60)) : null
                             }
                         }
                         continue
                     }
-                    if (v.st == 'in') {
-                        v.t -= dt;
-                        if (v.t <= 0 && canMerge(v)) {
-                            v.st = 'run';
-                            v.ln = 'E';
-                            v.P = POut;
+                    if (v.st == 'gw') {
+                        if (!busy(v)) {
+                            v.P = v.slot.pin;
                             v.s = 0;
-                            v.v = POut.vm
+                            v.st = 'run'
                         }
                         continue
                     }
-                    const vm = v.P.vm;
-                    let vt = vm;
+                    if (v.st == 'park') {
+                        v.t -= dt;
+                        if (v.t <= 0)
+                            v.st = 'pw';
+                        continue
+                    }
+                    if (v.st == 'pw') {
+                        if (!busy(v) && !V.some(o => o.st == 'run' && o.P.inl && !o.P.out) && !V.some(o => (o.P === PIn || o.P === PInW) && (o.st == 'gw' || (o.st == 'run' && o.P.len - o.s < 32))) && canMerge(v, v.slot.pout)) {
+                            v.st = 'turn';
+                            v.t = .9;
+                            v.P = v.slot.pout;
+                            v.s = 0
+                        }
+                        continue
+                    }
+                    if (v.st == 'turn') {
+                        v.t -= dt;
+                        if (v.t <= 0) {
+                            v.st = 'run';
+                            v.v = 0;
+                            v.slot.o = 0;
+                            v.slot = null
+                        }
+                        continue
+                    }
+                    const P = v.P,
+                        v0 = v.v;
+                    let vt = P.vm * v.f;
+                    if (P.sz && v.s >= P.sz[0] && v.s <= P.sz[1])
+                        vt = Math.min(vt, P.vm * P.sz[2]);
+                    if (v.sl && v.s >= v.sl[0] && v.s <= v.sl[1])
+                        vt *= .5;
                     const g = leader(v);
                     if (g !== null && g !== false)
                         vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, g)));
-                    const Y = v.P.y;
+                    v.qy = !!(v.ld && (v.ld.yd || v.ld.qy));
+                    if (v.yd) {
+                        const w = v.yd;
+                        v.hbT += dt;
+                        v.yt += dt;
+                        if (w.P !== PInW || w.st != 'run' || w.s > PInW.cum[19] - 2 || v.yt > 16)
+                            v.yd = null;
+                        else {
+                            const d = Math.max(0, (Z.a0 - v.L / 2 - 1 - 3 - lx(v)) / K - v.L / 2);
+                            vt = Math.min(vt, Math.sqrt(2 * BR * d))
+                        }
+                    }
+                    if (P === PIn || P === PInW) {
+                        const r = P.len - v.s;
+                        for (const o of V)
+                            if (o !== v && (o.P === PIn || o.P === PInW) && (o.st == 'gw' || (o.st == 'run' && o.P.len - o.s < r || (o.P.len - o.s == r && o.id < v.id))) && o.st != 'park') {
+                                const need = (v.L + o.L) / 2 + 2,
+                                    rr = o.P.len - o.s;
+                                if (rr < r + 8)
+                                    vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, r - need - rr * 0)))
+                            }
+                    }
+                    if ((P === PIn || P === PInW) && busy(v)) {
+                        const rem = P === PInW ? P.y.s - v.s - v.L / 2 - .3 : P.len - v.s - v.L / 2 - 5;
+                        if (rem > -.5)
+                            vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, rem)))
+                    }
+                    if (P.hold !== undefined && rectBusy(v)) {
+                        const rem = P.hold - 1 - v.L / 2 - v.s;
+                        if (rem > -.5)
+                            vt = Math.min(vt, Math.sqrt(2 * BR * Math.max(0, rem)))
+                    } // espera dentro del taller, antes del estacionamiento
+                    const Y = P.y;
                     if (Y && !v.cross) {
                         const f = v.s + v.L / 2,
                             gap = Y.s - f,
                             dist = Y.end - Y.s + (Y.nl ? 0 : v.L),
+                            vm = P.vm * (P.sz && P.sz[0] <= Y.s + 1 ? P.sz[2] : 1) * Math.min(v.f, 1),
                             da = (vm * vm - v.v * v.v) / (2 * AC),
                             tc = dist > da ? (vm - v.v) / AC + (dist - da) / vm : (Math.sqrt(v.v * v.v + 2 * AC * dist) - v.v) / AC,
                             tA = Math.max(gap, 0) / Math.max(v.v, .5 * vm);
@@ -4709,16 +5109,22 @@
                     v.v += clamp(vt - v.v, -BR * 2 * dt, AC * dt);
                     if (v.v < .02 && vt < .02)
                         v.v = 0;
+                    v.brT = (v0 - v.v > .5 * dt * BR || (v.v < .25 && P !== undefined)) ? .3 : Math.max(0, v.brT - dt); // frenando o detenido
                     v.s += v.v * dt;
-                    if (v.s >= v.P.len) {
-                        v.s = 0;
+                    if (v.s >= P.len) {
+                        v.s = P.len;
                         v.v = 0;
-                        if (v.P === PIn || v.P === PInW) {
-                            v.st = 'in';
-                            v.t = v.k == 'truck' ? rnd(9, 16) : rnd(5, 11)
+                        v.brT = 0;
+                        if (P === PIn || P === PInW)
+                            v.st = 'gw';
+                        else if (P.inl && !P.out) {
+                            v.st = 'park';
+                            v.pt = v.t = v.k == 'truck' ? rnd(20, 36) : rnd(12, 28)
                         }
                         else {
                             v.st = 'idle';
+                            v.s = 0;
+                            v.yd = null;
                             v.ln = v.home;
                             const r = IDL[v.home == 'E' || v.home == 'W' ? 1 : 0][v.k == 'truck' ? 1 : 0];
                             v.t = rnd(r[0], r[1])
@@ -4727,8 +5133,7 @@
                 }
             },
             pose = (v, h) => {
-                // posición, giro y opacidad (se desvanece al llegar o salir por los extremos de la calle)
-                if (v.st != 'run')
+                if (v.st == 'idle')
                     return {
                         x: -50,
                         y: -50,
@@ -4737,29 +5142,61 @@
                     };
                 const P = v.P,
                     p = at(P, v.s);
-                let o = OP;
-                if (P.f[0])
-                    o *= clamp(v.s / RF, 0, 1);
-                if (P.f[1])
-                    o *= clamp((P.len - v.s) / RF, 0, 1);
+                let o = OP,
+                    a = p.a;
+                if (v.st == 'turn')
+                    a += 180 * clamp(v.t / .9, 0, 1); // gira en el lugar antes de salir
+                if (v.st == 'run') {
+                    if (P.f[0])
+                        o *= clamp(v.s / RF, 0, 1);
+                    if (P.f[1])
+                        o *= clamp((P.len - v.s) / RF, 0, 1)
+                }
                 if (p.y > h - RF)
                     o *= clamp((h - p.y) / RF, 0, 1);
-                if (P.hide && p.y > 49.5 - .2646 * (p.x - 13) + v.L / 2 + 1.5)
-                    o = 0; // dentro del taller: lo tapa el edificio
                 return {
                     x: p.x,
                     y: p.y,
-                    a: p.a,
+                    a,
                     o
+                }
+            },
+            lights = v => {
+                // intermitentes, balizas (taller), freno y luces altas
+                const ph = Math.floor(clk * 2.6) % 2 == 0,
+                    P = v.P;
+                let L = 0,
+                    R = 0;
+                if (v.st == 'run' && P && P.sig)
+                    for (const [a, b, d] of P.sig)
+                        if (v.s >= a && v.s <= b) {
+                            if (d == 'L')
+                                L = 1;
+                            else
+                                R = 1
+                        }
+                const hz = (v.st == 'turn' || (v.st == 'run' && v.v > .05)) && P && (q => q.x >= 18 && q.x <= 37 && q.y >= 60 && q.y <= 108)(at(P, v.s)); // balizas: solo al moverse dentro del estacionamiento
+                return {
+                    l: (L || hz) && ph,
+                    r: (R || hz) && ph,
+                    bk: v.st == 'run' && v.brT > 0 && !hz,
+                    hb: !!v.yd && v.hbT < .9 && Math.floor(v.hbT / .3) % 2 == 0
                 }
             },
             shape = v => {
                 const L = v.L,
                     W = v.W,
-                    c = v.col;
-                return v.k == 'truck' ?
-                `<rect x="${-L / 2}" y="${-W / 2}" width="${L - 3.3}" height="${W}" rx=".6" fill="${c}"/><rect x="${L / 2 - 3.1}" y="${-W / 2 + .2}" width="3.1" height="${W - .4}" rx="1" fill="${c}" style="filter:brightness(.85)"/><rect x="${L / 2 - 1.5}" y="${-W / 2 + .6}" width=".9" height="${W - 1.2}" rx=".3" fill="#fff" opacity=".4"/>`
-                : `<rect x="${-L / 2}" y="${-W / 2}" width="${L}" height="${W}" rx="1.1" fill="${c}"/><rect x="${L * .12}" y="${-W / 2 + .4}" width="${L * .2}" height="${W - .8}" rx=".5" fill="#fff" opacity=".4"/>`
+                    c = v.col,
+                    wh = /^#(f|e)/.test(c),
+                    st = wh ? ' stroke="#a8a8a8" stroke-width=".25"' : '',
+                    gl = wh ? '#000' : '#fff',
+                    ga = wh ? .2 : .4,
+                    x = L / 2,
+                    y = W / 2 - .4,
+                    lt = `<path class="hb" d="M${x},${-y} L${x + 7},${-y - 2.4} L${x + 7},${y + 2.4} L${x},${y}Z" fill="#fff" opacity="0"/><circle class="fl" cx="${x - .5}" cy="${-y}" r=".5" fill="#ffa200" opacity="0"/><circle class="fr" cx="${x - .5}" cy="${y}" r=".5" fill="#ffa200" opacity="0"/><circle class="rl" cx="${-x + .5}" cy="${-y}" r=".5" fill="#ffa200" opacity="0"/><circle class="rr" cx="${-x + .5}" cy="${y}" r=".5" fill="#ffa200" opacity="0"/><rect class="bk" x="${-x - .1}" y="${-y - .2}" width=".7" height=".9" fill="#f00" opacity="0"/><rect class="bk" x="${-x - .1}" y="${y - .7}" width=".7" height=".9" fill="#f00" opacity="0"/>`;
+                return (v.k == 'truck' ?
+                `<rect x="${-x}" y="${-W / 2}" width="${L - 3.3}" height="${W}" rx=".6" fill="${c}"${st}/><rect x="${x - 3.1}" y="${-W / 2 + .2}" width="3.1" height="${W - .4}" rx="1" fill="${c}" style="filter:brightness(.85)"${st}/><rect x="${x - 1.5}" y="${-W / 2 + .6}" width=".9" height="${W - 1.2}" rx=".3" fill="${gl}" opacity="${ga}"/>`
+                : `<rect x="${-x}" y="${-W / 2}" width="${L}" height="${W}" rx="1.1" fill="${c}"${st}/><rect x="${L * .12}" y="${-W / 2 + .4}" width="${L * .2}" height="${W - .8}" rx=".5" fill="${gl}" opacity="${ga}"/>`) + lt
             },
             on = () => {
                 try {
@@ -4769,23 +5206,19 @@
                 }
             };
         for (let i = 0; i < 600; i++)
-            step(.1); // calentamiento: arranca con la calle ya "en movimiento"
+            step(.1);
         return {
             V,
             step,
             pose,
             shape,
             on,
+            lights,
             last: 0,
-            paths: {
-                PE,
-                PW,
-                PSR,
-                PNR,
-                PIn,
-                PInW,
-                POut
-            }
+            GX,
+            GY,
+            A0,
+            loc
         }
     })();
 
@@ -4816,13 +5249,33 @@
         E.forEach(e => {
             const p = TRF.pose(TRF.V[+e.dataset.v], +e.dataset.h);
             e.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})`);
-            e.setAttribute('opacity', p.o.toFixed(2))
+            e.setAttribute('opacity', p.o.toFixed(2));
+            if (p.o < .02)
+                return;
+            const l = TRF.lights(TRF.V[+e.dataset.v]),
+                q = e._q || (e._q = {
+                    fl: e.querySelector('.fl'),
+                    fr: e.querySelector('.fr'),
+                    rl: e.querySelector('.rl'),
+                    rr: e.querySelector('.rr'),
+                    hb: e.querySelector('.hb'),
+                    bk: [...e.querySelectorAll('.bk')]
+                });
+            if (!q.fl)
+                return;
+            const o = x => x ? 1 : 0;
+            q.fl.setAttribute('opacity', o(l.l));
+            q.rl.setAttribute('opacity', o(l.l));
+            q.fr.setAttribute('opacity', o(l.r));
+            q.rr.setAttribute('opacity', o(l.r));
+            q.hb.setAttribute('opacity', l.hb ? .66 : 0);
+            q.bk.forEach(k => k.setAttribute('opacity', o(l.bk)))
         })
     })(0);
     function mapaSvg(ed, dash) {
         const Z = ed ? S.cfg.zonas : ZA(),
             vh = dash ? clamp(Math.max(147.5, ...Z.map(z => z.y + z.h)) + .6, 90, MH) : MH; // ed = modo edición (tocar elige la zona en vez de abrir el popup; ahí sí se ven los nombres)
-        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/>${ed ? '' : carsSvg(vh)}<polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/>` +
+        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/><rect x="18" y="60" width="19" height="48" fill="#e2e2e2"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>${ed ? '' : carsSvg(vh)}` +
         Z.map(z => {
             const c = cnt(zjobs(z.id)),
                 r = clamp(Math.min(z.w, z.h) / 2 - .8, 1.6, 3.8),
@@ -5761,12 +6214,18 @@
             cfg: config
         };
         const y = scrollY,
-            sc = [...document.querySelectorAll('#modal .box')].map(e => e.scrollTop); // conserva el scroll al redibujar
+            sc = [...document.querySelectorAll('#modal .box')].map(e => e.scrollTop);
+        const ds = document.querySelector('.card.open .det')?.scrollTop || 0; // conserva el scroll al redibujar
         $('#app').innerHTML = V[S.view]();
         $('#nav').innerHTML = navbar();
         $('#modal').innerHTML = modal() + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
         scrollTo(0, y);
         document.querySelectorAll('#modal .box').forEach((e, i) => e.scrollTop = sc[i] || 0);
+        {
+            const d = document.querySelector('.card.open .det');
+            if (d)
+                d.scrollTop = ds
+        }
         anim()
     }
 
@@ -7330,4 +7789,3 @@
     </script>
 </body>
 </html>
-
