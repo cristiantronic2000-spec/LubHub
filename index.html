@@ -4929,11 +4929,11 @@
         letter-spacing: .08em
     }
 
-    body.mod {
+    body.m-sala {
         --nh:0px
     }
 
-    body.mod #nav {
+    body.m-sala #nav {
         display:none
     }
 
@@ -5971,6 +5971,256 @@
         color: #555;
         min-height: 44px
     }
+
+    .mec-h {
+        position:relative
+    }
+
+    .mec-cfg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        border: 2.5px solid #111;
+        background: #fff;
+        color: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor:pointer
+    }
+
+    .mec-cfg:active {
+        transform: scale(.94)
+    }
+
+    .mec-set {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top:10px
+    }
+
+    .mec-set p {
+        margin: 0 0 4px;
+        font-size:18px
+    }
+
+    .mec-set button {
+        min-height: 76px;
+        border: 2.5px solid #111;
+        border-radius: 99px;
+        background: #fff;
+        font: 700 clamp(18px, 3.6vw, 24px) inherit;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        cursor:pointer
+    }
+
+    .mec-set button.ad {
+        border-color: #d62020;
+        color:#d62020
+    }
+
+    .mec-set button:active {
+        transform:scale(.97)
+    }
+
+    .mec-set .material-symbols-outlined {
+        font-size: 32px
+    }
+
+    .mec-q.done {
+        border-color: #12a63a;
+        background:#f4fbf6
+    }
+
+    .mec-q.done .mec-top > .material-symbols-outlined {
+        color: #12a63a;
+        font-size: 34px
+    }
+
+    .mec {
+        padding-bottom:30px
+    }
+
+    .mec-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 160px;
+        gap: 14px;
+        align-items: start;
+        margin-bottom:16px
+    }
+
+    .mec-row .mec-card {
+        margin-bottom: 0
+    }
+
+    .mec-side {
+        display: flex;
+        flex-direction: column;
+        gap:12px
+    }
+
+    .mec-side button {
+        min-height: 76px;
+        border: 2.5px solid #111;
+        border-radius: 99px;
+        background: #fff;
+        color: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font: 700 17px inherit;
+        font-family:inherit
+    }
+
+    .mec-side button:active {
+        transform:scale(.96)
+    }
+
+    .mec-side .material-symbols-outlined {
+        font-size:36px
+    }
+
+    .mec-side .go {
+        background: #f9a825;
+        border-color:#f9a825
+    }
+
+    .mec-side .ok {
+        background: #12a63a;
+        border-color: #12a63a;
+        color:#fff
+    }
+
+    .mec-side .cf {
+        background: #d62020;
+        border-color: #d62020;
+        color: #fff;
+        animation: fin .3s
+    }
+
+    .mec-r1 {
+        display: flex;
+        border: 2.5px solid #111;
+        border-radius: 99px;
+        overflow: hidden;
+        min-height:76px
+    }
+
+    .mec-r1 button {
+        flex: 1;
+        border: 0;
+        border-radius: 0;
+        min-height: 0;
+        color:#777
+    }
+
+    .mec-r1 button + button {
+        border-left: 2.5px solid #111;
+        color: #111
+    }
+
+    .mec-pn {
+        font-size: 20px;
+        margin: 6px 0 10px;
+        color:#555
+    }
+
+    .mec-s {
+        margin-bottom:10px
+    }
+
+    .mec-qr {
+        display: flex;
+        gap: 10px;
+        align-items:flex-start
+    }
+
+    .mec-ar {
+        padding-top:18px
+    }
+
+    .mec-ar .material-symbols-outlined {
+        font-size:44px
+    }
+
+    .mec-qr > div {
+        flex: 1;
+        min-width: 0
+    }
+
+    .mec-zb {
+        margin-bottom:18px
+    }
+
+    .mec-zb .zz {
+        width: 100%;
+        min-height: 72px;
+        border: 2.5px solid #111;
+        border-radius: 99px;
+        background: #fff;
+        font: 800 clamp(20px, 4vw, 26px) inherit;
+        font-family: inherit;
+        cursor:pointer
+    }
+
+    .mec-zb .zz small {
+        font-weight: 600;
+        color: #666;
+        font-size:.6em
+    }
+
+    .mec-zb .mec-pick {
+        margin:10px 0 0
+    }
+
+    .mec-zb .mec-pick button {
+        min-height: 64px;
+        font-size: clamp(16px, 3.2vw, 22px)
+    }
+
+    @media (max-width: 640px) {
+        .mec-row {
+            grid-template-columns:1fr
+        }
+
+        .mec-side {
+            flex-direction:row
+        }
+
+        .mec-side > button, .mec-r1 {
+            flex: 1;
+            min-height:68px
+        }
+
+        .mec-r1 {
+            flex: 1.4
+        }
+    }
+
+    body.nofb::before {
+        content: 'SIN CONEXIÓN A FIREBASE · datos solo en este equipo';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 300;
+        background: #d62020;
+        color: #fff;
+        font: 700 11px system-ui;
+        text-align: center;
+        padding: 3px 6px;
+        padding-top: max(3px, env(safe-area-inset-top));
+        pointer-events: none
+    }
     </style>
 </head>
 <body>
@@ -6170,7 +6420,7 @@
         flash: null
     };
     const dashOut = (id, fl) => {
-        if (S.view == 'mapa') {
+        if (S.view == 'mapa' || MODO == 'mec') {
             S.open = null;
             S.vp = null;
             render(1);
@@ -6254,7 +6504,7 @@
          <div class="sm" style="text-align:center;margin-top:18px">v0.21</div>`
     }
     function navbar() {
-        if (MODO != 'admin')
+        if (MODO == 'sala')
             return '';
         const T = [['home', 'dashboard', 'Dashboard'], ['linea', 'format_list_numbered', 'Línea de trabajo'], ['mapa', 'warehouse', 'Mapa de procesos'], ['comp', 'assignment_turned_in', 'Órdenes completas'], ['cfg', 'settings', 'Configuración']],
             cur = S.view == 'zona' ? 'linea' : S.view;
@@ -7915,7 +8165,7 @@
         const c = id => S.jobs.filter(j => j.estado == 'completado' && j.plataformaId == id).length;
         return `<div class="zf pf" role="group" aria-label="Filtrar por sub-zona"><span class="sm">Sub-zona</span><button class="zc ${S.pf ? '' : 'sel'}" data-a="pf" data-p="">Todas</button>${ps.map(p => `<button class="zc ${S.pf == p.id ? 'sel' : ''} ${p.activo ? '' : 'mut'}" data-a="pf" data-p="${p.id}">${esc(p.nombre)}<small>${c(p.id)}</small></button>`).join('')}</div>`
     };
-    const zfil = () => zfil0() + pfil(); // fila de zonas + (si corresponde) fila de sub-zonas
+    const zfil = () => MODO == 'mec' ? '' : zfil0() + pfil(); // fila de zonas + (si corresponde) fila de sub-zonas
     function subz() {
         const z = zn(S.modal.id),
             ps = S.cfg.plataformas.filter(p => p.zonaId == z.id);
@@ -8562,21 +8812,46 @@
         const p = e && e.code == 'permission-denied';
         alert(p ? 'Firebase rechazó el acceso. En la consola de Firebase → Firestore → Reglas, permite leer y escribir (reglas de prueba) y vuelve a intentar.' : 'Error de Firebase: ' + (e && e.message || e))
     };
+    async function fbDemoPut() {
+        // escribe los datos demo SOLO en demo_trabajos / demo_config (separados e indicados con _demo:true)
+        const o = {
+            jobs: S.jobs,
+            cfg: S.cfg
+        };
+        seed();
+        const J = S.jobs,
+            C = S.cfg;
+        S.jobs = o.jobs;
+        S.cfg = o.cfg;
+        const q = await fb.f.getDocs(fb.f.collection(fb.db, 'demo_trabajos'));
+        await Promise.all(q.docs.map(d => fb.f.deleteDoc(d.ref)));
+        await Promise.all(J.map(j => fb.f.setDoc(fb.f.doc(fb.db, 'demo_trabajos', j.id), {
+            ...j,
+            _demo: true
+        })));
+        await fb.f.setDoc(fb.f.doc(fb.db, 'demo_config', 'principal'), {
+            ...C,
+            _demo: true
+        });
+        return J.length
+    }
     async function fbSeed() {
         try {
-            await fbWipe();
-            seed();
-            await Promise.all(S.jobs.map(j => fb.f.setDoc(fb.f.doc(fb.db, COL(), j.id), {
-                ...j,
-                _demo: true
-            })));
-            await fb.f.setDoc(fb.f.doc(fb.db, CFGC(), 'principal'), {
-                ...S.cfg,
-                _demo: true
-            });
-            localStorage.lubri_dmfb = 1;
-            render(1);
+            const n = await fbDemoPut();
+            toast('science', 'Demo cargada: ' + n + ' trabajos en demo_trabajos');
             return 1
+        } catch (e) {
+            fbErr(e)
+        }
+    }
+    async function fbPing() {
+        try {
+            const r = fb.f.doc(fb.db, '_sistema', 'ping');
+            await fb.f.setDoc(r, {
+                t: new Date().toISOString()
+            });
+            const g = await fb.f.getDoc(r);
+            alert(g.exists() ? 'Conexión OK: Firebase guarda y lee datos correctamente.' : 'Se escribió pero no se pudo leer. Revisa las reglas de Firestore.')
         } catch (e) {
             fbErr(e)
         }
@@ -8615,11 +8890,11 @@
                 import(B + 'firebase-analytics.js').then(m => m.getAnalytics(ap)).catch(() => {}); // Analytics: opcional, si falla la app sigue igual
                 if (DM())
                     document.body.classList.add('dm');
+                f.getDoc(f.doc(db, 'demo_config', 'principal')).then(d => {
+                    if (!d.exists())
+                        return fbDemoPut().then(n => console.info('Demo cargada en Firebase:', n, 'trabajos'))
+                }).catch(fbErr);
                 f.onSnapshot(f.collection(db, COL()), s => {
-                    if (DM() && s.empty && !s.metadata.fromCache && !localStorage.lubri_dmfb) {
-                        fbSeed();
-                        return
-                    }
                     S.jobs = s.docs.map(d => d.data());
                     render()
                 }, fbErr); // tiempo real
@@ -8634,7 +8909,9 @@
                 return
             }
             catch (e) {
-                console.error('Firebase falló, uso modo demo', e)
+                console.error('Firebase falló, uso modo demo', e);
+                S.fbErr = String(e && e.message || e);
+                document.body.classList.add('nofb')
             }
         }
         if (!localStorage.lubri_ok)
@@ -9020,7 +9297,7 @@
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
-         <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}${fb && !DM() ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button><button data-a="meq" data-m="sala">${ic('tv')} Este equipo: sala de espera</button><button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
+         <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>` : ''}${fb ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button><button data-a="meq" data-m="sala">${ic('tv')} Este equipo: sala de espera</button><button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
     }
     function create() {
         // formulario "Crear nuevo trabajo" (D = borrador en memoria)
@@ -9245,39 +9522,67 @@
         const Z = ZA();
         return Z.find(z => z.id == k) || Z.find(z => String(z.nombre).toLowerCase() == String(k).toLowerCase()) || (/^\d+$/.test(k) ? Z[+k - 1] : null) || null
     };
+    const mplat = () => {
+        const k = localStorage.lubri_mp,
+            z = mzone();
+        return k && z ? S.cfg.plataformas.find(p => p.id == k && p.zonaId == z.id && p.activo !== false) || null : null
+    };
+    function vMecSet() {
+        const z = mzone(),
+            p = mplat();
+        return `<div class="mec"><div class="mec-h"><small>Modo mecánico</small><h1>Ajustes del equipo</h1><div class="mec-sy">${syncTag()}</div></div><div class="mec-set"><p>Este equipo está fijado en: <b>${p ? esc(p.nombre) + ' · ' : ''}${z ? esc(z.nombre) : 'sin elegir'}</b></p><button data-a="mecp">${ic('swap_horiz')}Cambiar zona o plataforma</button><button data-a="sres">${ic('sync')}Resincronizar datos</button><button class="ad" data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button></div></div>`
+    }
     function vMec() {
         const z = S.mzp ? null : mzone();
         if (!z)
-            return `<div class="mec"><div class="mec-h"><small>Taller de mantención</small><h1>¿En qué zona trabaja este equipo?</h1></div><div class="mec-pick">${ZA().map(q => `<button data-a="mecz" data-z="${q.id}">${esc(q.nombre)}</button>`).join('')}</div>${mzone() ? '<button class="mec-sec" data-a="mecx">Cancelar</button>' : ''}<button class="mec-sec" data-a="meq" data-m="admin">Pasar a modo administrador</button></div>`;
-        const J = S.jobs.filter(j => j.estado != 'completado' && zof(j) == z.id).sort(byIng),
-            A = J.filter(j => j.estado != 'cola'),
-            Q = J.filter(j => j.estado == 'cola');
+            return `<div class="mec"><div class="mec-h"><small>Taller de mantención</small><h1>¿Dónde trabaja este equipo?</h1></div>${ZA().map(q => `<div class="mec-zb"><button class="zz" data-a="mecz" data-z="${q.id}">${esc(q.nombre)} <small>(todas sus plataformas)</small></button><div class="mec-pick">${S.cfg.plataformas.filter(p => p.activo !== false && p.zonaId == q.id).map(p => `<button data-a="mecpl" data-z="${q.id}" data-p="${p.id}">${esc(p.nombre)}</button>`).join('')}</div></div>`).join('')}${mzone() ? '<button class="mec-sec" data-a="mecx">Cancelar</button>' : ''}<button class="mec-sec" data-a="meq" data-m="admin">Pasar a modo administrador</button></div>`;
+        const pl = mplat(),
+            P = S.cfg.plataformas.filter(p => p.activo !== false && p.zonaId == z.id && (!pl || p.id == pl.id));
         const car = j => `<div class="mec-car"><b>${esc(j.vehiculo.patente)}</b><span>${esc(j.cliente.nombre || 'Sin nombre')}</span></div>`,
-            top = (j, t) => `<div class="mec-top"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="mec-st"><b>${t}</b><span>${esc(nm(S.cfg.plataformas, j.plataformaId))} · In: ${hm(j.tiempos.ingresoISO)}</span></div>${car(j)}</div>`,
+            top = (j, t) => `<div class="mec-top"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="mec-st"><b>${t}</b><span>${esc(j.titulo)} · In: ${hm(j.tiempos.ingresoISO)}</span></div>${car(j)}</div>`,
             nota = j => (j.notas || []).filter(n => n.tipo == 'orden').map(n => n.texto).join(' · '),
             full = j => {
                 const sv = j.servicios.map((x, i) => `<li class="${x.hecho ? 'on' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}">${ic(x.hecho ? 'check_box' : 'check_box_outline_blank')}<span>${esc(x.nombre)}</span></li>`).join(''),
                     n = nota(j),
-                    cf = S.mcf == j.id;
-                return `<div class="mec-card ${j.estado}">${top(j, j.estado == 'pausa' ? 'En pausa' : 'En proceso')}<div class="mec-box"><h3>Revisión, procesos y cambios</h3><ul>${sv || '<li><span>Sin procesos asignados</span></li>'}</ul>${(j.repuestos || []).length ? `<h3>Repuestos</h3><ul class="rp">${j.repuestos.map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('')}</ul>` : ''}${n ? `<h3>Indicaciones</h3><p>${esc(n)}</p>` : ''}</div>
-                  <div class="mec-btns">${j.estado == 'pausa' ? `<button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Reanudar</button>` : `<button data-a="pau" data-id="${j.id}">${ic('pause')}Pausar</button>`}<button class="${cf ? 'cf' : 'ok'}" data-a="mcom" data-id="${j.id}">${ic('check')}${cf ? 'Toca otra vez para completar' : 'Completar'}</button></div></div>`
+                    cf = S.mcf == j.id,
+                    ps = j.estado == 'pausa';
+                return `<div class="mec-row"><div class="mec-card ${j.estado}">${top(j, ps ? 'En pausa' : 'En proceso')}<div class="mec-box"><h3>Revisión, cambios y repuestos para el proceso</h3><ul>${sv || '<li><span>Sin procesos asignados</span></li>'}</ul>${(j.repuestos || []).length ? `<h3>Repuestos</h3><ul class="rp">${j.repuestos.map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('')}</ul>` : ''}${n ? `<h3>Indicaciones</h3><p>${esc(n)}</p>` : ''}</div></div>
+                  <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'}" data-a="mcom" data-id="${j.id}" title="Completar">${cf ? '<span>¿Seguro?</span>' : ic('check')}</button></div></div>`
             },
-            qd = j => `<div class="mec-q">${top(j, 'En cola')}<div class="mec-btns"><button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Iniciar</button></div>${j.servicios.length ? `<p class="mec-sv">${j.servicios.map(x => esc(x.nombre)).join(' · ')}</p>` : ''}</div>`;
-        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${A.map(full).join('') || '<p class="mec-no">Sin trabajos en proceso en esta zona</p>'}${Q.length ? `<h2 class="mec-t">${ic('subdirectory_arrow_right')}En cola (${Q.length})</h2>${Q.map(qd).join('')}` : ''}<p class="mec-hint">Mantén pulsado el nombre de la zona para cambiarla</p></div>`
+            qd = j => `<div class="mec-q">${top(j, 'En cola')}<div class="mec-btns"><button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Iniciar</button></div></div>`;
+        let n = 0;
+        const sec = p => {
+                const J = S.jobs.filter(j => j.estado != 'completado' && j.plataformaId == p.id).sort(byIng),
+                    A = J.filter(j => j.estado != 'cola'),
+                    Q = J.filter(j => j.estado == 'cola');
+                if (!J.length && !pl)
+                    return '';
+                n += J.length;
+                return `<section class="mec-s">${pl ? '' : `<h2 class="mec-pn">${esc(p.nombre)}</h2>`}${A.map(full).join('') || '<p class="mec-no">Sin trabajo en proceso</p>'}${Q.length ? `<div class="mec-qr"><span class="mec-ar">${ic('subdirectory_arrow_right')}</span><div>${Q.map(qd).join('')}</div></div>` : ''}</section>`
+            },
+            body = P.map(sec).join('');
+        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || '<p class="mec-no">Sin trabajos activos aquí</p>'}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}`
     }
     function render(f) {
         ensureZ();
-        if (MODO != 'admin')
-            S.view = MODO; // f=1 fuerza redibujar aunque haya un campo en foco
+        if (MODO == 'sala')
+            S.view = 'sala';
+        if (MODO == 'mec') {
+            const z = mzone();
+            if (z && (S.view == 'linea' || S.view == 'comp'))
+                S.zf = z.id;
+            if (S.view == 'mec' || S.view == 'sala')
+                S.view = 'home'
+        } // f=1 fuerza redibujar aunque haya un campo en foco
         if (!f && document.activeElement?.matches('input,textarea,select'))
             return;
         const V = {
-                home: dash,
+                home: MODO == 'mec' ? vMec : dash,
                 mapa: vMapa,
                 zona: vZona,
                 linea,
                 comp: completas,
-                cfg: config,
+                cfg: MODO == 'mec' ? vMecSet : config,
                 mec: vMec,
                 sala: vSala
             },
@@ -9915,10 +10220,13 @@
             localStorage.lubri_dm = DM() ? '0' : '1';
             location.reload()
         },
+        ping: () => {
+            if (fb)
+                fbPing()
+        },
         demo: () => {
             if (fb) {
-                if (DM())
-                    fbSeed().then(() => toast('science', 'Demo recargada'));
+                fbSeed();
                 return
             }
             seed();
@@ -11123,7 +11431,21 @@
         },
         mecz: d => {
             localStorage.lubri_mz = d.z;
+            localStorage.removeItem('lubri_mp');
             S.mzp = 0;
+            S.view = 'home';
+            render(1)
+        },
+        mecpl: d => {
+            localStorage.lubri_mz = d.z;
+            localStorage.lubri_mp = d.p;
+            S.mzp = 0;
+            S.view = 'home';
+            render(1)
+        },
+        mecp: () => {
+            S.mzp = 1;
+            S.view = 'home';
             render(1)
         },
         mecx: () => {
