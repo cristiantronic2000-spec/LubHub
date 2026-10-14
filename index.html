@@ -9,13 +9,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Inter:wght@400;500;700&display=swap">
     <!--
     ===================================================================================
-    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.36 (un solo archivo, sin compilar)
+    APP: LÍNEA DE TRABAJO PARA LUBRICENTRO · v0.40 (sobre v0.39) (un solo archivo, sin compilar)
     QUÉ HACE: muestra en tiempo real qué trabajos están en cola, en proceso, en pausa o
     completados, con cronómetro, tiempos estimados, notas y bitácora de eventos.
     MODO DEMO (sin Firebase): carga los datos del prototipo (3 talleres, 8 trabajos);
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.41: modos de equipo por enlace (?modo=mec&zona=2 · ?modo=sala · ?modo=admin) o desde Configuración: MECÁNICO (zona fija, botones grandes, procesos/repuestos/indicaciones visibles, nombre del cliente) y SALA DE ESPERA (solo visualización: reloj, clima, vehículos en proceso y en espera con patente parcial, tips).
+    CAMBIOS v0.40 (sobre v0.39): patente pequeña sobre autos con orden solo mientras se mueven; 1 toque en auto/camión de fondo = bocina propia, 2 toques lo cierran; la flecha de la burbuja abre el trabajo sobre el mapa y al actuar/editar se vuelve al mapa; botón Nuevo trabajo anclado abajo a la derecha, se oculta al desplazar y reaparece 1,5 s después.
     CAMBIOS v0.36: los autos de calles laterales y los que doblan al taller esperan menos (cuanto más esperan, menor hueco aceptan); menos tráfico de fondo (más tiempo entre autos y menos autos que entran al taller) para evitar tacos; sin alerta de taco: al reiniciarse el mapa (solo o con el botón) las calles parpadean.
     CAMBIOS v0.35: las alertas, avisos y ventanas de pantalla completa se ven bien en el navegador: se corrigió una regla antigua (inset:auto!important) que anulaba left/right y dejaba la ventana encogida y pegada a la izquierda; ahora la sombra cubre todo el ancho y la ventana queda centrada sobre la barra inferior.
     CAMBIOS v0.34: doble toque sobre un auto que no es de una orden de trabajo (autos de fondo) lo desvanece; reaparece más tarde por otra calle. Los vehículos de órdenes no se ven afectados.
@@ -4390,7 +4392,23 @@
     }
 
     .fabw {
-        bottom: 12px
+        position: fixed;
+        left: auto;
+        top: auto;
+        bottom: calc(var(--nh) + 12px);
+        right: max(calc(12px + env(safe-area-inset-right, 0px)), calc(50vw - 228px));
+        z-index: 30;
+        text-align: right;
+        transition: opacity .22s ease, transform .22s ease
+    }
+
+    body.fabh .fabw {
+        opacity: 0;
+        transform:translateY(14px)
+    }
+
+    body.fabh .fabw .fab {
+        pointer-events: none
     }/* Ventanas (formularios, avisos, ayuda): ocupan el espacio libre sobre la barra, nunca la tapan */
 
     .bd {
@@ -4847,6 +4865,1111 @@
 
     .jpop .zact .material-symbols-outlined {
         font-size: 20px
+    }/* v0.39: destacar el proceso que ocupa la sub-zona */
+    .card.hl {
+        outline: 2.5px solid #f5c000;
+        outline-offset: 1px;
+        animation: hlc 1s ease-in-out 5
+    }
+
+    @keyframes hlc {
+        0%, 100% {
+            background:#fff
+        }
+
+        50% {
+            background: #fff3a8
+        }
+    }
+
+    .zpop.hl {
+        animation: hlp 1s ease-in-out 5;
+        border-color: #f5c000
+    }
+
+    @keyframes hlp {
+        0%, 100% {
+            box-shadow:0 8px 22px rgba(0, 0, 0, .15), 0 0 0 0 rgba(245, 192, 0, .0)
+        }
+
+        50% {
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .15), 0 0 0 6px rgba(245, 192, 0, .7)
+        }
+    }
+
+    .vp {
+        pointer-events:none
+    }
+
+    .vp rect {
+        fill: #fff;
+        stroke: #555;
+        stroke-width: .25;
+        opacity:.92
+    }
+
+    .vp text {
+        font: 700 2px/1 system-ui, sans-serif;
+        fill: #111
+    }
+
+    body.dm::after {
+        content: 'DEMO';
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 4px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f59e0b;
+        color: #111;
+        font: 800 10px system-ui;
+        padding: 2px 8px;
+        border-radius: 99px;
+        z-index: 200;
+        pointer-events: none;
+        letter-spacing: .08em
+    }
+
+    body.mod {
+        --nh:0px
+    }
+
+    body.mod #nav {
+        display:none
+    }
+
+    body.mod #app {
+        padding: 0
+    }
+
+    .sala-sync, .mec-sy {
+        display: flex;
+        align-items: center;
+        gap: .6em;
+        font-weight: 700;
+        font-size:clamp(12px, 1.3vw, 22px)
+    }
+
+    .sala-sync i, .mec-sy i {
+        width: 1.1em;
+        height: 1.1em;
+        border-radius: 50%;
+        background:#12c21a
+    }
+
+    .sala-sync i.off, .mec-sy i.off {
+        background: #f5a623
+    }
+
+    .sala {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 3vw;
+        padding: 2.2vw 3vw;
+        min-height: 100%;
+        box-sizing: border-box;
+        color: #111;
+        background: #fff;
+        pointer-events: none;
+        user-select: none;
+        cursor: none;
+        overflow: hidden
+    }
+
+    .sala > * {
+        position: relative;
+        z-index:1
+    }
+
+    .sala > .sala-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow:hidden
+    }
+
+    .sala-bg {
+        display: none
+    }
+
+    .sala-biz {
+        font-weight: 800;
+        font-size: clamp(14px, 1.7vw, 30px);
+        margin-top: 1.2vw;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: #c26a00
+    }
+
+    .sala-clk {
+        font-weight: 800;
+        font-size: clamp(44px, 8.4vw, 170px);
+        line-height: 1;
+        margin-top: .6vw;
+        letter-spacing: -.02em;
+        white-space: nowrap;
+        font-variant-numeric:tabular-nums
+    }
+
+    .sala-clk small {
+        font-size: .38em;
+        margin-left: .2em;
+        letter-spacing:0
+    }
+
+    .sala-clk .cl {
+        animation: blk 1s steps(1) infinite;
+        display: inline-block;
+        margin: 0 .02em
+    }
+
+    @keyframes blk {
+        50% {
+            opacity: .15
+        }
+    }
+
+    .sala-date {
+        font-weight: 700;
+        font-size: clamp(16px, 2vw, 38px);
+        margin-top: .4vw
+    }
+
+    .sala-wx {
+        display: flex;
+        align-items: center;
+        gap: 1.6vw;
+        margin-top: 2.2vw;
+        min-height: 7vw;
+        animation:fin .8s
+    }
+
+    .sala-wx > b {
+        font-size: clamp(40px, 6.4vw, 120px);
+        line-height:1
+    }
+
+    .sala-wx .material-symbols-outlined {
+        font-size: clamp(44px, 5.6vw, 110px);
+        color: #f9a825;
+        animation:flt 4s ease-in-out infinite
+    }
+
+    .sala-wx.wb_sunny .material-symbols-outlined {
+        animation:spn 24s linear infinite
+    }
+
+    .sala-wx.rainy .material-symbols-outlined, .sala-wx.thunderstorm .material-symbols-outlined {
+        color:#4a90d9
+    }
+
+    .sala-wx.cloud .material-symbols-outlined, .sala-wx.foggy .material-symbols-outlined {
+        color: #8a97a6
+    }
+
+    @keyframes flt {
+        50% {
+            transform:translateY(-.6vw)
+        }
+    }
+
+    @keyframes spn {
+        to {
+            transform: rotate(360deg)
+        }
+    }
+
+    .sala-wx div {
+        display: flex;
+        flex-direction:column
+    }
+
+    .sala-wx strong {
+        font-size:clamp(16px, 1.9vw, 36px)
+    }
+
+    .sala-wx span {
+        font-size:clamp(14px, 1.5vw, 28px)
+    }
+
+    .sala-wx em {
+        font-style: normal;
+        font-weight: 700;
+        font-size: clamp(16px, 2vw, 38px)
+    }
+
+    .sala-tip {
+        position: relative;
+        margin-top: 2.2vw;
+        border: 3px solid #111;
+        border-radius: 2.2vw;
+        min-height: 14vw;
+        display: flex;
+        align-items: center;
+        gap: 1.4vw;
+        padding: 2vw 2vw 2.4vw;
+        background: #fff;
+        overflow:hidden
+    }
+
+    .sala-tip > .material-symbols-outlined {
+        font-size: clamp(30px, 3.6vw, 70px);
+        color: #f9a825;
+        animation: glw 2.6s ease-in-out infinite
+    }
+
+    @keyframes glw {
+        50% {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 .8vw #f9a825)
+        }
+    }
+
+    .sala-tip p {
+        margin: 0;
+        font-weight: 700;
+        font-size: clamp(18px, 2.3vw, 44px);
+        line-height: 1.2;
+        transition:opacity .38s, transform .38s
+    }
+
+    .sala-tip p.out {
+        opacity: 0;
+        transform: translateY(10px)
+    }
+
+    .sala-tb {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: .5vw;
+        min-height: 4px;
+        background:rgba(0, 0, 0, .06)
+    }
+
+    .sala-tb i {
+        display: block;
+        height: 100%;
+        background: #f9a825;
+        transform-origin: left;
+        animation:tbar 12s linear infinite
+    }
+
+    @keyframes tbar {
+        from {
+            transform:scaleX(0)
+        }
+
+        to {
+            transform: scaleX(1)
+        }
+    }
+
+    .sala-st {
+        display: flex;
+        gap: 1.2vw;
+        margin:0 4.4vw 1.6vw 0
+    }
+
+    .sala-st span {
+        display: flex;
+        align-items: baseline;
+        gap: .5vw;
+        background: #fff;
+        border: 2px solid #111;
+        border-radius: 99px;
+        padding: .3vw 1.4vw;
+        font-size: clamp(12px, 1.4vw, 26px);
+        font-weight:600
+    }
+
+    .sala-st b {
+        font-size: 1.8em;
+        font-weight: 800;
+        font-variant-numeric:tabular-nums
+    }
+
+    .sala-st .g {
+        border-color: #12a63a;
+        color: #0c7a2a
+    }
+
+    .sala-r h2 {
+        font-size: clamp(22px, 2.8vw, 54px);
+        margin: 0 0 1.2vw;
+        font-weight: 800;
+        line-height:1.1
+    }
+
+    .sala-r h2:not(:first-of-type) {
+        margin-top: 2.2vw;
+        display: flex;
+        align-items: center;
+        gap:1.4vw
+    }
+
+    .sala-r h2.ok {
+        color: #0c7a2a
+    }
+
+    .sala-e {
+        background: #f9a825;
+        border-radius: 99px;
+        padding: .1em .6em;
+        font-size: .8em;
+        animation:bump 3s ease-in-out infinite
+    }
+
+    @keyframes bump {
+        50% {
+            transform: scale(1.07)
+        }
+    }
+
+    .sala-c {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1.2vw;
+        border: 3px solid #111;
+        border-radius: 99px;
+        padding: .9vw 2vw;
+        margin-bottom: 1.1vw;
+        min-width: 0;
+        background: #fff;
+        box-shadow:0 .5vw 1.4vw rgba(0, 0, 0, .07)
+    }
+
+    .sala-c.proceso {
+        border-color: #f26a21;
+        box-shadow: 0 0 0 0 rgba(242, 106, 33, .35), 0 .5vw 1.4vw rgba(0, 0, 0, .07);
+        animation:cpl 3.6s ease-in-out infinite
+    }
+
+    .sala-c.pausa {
+        border-color: #d62020
+    }
+
+    @keyframes cpl {
+        50% {
+            box-shadow: 0 0 0 .7vw rgba(242, 106, 33, 0), 0 0 1.8vw rgba(242, 106, 33, .35)
+        }
+    }
+
+    .sala-c.new {
+        animation:cin .7s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    @keyframes cin {
+        from {
+            opacity: 0;
+            transform:translateX(5vw) scale(.96)
+        }
+
+        to {
+            opacity: 1;
+            transform: none
+        }
+    }
+
+    .sala-c .dot {
+        width: 2.2vw;
+        height: 2.2vw;
+        min-width: 14px;
+        min-height:14px
+    }
+
+    .sala-ot {
+        font-size: clamp(22px, 2.7vw, 52px);
+        min-width: 4ch;
+        text-align: center
+    }
+
+    .sala-m {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex:1
+    }
+
+    .sala-m b {
+        font-size: clamp(16px, 2vw, 38px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis
+    }
+
+    .sala-m span {
+        font-size:clamp(14px, 1.5vw, 28px)
+    }
+
+    .sala-m small {
+        font-size: clamp(11px, 1.15vw, 22px);
+        color: #555;
+        font-weight:600
+    }
+
+    .sala-c.pausa .sala-m small {
+        color: #d62020
+    }
+
+    .sala-pr {
+        height: .55vw;
+        min-height: 5px;
+        background: rgba(0, 0, 0, .08);
+        border-radius: 99px;
+        margin: .4vw 0 .2vw;
+        overflow:hidden
+    }
+
+    .sala-pr i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #f9a825, #f26a21);
+        border-radius: 99px;
+        transition: width 1.2s ease;
+        position: relative;
+        overflow:hidden
+    }
+
+    .sala-pr i::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .7), transparent);
+        animation:shn 2.4s linear infinite
+    }
+
+    .sala-c.pausa .sala-pr i {
+        background:#d62020
+    }
+
+    .sala-c.pausa .sala-pr i::after {
+        display: none
+    }
+
+    @keyframes shn {
+        from {
+            transform:translateX(-100%)
+        }
+
+        to {
+            transform: translateX(100%)
+        }
+    }
+
+    .sala-p {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap:.3vw
+    }
+
+    .sala-pl {
+        border: 3px solid #111;
+        border-radius: 1vw;
+        padding: .1em .5em;
+        font-weight: 800;
+        font-size: clamp(18px, 2.5vw, 48px);
+        white-space: nowrap;
+        background:#fff
+    }
+
+    .sala-p small {
+        font-size: clamp(11px, 1.2vw, 22px)
+    }
+
+    .sala-g {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:0 1.2vw
+    }
+
+    .sala-c.b {
+        padding:.6vw 1.4vw
+    }
+
+    .sala-c.b .sala-ot {
+        font-size:clamp(16px, 1.9vw, 36px)
+    }
+
+    .sala-c.b .sala-m b {
+        font-size: clamp(12px, 1.35vw, 26px);
+        white-space:normal
+    }
+
+    .sala-c.b .sala-pl {
+        font-size:clamp(13px, 1.6vw, 30px)
+    }
+
+    .sala-c.b .dot {
+        width: 1.6vw;
+        height: 1.6vw
+    }
+
+    .sala-lr {
+        display: flex;
+        flex-wrap: wrap;
+        gap:1vw
+    }
+
+    .sala-ld {
+        display: flex;
+        align-items: center;
+        gap: .8vw;
+        border: 3px solid #12a63a;
+        border-radius: 99px;
+        padding: .5vw 1.4vw;
+        background: #effaf1;
+        color:#0c7a2a
+    }
+
+    .sala-ld .material-symbols-outlined {
+        font-size: clamp(20px, 2.4vw, 46px);
+        animation:pop 2.4s ease-in-out infinite
+    }
+
+    .sala-ld .sala-pl {
+        border-color: #12a63a;
+        color: #0c7a2a;
+        font-size:clamp(14px, 1.8vw, 34px)
+    }
+
+    .sala-ld.new {
+        animation: cin .7s both
+    }
+
+    @keyframes pop {
+        50% {
+            transform: scale(1.18)
+        }
+    }
+
+    .sala-no {
+        font-size: clamp(14px, 1.6vw, 30px);
+        color: #777;
+        margin: 0 0 1.2vw
+    }
+
+    .sala-bn {
+        position: fixed;
+        top: 1.6vw;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 1.4vw;
+        padding: 1vw 3vw;
+        border-radius: 99px;
+        color: #fff;
+        box-shadow: 0 1vw 3vw rgba(0, 0, 0, .3);
+        animation:bin .6s cubic-bezier(.2, .9, .3, 1.2) both
+    }
+
+    .sala-bn.ok {
+        background:#12a63a
+    }
+
+    .sala-bn.go {
+        background:#f26a21
+    }
+
+    .sala-bn .material-symbols-outlined {
+        font-size:clamp(28px, 3.6vw, 70px)
+    }
+
+    .sala-bn div {
+        display: flex;
+        flex-direction: column;
+        line-height:1.1
+    }
+
+    .sala-bn small {
+        font-size: clamp(12px, 1.5vw, 28px);
+        font-weight: 600;
+        opacity:.9
+    }
+
+    .sala-bn b {
+        font-size: clamp(20px, 3vw, 58px);
+        letter-spacing: .04em
+    }
+
+    @keyframes bin {
+        from {
+            opacity: 0;
+            transform:translate(-50%, -140%)
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+        .sala {
+            grid-template-columns: 1fr;
+            padding:5vw
+        }
+
+        .sala-clk {
+            font-size:21vw
+        }
+
+        .sala-date {
+            font-size:5vw
+        }
+
+        .sala-biz {
+            font-size:3.4vw
+        }
+
+        .sala-wx > b {
+            font-size:16vw
+        }
+
+        .sala-wx .material-symbols-outlined {
+            font-size:14vw
+        }
+
+        .sala-wx strong {
+            font-size:4.6vw
+        }
+
+        .sala-wx span {
+            font-size:3.8vw
+        }
+
+        .sala-wx em {
+            font-size:5vw
+        }
+
+        .sala-tip {
+            min-height: 26vw;
+            border-radius: 5vw;
+            gap: 3vw;
+            padding:4vw
+        }
+
+        .sala-tip p {
+            font-size:4.8vw
+        }
+
+        .sala-tip > .material-symbols-outlined {
+            font-size:9vw
+        }
+
+        .sala-st {
+            margin-right: 12vw;
+            gap:2vw
+        }
+
+        .sala-st span {
+            font-size: 3.2vw;
+            padding:.8vw 3vw
+        }
+
+        .sala-r h2 {
+            font-size:6.2vw
+        }
+
+        .sala-c {
+            gap: 2.4vw;
+            padding: 2.4vw 4vw;
+            margin-bottom:2.6vw
+        }
+
+        .sala-c .dot {
+            width: 4vw;
+            height:4vw
+        }
+
+        .sala-ot {
+            font-size:6vw
+        }
+
+        .sala-m b {
+            font-size:4.4vw
+        }
+
+        .sala-m span {
+            font-size:3.6vw
+        }
+
+        .sala-m small {
+            font-size:3vw
+        }
+
+        .sala-pl {
+            font-size:4.8vw
+        }
+
+        .sala-p small {
+            font-size:2.8vw
+        }
+
+        .sala-g {
+            grid-template-columns:1fr
+        }
+
+        .sala-c.b .sala-m b {
+            font-size:3.8vw
+        }
+
+        .sala-c.b .sala-ot {
+            font-size:5vw
+        }
+
+        .sala-c.b .sala-pl {
+            font-size:4.2vw
+        }
+
+        .sala-c.b .dot {
+            width: 3.4vw;
+            height:3.4vw
+        }
+
+        .sala-ld .sala-pl {
+            font-size:4vw
+        }
+
+        .sala-bn {
+            padding: 2.4vw 6vw;
+            top:4vw
+        }
+
+        .sala-bn b {
+            font-size:6vw
+        }
+
+        .sala-bn small {
+            font-size: 3.2vw
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sala * {
+            animation-duration: .01s !important
+        }
+    }
+
+    .mec {
+        max-width: 980px;
+        margin: auto;
+        padding: max(14px, env(safe-area-inset-top)) 16px 40px;
+        box-sizing: border-box;
+        color: #000
+    }
+
+    .mec-h {
+        margin-bottom: 14px;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout:none
+    }
+
+    .mec-h small {
+        font-size: 15px;
+        font-weight: 600;
+        display:block
+    }
+
+    .mec-h h1 {
+        margin: 0;
+        font-size: clamp(28px, 5vw, 44px);
+        line-height:1.1
+    }
+
+    .mec-sy {
+        font-size: 12px;
+        margin-top: 6px;
+        color: #444
+    }
+
+    .mec-card, .mec-q {
+        border: 2.5px solid #000;
+        border-radius: 28px;
+        padding: 16px;
+        margin-bottom: 16px;
+        background:#fff
+    }
+
+    .mec-card.pausa {
+        border-color:#d62020
+    }
+
+    .mec-q {
+        border-radius: 22px;
+        padding: 12px 14px
+    }
+
+    .mec-top {
+        display: flex;
+        align-items: center;
+        gap:12px
+    }
+
+    .mec-ot {
+        font-size: clamp(24px, 5vw, 38px);
+        min-width: 3.2ch;
+        text-align:center
+    }
+
+    .mec-st {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width:0
+    }
+
+    .mec-st b {
+        font-size:clamp(18px, 3.4vw, 26px)
+    }
+
+    .mec-st span {
+        font-size: 14px;
+        color: #444
+    }
+
+    .mec-car {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align:right
+    }
+
+    .mec-car b {
+        font-size: clamp(20px, 4.4vw, 34px);
+        white-space:nowrap
+    }
+
+    .mec-car span {
+        font-size: clamp(15px, 2.8vw, 20px);
+        font-weight: 600
+    }
+
+    .mec-box {
+        border: 2.5px dashed #bbb;
+        border-radius: 20px;
+        padding: 12px 16px;
+        margin:14px 0
+    }
+
+    .mec-box h3 {
+        margin: 6px 0;
+        font-size:16px
+    }
+
+    .mec-box h3:not(:first-child) {
+        margin-top:14px
+    }
+
+    .mec-box ul {
+        list-style: none;
+        margin: 0;
+        padding:0
+    }
+
+    .mec-box li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: clamp(18px, 3.2vw, 24px);
+        font-weight: 600;
+        padding: 9px 0;
+        min-height: 44px;
+        cursor: pointer;
+        border-bottom:1px solid #eee
+    }
+
+    .mec-box li:last-child {
+        border:0
+    }
+
+    .mec-box li.on span {
+        text-decoration: line-through;
+        color:#888
+    }
+
+    .mec-box li .material-symbols-outlined {
+        font-size:32px
+    }
+
+    .mec-box ul.rp li {
+        cursor: default;
+        font-weight:500
+    }
+
+    .mec-box small {
+        color: #777;
+        font-size:13px
+    }
+
+    .mec-box p {
+        margin: 0;
+        font-size: clamp(16px, 2.8vw, 20px)
+    }
+
+    .mec-btns {
+        display: flex;
+        gap:12px
+    }
+
+    .mec-btns button, .mec-pick button, .mec-sec {
+        flex: 1;
+        min-height: 68px;
+        border: 2.5px solid #000;
+        border-radius: 99px;
+        background: #fff;
+        font: 700 clamp(18px, 3.6vw, 26px) /1 inherit;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        padding:0 14px
+    }
+
+    .mec-btns button:active, .mec-pick button:active {
+        transform:scale(.97)
+    }
+
+    .mec-btns .go {
+        background: #f9a825;
+        border-color:#f9a825
+    }
+
+    .mec-btns .ok {
+        background: #12a63a;
+        border-color: #12a63a;
+        color:#fff
+    }
+
+    .mec-btns .cf {
+        background: #d62020;
+        border-color: #d62020;
+        color: #fff;
+        animation:fin .3s
+    }
+
+    .mec-btns .material-symbols-outlined {
+        font-size: 34px
+    }
+
+    .mec-q .mec-btns {
+        margin-top:10px
+    }
+
+    .mec-sv {
+        margin: 8px 0 0;
+        font-size: 14px;
+        color:#555
+    }
+
+    .mec-t {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 20px;
+        margin:18px 0 10px
+    }
+
+    .mec-no, .mec-hint {
+        color: #777;
+        font-size: 15px;
+        text-align: center;
+        margin:18px 0
+    }
+
+    .mec-pick {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin:18px 0
+    }
+
+    .mec-pick button {
+        min-height:96px
+    }
+
+    .mec-sec {
+        display: flex;
+        width: 100%;
+        margin-top: 12px;
+        min-height: 56px;
+        font-size: 17px;
+        border-color: #999;
+        color: #444
+    }
+
+    .sala-cfg {
+        position: fixed;
+        top: max(10px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        z-index: 20;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(0, 0, 0, .06);
+        color: #000;
+        opacity: .3;
+        pointer-events: auto;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content:center
+    }
+
+    .sala-cfg:active, .sala-cfg:hover {
+        opacity: .8
+    }
+
+    .sala-pn {
+        position: fixed;
+        top: max(66px, calc(env(safe-area-inset-top) + 56px));
+        right: max(12px, env(safe-area-inset-right));
+        z-index: 21;
+        width: min(340px, calc(100vw - 24px));
+        background: #fff;
+        border: 2.5px solid #000;
+        border-radius: 22px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: auto;
+        cursor: default;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, .2);
+        animation:fin .25s
+    }
+
+    .sala-pn b {
+        font-size:17px
+    }
+
+    .sala-pn button {
+        min-height: 54px;
+        border: 2.5px solid #000;
+        border-radius: 99px;
+        background: #fff;
+        font: 700 16px inherit;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor:pointer
+    }
+
+    .sala-pn button.x {
+        border-color: #aaa;
+        color: #555;
+        min-height: 44px
     }
     </style>
 </head>
@@ -4858,12 +5981,13 @@
     <script type="module">
     /* ============ 1. CONFIGURACIÓN (pega aquí tu config de Firebase) ============ */
     const FIREBASE_CONFIG = {
-        apiKey: "",
-        authDomain: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: ""
+        apiKey: "AIzaSyCadeH_Dw_WXxxXY3TgHssfTSDJ5uxzwMY",
+        authDomain: "lubhub-bdae3.firebaseapp.com",
+        projectId: "lubhub-bdae3",
+        storageBucket: "lubhub-bdae3.firebasestorage.app",
+        messagingSenderId: "734364983553",
+        appId: "1:734364983553:web:ed21ea0b9eccf248013b00",
+        measurementId: "G-WQLZG0JYM4"
     };
 
     /* ============ 2. CATÁLOGO BASE (editable en Configuración) ============
@@ -5046,6 +6170,12 @@
         flash: null
     };
     const dashOut = (id, fl) => {
+        if (S.view == 'mapa') {
+            S.open = null;
+            S.vp = null;
+            render(1);
+            return
+        }
         A.go({
             v: 'linea'
         });
@@ -5124,6 +6254,8 @@
          <div class="sm" style="text-align:center;margin-top:18px">v0.21</div>`
     }
     function navbar() {
+        if (MODO != 'admin')
+            return '';
         const T = [['home', 'dashboard', 'Dashboard'], ['linea', 'format_list_numbered', 'Línea de trabajo'], ['mapa', 'warehouse', 'Mapa de procesos'], ['comp', 'assignment_turned_in', 'Órdenes completas'], ['cfg', 'settings', 'Configuración']],
             cur = S.view == 'zona' ? 'linea' : S.view;
         return T.map(([v, i, t]) => `<button class="${cur == v ? 'on' : ''}" data-a="go" data-v="${v}" ${cur == v ? 'aria-current="page"' : ''}><span class="hi">${ic(i)}${v == 'linea' ? homeBadge() : ''}</span><small>${t}</small></button>`).join('')
@@ -5170,6 +6302,16 @@
         if (R.pop) {
             const [i, n] = R.pop.split(':');
             document.querySelector(`[data-a=hecho][data-id="${i}"][data-i="${n}"]`)?.classList.add('pop')
+        }
+        if (S.hl && !R.hls) {
+            const c = document.querySelector('.card.hl');
+            if (c) {
+                R.hls = 1;
+                setTimeout(() => c.scrollIntoView({
+                    block: 'center',
+                    behavior: 'smooth'
+                }), 80)
+            }
         }
         if (R.flash)
             document.querySelector(`.card [data-id="${R.flash}"]`)?.closest('.card')?.classList.add('flash');
@@ -6424,7 +7566,7 @@
             vg = (v, h) => {
                 const p = pose(v, h),
                     r = !!v.job && !v.leave;
-                return `<g class="vh${r ? ' rl' : ''}" data-v="${v.id}" data-h="${h}"${r ? ` data-a="vtap" data-id="${v.job}"` : ''} transform="translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})" opacity="${p.o.toFixed(2)}">${shape(v)}<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/></g>`
+                return `<g class="vh${r ? ' rl' : ''}" data-v="${v.id}" data-h="${h}"${r ? ` data-a="vtap" data-id="${v.job}"` : ''} transform="translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})" opacity="${p.o.toFixed(2)}">${shape(v)}<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/><g class="vp" style="display:none"><rect x="-4.8" y="-1.5" width="9.6" height="3" rx=".8"/><text y=".85" text-anchor="middle"></text></g></g>`
             };
         rebuild();
         for (let i = 0; i < 600; i++)
@@ -6529,8 +7671,10 @@
             const sg = v.k + v.col + v.L;
             if (e._sg !== sg) {
                 e._sg = sg;
-                e.innerHTML = TRF.shape(v) + '<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/>';
-                e._q = null
+                e.innerHTML = TRF.shape(v) + '<rect class="hit" x="-7" y="-5" width="14" height="10" fill="transparent"/><g class="vp" style="display:none"><rect x="-4.8" y="-1.5" width="9.6" height="3" rx=".8"/><text y=".85" text-anchor="middle"></text></g>';
+                e._q = null;
+                e._vp = null;
+                e._pj = null
             }
             {
                 const jj = r ? get(v.job) : null,
@@ -6545,6 +7689,33 @@
             const p = TRF.pose(v, +e.dataset.h);
             e.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})`);
             e.setAttribute('opacity', p.o.toFixed(2));
+            {
+                const g = e._vp || (e._vp = e.querySelector('.vp'));
+                if (g) {
+                    const jj = v.job ? get(v.job) : null,
+                        mv = !!jj && (v.v > .5 || v.st == 'turn'),
+                        pj = mv ? v.job : '';
+                    if (pj !== e._pj) {
+                        e._pj = pj;
+                        g.style.display = mv ? '' : 'none';
+                        if (mv) {
+                            const pt = jj.vehiculo.patente || '';
+                            g.lastChild.textContent = pt;
+                            const w = Math.max(6, pt.length * 1.5 + 2);
+                            g.firstChild.setAttribute('x', -w / 2);
+                            g.firstChild.setAttribute('width', w)
+                        }
+                        e._pa = null
+                    }
+                    if (pj) {
+                        const a = Math.round(-p.a / 4) * 4;
+                        if (a !== e._pa) {
+                            e._pa = a;
+                            g.setAttribute('transform', `rotate(${a}) translate(0 -5.6)`)
+                        }
+                    }
+                }
+            }
             if (p.o < .02)
                 return;
             const l = TRF.lights(v),
@@ -6660,7 +7831,7 @@
         },
         jcard = (j, z) => {
             const ac = j.estado == 'pausa' ? AC.reanudar : j.estado == 'cola' ? AC.iniciar : AC.completar;
-            return `${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${j.estado}"></i><span>${ESTADO[j.estado]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div>${S.mfc == j.id ? `<div class="zcf"><b>${AC[S.mfa || 'completar'][3]}</b><div><button class="zno" data-a="mfno">Cancelar</button><button class="zyes" data-a="mfok" data-id="${j.id}">${AC[S.mfa || 'completar'][1]}</button></div></div>` : `<div class="zbt"><button class="zact" data-a="mfin" data-id="${j.id}" data-ac="${ac[0]}">${ic(ac[2])} ${ac[1]}</button><button class="zgo" data-a="dopen" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`}`
+            return `${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${j.estado}"></i><span>${ESTADO[j.estado]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div>${S.mfc == j.id ? `<div class="zcf"><b>${AC[S.mfa || 'completar'][3]}</b><div><button class="zno" data-a="mfno">Cancelar</button><button class="zyes" data-a="mfok" data-id="${j.id}">${AC[S.mfa || 'completar'][1]}</button></div></div>` : `<div class="zbt"><button class="zact" data-a="mfin" data-id="${j.id}" data-ac="${ac[0]}">${ic(ac[2])} ${ac[1]}</button><button class="zgo" data-a="dpop" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`}`
         },
         jpop = () => {
             const j = S.mj && get(S.mj);
@@ -6684,8 +7855,9 @@
                 x: 50,
                 y: 60
             };
-            const dn = p.y < MH * .2; // v0.26: burbuja de un vehículo (sigue su posición)
-            return `<div class="zpop jpop vpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(p.x / MW * 100, 22, 78).toFixed(1)}%;top:${(p.y / MH * 100).toFixed(1)}%">${jcard(j, zn(zof(j)) || {nombre: '—'})}</div>`
+            const dn = p.y < MH * .2,
+                hl = S.hl == j.id; // v0.26: burbuja de un vehículo (sigue su posición)
+            return `<div class="zpop jpop vpop ${dn ? 'dn' : ''} ${hl ? 'hl' : ''}" data-a="nop" style="left:${clamp(p.x / MW * 100, 22, 78).toFixed(1)}%;top:${(p.y / MH * 100).toFixed(1)}%">${jcard(j, zn(zof(j)) || {nombre: '—'})}</div>`
         };
     function blinkSt() {
         const q = () => document.querySelectorAll('.st');
@@ -6701,7 +7873,7 @@
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Mapa de procesos</h1></div>
          <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw" data-a="zpop" data-z=""><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button>${mapaSvg()}${vpop() || jpop() || zpop()}</div><div class="msw">${msrch()}</div></div></div>
          <h3 class="ctr">Resumen de trabajos totales <span class="mut" style="font-weight:400">· toca para ver en el mapa</span></h3>${sumM(cnt(S.jobs.filter(j => j.estado != 'completado')))}
-         ${leg()}
+         ${leg()}${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="sum g2" style="margin-top:14px"><div role="button" tabindex="0" data-a="go" data-v="comp">${ic('history')}<span><small>Revisar<br>históricos</small></span></div><div role="button" tabindex="0" data-a="kpi">${ic('query_stats')}<span><small>Revisar<br>KPI</small></span></div></div>
          <div class="ctr" style="margin-top:14px"><button class="wide" data-a="mapaed">Modificar el mapa de taller</button></div>`
     }
@@ -7382,29 +8554,83 @@
         localStorage.lubri_ok = 1
     }
 
+    const DM = () => localStorage.lubri_dm == '1',
+        COL = () => DM() ? 'demo_trabajos' : 'trabajos',
+        CFGC = () => DM() ? 'demo_config' : 'config'; // datos demo en colecciones aparte (demo_*), nunca se mezclan con los reales
+    const fbErr = e => {
+        console.error('Firebase', e);
+        const p = e && e.code == 'permission-denied';
+        alert(p ? 'Firebase rechazó el acceso. En la consola de Firebase → Firestore → Reglas, permite leer y escribir (reglas de prueba) y vuelve a intentar.' : 'Error de Firebase: ' + (e && e.message || e))
+    };
+    async function fbSeed() {
+        try {
+            await fbWipe();
+            seed();
+            await Promise.all(S.jobs.map(j => fb.f.setDoc(fb.f.doc(fb.db, COL(), j.id), {
+                ...j,
+                _demo: true
+            })));
+            await fb.f.setDoc(fb.f.doc(fb.db, CFGC(), 'principal'), {
+                ...S.cfg,
+                _demo: true
+            });
+            localStorage.lubri_dmfb = 1;
+            render(1);
+            return 1
+        } catch (e) {
+            fbErr(e)
+        }
+    }
+    async function fbWipe() {
+        if (!fb || !DM())
+            return;
+        const q = await fb.f.getDocs(fb.f.collection(fb.db, COL()));
+        await Promise.all(q.docs.map(d => fb.f.deleteDoc(d.ref)))
+    }
     async function initDB() {
         if (FIREBASE_CONFIG.apiKey) {
             try {
-                const B = 'https://www.gstatic.com/firebasejs/10.12.2/',
-                    a = await import(B + 'firebase-app.js'),
-                    f = await import(B + 'firebase-firestore.js');
-                const db = f.getFirestore(a.initializeApp(FIREBASE_CONFIG));
+                let B,
+                    a,
+                    f;
+                for (const v of ['13.0.0', '11.10.0', '10.12.2']) {
+                    try {
+                        B = 'https://www.gstatic.com/firebasejs/' + v + '/';
+                        a = await import(B + 'firebase-app.js');
+                        f = await import(B + 'firebase-firestore.js');
+                        break
+                    } catch (e) {
+                        console.warn('SDK ' + v + ' no cargó', e);
+                        a = f = null
+                    }
+                }
+                if (!a)
+                    throw new Error('No se pudo cargar el SDK de Firebase (revisa internet o bloqueadores)');
+                const ap = a.initializeApp(FIREBASE_CONFIG),
+                    db = f.getFirestore(ap);
                 fb = {
                     f,
                     db
                 };
-                f.onSnapshot(f.collection(db, 'trabajos'), s => {
+                import(B + 'firebase-analytics.js').then(m => m.getAnalytics(ap)).catch(() => {}); // Analytics: opcional, si falla la app sigue igual
+                if (DM())
+                    document.body.classList.add('dm');
+                f.onSnapshot(f.collection(db, COL()), s => {
+                    if (DM() && s.empty && !s.metadata.fromCache && !localStorage.lubri_dmfb) {
+                        fbSeed();
+                        return
+                    }
                     S.jobs = s.docs.map(d => d.data());
                     render()
-                }); // tiempo real
-                f.onSnapshot(f.doc(db, 'config', 'principal'), d => {
+                }, fbErr); // tiempo real
+                f.onSnapshot(f.doc(db, CFGC(), 'principal'), d => {
                     if (d.exists())
                         S.cfg = {
                             ...defCfg(),
                             ...d.data()
                         };
                     render()
-                });
+                }, fbErr);
                 return
             }
             catch (e) {
@@ -7425,7 +8651,7 @@
     function saveJob(j, q) {
         // crea o actualiza un trabajo
         if (fb)
-            fb.f.setDoc(fb.f.doc(fb.db, 'trabajos', j.id), j);
+            fb.f.setDoc(fb.f.doc(fb.db, COL(), j.id), j);
         else {
             const i = S.jobs.findIndex(x => x.id == j.id);
             i < 0 ? S.jobs.push(j) : S.jobs[i] = j;
@@ -7436,7 +8662,7 @@
     }
     function delJob(id) {
         if (fb)
-            fb.f.deleteDoc(fb.f.doc(fb.db, 'trabajos', id));
+            fb.f.deleteDoc(fb.f.doc(fb.db, COL(), id));
         else {
             S.jobs = S.jobs.filter(j => j.id != id);
             localStorage.lubri_jobs = JSON.stringify(S.jobs)
@@ -7445,7 +8671,7 @@
     }
     function saveCfg() {
         if (fb)
-            fb.f.setDoc(fb.f.doc(fb.db, 'config', 'principal'), S.cfg);
+            fb.f.setDoc(fb.f.doc(fb.db, CFGC(), 'principal'), S.cfg);
         else
             localStorage.lubri_cfg = JSON.stringify(S.cfg);
         render(1)
@@ -7468,13 +8694,37 @@
         const r = el(j) / e * 100;
         return r >= 100 ? ['Atrasado', 'atraso'] : (e - el(j)) <= Math.min((S.cfg.avisoMin || 20) * 60, e / 2) ? ['Por vencer', 'vencer'] : ['A tiempo', 'ok']
     }
+    function hiBlock(b) {
+        // v0.39: tras el aviso, destaca (sin abrir) el proceso que ocupa la sub-zona: en el mapa su globo; en otra pantalla su tarjeta en Línea de trabajo
+        S.hl = b.id;
+        R.hls = 0;
+        clearTimeout(R.hlt);
+        R.hlt = setTimeout(() => {
+            S.hl = null;
+            R.hls = 0;
+            document.querySelectorAll('.hl').forEach(e => e.classList.remove('hl'))
+        }, 5500);
+        if (S.view == 'mapa') {
+            S.mfc = null;
+            S.zp = null;
+            S.mj = null;
+            S.vp = b.id
+        }
+        else if (S.view != 'linea' && S.view != 'zona') {
+            A.go({
+                v: 'linea'
+            })
+        }
+        toast('warning', 'Ya hay un trabajo en proceso en esta sub-zona')
+    }
     function mover(id, a, extra) {
         // transiciones: cola→proceso→pausa→proceso→completado
         const j = get(id),
             t = j.tiempos;
         if (a == 'iniciar') {
-            if (S.jobs.some(x => x.plataformaId == j.plataformaId && x.estado == 'proceso' && x.id != id))
-                return toast('warning', 'Ya hay un trabajo en proceso en esta sub-zona');
+            const bl = S.jobs.find(x => x.plataformaId == j.plataformaId && x.estado == 'proceso' && x.id != id);
+            if (bl)
+                return hiBlock(bl);
             ev(j, j.estado == 'pausa' ? 'reanudado' : 'iniciado');
             j.estado = 'proceso';
             t.ultimoInicioISO = now();
@@ -7632,7 +8882,7 @@
     };
     const card = (j, x) => {
         const o = S.open == j.id;
-        return `<div class="item ${j.estado == 'cola' ? 'sub' : ''} ${typeof x == 'string' ? x : ''} ${o ? 'op' : ''}" data-pl="${j.plataformaId}">${j.estado == 'cola' ? ic('subdirectory_arrow_right', 'arr') : ''}<div class="card ${o ? 'open' : ''}">${o ? detail(j) : row(j) + doneLine(j) + reaBox(j)}</div>${o ? '' : side(j)}</div>`
+        return `<div class="item ${j.estado == 'cola' ? 'sub' : ''} ${typeof x == 'string' ? x : ''} ${o ? 'op' : ''}" data-pl="${j.plataformaId}">${j.estado == 'cola' ? ic('subdirectory_arrow_right', 'arr') : ''}<div class="card ${o ? 'open' : ''} ${S.hl == j.id && !o ? 'hl' : ''}">${o ? detail(j) : row(j) + doneLine(j) + reaBox(j)}</div>${o ? '' : side(j)}</div>`
     };
     const doneLine = j => j.estado == 'completado' ? `<div class="sm">Real ${Math.round(j.tiempos.realSeg / 60)} min · Estimado ${Math.round(j.tiempos.estSeg / 60)} min · ${j.tiempos.desvSeg > 0 ? '+' : ''}${Math.round(j.tiempos.desvSeg / 60)} min</div>` : '';
     const rank = {
@@ -7770,7 +9020,7 @@
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
-         <section><b>Conexión y datos</b><p class="note">${fb ? 'Firebase conectado (tiempo real).' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.'}</p><div class="btns">${fb ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
+         <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}${fb && !DM() ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button><button data-a="meq" data-m="sala">${ic('tv')} Este equipo: sala de espera</button><button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
     }
     function create() {
         // formulario "Crear nuevo trabajo" (D = borrador en memoria)
@@ -7860,8 +9110,165 @@
             }
         })
     }
+    /* ============ v0.41: MODOS DE EQUIPO (admin · mecánico · sala de espera) ============ */
+    // Se elige por enlace (?modo=mec&zona=2 · ?modo=sala · ?modo=admin) o desde Configuración; queda guardado en el equipo.
+    const MODO = (() => {
+        try {
+            const p = new URLSearchParams(location.search),
+                m = p.get('modo');
+            if (m)
+                localStorage.lubri_modo = m == 'mec' || m == 'sala' ? m : 'admin';
+            const z = p.get('zona');
+            if (z)
+                localStorage.lubri_mz = z;
+            const k = localStorage.lubri_modo;
+            return k == 'mec' || k == 'sala' ? k : 'admin'
+        } catch (e) {
+            return 'admin'
+        }
+    })();
+    if (MODO != 'admin')
+        document.body.classList.add('mod', 'm-' + MODO);
+    const TIPS = ['Revisa la presión de los neumáticos cada 15 días, siempre en frío.', 'Cambia el aceite según la pauta del fabricante, no solo por kilometraje.', 'Un filtro de aire sucio aumenta el consumo de combustible.', 'Si el pedal de freno se siente blando, revísalo de inmediato.', 'Alinear y balancear cada 10.000 km cuida neumáticos y suspensión.', 'Revisa el nivel de refrigerante solo con el motor frío.', 'Ruidos al frenar o vibraciones al volante: avísanos a tiempo.'];
+    const mask = p => {
+            const a = String(p || '').split('·');
+            return a.length == 3 ? `${a[0]}· **·${a[2]}` : esc(p || '')
+        },
+        WXC = c => c == 0 ? ['wb_sunny', 'Despejado'] : c <= 2 ? ['partly_cloudy_day', 'Parcialmente nublado'] : c == 3 ? ['cloud', 'Nublado'] : c <= 48 ? ['foggy', 'Niebla'] : c <= 67 ? ['rainy', 'Lluvia'] : c <= 77 ? ['ac_unit', 'Nieve'] : c <= 82 ? ['rainy', 'Chubascos'] : ['thunderstorm', 'Tormenta'],
+        byIng = (a, b) => new Date(a.tiempos.ingresoISO) - new Date(b.tiempos.ingresoISO),
+        syncTag = () => `<i class="${fb ? 'ok' : 'off'}"></i>${fb ? 'Sincronizado en tiempo real' : 'Modo demo local (sin conexión a Firebase)'}`;
+    async function getWx() {
+        try {
+            const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-33.66&longitude=-70.93&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1'),
+                d = await r.json(),
+                [i, tx] = WXC(d.current.weather_code);
+            S.wx = {
+                t: Math.round(d.current.temperature_2m),
+                mn: Math.round(d.daily.temperature_2m_min[0]),
+                mx: Math.round(d.daily.temperature_2m_max[0]),
+                i,
+                tx
+            };
+            render(1)
+        } catch (e) {}
+    }
+    function clk() {
+        const a = document.getElementById('sclk');
+        if (!a)
+            return;
+        const d = new Date();
+        {
+            const h = d.getHours();
+            a.innerHTML = String(h % 12 || 12).padStart(2, '0') + '<span class="cl">:</span>' + String(d.getMinutes()).padStart(2, '0') + '<small>' + (h < 12 ? 'AM' : 'PM') + '</small>'
+        }
+        const b = document.getElementById('sdate');
+        if (b) {
+            const t = d.toLocaleDateString('es-CL', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long'
+            });
+            b.textContent = t.charAt(0).toUpperCase() + t.slice(1)
+        }
+    }
+    function vSala() {
+        const now = Date.now(),
+            sn = R.sn || (R.sn = {}),
+            ss = R.sst,
+            nx = {};
+        const A = S.jobs.filter(j => j.estado == 'proceso' || j.estado == 'pausa').sort(byIng),
+            Q = S.jobs.filter(j => j.estado == 'cola').sort(byIng),
+            L = S.jobs.filter(j => j.estado == 'completado' && j.tiempos.completadoISO && now - new Date(j.tiempos.completadoISO) < 2700000).sort((a, b) => new Date(b.tiempos.completadoISO) - new Date(a.tiempos.completadoISO)),
+            W = S.wx,
+            tips = S.cfg.tips && S.cfg.tips.length ? S.cfg.tips : TIPS;
+        S.jobs.forEach(j => {
+            nx[j.id] = j.estado;
+            if (ss && ss[j.id] != j.estado) {
+                if (j.estado == 'completado' && ss[j.id]) {
+                    S.salaMsg = {
+                        k: 'ok',
+                        t: 'Listo para retirar',
+                        p: mask(j.vehiculo.patente)
+                    }
+                } else if (j.estado == 'proceso' && ss[j.id] == 'cola') {
+                    S.salaMsg = {
+                        k: 'go',
+                        t: 'Ingresa a trabajo',
+                        p: mask(j.vehiculo.patente)
+                    }
+                } else
+                    return;
+                clearTimeout(R.bt);
+                R.bt = setTimeout(() => {
+                    S.salaMsg = null;
+                    render(1)
+                }, 7000)
+            }
+        });
+        R.sst = nx;
+        const nw = (id, i) => {
+                if (!sn[id])
+                    sn[id] = now;
+                return now - sn[id] < 1600 ? ` new" style="animation-delay:${Math.min(i, 8) * 90}ms` : ''
+            },
+            pr = j => {
+                const e = j.tiempos.estSeg || 0,
+                    u = j.estado == 'proceso' && j.tiempos.ultimoInicioISO ? (now - new Date(j.tiempos.ultimoInicioISO)) / 1000 : 0,
+                    t = (j.tiempos.acumSeg || 0) + u,
+                    p = e ? Math.min(100, Math.round(t / e * 100)) : 0,
+                    r = Math.ceil(Math.max(0, e - t) / 60);
+                return {
+                    p,
+                    tx: j.estado == 'pausa' ? 'En pausa' : !e ? '' : r > 0 ? `≈ ${r} min restantes` : 'Finalizando'
+                }
+            },
+            card = (j, i) => {
+                const q = pr(j);
+                return `<div class="sala-c ${j.estado}${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="sala-m"><b>${esc(nm(S.cfg.plataformas, j.plataformaId))}</b><span>${esc(j.titulo)}</span><div class="sala-pr"><i style="width:${q.p}%"></i></div><small>${q.tx}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`
+            },
+            wait = (j, i) => `<div class="sala-c b cola${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sala-m"><b>${esc(j.titulo)}</b><small>Turno ${i + 1}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
+            done = (j, i) => `<div class="sala-ld${nw(j.id, i)}">${ic('check_circle')}<span class="sala-pl">${mask(j.vehiculo.patente)}</span></div>`,
+            M = S.salaMsg;
+        return `<div class="sala"><div class="sala-bg"><i></i><i></i><i></i></div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><button data-a="sres">${ic('sync')}Resincronizar</button><button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}${M ? `<div class="sala-bn ${M.k}">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div>` : ''}
+         <div class="sala-l"><div class="sala-sync">${syncTag()}</div><div class="sala-biz">${esc(S.cfg.negocio || '')}</div><div class="sala-clk" id="sclk"></div><div class="sala-date" id="sdate"></div>
+         <div class="sala-wx ${W ? W.i : ''}">${W ? `<b>${W.t}°</b>${ic(W.i)}<div><strong>${esc(S.cfg.ciudad || 'Talagante, Chile')}</strong><span>${W.tx}</span><em>${W.mn}° - ${W.mx}°</em></div>` : ''}</div>
+         <div class="sala-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div></div>
+         <div class="sala-r"><div class="sala-st"><span><b>${A.length}</b>en proceso</span><span><b>${Q.length}</b>en espera</span><span class="g"><b>${L.length}</b>listos</span></div>
+         <h2>Estamos trabajando en estos vehículos</h2>${A.length ? A.slice(0, 4).map(card).join('') : '<p class="sala-no">Sin vehículos en proceso</p>'}${A.length > 4 ? `<p class="sala-no">+${A.length - 4} más en proceso</p>` : ''}
+         ${L.length ? `<h2 class="ok">Listos para retirar</h2><div class="sala-lr">${L.slice(0, 6).map(done).join('')}</div>` : ''}
+         <h2>En espera para ingresar <span class="sala-e">E ${Q.length}</span></h2><div class="sala-g">${Q.slice(0, 6).map(wait).join('') || '<p class="sala-no">Sin vehículos en espera</p>'}</div>${Q.length > 6 ? `<p class="sala-no">+${Q.length - 6} más en espera</p>` : ''}</div></div>`
+    }
+    const mzone = () => {
+        const k = localStorage.lubri_mz;
+        if (!k)
+            return null;
+        const Z = ZA();
+        return Z.find(z => z.id == k) || Z.find(z => String(z.nombre).toLowerCase() == String(k).toLowerCase()) || (/^\d+$/.test(k) ? Z[+k - 1] : null) || null
+    };
+    function vMec() {
+        const z = S.mzp ? null : mzone();
+        if (!z)
+            return `<div class="mec"><div class="mec-h"><small>Taller de mantención</small><h1>¿En qué zona trabaja este equipo?</h1></div><div class="mec-pick">${ZA().map(q => `<button data-a="mecz" data-z="${q.id}">${esc(q.nombre)}</button>`).join('')}</div>${mzone() ? '<button class="mec-sec" data-a="mecx">Cancelar</button>' : ''}<button class="mec-sec" data-a="meq" data-m="admin">Pasar a modo administrador</button></div>`;
+        const J = S.jobs.filter(j => j.estado != 'completado' && zof(j) == z.id).sort(byIng),
+            A = J.filter(j => j.estado != 'cola'),
+            Q = J.filter(j => j.estado == 'cola');
+        const car = j => `<div class="mec-car"><b>${esc(j.vehiculo.patente)}</b><span>${esc(j.cliente.nombre || 'Sin nombre')}</span></div>`,
+            top = (j, t) => `<div class="mec-top"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="mec-st"><b>${t}</b><span>${esc(nm(S.cfg.plataformas, j.plataformaId))} · In: ${hm(j.tiempos.ingresoISO)}</span></div>${car(j)}</div>`,
+            nota = j => (j.notas || []).filter(n => n.tipo == 'orden').map(n => n.texto).join(' · '),
+            full = j => {
+                const sv = j.servicios.map((x, i) => `<li class="${x.hecho ? 'on' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}">${ic(x.hecho ? 'check_box' : 'check_box_outline_blank')}<span>${esc(x.nombre)}</span></li>`).join(''),
+                    n = nota(j),
+                    cf = S.mcf == j.id;
+                return `<div class="mec-card ${j.estado}">${top(j, j.estado == 'pausa' ? 'En pausa' : 'En proceso')}<div class="mec-box"><h3>Revisión, procesos y cambios</h3><ul>${sv || '<li><span>Sin procesos asignados</span></li>'}</ul>${(j.repuestos || []).length ? `<h3>Repuestos</h3><ul class="rp">${j.repuestos.map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('')}</ul>` : ''}${n ? `<h3>Indicaciones</h3><p>${esc(n)}</p>` : ''}</div>
+                  <div class="mec-btns">${j.estado == 'pausa' ? `<button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Reanudar</button>` : `<button data-a="pau" data-id="${j.id}">${ic('pause')}Pausar</button>`}<button class="${cf ? 'cf' : 'ok'}" data-a="mcom" data-id="${j.id}">${ic('check')}${cf ? 'Toca otra vez para completar' : 'Completar'}</button></div></div>`
+            },
+            qd = j => `<div class="mec-q">${top(j, 'En cola')}<div class="mec-btns"><button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Iniciar</button></div>${j.servicios.length ? `<p class="mec-sv">${j.servicios.map(x => esc(x.nombre)).join(' · ')}</p>` : ''}</div>`;
+        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${A.map(full).join('') || '<p class="mec-no">Sin trabajos en proceso en esta zona</p>'}${Q.length ? `<h2 class="mec-t">${ic('subdirectory_arrow_right')}En cola (${Q.length})</h2>${Q.map(qd).join('')}` : ''}<p class="mec-hint">Mantén pulsado el nombre de la zona para cambiarla</p></div>`
+    }
     function render(f) {
-        ensureZ(); // f=1 fuerza redibujar aunque haya un campo en foco
+        ensureZ();
+        if (MODO != 'admin')
+            S.view = MODO; // f=1 fuerza redibujar aunque haya un campo en foco
         if (!f && document.activeElement?.matches('input,textarea,select'))
             return;
         const V = {
@@ -7870,7 +9277,9 @@
                 zona: vZona,
                 linea,
                 comp: completas,
-                cfg: config
+                cfg: config,
+                mec: vMec,
+                sala: vSala
             },
             app = $('#app'),
             y = app.scrollTop,
@@ -8281,7 +9690,7 @@
             j.tiempos.desvSeg = j.tiempos.realSeg - j.tiempos.estSeg;
         if (ch.length)
             ev(j, 'editado', ch.join(', '));
-        const h = S.view == 'home' && S.open == j.id;
+        const h = (S.view == 'home' || S.view == 'mapa') && S.open == j.id;
         D = null;
         S.modal = null;
         mark('flash', j.id, 1300);
@@ -8502,11 +9911,25 @@
             S.help = 1;
             render(1)
         },
+        modo: () => {
+            localStorage.lubri_dm = DM() ? '0' : '1';
+            location.reload()
+        },
         demo: () => {
+            if (fb) {
+                if (DM())
+                    fbSeed().then(() => toast('science', 'Demo recargada'));
+                return
+            }
             seed();
             render(1)
         },
         vac: () => {
+            if (fb) {
+                if (DM())
+                    fbWipe();
+                return
+            }
             S.jobs = [];
             S.cfg = defCfg();
             localStorage.lubri_jobs = '[]';
@@ -8874,7 +10297,7 @@
             const v = $('#mot').value;
             if (!v)
                 return;
-            const h = S.view == 'home' && S.open == d.id;
+            const h = (S.view == 'home' || S.view == 'mapa') && S.open == d.id;
             S.modal = null;
             mover(d.id, 'pausar', v);
             if (h)
@@ -8889,7 +10312,7 @@
             render(1)
         },
         delok: d => {
-            const h = S.view == 'home' && S.open == d.id;
+            const h = (S.view == 'home' || S.view == 'mapa') && S.open == d.id;
             S.modal = null;
             delJob(d.id);
             if (h)
@@ -9182,6 +10605,56 @@
             a.click()
         }
     };
+    const HK = (() => {
+        let c,
+            cur = {};
+        return {
+            play(k, id) {
+                try {
+                    c = c || new (window.AudioContext || window.webkitAudioContext)();
+                    if (c.state == 'suspended')
+                        c.resume();
+                    HK.stop(id);
+                    const t = c.currentTime,
+                        g = c.createGain(),
+                        tk = k == 'truck',
+                        b = tk ? 92 + (id % 4) * 7 : 340 + (id % 6) * 22,
+                        d = tk ? .9 : .32,
+                        a = tk ? .16 : .09,
+                        o = [b, b * 1.25].map(f => {
+                            const x = c.createOscillator();
+                            x.type = tk ? 'sawtooth' : 'square';
+                            x.frequency.value = f;
+                            x.connect(g);
+                            x.start(t);
+                            x.stop(t + d + .05);
+                            return x
+                        });
+                    g.gain.setValueAtTime(0, t);
+                    g.gain.linearRampToValueAtTime(a, t + .03);
+                    g.gain.setValueAtTime(a, t + d - .08);
+                    g.gain.linearRampToValueAtTime(0, t + d);
+                    g.connect(c.destination);
+                    cur[id] = g;
+                    o[0].onended = () => {
+                        if (cur[id] === g)
+                            delete cur[id]
+                    }
+                } catch (e) {}
+            },
+            stop(id) {
+                const g = cur[id];
+                if (g) {
+                    try {
+                        g.gain.cancelScheduledValues(c.currentTime);
+                        g.gain.setValueAtTime(g.gain.value, c.currentTime);
+                        g.gain.linearRampToValueAtTime(0, c.currentTime + .04)
+                    } catch (e) {}
+                    delete cur[id]
+                }
+            }
+        }
+    })();
     {
         let lt = {
             t: 0,
@@ -9197,10 +10670,14 @@
                 n = performance.now();
             if (lt.id === id && n - lt.t < 400) {
                 lt.id = null;
+                HK.stop(id);
                 TRF.fade(id)
             } else {
                 lt.id = id;
-                lt.t = n
+                lt.t = n;
+                const v = TRF.V[id];
+                if (v && !v.job)
+                    HK.play(v.k, id)
             }
         })
     }
@@ -9617,8 +11094,127 @@
         if (document.activeElement?.id == 'mq' && e.target.closest('#mtop') && !e.target.closest('input'))
             e.preventDefault()
     }); // tocar resultados no cierra el teclado
+    (() => {
+        let tm = 0,
+            lt = -1;
+        document.addEventListener('scroll', e => {
+            const t = e.target;
+            if (!t || t.id !== 'app')
+                return;
+            const y = t.scrollTop;
+            if (lt < 0 || Math.abs(y - lt) < 3) {
+                lt = y;
+                return
+            }
+            lt = y;
+            document.body.classList.add('fabh');
+            clearTimeout(tm);
+            tm = setTimeout(() => document.body.classList.remove('fabh'), 1500)
+        }, {
+            capture: true,
+            passive: true
+        })
+    })(); // v0.40: botón flotante se oculta al desplazar y reaparece 1,5 s después
+    Object.assign(A, {
+        meq: d => {
+            localStorage.lubri_modo = d.m;
+            history.replaceState(null, '', location.pathname);
+            location.reload()
+        },
+        mecz: d => {
+            localStorage.lubri_mz = d.z;
+            S.mzp = 0;
+            render(1)
+        },
+        mecx: () => {
+            S.mzp = 0;
+            render(1)
+        },
+        sset: () => {
+            S.sset = !S.sset;
+            clearTimeout(R.ss);
+            if (S.sset)
+                R.ss = setTimeout(() => {
+                    S.sset = 0;
+                    render(1)
+                }, 15000);
+            render(1)
+        },
+        sres: () => {
+            toast('sync', 'Resincronizando…');
+            setTimeout(() => location.reload(), 300)
+        },
+        mcom: d => {
+            if (S.mcf == d.id) {
+                S.mcf = null;
+                clearTimeout(R.mt);
+                A.com(d)
+            } else {
+                S.mcf = d.id;
+                clearTimeout(R.mt);
+                R.mt = setTimeout(() => {
+                    S.mcf = null;
+                    render(1)
+                }, 3500);
+                render(1)
+            }
+        }
+    });
+    if (MODO != 'admin') {
+        try {
+            navigator.wakeLock?.request('screen')
+        } catch (e) {}
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden)
+                try {
+                    navigator.wakeLock?.request('screen')
+                } catch (e) {}
+        })
+    }
+    if (MODO == 'sala') {
+        getWx();
+        setInterval(getWx, 1800000);
+        setInterval(clk, 1000);
+        setInterval(() => {
+            S.tipi = (S.tipi || 0) + 1;
+            const e = document.getElementById('stip'),
+                b = document.getElementById('stb'),
+                T = S.cfg.tips && S.cfg.tips.length ? S.cfg.tips : TIPS;
+            if (!e)
+                return;
+            e.classList.add('out');
+            setTimeout(() => {
+                e.textContent = T[S.tipi % T.length];
+                e.classList.remove('out');
+                if (b) {
+                    b.style.animation = 'none';
+                    void b.offsetWidth;
+                    b.style.animation = ''
+                }
+            }, 380)
+        }, 12000);
+        setInterval(() => {
+            clk();
+            render(1)
+        }, 30000)
+    }
+    if (MODO == 'mec') {
+        const cl = () => clearTimeout(R.lp);
+        document.addEventListener('pointerdown', e => {
+            if (e.target.closest('[data-mh]')) {
+                cl();
+                R.lp = setTimeout(() => {
+                    S.mzp = 1;
+                    render(1)
+                }, 1800)
+            }
+        });
+        ['pointerup', 'pointercancel', 'pointermove'].forEach(t => document.addEventListener(t, cl))
+    }
     await initDB();
     render(1);
+    if (MODO == 'sala')
+        setTimeout(clk, 0);
     </script>
 </body>
 </html>
