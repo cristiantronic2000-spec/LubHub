@@ -16,6 +16,7 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.42: (1) modo MECÁNICO rediseñado según el boceto: menú lateral izquierdo (Dashboard, Línea de trabajo, Mapa, Completas, Configuración), encabezado "Taller de mantención / Plataforma", tarjeta grande con OT + punto de estado, patente grande y hora de ingreso, recuadro punteado con revisión/cambios/repuestos, botones laterales (ayuda|editar, pausar, completar) y cola con flecha e Iniciar; (2) Firebase: conexión con detección automática de long-polling, la demo se carga sola en demo_trabajos/demo_config con reintentos (ya no falla con "client is offline"), enlace ?datos=demo|real y botón Usar datos DEMO/REALES también en modo mecánico y sala.
     CAMBIOS v0.41: modos de equipo por enlace (?modo=mec&zona=2 · ?modo=sala · ?modo=admin) o desde Configuración: MECÁNICO (zona fija, botones grandes, procesos/repuestos/indicaciones visibles, nombre del cliente) y SALA DE ESPERA (solo visualización: reloj, clima, vehículos en proceso y en espera con patente parcial, tips).
     CAMBIOS v0.40 (sobre v0.39): patente pequeña sobre autos con orden solo mientras se mueven; 1 toque en auto/camión de fondo = bocina propia, 2 toques lo cierran; la flecha de la burbuja abre el trabajo sobre el mapa y al actuar/editar se vuelve al mapa; botón Nuevo trabajo anclado abajo a la derecha, se oculta al desplazar y reaparece 1,5 s después.
     CAMBIOS v0.36: los autos de calles laterales y los que doblan al taller esperan menos (cuanto más esperan, menor hueco aceptan); menos tráfico de fondo (más tiempo entre autos y menos autos que entran al taller) para evitar tacos; sin alerta de taco: al reiniciarse el mapa (solo o con el botón) las calles parpadean.
@@ -6204,6 +6205,404 @@
         .mec-r1 {
             flex: 1.4
         }
+    }/* ---- v0.42 · modo MECÁNICO según boceto: menú lateral y tarjetas tipo píldora ---- */
+    body.m-mec {
+        --nh: 0px;
+        --sbw: 132px
+    }
+
+    body.m-mec #nav {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: var(--sbw);
+        max-width: none;
+        margin: 0;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: stretch;
+        border-top: 0;
+        border-right: 1.5px solid #cfcfcf;
+        padding: 14px 0 calc(14px + env(safe-area-inset-bottom, 0px));
+        padding-top: max(14px, env(safe-area-inset-top))
+    }
+
+    body.m-mec #nav button, body.m-mec #nav button:is( *) {
+        flex: none;
+        padding: 8px 4px;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.15;
+        color: #a3a3a3
+    }
+
+    body.m-mec #nav button.on {
+        color: #111
+    }
+
+    body.m-mec #nav .material-symbols-outlined {
+        font-size: 46px
+    }
+
+    body.m-mec #nav .bdg {
+        top: -4px;
+        right: -10px
+    }
+
+    body.m-mec #app {
+        left: var(--sbw);
+        bottom: 0;
+        right: 0
+    }
+
+    body.m-mec .bd {
+        left: var(--sbw)
+    }
+
+    body.m-mec .item.op::before {
+        left: var(--sbw)
+    }
+
+    body.m-mec .card.open {
+        left: calc(var(--sbw) + 10px)
+    }
+
+    body.m-mec #nav::after {
+        display: none
+    }
+
+    @media (max-width: 640px) {
+        body.m-mec {
+            --sbw:78px
+        }
+
+        body.m-mec #nav button {
+            font-size: 10px;
+            padding: 6px 2px;
+            gap:4px
+        }
+
+        body.m-mec #nav .material-symbols-outlined {
+            font-size: 32px
+        }
+    }
+
+    .mec {
+        max-width: 1100px;
+        padding: max(22px, env(safe-area-inset-top)) 22px 40px
+    }
+
+    .mec-h {
+        margin-bottom:26px
+    }
+
+    .mec-h small {
+        font-size: clamp(18px, 2.4vw, 26px);
+        font-weight: 700;
+        display: block;
+        color: #111;
+        line-height:1.2
+    }
+
+    .mec-h h1 {
+        font-size: clamp(32px, 5vw, 50px);
+        line-height: 1.1;
+        margin: 2px 0 0
+    }
+
+    .mec-row {
+        grid-template-columns: minmax(0, 1fr) 190px;
+        gap: 26px;
+        align-items: center;
+        margin-bottom: 28px
+    }
+
+    .mec-card, .mec-q {
+        border: 2.5px solid #111;
+        border-radius: clamp(36px, 7vw, 64px);
+        padding: 18px clamp(18px, 3vw, 34px) 24px;
+        margin-bottom: 0;
+        background: #fff
+    }
+
+    .mec-card.pausa {
+        border-color: var(--pausa)
+    }
+
+    .mec-top {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        column-gap: clamp(14px, 2.5vw, 32px);
+        align-items: start
+    }
+
+    .mec-id {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        min-width: 3.4ch
+    }
+
+    .mec-ot {
+        font-size: clamp(26px, 4.4vw, 40px);
+        min-width: 0;
+        line-height: 1.1
+    }
+
+    .mec-id .dot {
+        width: clamp(30px, 4.4vw, 42px);
+        height: clamp(30px, 4.4vw, 42px);
+        --sp: 8px
+    }
+
+    .mec-st {
+        padding-top:4px
+    }
+
+    .mec-st b {
+        font-size: clamp(20px, 3.4vw, 30px);
+        line-height:1.15
+    }
+
+    .mec-st span {
+        font-size: clamp(15px, 2.4vw, 23px);
+        color: #111;
+        line-height:1.25
+    }
+
+    .mec-st small {
+        display: block;
+        font-size: 14px;
+        color: #777;
+        margin-top: 2px
+    }
+
+    .mec-car {
+        align-items:flex-end
+    }
+
+    .mec-car b {
+        font-size: clamp(24px, 4.6vw, 42px);
+        letter-spacing: .02em;
+        line-height:1.1
+    }
+
+    .mec-car small {
+        font-size: clamp(13px, 2vw, 17px);
+        margin-top: 10px;
+        color:#111
+    }
+
+    .mec-car small b {
+        font-size: inherit;
+        letter-spacing: 0
+    }
+
+    .mec-box {
+        border: 7px dashed #c8c8c8;
+        border-radius: clamp(26px, 4vw, 40px);
+        padding: clamp(16px, 3vw, 30px) clamp(18px, 3.4vw, 40px);
+        margin: 14px 0 0;
+        min-height: 150px
+    }
+
+    .mec-box h3 {
+        font-size: clamp(20px, 3.3vw, 30px);
+        line-height: 1.25;
+        margin:0 0 8px
+    }
+
+    .mec-box h3:not(:first-child) {
+        margin-top: 18px;
+        font-size: clamp(17px, 2.6vw, 22px)
+    }
+
+    .mec-box li {
+        font-size: clamp(18px, 2.8vw, 24px)
+    }
+
+    .mec-side {
+        gap:14px
+    }
+
+    .mec-side button, .mec-r1 {
+        min-height: clamp(62px, 9vw, 80px);
+        border: 2px solid #111;
+        border-radius: 99px;
+        background: #fff;
+        color: #111
+    }
+
+    .mec-r1 button {
+        color:#9a9a9a
+    }
+
+    .mec-r1 button + button {
+        color: #111;
+        border-left: 2px solid #111
+    }
+
+    .mec-side .ok {
+        background: #fff;
+        border-color: #111;
+        color:#111
+    }
+
+    .mec-side .ok.rdy {
+        background: #12a63a;
+        border-color: #12a63a;
+        color: #fff
+    }
+
+    .mec-side .go {
+        background: #f9a825;
+        border-color: #f9a825;
+        color: #111
+    }
+
+    .mec-side .material-symbols-outlined {
+        font-size: 36px
+    }
+
+    .mec-qg {
+        display: grid;
+        grid-template-columns: clamp(46px, 8vw, 86px) minmax(0, 1fr) 190px;
+        column-gap: 26px;
+        row-gap: 16px;
+        align-items: center;
+        margin-top: -6px
+    }
+
+    .mec-qa {
+        align-self: end;
+        justify-self:center
+    }
+
+    .mec-qa .material-symbols-outlined {
+        font-size: clamp(44px, 7vw, 72px);
+        color: #111;
+        font-variation-settings: 'wght' 700
+    }
+
+    .mec-q {
+        padding: 12px clamp(16px, 3vw, 34px) 14px;
+        border-radius:99px
+    }
+
+    .mec-q .mec-top {
+        align-items:center
+    }
+
+    .mec-q .mec-id .dot {
+        width: 30px;
+        height:30px
+    }
+
+    .mec-q .mec-st b {
+        font-size:clamp(18px, 2.8vw, 24px)
+    }
+
+    .mec-q .mec-st span {
+        font-size:clamp(14px, 2.1vw, 19px)
+    }
+
+    .mec-q .mec-car b {
+        font-size:clamp(20px, 3.6vw, 30px)
+    }
+
+    .mec-q .mec-car small {
+        margin-top: 4px;
+        font-size: 13px
+    }
+
+    .dot.soft {
+        opacity: .35
+    }
+
+    @media (min-width: 900px) {
+        .mec-box ul {
+            columns: 2;
+            column-gap:36px
+        }
+
+        .mec-box li {
+            break-inside: avoid
+        }
+    }
+
+    .mec-s {
+        margin-bottom: 34px
+    }
+
+    @media (max-width: 640px) {
+        .mec-row {
+            grid-template-columns: 1fr;
+            gap:14px
+        }
+
+        .mec-side {
+            flex-direction:row
+        }
+
+        .mec-side > button, .mec-r1 {
+            flex:1
+        }
+
+        .mec-qg {
+            grid-template-columns: 40px minmax(0, 1fr);
+            row-gap:10px
+        }
+
+        .mec-qg .mec-side {
+            grid-column:2
+        }
+
+        .mec-qg .mec-side button {
+            min-height:54px
+        }
+
+        .mec-qa {
+            grid-row: span 2
+        }
+    }
+
+    #fbst {
+        position: fixed;
+        left: 50%;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+        transform: translateX(-50%);
+        z-index: 400;
+        max-width: min(560px, 92vw);
+        background: #111;
+        color: #fff;
+        border-radius: 16px;
+        padding: 9px 14px;
+        font: 600 13px/1.35 system-ui, sans-serif;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, .35);
+        display: none
+    }
+
+    #fbst.on {
+        display:block
+    }
+
+    #fbst.err {
+        background:#d62020
+    }
+
+    #fbst.ok {
+        background:#12a63a
+    }
+
+    #fbst small {
+        display: block;
+        font-weight: 400;
+        opacity: .9;
+        margin-top: 2px;
+        word-break: break-word
     }
 
     body.nofb::before {
@@ -6228,6 +6627,7 @@
     <nav id="nav" aria-label="Menú principal"></nav>
     <div id="modal"></div>
     <div id="alb"></div>
+    <div id="fbst" role="status"></div>
     <script type="module">
     /* ============ 1. CONFIGURACIÓN (pega aquí tu config de Firebase) ============ */
     const FIREBASE_CONFIG = {
@@ -6497,6 +6897,7 @@
             prow = j => `<div class="item"><div class="card"><div class="row prw" data-a="dpop" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot proceso"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div><div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
         return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
          <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg">${gl('proceso', c.proceso, 'build')}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
+         ${fb && !DM() && !S.jobs.length ? `<div class="empty">Aún no hay órdenes reales en la base.<br><button data-a="modo" style="margin-top:8px">${ic('science')} Usar datos DEMO</button></div>` : ''}
          <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
          <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
@@ -8807,38 +9208,126 @@
     const DM = () => localStorage.lubri_dm == '1',
         COL = () => DM() ? 'demo_trabajos' : 'trabajos',
         CFGC = () => DM() ? 'demo_config' : 'config'; // datos demo en colecciones aparte (demo_*), nunca se mezclan con los reales
+    let FBT = 0;
+    const fbStat = (t, k, det) => {
+        const e = document.getElementById('fbst');
+        if (!e)
+            return;
+        S.fbLast = t;
+        e.className = 'on ' + (k || '');
+        e.innerHTML = esc(t) + (det ? '<small>' + esc(det) + '</small>' : '');
+        clearTimeout(FBT);
+        if (k != 'err')
+            FBT = setTimeout(() => e.className = '', k == 'ok' ? 6000 : 30000)
+    };
+    const fbWhy = e => {
+        const c = String(e && e.code || ''),
+            m = String(e && e.message || e);
+        return c == 'permission-denied' || /permission|insufficient/i.test(m) ? 'Firestore rechazó escribir: revisa Reglas en la consola de Firebase (el modo de prueba vence a los 30 días).' : fbOff(e) ? 'No hay conexión con Firestore (internet, bloqueador o la base no está creada en Firestore Database).' : (c ? c + ': ' : '') + m
+    };
+    async function fbDiag() {
+        // consulta REST directa: dice con claridad por qué Firestore no responde
+        const c = FIREBASE_CONFIG,
+            u = 'https://firestore.googleapis.com/v1/projects/' + c.projectId + '/databases/(default)/documents/demo_config/principal?key=' + c.apiKey;
+        try {
+            const r = await fetch(u),
+                j = await r.json().catch(() => ({})),
+                er = j.error || {},
+                st = er.status || '',
+                m = er.message || '';
+            if (r.ok || r.status == 404 && st == 'NOT_FOUND' && /document/i.test(m))
+                return {
+                    ok: 1,
+                    t: 'La base responde y las reglas permiten leer. Si la app sigue sin conectar, el problema es la red del navegador (prueba otra red o Chrome).'
+                };
+            if (r.status == 404)
+                return {
+                    t: 'La base de datos Firestore NO existe en el proyecto ' + c.projectId + '.',
+                    d: 'Consola de Firebase → Firestore Database → Crear base de datos (modo prueba). Luego recarga la app.'
+                };
+            if (r.status == 403 && /not been used|disabled/i.test(m))
+                return {
+                    t: 'La API de Firestore está desactivada o sin crear.',
+                    d: 'Consola de Firebase → Firestore Database → Crear base de datos. ' + m
+                };
+            if (r.status == 403 && /referer|referrer|blocked/i.test(m))
+                return {
+                    t: 'La clave de API tiene restricciones de sitio web y bloquea este origen (' + location.origin + ').',
+                    d: 'Google Cloud → Credenciales → tu clave → agrega ' + location.origin + '/* en referentes HTTP permitidos. ' + m
+                };
+            if (r.status == 403 || st == 'PERMISSION_DENIED')
+                return {
+                    t: 'Las reglas de Firestore no permiten leer/escribir.',
+                    d: 'Firestore Database → Reglas → permitir lectura y escritura (modo de prueba) y publicar. ' + m
+                };
+            return {
+                t: 'Firestore respondió ' + r.status + ' ' + st,
+                d: m
+            }
+        }
+        catch (e) {
+            return {
+                t: 'El navegador no puede llegar a Firestore (red, VPN, bloqueador o modo local sin internet).',
+                d: String(e && e.message || e)
+            }
+        }
+    }
+    const fbOff = e => /offline|unavailable/i.test(String(e && (e.code || '') + ' ' + (e && e.message || ''))); // sin red momentánea: no es un error que mostrar
     const fbErr = e => {
         console.error('Firebase', e);
+        fbStat('Firebase: ' + (fbOff(e) ? 'sin conexión' : 'error'), 'err', fbWhy(e));
+        if (fbOff(e)) {
+            S.fbWait = 1;
+            return
+        }
         const p = e && e.code == 'permission-denied';
         alert(p ? 'Firebase rechazó el acceso. En la consola de Firebase → Firestore → Reglas, permite leer y escribir (reglas de prueba) y vuelve a intentar.' : 'Error de Firebase: ' + (e && e.message || e))
     };
     async function fbDemoPut() {
         // escribe los datos demo SOLO en demo_trabajos / demo_config (separados e indicados con _demo:true)
         const o = {
-            jobs: S.jobs,
-            cfg: S.cfg
-        };
+                jobs: S.jobs,
+                cfg: S.cfg
+            },
+            ls = ['lubri_jobs', 'lubri_cfg', 'lubri_ok'].map(k => localStorage.getItem(k));
         seed();
         const J = S.jobs,
             C = S.cfg;
         S.jobs = o.jobs;
         S.cfg = o.cfg;
-        const q = await fb.f.getDocs(fb.f.collection(fb.db, 'demo_trabajos'));
-        await Promise.all(q.docs.map(d => fb.f.deleteDoc(d.ref)));
-        await Promise.all(J.map(j => fb.f.setDoc(fb.f.doc(fb.db, 'demo_trabajos', j.id), {
+        ['lubri_jobs', 'lubri_cfg', 'lubri_ok'].forEach((k, i) => ls[i] == null ? localStorage.removeItem(k) : localStorage.setItem(k, ls[i])); // seed() no debe ensuciar los datos locales
+        const F = fb.f,
+            col = F.collection(fb.db, 'demo_trabajos');
+        if (!fbSeed.first) {
+            try {
+                const q = await F.getDocs(col);
+                for (let i = 0; i < q.docs.length; i += 400) {
+                    const w = F.writeBatch(fb.db);
+                    q.docs.slice(i, i + 400).forEach(d => w.delete(d.ref));
+                    await w.commit()
+                }
+            } catch (e) {
+                console.warn('limpieza demo omitida', e)
+            }
+        } // en la carga automática la colección está vacía
+        const w = F.writeBatch(fb.db);
+        J.forEach(j => w.set(F.doc(fb.db, 'demo_trabajos', j.id), {
             ...j,
             _demo: true
-        })));
-        await fb.f.setDoc(fb.f.doc(fb.db, 'demo_config', 'principal'), {
+        }));
+        w.set(F.doc(fb.db, 'demo_config', 'principal'), {
             ...C,
             _demo: true
         });
+        await w.commit();
         return J.length
     }
     async function fbSeed() {
         try {
+            fbSeed.first = 0;
+            fbStat('Cargando demo en Firebase…');
             const n = await fbDemoPut();
-            toast('science', 'Demo cargada: ' + n + ' trabajos en demo_trabajos');
+            fbStat('Demo cargada en Firebase: ' + n + ' trabajos', 'ok', 'Colecciones demo_trabajos y demo_config. Para verla usa «Usar datos DEMO».');
             return 1
         } catch (e) {
             fbErr(e)
@@ -8881,8 +9370,15 @@
                 }
                 if (!a)
                     throw new Error('No se pudo cargar el SDK de Firebase (revisa internet o bloqueadores)');
-                const ap = a.initializeApp(FIREBASE_CONFIG),
-                    db = f.getFirestore(ap);
+                const ap = a.initializeApp(FIREBASE_CONFIG);
+                let db;
+                try {
+                    db = f.initializeFirestore(ap, {
+                        experimentalAutoDetectLongPolling: true
+                    })
+                } catch (e) {
+                    db = f.getFirestore(ap)
+                } // long-polling automático si la red bloquea el canal normal (evita "client is offline")
                 fb = {
                     f,
                     db
@@ -8890,10 +9386,39 @@
                 import(B + 'firebase-analytics.js').then(m => m.getAnalytics(ap)).catch(() => {}); // Analytics: opcional, si falla la app sigue igual
                 if (DM())
                     document.body.classList.add('dm');
-                f.getDoc(f.doc(db, 'demo_config', 'principal')).then(d => {
-                    if (!d.exists())
-                        return fbDemoPut().then(n => console.info('Demo cargada en Firebase:', n, 'trabajos'))
-                }).catch(fbErr);
+                const ensureDemo = async (n=0) => {
+                    // carga la demo en demo_trabajos/demo_config si aún no existe; reintenta mientras no haya conexión
+                    try {
+                        fbStat(n ? 'Reintentando conexión con Firebase (' + n + ')…' : 'Verificando demo en Firebase…');
+                        const d = await Promise.race([f.getDocFromServer(f.doc(db, 'demo_config', 'principal')), new Promise((_, x) => setTimeout(() => x({
+                            code: 'timeout',
+                            message: 'sin respuesta de Firestore en 12 s'
+                        }), 12000))]);
+                        if (d.exists())
+                            fbStat('Firebase conectado · demo disponible', 'ok', 'Para verla usa «Usar datos DEMO» (o abre la app con ?datos=demo).');
+                        else {
+                            fbSeed.first = 1;
+                            const k = await fbDemoPut();
+                            fbSeed.first = 0;
+                            fbStat('Demo cargada en Firebase: ' + k + ' trabajos', 'ok', 'Para verla usa «Usar datos DEMO» (o abre la app con ?datos=demo).')
+                        }
+                    }
+                    catch (e) {
+                        const g = await fbDiag();
+                        if (!g.ok) {
+                            fbStat(g.t, 'err', g.d);
+                            if (!/NO existe|desactivada|restricciones|reglas/i.test(g.t) && n < 5)
+                                setTimeout(() => ensureDemo(n + 1), 5000 * (n + 1));
+                            return
+                        }
+                        if (n < 5) {
+                            fbStat('Conectando con Firebase…', '', g.t);
+                            setTimeout(() => ensureDemo(n + 1), 4000 * (n + 1))
+                        } else
+                            fbStat('Sin conexión estable con Firebase', 'err', g.t)
+                    }
+                };
+                ensureDemo();
                 f.onSnapshot(f.collection(db, COL()), s => {
                     S.jobs = s.docs.map(d => d.data());
                     render()
@@ -9398,6 +9923,9 @@
             const z = p.get('zona');
             if (z)
                 localStorage.lubri_mz = z;
+            const dd = p.get('datos');
+            if (dd)
+                localStorage.lubri_dm = dd == 'demo' ? '1' : '0';
             const k = localStorage.lubri_modo;
             return k == 'mec' || k == 'sala' ? k : 'admin'
         } catch (e) {
@@ -9506,7 +10034,7 @@
             wait = (j, i) => `<div class="sala-c b cola${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sala-m"><b>${esc(j.titulo)}</b><small>Turno ${i + 1}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
             done = (j, i) => `<div class="sala-ld${nw(j.id, i)}">${ic('check_circle')}<span class="sala-pl">${mask(j.vehiculo.patente)}</span></div>`,
             M = S.salaMsg;
-        return `<div class="sala"><div class="sala-bg"><i></i><i></i><i></i></div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><button data-a="sres">${ic('sync')}Resincronizar</button><button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}${M ? `<div class="sala-bn ${M.k}">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div>` : ''}
+        return `<div class="sala"><div class="sala-bg"><i></i><i></i><i></i></div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><button data-a="sres">${ic('sync')}Resincronizar</button>${fb ? `<button data-a="modo">${ic('science')}Usar datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}<button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}${M ? `<div class="sala-bn ${M.k}">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div>` : ''}
          <div class="sala-l"><div class="sala-sync">${syncTag()}</div><div class="sala-biz">${esc(S.cfg.negocio || '')}</div><div class="sala-clk" id="sclk"></div><div class="sala-date" id="sdate"></div>
          <div class="sala-wx ${W ? W.i : ''}">${W ? `<b>${W.t}°</b>${ic(W.i)}<div><strong>${esc(S.cfg.ciudad || 'Talagante, Chile')}</strong><span>${W.tx}</span><em>${W.mn}° - ${W.mx}°</em></div>` : ''}</div>
          <div class="sala-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div></div>
@@ -9530,7 +10058,7 @@
     function vMecSet() {
         const z = mzone(),
             p = mplat();
-        return `<div class="mec"><div class="mec-h"><small>Modo mecánico</small><h1>Ajustes del equipo</h1><div class="mec-sy">${syncTag()}</div></div><div class="mec-set"><p>Este equipo está fijado en: <b>${p ? esc(p.nombre) + ' · ' : ''}${z ? esc(z.nombre) : 'sin elegir'}</b></p><button data-a="mecp">${ic('swap_horiz')}Cambiar zona o plataforma</button><button data-a="sres">${ic('sync')}Resincronizar datos</button><button class="ad" data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button></div></div>`
+        return `<div class="mec"><div class="mec-h"><small>Modo mecánico</small><h1>Ajustes del equipo</h1><div class="mec-sy">${syncTag()}</div></div><div class="mec-set"><p>Este equipo está fijado en: <b>${p ? esc(p.nombre) + ' · ' : ''}${z ? esc(z.nombre) : 'sin elegir'}</b></p><button data-a="mecp">${ic('swap_horiz')}Cambiar zona o plataforma</button><button data-a="sres">${ic('sync')}Resincronizar datos</button>${fb ? `<button data-a="modo">${ic('science')}Usar datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}<button class="ad" data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button></div></div>`
     }
     function vMec() {
         const z = S.mzp ? null : mzone();
@@ -9538,8 +10066,13 @@
             return `<div class="mec"><div class="mec-h"><small>Taller de mantención</small><h1>¿Dónde trabaja este equipo?</h1></div>${ZA().map(q => `<div class="mec-zb"><button class="zz" data-a="mecz" data-z="${q.id}">${esc(q.nombre)} <small>(todas sus plataformas)</small></button><div class="mec-pick">${S.cfg.plataformas.filter(p => p.activo !== false && p.zonaId == q.id).map(p => `<button data-a="mecpl" data-z="${q.id}" data-p="${p.id}">${esc(p.nombre)}</button>`).join('')}</div></div>`).join('')}${mzone() ? '<button class="mec-sec" data-a="mecx">Cancelar</button>' : ''}<button class="mec-sec" data-a="meq" data-m="admin">Pasar a modo administrador</button></div>`;
         const pl = mplat(),
             P = S.cfg.plataformas.filter(p => p.activo !== false && p.zonaId == z.id && (!pl || p.id == pl.id));
-        const car = j => `<div class="mec-car"><b>${esc(j.vehiculo.patente)}</b><span>${esc(j.cliente.nombre || 'Sin nombre')}</span></div>`,
-            top = (j, t) => `<div class="mec-top"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="mec-st"><b>${t}</b><span>${esc(j.titulo)} · In: ${hm(j.tiempos.ingresoISO)}</span></div>${car(j)}</div>`,
+        const inAM = iso => {
+                const d = new Date(iso),
+                    h = d.getHours();
+                return `In: <b>${p2(h % 12 || 12)}:${p2(d.getMinutes())}</b>${h < 12 ? 'AM' : 'PM'}`
+            },
+            car = j => `<div class="mec-car"><b>${esc(j.vehiculo.patente)}</b><small>${inAM(j.tiempos.ingresoISO)}</small></div>`,
+            top = (j, t) => `<div class="mec-top"><div class="mec-id"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}${j.ot ? '' : ' soft'}"></i></div><div class="mec-st"><b>${t}</b><span>${esc(j.titulo || sv(j))}</span>${j.cliente.nombre ? `<small>${esc(j.cliente.nombre)}</small>` : ''}</div>${car(j)}</div>`,
             nota = j => (j.notas || []).filter(n => n.tipo == 'orden').map(n => n.texto).join(' · '),
             full = j => {
                 const sv = j.servicios.map((x, i) => `<li class="${x.hecho ? 'on' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}">${ic(x.hecho ? 'check_box' : 'check_box_outline_blank')}<span>${esc(x.nombre)}</span></li>`).join(''),
@@ -9547,9 +10080,9 @@
                     cf = S.mcf == j.id,
                     ps = j.estado == 'pausa';
                 return `<div class="mec-row"><div class="mec-card ${j.estado}">${top(j, ps ? 'En pausa' : 'En proceso')}<div class="mec-box"><h3>Revisión, cambios y repuestos para el proceso</h3><ul>${sv || '<li><span>Sin procesos asignados</span></li>'}</ul>${(j.repuestos || []).length ? `<h3>Repuestos</h3><ul class="rp">${j.repuestos.map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('')}</ul>` : ''}${n ? `<h3>Indicaciones</h3><p>${esc(n)}</p>` : ''}</div></div>
-                  <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'}" data-a="mcom" data-id="${j.id}" title="Completar">${cf ? '<span>¿Seguro?</span>' : ic('check')}</button></div></div>`
+                  <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'} ${rdy(j) && !cf ? 'rdy' : ''}" data-a="mcom" data-id="${j.id}" title="Completar">${cf ? '<span>¿Seguro?</span>' : ic('check')}</button></div></div>`
             },
-            qd = j => `<div class="mec-q">${top(j, 'En cola')}<div class="mec-btns"><button class="go" data-a="ini" data-id="${j.id}">${ic('play_arrow')}Iniciar</button></div></div>`;
+            qd = (j, i) => `<div class="mec-qa">${i ? '' : ic('subdirectory_arrow_right')}</div><div class="mec-q">${top(j, 'En cola')}</div><div class="mec-side"><button class="go" data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button></div>`;
         let n = 0;
         const sec = p => {
                 const J = S.jobs.filter(j => j.estado != 'completado' && j.plataformaId == p.id).sort(byIng),
@@ -9558,10 +10091,10 @@
                 if (!J.length && !pl)
                     return '';
                 n += J.length;
-                return `<section class="mec-s">${pl ? '' : `<h2 class="mec-pn">${esc(p.nombre)}</h2>`}${A.map(full).join('') || '<p class="mec-no">Sin trabajo en proceso</p>'}${Q.length ? `<div class="mec-qr"><span class="mec-ar">${ic('subdirectory_arrow_right')}</span><div>${Q.map(qd).join('')}</div></div>` : ''}</section>`
+                return `<section class="mec-s">${pl ? '' : `<h2 class="mec-pn">${esc(p.nombre)}</h2>`}${A.map(full).join('') || '<p class="mec-no">Sin trabajo en proceso</p>'}${Q.length ? `<div class="mec-qg">${Q.map(qd).join('')}</div>` : ''}</section>`
             },
             body = P.map(sec).join('');
-        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || '<p class="mec-no">Sin trabajos activos aquí</p>'}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}`
+        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || `<p class="mec-no">Sin trabajos activos aquí</p>${fb && !DM() && !S.jobs.length ? `<div class="mec-btns" style="max-width:420px;margin:0 auto"><button data-a="modo">${ic('science')}Usar datos DEMO</button></div>` : ''}`}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}`
     }
     function render(f) {
         ensureZ();
@@ -11336,13 +11869,12 @@
             h = v ? v.height : innerHeight,
             t = v ? v.offsetTop : 0,
             nb = $('#nav'),
-            nh = nb ? nb.offsetHeight : 78,
+            nh = document.body.classList.contains('m-mec') ? 0 : (nb ? nb.offsetHeight : 78),
             kb = innerHeight - h - t > 140,
             r = document.documentElement.style;
         r.setProperty('--vvh', h + 'px');
         r.setProperty('--vvt', t + 'px');
-        if (nh)
-            r.setProperty('--nh', nh + 'px');
+        r.setProperty('--nh', nh + 'px');
         r.setProperty('--avh', Math.max(120, h - (kb ? 0 : nh)) + 'px')
     }
     {
@@ -11540,3 +12072,4 @@
     </script>
 </body>
 </html>
+
