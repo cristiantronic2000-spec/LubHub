@@ -16,6 +16,7 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.43: (1) el aviso de Firebase solo aparece si hay error; (2) sala: Listos para retirar bajo los tips (última patente grande + 3), siguientes 4 en espera siempre visibles, reloj estable, clima rotativo de 6 localidades, ajuste automático a pantalla; (3) mecánico: textos más grandes, sin borde gris, secciones Revisión / Cambios / Repuestos, botón + para solicitar repuestos (el admin aprueba y se suma al proceso), ✓ solo AVISA listo (el admin completa; si se ignora, la tarjeta parpadea naranja con banner); (4) sincronización: actualización inmediata local y forzada en sala/mecánico.
     CAMBIOS v0.42: (1) modo MECÁNICO rediseñado según el boceto: menú lateral izquierdo (Dashboard, Línea de trabajo, Mapa, Completas, Configuración), encabezado "Taller de mantención / Plataforma", tarjeta grande con OT + punto de estado, patente grande y hora de ingreso, recuadro punteado con revisión/cambios/repuestos, botones laterales (ayuda|editar, pausar, completar) y cola con flecha e Iniciar; (2) Firebase: conexión con detección automática de long-polling, la demo se carga sola en demo_trabajos/demo_config con reintentos (ya no falla con "client is offline"), enlace ?datos=demo|real y botón Usar datos DEMO/REALES también en modo mecánico y sala.
     CAMBIOS v0.41: modos de equipo por enlace (?modo=mec&zona=2 · ?modo=sala · ?modo=admin) o desde Configuración: MECÁNICO (zona fija, botones grandes, procesos/repuestos/indicaciones visibles, nombre del cliente) y SALA DE ESPERA (solo visualización: reloj, clima, vehículos en proceso y en espera con patente parcial, tips).
     CAMBIOS v0.40 (sobre v0.39): patente pequeña sobre autos con orden solo mientras se mueven; 1 toque en auto/camión de fondo = bocina propia, 2 toques lo cierran; la flecha de la burbuja abre el trabajo sobre el mapa y al actuar/editar se vuelve al mapa; botón Nuevo trabajo anclado abajo a la derecha, se oculta al desplazar y reaparece 1,5 s después.
@@ -6619,6 +6620,404 @@
         padding: 3px 6px;
         padding-top: max(3px, env(safe-area-inset-top));
         pointer-events: none
+    }/* v0.43 */
+    body.m-mec #nav small {
+        font-size: 15px;
+        font-weight:600
+    }
+
+    body.m-mec #nav .material-symbols-outlined {
+        font-size: 40px
+    }
+
+    .mec-h small {
+        font-size:clamp(22px, 2.6vw, 30px) !important
+    }
+
+    .mec-h h1 {
+        font-size:clamp(40px, 5.6vw, 64px) !important
+    }
+
+    .mec-sy {
+        font-size: 18px
+    }
+
+    .mec-st b {
+        font-size:clamp(26px, 3.8vw, 40px) !important
+    }
+
+    .mec-st span {
+        font-size:clamp(20px, 2.8vw, 30px) !important
+    }
+
+    .mec-st small {
+        font-size: clamp(16px, 2.2vw, 22px) !important;
+        color: #333 !important
+    }
+
+    .mec-car b {
+        font-size:clamp(30px, 5vw, 52px) !important
+    }
+
+    .mec-car small {
+        font-size: clamp(17px, 2.4vw, 24px) !important
+    }
+
+    .mec-box {
+        border: 0 !important;
+        padding: 4px 6px !important;
+        min-height: 0 !important;
+        margin: 10px 0 0 !important
+    }
+
+    .mec-g + .mec-g {
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 2px solid #e3e3e3
+    }
+
+    .mec-box h3, .mec-box h3:not(:first-child) {
+        font-size: clamp(26px, 3.6vw, 38px) !important;
+        margin: 0 0 10px !important
+    }
+
+    .mec-box li {
+        font-size: clamp(22px, 3.2vw, 32px) !important;
+        padding:6px 0
+    }
+
+    .mec-box li .material-symbols-outlined {
+        font-size:1.35em
+    }
+
+    .mec-box li small {
+        font-size: .62em;
+        color:#444
+    }
+
+    .mec-box li.pend {
+        color:#b25e00
+    }
+
+    .mec-box li.rec {
+        color: #c01818;
+        text-decoration:line-through
+    }
+
+    .mec-box p {
+        font-size: clamp(20px, 2.8vw, 28px);
+        margin: 0
+    }
+
+    .mec-lt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: 99px;
+        background: #12a63a;
+        color: #fff;
+        font-weight: 800;
+        font-size: clamp(20px, 2.8vw, 28px)
+    }
+
+    .mec-card.lt {
+        border-color:#12a63a
+    }
+
+    .mec-side .plus {
+        font-size:30px
+    }
+
+    .mec-side .plus .material-symbols-outlined {
+        font-size: 44px
+    }
+
+    .mec-zb .zz {
+        font-size: clamp(26px, 4vw, 34px) !important;
+        min-height:92px !important
+    }
+
+    .mec-zb .zz small {
+        font-size: .65em !important;
+        color:#333 !important
+    }
+
+    .mec-pick button {
+        font-size: clamp(24px, 3.8vw, 32px) !important;
+        min-height:84px !important
+    }
+
+    .mec-sec {
+        font-size: clamp(22px, 3.4vw, 28px) !important;
+        min-height: 80px !important
+    }
+
+    .mec-pn {
+        font-size: clamp(26px, 3.4vw, 34px) !important;
+        color:#111 !important
+    }
+
+    .mec-no {
+        font-size: 24px !important;
+        color: #333 !important
+    }
+
+    .mec-rq {
+        max-width:560px !important
+    }
+
+    .mec-rq .t {
+        font-size:30px
+    }
+
+    .mec-rq p {
+        font-size:20px
+    }
+
+    .mec-rq input {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 26px;
+        padding: 16px 20px;
+        border: 2.5px solid #111;
+        border-radius: 99px;
+        margin: 8px 0
+    }
+
+    .rq-c {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        margin:10px 0 16px
+    }
+
+    .rq-c b {
+        font-size: 44px;
+        min-width: 2ch;
+        text-align:center
+    }
+
+    .rq-c button {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        border: 2.5px solid #111;
+        background: #fff;
+        font-size:40px
+    }
+
+    .mec-rq .btns button {
+        min-height: 72px;
+        font-size: 22px;
+        font-weight: 700
+    }
+
+    .item.lst .card {
+        border-color: #f26a21 !important;
+        animation:lstb 1.1s ease-in-out infinite
+    }
+
+    @keyframes lstb {
+        0%, 100% {
+            background: #fff;
+            box-shadow:0 0 0 0 rgba(242, 106, 33, .0)
+        }
+
+        50% {
+            background: #ffe7d6;
+            box-shadow: 0 0 0 6px rgba(242, 106, 33, .35)
+        }
+    }
+
+    .lst-b {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 12px 10px;
+        padding: 10px 16px;
+        border-radius: 99px;
+        background: #f26a21;
+        color: #fff;
+        font-size:16px
+    }
+
+    .lst-b b {
+        flex:1
+    }
+
+    .lst-b button {
+        border: 0;
+        border-radius: 99px;
+        background: #fff;
+        color: #c2490a;
+        font-weight: 800;
+        padding: 8px 16px;
+        font-size: 15px
+    }
+
+    .sol {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 12px 10px;
+        padding: 10px 14px;
+        border-radius: 18px;
+        background: #fff4e0;
+        border: 2px solid #f9a825;
+        font-size:15px
+    }
+
+    .sol > span:not(.material-symbols-outlined) {
+        flex:1
+    }
+
+    .sol button {
+        border: 0;
+        border-radius: 99px;
+        background: #12a63a;
+        color: #fff;
+        font-weight: 700;
+        padding:8px 14px
+    }
+
+    .sol button.no {
+        background: #fff;
+        color: #c01818;
+        border: 2px solid #c01818
+    }
+
+    .alb.listo, .alb.rep {
+        border-color:#f26a21
+    }
+
+    .alb.listo .pb, .alb.rep .pb {
+        background: #f26a21
+    }/* sala */
+
+    .sala-h2 {
+        font-size: clamp(24px, 2.8vw, 54px) !important;
+        margin: 2.2vw 0 1vw !important;
+        font-weight: 800
+    }
+
+    .sala-big {
+        display: flex;
+        align-items: center;
+        gap: 1.6vw;
+        border: .35vw solid #12a63a;
+        border-radius: 99px;
+        background: #effaf1;
+        color: #0c7a2a;
+        padding:1vw 2.6vw
+    }
+
+    .sala-big .material-symbols-outlined {
+        font-size:clamp(40px, 5vw, 96px)
+    }
+
+    .sala-big small {
+        display: block;
+        font-size: clamp(14px, 1.6vw, 30px);
+        font-weight:700
+    }
+
+    .sala-big .sala-pl {
+        font-size: clamp(34px, 5.2vw, 100px) !important;
+        border-color: #0c7a2a;
+        color: #0c7a2a;
+        display: inline-block
+    }
+
+    .sala-l .sala-lr {
+        margin-top:1vw
+    }
+
+    .sala-ld .sala-pl {
+        font-size: clamp(20px, 2.4vw, 46px) !important;
+        border-width: 2px
+    }
+
+    .sala-tip {
+        min-height: 9vw !important;
+        margin-top:1.4vw !important
+    }
+
+    .sala-wx {
+        margin-top: 1.2vw !important;
+        min-height:0 !important
+    }
+
+    .sala-clk {
+        font-size: clamp(44px, 7.2vw, 150px) !important
+    }
+
+    .sala-pg.two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:0 1.2vw
+    }
+
+    .sala-pg .sala-c {
+        margin-bottom:1vw
+    }
+
+    .sala-pg.two .sala-m b, .sala-pg.two .sala-m span {
+        white-space: normal
+    }
+
+    .sala-m b {
+        font-size:clamp(18px, 2.1vw, 40px) !important
+    }
+
+    .sala-m span {
+        font-size:clamp(16px, 1.7vw, 32px) !important
+    }
+
+    .sala-m small {
+        font-size: clamp(14px, 1.4vw, 26px) !important;
+        color: #444 !important
+    }
+
+    .sala-p small {
+        font-size: clamp(14px, 1.4vw, 26px) !important
+    }
+
+    .sala-c.b .sala-m b {
+        font-size: clamp(16px, 1.7vw, 32px) !important;
+        white-space: normal !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient:vertical
+    }
+
+    .sala-c.b .sala-pl {
+        font-size:clamp(16px, 1.9vw, 36px) !important
+    }
+
+    .sala-c.b .sala-ot {
+        font-size: clamp(18px, 2.1vw, 40px) !important
+    }
+
+    .sala-no {
+        color: #444 !important;
+        font-size:clamp(16px, 1.8vw, 34px) !important
+    }
+
+    .sala-st span {
+        font-size: clamp(14px, 1.6vw, 30px) !important
+    }
+
+    @media (max-aspect-ratio: 3/2) {
+        .sala-g {
+            grid-template-columns:1fr !important
+        }
+
+        .sala-pg.two {
+            grid-template-columns: 1fr
+        }
     }
     </style>
 </head>
@@ -9214,7 +9613,12 @@
         if (!e)
             return;
         S.fbLast = t;
-        e.className = 'on ' + (k || '');
+        if (k != 'err') {
+            clearTimeout(FBT);
+            e.className = '';
+            return
+        }
+        e.className = 'on err';
         e.innerHTML = esc(t) + (det ? '<small>' + esc(det) + '</small>' : '');
         clearTimeout(FBT);
         if (k != 'err')
@@ -9421,7 +9825,8 @@
                 ensureDemo();
                 f.onSnapshot(f.collection(db, COL()), s => {
                     S.jobs = s.docs.map(d => d.data());
-                    render()
+                    R.snT = Date.now();
+                    render(MODO == 'admin' || S.mrq ? 0 : 1)
                 }, fbErr); // tiempo real
                 f.onSnapshot(f.doc(db, CFGC(), 'principal'), d => {
                     if (d.exists())
@@ -9429,7 +9834,7 @@
                             ...defCfg(),
                             ...d.data()
                         };
-                    render()
+                    render(MODO == 'admin' || S.mrq ? 0 : 1)
                 }, fbErr);
                 return
             }
@@ -9452,8 +9857,11 @@
     }
     function saveJob(j, q) {
         // crea o actualiza un trabajo
-        if (fb)
-            fb.f.setDoc(fb.f.doc(fb.db, COL(), j.id), j);
+        if (fb) {
+            const i = S.jobs.findIndex(x => x.id == j.id);
+            i < 0 ? S.jobs.push(j) : S.jobs[i] = j;
+            fb.f.setDoc(fb.f.doc(fb.db, COL(), j.id), j).catch(fbErr)
+        } // actualiza al instante en este equipo y luego sincroniza
         else {
             const i = S.jobs.findIndex(x => x.id == j.id);
             i < 0 ? S.jobs.push(j) : S.jobs[i] = j;
@@ -9556,6 +9964,8 @@
             showCd(j.plataformaId, 1, 6000)
         }
         if (a == 'reabrir') {
+            j.listo = false;
+            j.listoISO = null;
             j.estado = 'pausa';
             t.completadoISO = null;
             j.pausa = {
@@ -9682,9 +10092,23 @@
          ${j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button>` : `<button data-a="ini" data-id="${j.id}" title="${j.estado == 'pausa' ? 'Reanudar' : 'Iniciar'}">${ic(j.estado == 'pausa' ? 'replay' : 'play_arrow')}</button>`}
          ${j.estado != 'completado' ? `<button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : '<span></span>'}<button data-a="edit" data-id="${j.id}" title="Editar esta orden">${ic('edit')}</button></div></div>`
     };
+
+    const rqBox = () => {
+        const j = get(S.mrq.id);
+        if (!j)
+            return '';
+        const R_ = [...new Set((S.cfg.repuestos || []).map(r => r.nombre))];
+        return `<div class="bd" style="z-index:50"><div class="box mec-rq"><b class="t">Solicitar repuesto</b><p>${esc(j.vehiculo.patente)} · ${esc(sv(j))}</p><input id="rqn" list="rql" autocomplete="off" placeholder="¿Qué repuesto necesitas?" value="${esc(S.mrq.t || '')}"><datalist id="rql">${R_.map(n => `<option value="${esc(n)}">`).join('')}</datalist><div class="rq-c"><button data-a="mrqm">−</button><b>${S.mrq.n}</b><button data-a="mrqp">+</button></div><div class="btns"><button data-a="mrqx">Cancelar</button><button class="go" data-a="mrqs">Enviar a administración</button></div></div></div>`
+    };
+    document.addEventListener('input', e => {
+        if (e.target.id == 'rqn' && S.mrq)
+            S.mrq.t = e.target.value
+    });
+    const lstB = j => j.listo && j.estado != 'completado' ? `<div class="lst-b">${ic('inventory_2')}<b>Listo para entregar</b><button data-a="com" data-id="${j.id}">Completar</button></div>` : '';
+    const solBox = j => (j.solicitudes || []).filter(s => s.estado == 'pend').map(s => `<div class="sol">${ic('build')}<span><b>Repuesto solicitado:</b> ${s.cant > 1 ? s.cant + ' × ' : ''}${esc(s.nombre)}</span><button data-a="sapr" data-id="${j.id}" data-s="${s.id}">Aprobar y sumar</button><button class="no" data-a="srec" data-id="${j.id}" data-s="${s.id}">Rechazar</button></div>`).join('');
     const card = (j, x) => {
         const o = S.open == j.id;
-        return `<div class="item ${j.estado == 'cola' ? 'sub' : ''} ${typeof x == 'string' ? x : ''} ${o ? 'op' : ''}" data-pl="${j.plataformaId}">${j.estado == 'cola' ? ic('subdirectory_arrow_right', 'arr') : ''}<div class="card ${o ? 'open' : ''} ${S.hl == j.id && !o ? 'hl' : ''}">${o ? detail(j) : row(j) + doneLine(j) + reaBox(j)}</div>${o ? '' : side(j)}</div>`
+        return `<div class="item ${j.estado == 'cola' ? 'sub' : ''} ${typeof x == 'string' ? x : ''} ${o ? 'op' : ''} ${j.listo && j.estado != 'completado' ? 'lst' : ''}" data-pl="${j.plataformaId}">${j.estado == 'cola' ? ic('subdirectory_arrow_right', 'arr') : ''}<div class="card ${o ? 'open' : ''} ${S.hl == j.id && !o ? 'hl' : ''}">${o ? detail(j) : row(j) + doneLine(j) + reaBox(j) + lstB(j) + solBox(j)}</div>${o ? '' : side(j)}</div>`
     };
     const doneLine = j => j.estado == 'completado' ? `<div class="sm">Real ${Math.round(j.tiempos.realSeg / 60)} min · Estimado ${Math.round(j.tiempos.estSeg / 60)} min · ${j.tiempos.desvSeg > 0 ? '+' : ''}${Math.round(j.tiempos.desvSeg / 60)} min</div>` : '';
     const rank = {
@@ -9942,60 +10366,97 @@
         WXC = c => c == 0 ? ['wb_sunny', 'Despejado'] : c <= 2 ? ['partly_cloudy_day', 'Parcialmente nublado'] : c == 3 ? ['cloud', 'Nublado'] : c <= 48 ? ['foggy', 'Niebla'] : c <= 67 ? ['rainy', 'Lluvia'] : c <= 77 ? ['ac_unit', 'Nieve'] : c <= 82 ? ['rainy', 'Chubascos'] : ['thunderstorm', 'Tormenta'],
         byIng = (a, b) => new Date(a.tiempos.ingresoISO) - new Date(b.tiempos.ingresoISO),
         syncTag = () => `<i class="${fb ? 'ok' : 'off'}"></i>${fb ? 'Sincronizado en tiempo real' : 'Modo demo local (sin conexión a Firebase)'}`;
+    const WXL = [['Isla de Maipo', -33.7467, -70.8892], ['La Islita · Isla de Maipo', -33.7170, -70.8790], ['Lonquén · Talagante', -33.6290, -70.8510], ['Talagante', -33.6636, -70.9310], ['Calera de Tango', -33.6314, -70.7742], ['Santiago', -33.4489, -70.6693]]; // coordenadas aproximadas
     async function getWx() {
         try {
-            const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-33.66&longitude=-70.93&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1'),
+            const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + WXL.map(x => x[1]).join(',') + '&longitude=' + WXL.map(x => x[2]).join(',') + '&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1'),
                 d = await r.json(),
-                [i, tx] = WXC(d.current.weather_code);
-            S.wx = {
-                t: Math.round(d.current.temperature_2m),
-                mn: Math.round(d.daily.temperature_2m_min[0]),
-                mx: Math.round(d.daily.temperature_2m_max[0]),
-                i,
-                tx
-            };
+                D = Array.isArray(d) ? d : [d];
+            S.wxs = D.map((q, k) => {
+                const [i, tx] = WXC(q.current.weather_code);
+                return {
+                    n: WXL[k][0],
+                    t: Math.round(q.current.temperature_2m),
+                    mn: Math.round(q.daily.temperature_2m_min[0]),
+                    mx: Math.round(q.daily.temperature_2m_max[0]),
+                    i,
+                    tx
+                }
+            });
+            S.wxi = (S.wxi || 0) % S.wxs.length;
+            S.wx = S.wxs[S.wxi];
             render(1)
         } catch (e) {}
     }
-    function clk() {
-        const a = document.getElementById('sclk');
-        if (!a)
-            return;
-        const d = new Date();
-        {
-            const h = d.getHours();
-            a.innerHTML = String(h % 12 || 12).padStart(2, '0') + '<span class="cl">:</span>' + String(d.getMinutes()).padStart(2, '0') + '<small>' + (h < 12 ? 'AM' : 'PM') + '</small>'
-        }
-        const b = document.getElementById('sdate');
-        if (b) {
-            const t = d.toLocaleDateString('es-CL', {
+    const clkH = () => {
+            const d = new Date(),
+                h = d.getHours();
+            return String(h % 12 || 12).padStart(2, '0') + '<span class="cl">:</span>' + String(d.getMinutes()).padStart(2, '0') + '<small>' + (h < 12 ? 'AM' : 'PM') + '</small>'
+        },
+        dateH = () => {
+            const t = new Date().toLocaleDateString('es-CL', {
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long'
             });
-            b.textContent = t.charAt(0).toUpperCase() + t.slice(1)
+            return t.charAt(0).toUpperCase() + t.slice(1)
+        };
+    function clk() {
+        const a = document.getElementById('sclk');
+        if (a) {
+            const h = clkH();
+            if (a.dataset.h !== h) {
+                a.dataset.h = h;
+                a.innerHTML = h
+            }
+        }
+        const b = document.getElementById('sdate');
+        if (b) {
+            const t = dateH();
+            if (b.textContent !== t)
+                b.textContent = t
         }
     }
+    function fitSala() {
+        const s = document.querySelector('.sala');
+        if (!s)
+            return;
+        s.style.transform = '';
+        s.style.width = '';
+        s.style.height = '';
+        const h = s.scrollHeight,
+            H = innerHeight;
+        if (h > H + 2) {
+            const k = H / h;
+            s.style.transformOrigin = '0 0';
+            s.style.width = (100 / k) + '%';
+            s.style.height = h + 'px';
+            s.style.transform = 'scale(' + k + ')'
+        }
+    } // si el contenido no cabe, se reduce para que nada quede oculto
     function vSala() {
         const now = Date.now(),
             sn = R.sn || (R.sn = {}),
             ss = R.sst,
-            nx = {};
-        const A = S.jobs.filter(j => j.estado == 'proceso' || j.estado == 'pausa').sort(byIng),
+            nx = {},
+            rd = j => j.estado == 'completado' || j.listo;
+        const A = S.jobs.filter(j => (j.estado == 'proceso' || j.estado == 'pausa') && !j.listo).sort(byIng),
             Q = S.jobs.filter(j => j.estado == 'cola').sort(byIng),
-            L = S.jobs.filter(j => j.estado == 'completado' && j.tiempos.completadoISO && now - new Date(j.tiempos.completadoISO) < 2700000).sort((a, b) => new Date(b.tiempos.completadoISO) - new Date(a.tiempos.completadoISO)),
+            rt = j => new Date(j.tiempos.completadoISO || j.listoISO || 0),
+            L = S.jobs.filter(j => (j.listo && j.estado != 'completado') || (j.estado == 'completado' && j.tiempos.completadoISO && now - new Date(j.tiempos.completadoISO) < 2700000)).sort((a, b) => rt(b) - rt(a)),
             W = S.wx,
             tips = S.cfg.tips && S.cfg.tips.length ? S.cfg.tips : TIPS;
         S.jobs.forEach(j => {
-            nx[j.id] = j.estado;
-            if (ss && ss[j.id] != j.estado) {
-                if (j.estado == 'completado' && ss[j.id]) {
+            const k = rd(j) ? 'r' : j.estado;
+            nx[j.id] = k;
+            if (ss && ss[j.id] != k) {
+                if (k == 'r' && ss[j.id]) {
                     S.salaMsg = {
                         k: 'ok',
                         t: 'Listo para retirar',
                         p: mask(j.vehiculo.patente)
                     }
-                } else if (j.estado == 'proceso' && ss[j.id] == 'cola') {
+                } else if (k == 'proceso' && ss[j.id] == 'cola') {
                     S.salaMsg = {
                         k: 'go',
                         t: 'Ingresa a trabajo',
@@ -10029,19 +10490,20 @@
             },
             card = (j, i) => {
                 const q = pr(j);
-                return `<div class="sala-c ${j.estado}${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="sala-m"><b>${esc(nm(S.cfg.plataformas, j.plataformaId))}</b><span>${esc(j.titulo)}</span><div class="sala-pr"><i style="width:${q.p}%"></i></div><small>${q.tx}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`
+                return `<div class="sala-c ${j.estado}${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="sala-m"><b>${esc(nm(S.cfg.plataformas, j.plataformaId))}</b><span>${esc(j.titulo || sv(j))}</span><div class="sala-pr"><i style="width:${q.p}%"></i></div><small>${q.tx}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`
             },
-            wait = (j, i) => `<div class="sala-c b cola${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sala-m"><b>${esc(j.titulo)}</b><small>Turno ${i + 1}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
+            wait = (j, i) => `<div class="sala-c b cola${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sala-m"><b>${esc(j.titulo || sv(j))}</b><small>Turno ${i + 1}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
             done = (j, i) => `<div class="sala-ld${nw(j.id, i)}">${ic('check_circle')}<span class="sala-pl">${mask(j.vehiculo.patente)}</span></div>`,
+            big = j => `<div class="sala-big${nw(j.id, 0)}">${ic('check_circle')}<div><small>Último listo para retirar</small><span class="sala-pl">${mask(j.vehiculo.patente)}</span></div></div>`,
             M = S.salaMsg;
         return `<div class="sala"><div class="sala-bg"><i></i><i></i><i></i></div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><button data-a="sres">${ic('sync')}Resincronizar</button>${fb ? `<button data-a="modo">${ic('science')}Usar datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}<button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}${M ? `<div class="sala-bn ${M.k}">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div>` : ''}
-         <div class="sala-l"><div class="sala-sync">${syncTag()}</div><div class="sala-biz">${esc(S.cfg.negocio || '')}</div><div class="sala-clk" id="sclk"></div><div class="sala-date" id="sdate"></div>
-         <div class="sala-wx ${W ? W.i : ''}">${W ? `<b>${W.t}°</b>${ic(W.i)}<div><strong>${esc(S.cfg.ciudad || 'Talagante, Chile')}</strong><span>${W.tx}</span><em>${W.mn}° - ${W.mx}°</em></div>` : ''}</div>
-         <div class="sala-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div></div>
+         <div class="sala-l"><div class="sala-sync">${syncTag()}</div><div class="sala-biz">${esc(S.cfg.negocio || '')}</div><div class="sala-clk" id="sclk">${clkH()}</div><div class="sala-date" id="sdate">${dateH()}</div>
+         <div class="sala-wx ${W ? W.i : ''}">${W ? `<b>${W.t}°</b>${ic(W.i)}<div><strong>${esc(W.n)}</strong><span>${W.tx}</span><em>${W.mn}° - ${W.mx}°</em></div>` : ''}</div>
+         <div class="sala-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div>
+         <h2 class="sala-h2 ok">Listos para retirar</h2>${L.length ? big(L[0]) + (L.length > 1 ? `<div class="sala-lr">${L.slice(1, 4).map(done).join('')}</div>` : '') : '<p class="sala-no">Sin vehículos listos</p>'}</div>
          <div class="sala-r"><div class="sala-st"><span><b>${A.length}</b>en proceso</span><span><b>${Q.length}</b>en espera</span><span class="g"><b>${L.length}</b>listos</span></div>
-         <h2>Estamos trabajando en estos vehículos</h2>${A.length ? A.slice(0, 4).map(card).join('') : '<p class="sala-no">Sin vehículos en proceso</p>'}${A.length > 4 ? `<p class="sala-no">+${A.length - 4} más en proceso</p>` : ''}
-         ${L.length ? `<h2 class="ok">Listos para retirar</h2><div class="sala-lr">${L.slice(0, 6).map(done).join('')}</div>` : ''}
-         <h2>En espera para ingresar <span class="sala-e">E ${Q.length}</span></h2><div class="sala-g">${Q.slice(0, 6).map(wait).join('') || '<p class="sala-no">Sin vehículos en espera</p>'}</div>${Q.length > 6 ? `<p class="sala-no">+${Q.length - 6} más en espera</p>` : ''}</div></div>`
+         <h2>Estamos trabajando en estos vehículos</h2>${A.length ? `<div class="sala-pg ${A.length > 2 ? 'two' : ''}">${A.slice(0, 4).map(card).join('')}</div>` : '<p class="sala-no">Sin vehículos en proceso</p>'}${A.length > 4 ? `<p class="sala-no">+${A.length - 4} más en proceso</p>` : ''}
+         <h2>Siguen en espera <span class="sala-e">E ${Q.length}</span></h2><div class="sala-g">${Q.slice(0, 4).map(wait).join('') || '<p class="sala-no">Sin vehículos en espera</p>'}</div>${Q.length > 4 ? `<p class="sala-no">+${Q.length - 4} más en espera</p>` : ''}</div></div>`
     }
     const mzone = () => {
         const k = localStorage.lubri_mz;
@@ -10075,12 +10537,23 @@
             top = (j, t) => `<div class="mec-top"><div class="mec-id"><b class="mec-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}${j.ot ? '' : ' soft'}"></i></div><div class="mec-st"><b>${t}</b><span>${esc(j.titulo || sv(j))}</span>${j.cliente.nombre ? `<small>${esc(j.cliente.nombre)}</small>` : ''}</div>${car(j)}</div>`,
             nota = j => (j.notas || []).filter(n => n.tipo == 'orden').map(n => n.texto).join(' · '),
             full = j => {
-                const sv = j.servicios.map((x, i) => `<li class="${x.hecho ? 'on' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}">${ic(x.hecho ? 'check_box' : 'check_box_outline_blank')}<span>${esc(x.nombre)}</span></li>`).join(''),
+                const all = j.servicios.map((x, i) => ({
+                        x,
+                        i
+                    })),
+                    li = L => L.map(o => `<li class="${o.x.hecho ? 'on' : ''}" data-a="hecho" data-id="${j.id}" data-i="${o.i}">${ic(o.x.hecho ? 'check_box' : 'check_box_outline_blank')}<span>${esc(o.x.nombre)}</span></li>`).join(''),
+                    gs = (t, L) => L.length ? `<div class="mec-g"><h3>${t}</h3><ul>${li(L)}</ul></div>` : '',
+                    Rv = all.filter(o => o.x.cat == 'revisar'),
+                    Cb = all.filter(o => o.x.cat == 'cambiar'),
+                    Ot = all.filter(o => o.x.cat != 'revisar' && o.x.cat != 'cambiar'),
+                    SP = (j.solicitudes || []).filter(s => s.estado != 'apr'),
                     n = nota(j),
                     cf = S.mcf == j.id,
-                    ps = j.estado == 'pausa';
-                return `<div class="mec-row"><div class="mec-card ${j.estado}">${top(j, ps ? 'En pausa' : 'En proceso')}<div class="mec-box"><h3>Revisión, cambios y repuestos para el proceso</h3><ul>${sv || '<li><span>Sin procesos asignados</span></li>'}</ul>${(j.repuestos || []).length ? `<h3>Repuestos</h3><ul class="rp">${j.repuestos.map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('')}</ul>` : ''}${n ? `<h3>Indicaciones</h3><p>${esc(n)}</p>` : ''}</div></div>
-                  <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'} ${rdy(j) && !cf ? 'rdy' : ''}" data-a="mcom" data-id="${j.id}" title="Completar">${cf ? '<span>¿Seguro?</span>' : ic('check')}</button></div></div>`
+                    ps = j.estado == 'pausa',
+                    lt = !!j.listo;
+                const rp = (j.repuestos || []).map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('') + SP.map(s => `<li class="${s.estado == 'rec' ? 'rec' : 'pend'}"><span>${s.cant > 1 ? s.cant + ' × ' : ''}${esc(s.nombre)} <small>${s.estado == 'rec' ? 'rechazado' : 'solicitado · esperando aprobación'}</small></span></li>`).join('');
+                return `<div class="mec-row"><div class="mec-card ${j.estado}${lt ? ' lt' : ''}">${top(j, lt ? 'Listo para retirar' : ps ? 'En pausa' : 'En proceso')}<div class="mec-box">${gs('Revisión', Rv)}${gs('Cambios', Cb)}${gs('Otros trabajos', Ot)}${!all.length ? '<ul><li><span>Sin procesos asignados</span></li></ul>' : ''}${rp ? `<div class="mec-g"><h3>Repuestos</h3><ul class="rp">${rp}</ul></div>` : ''}${n ? `<div class="mec-g"><h3>Indicaciones</h3><p>${esc(n)}</p></div>` : ''}${lt ? `<div class="mec-lt">${ic('notifications_active')}Aviso enviado a administración</div>` : ''}</div></div>
+                  <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="plus" data-a="mrep" data-id="${j.id}" title="Solicitar repuestos">${ic('add')}</button><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'} ${(rdy(j) || lt) && !cf ? 'rdy' : ''}" data-a="mcom" data-id="${j.id}" title="Avisar que está listo">${cf ? '<span>¿Seguro?</span>' : ic(lt ? 'task_alt' : 'check')}</button></div></div>`
             },
             qd = (j, i) => `<div class="mec-qa">${i ? '' : ic('subdirectory_arrow_right')}</div><div class="mec-q">${top(j, 'En cola')}</div><div class="mec-side"><button class="go" data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button></div>`;
         let n = 0;
@@ -10094,7 +10567,7 @@
                 return `<section class="mec-s">${pl ? '' : `<h2 class="mec-pn">${esc(p.nombre)}</h2>`}${A.map(full).join('') || '<p class="mec-no">Sin trabajo en proceso</p>'}${Q.length ? `<div class="mec-qg">${Q.map(qd).join('')}</div>` : ''}</section>`
             },
             body = P.map(sec).join('');
-        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || `<p class="mec-no">Sin trabajos activos aquí</p>${fb && !DM() && !S.jobs.length ? `<div class="mec-btns" style="max-width:420px;margin:0 auto"><button data-a="modo">${ic('science')}Usar datos DEMO</button></div>` : ''}`}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}`
+        return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || `<p class="mec-no">Sin trabajos activos aquí</p>${fb && !DM() && !S.jobs.length ? `<div class="mec-btns" style="max-width:420px;margin:0 auto"><button data-a="modo">${ic('science')}Usar datos DEMO</button></div>` : ''}`}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}${S.mrq ? rqBox() : ''}`
     }
     function render(f) {
         ensureZ();
@@ -10147,6 +10620,11 @@
                 d.scrollTop = ds
         }
         anim();
+        if (MODO == 'sala')
+            requestAnimationFrame(() => {
+                fitSala();
+                clk()
+            });
         document.body.classList.toggle('ovl', !!document.querySelector('#modal .bd:not([style*="pointer-events"]),.item.op,.card.open'));
         vvSync()
     }
@@ -11697,9 +12175,11 @@
         DUR: 7000,
         SNZ: 5
     }; // SNZ = minutos de posposición
-    function alPush(j, cl) {
+    function alPush(j, cl, x) {
         const a = {
-            id: j.id,
+            id: (cl == 'listo' || cl == 'rep') ? j.id + ':' + cl : j.id,
+            jid: j.id,
+            x,
             cl,
             m: cl == 'atraso' ? Math.max(0, Math.ceil((el(j) - j.tiempos.estSeg) / 60)) : Math.max(1, Math.ceil((j.tiempos.estSeg - el(j)) / 60)),
             d: (j.ot ? 'OT ' + j.ot + ' · ' : '') + j.vehiculo.patente
@@ -11721,7 +12201,7 @@
             box.innerHTML = '';
             return
         }
-        box.innerHTML = `<div class="alb ${a.cl}" role="alert"><i class="dot ${a.cl == 'atraso' ? 'pausa' : 'cola'}"></i><span class="tx"><b>${a.cl == 'atraso' ? 'Atrasada' + (a.m ? ' · +' + a.m + ' min' : '') : 'Por vencer · quedan ' + a.m + ' min'}</b><span>${esc(a.d)}</span></span><button data-al="p" title="Volver a avisar en ${AL.SNZ} min">Posponer</button><span class="cd"><b id="alc">${AL.DUR / 1000}</b>s</span><button class="xx" data-al="x" title="Cerrar" aria-label="Cerrar">${ic('close')}</button><div class="pb" id="alp"></div></div>`;
+        box.innerHTML = `<div class="alb ${a.cl}" role="alert"><i class="dot ${a.cl == 'atraso' ? 'pausa' : 'cola'}"></i><span class="tx"><b>${a.cl == 'listo' ? 'Listo para entregar' : a.cl == 'rep' ? 'Solicitud de repuesto' : a.cl == 'atraso' ? 'Atrasada' + (a.m ? ' · +' + a.m + ' min' : '') : 'Por vencer · quedan ' + a.m + ' min'}</b><span>${esc(a.d)}${a.x ? ' · ' + esc(a.x) : ''}</span></span>${a.cl == 'listo' ? '<button data-al="c">Completar</button>' : a.cl == 'rep' ? '<button data-al="v">Revisar</button>' : ''}<button data-al="p" title="Volver a avisar en ${AL.SNZ} min">Posponer</button><span class="cd"><b id="alc">${AL.DUR / 1000}</b>s</span><button class="xx" data-al="x" title="Cerrar" aria-label="Cerrar">${ic('close')}</button><div class="pb" id="alp"></div></div>`;
         AL.left = AL.DUR;
         AL.last = Date.now();
         AL.paused = false;
@@ -11758,6 +12238,15 @@
         const b = e.target.closest('[data-al]');
         if (!b || !AL.cur)
             return;
+        if (b.dataset.al == 'c') {
+            mover(AL.cur.jid, 'completar')
+        }
+        if (b.dataset.al == 'v') {
+            S.open = null;
+            S.view = 'linea';
+            S.hl = AL.cur.jid;
+            render(1)
+        }
         if (b.dataset.al == 'p') {
             (R.snz = R.snz || {})[AL.cur.id] = Date.now() + AL.SNZ * 60000
         }
@@ -11770,6 +12259,29 @@
     });
     function watch() {
         // avisa UNA vez cuando un trabajo en proceso pasa a "por vencer" o "atrasada"; el banner no interrumpe, así que sale incluso con una ventana abierta
+        if (MODO == 'admin' && S.jobs.length) {
+            const f0 = !R.wn;
+            R.wn = R.wn || {};
+            for (const j of S.jobs) {
+                if (j.listo && j.estado != 'completado' && !R.wn['l' + j.id]) {
+                    R.wn['l' + j.id] = 1;
+                    if (!f0)
+                        alPush(j, 'listo')
+                }
+                if (!j.listo)
+                    delete R.wn['l' + j.id];
+                for (const s of (j.solicitudes || [])) {
+                    if (s.estado == 'pend' && !R.wn[s.id]) {
+                        R.wn[s.id] = 1;
+                        if (!f0)
+                            alPush(j, 'rep', (s.cant > 1 ? s.cant + ' × ' : '') + s.nombre)
+                    }
+                }
+            }
+            if (f0 && !R.wf) {
+                R.wf = 1
+            }
+        }
         if (S.cfg.alertas === false || !S.jobs.length)
             return;
         const first = !R.wa;
@@ -11956,6 +12468,95 @@
         })
     })(); // v0.40: botón flotante se oculta al desplazar y reaparece 1,5 s después
     Object.assign(A, {
+        mlisto: d => {
+            const j = get(d.id);
+            if (!j)
+                return;
+            const t = j.tiempos;
+            if (j.listo) {
+                j.listo = false;
+                j.listoISO = null;
+                if (j.estado == 'proceso')
+                    t.ultimoInicioISO = now();
+                ev(j, 'listo cancelado');
+                toast('check', 'Aviso cancelado')
+            } else {
+                if (j.estado == 'proceso') {
+                    t.acumSeg = el(j);
+                    t.ultimoInicioISO = null
+                }
+                j.listo = true;
+                j.listoISO = now();
+                ev(j, 'listo para retirar');
+                toast('check', 'Aviso enviado: listo para retirar')
+            }
+            saveJob(j, 1);
+            render(1)
+        },
+        mrep: d => {
+            S.mrq = {
+                id: d.id,
+                n: 1,
+                t: ''
+            };
+            render(1)
+        },
+        mrqx: () => {
+            S.mrq = null;
+            render(1)
+        },
+        mrqp: () => {
+            S.mrq.n = Math.min(20, S.mrq.n + 1);
+            render(1)
+        },
+        mrqm: () => {
+            S.mrq.n = Math.max(1, S.mrq.n - 1);
+            render(1)
+        },
+        mrqs: () => {
+            const nb = (document.getElementById('rqn')?.value || S.mrq.t || '').trim();
+            if (!nb) {
+                toast('warning', 'Escribe el repuesto');
+                return
+            }
+            const j = get(S.mrq.id);
+            (j.solicitudes = j.solicitudes || []).push({
+                id: uid(),
+                nombre: nb,
+                cant: S.mrq.n,
+                estado: 'pend',
+                ISO: now()
+            });
+            ev(j, 'repuesto solicitado', nb);
+            S.mrq = null;
+            saveJob(j, 1);
+            toast('check', 'Solicitud enviada a administración')
+        },
+        sapr: d => {
+            const j = get(d.id),
+                s = (j.solicitudes || []).find(x => x.id == d.s);
+            if (!s)
+                return;
+            (j.repuestos = j.repuestos || []).push({
+                grupo: 'Solicitado',
+                nombre: s.nombre,
+                cant: s.cant
+            });
+            s.estado = 'apr';
+            ev(j, 'repuesto aprobado', s.nombre);
+            saveJob(j, 1);
+            toast('check', 'Repuesto sumado al proceso')
+        },
+        srec: d => {
+            const j = get(d.id),
+                s = (j.solicitudes || []).find(x => x.id == d.s);
+            if (!s)
+                return;
+            s.estado = 'rec';
+            ev(j, 'repuesto rechazado', s.nombre);
+            saveJob(j, 1);
+            render(1)
+        },
         meq: d => {
             localStorage.lubri_modo = d.m;
             history.replaceState(null, '', location.pathname);
@@ -12002,7 +12603,7 @@
             if (S.mcf == d.id) {
                 S.mcf = null;
                 clearTimeout(R.mt);
-                A.com(d)
+                A.mlisto(d)
             } else {
                 S.mcf = d.id;
                 clearTimeout(R.mt);
@@ -12050,7 +12651,27 @@
         setInterval(() => {
             clk();
             render(1)
-        }, 30000)
+        }, 10000);
+        setInterval(() => {
+            if (S.wxs && S.wxs.length > 1) {
+                S.wxi = ((S.wxi || 0) + 1) % S.wxs.length;
+                S.wx = S.wxs[S.wxi];
+                render(1)
+            }
+        }, 9000)
+    }
+    if (MODO != 'admin') {
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden)
+                render(1)
+        });
+        addEventListener('online', () => render(1))
+    }
+    if (MODO == 'mec') {
+        setInterval(() => {
+            if (!document.hidden && !S.mrq)
+                render()
+        }, 8000)
     }
     if (MODO == 'mec') {
         const cl = () => clearTimeout(R.lp);
@@ -12072,4 +12693,3 @@
     </script>
 </body>
 </html>
-
