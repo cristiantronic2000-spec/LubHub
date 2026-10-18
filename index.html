@@ -16,6 +16,11 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v1 (mejora por pasos · Paso 1): (1) interruptor FEATURE_BUSCAR_PATENTE (false = botón de consulta de patente oculto, código intacto); (2) en el detalle de la orden el botón cerrar queda fijo arriba a la derecha (44x44 px); (3) teclado: medidas del área visible reutilizables (vvSync / vvSettle) para TODAS las ventanas, sin huecos al abrir o cerrar el teclado, con recuperación del foco al redibujar; (4) navegación: el botón atrás cierra la ventana abierta, el menú inferior también cierra ayuda y solicitudes, el fondo no se desplaza con una ventana abierta y el borrador del formulario se guarda al salir con el menú o con atrás.
+    CAMBIOS v0.49 (sala de espera): (1) el aviso "Listo para retirar" / "Ingresa a trabajo" crece desde el centro hasta media pantalla, con el fondo borroso, y luego se desvanece; (2) lluvia rehecha con varias capas y velocidades, más fuerte con tormenta, y rayos (destello + relámpago) solo en tormenta; (3) el saludo tiene el mismo color que el resto del texto.
+    CAMBIOS v0.48 (sala de espera): (1) la última patente lista siempre es la más reciente (ya no depende de fechas antiguas de la orden); (2) el saludo (Buenos días / Buenas tardes / Buenas noches, bienvenido; corregido: de 0:00 a 4:59 es noches) reemplaza al texto de sincronizado y el punto indica: verde = sincronizado, amarillo = sin conexión o modo local, rojo = error de sincronización; (3) se quitaron los contadores sobre "Estamos trabajando"; (4) en modo cuadrado los procesos en espera van en lista hacia abajo; (5) el panel de pruebas de fondo (hora y clima) ya se ve completo.
+    CAMBIOS v0.47 (sala de espera): (1) se quitó el contador de "Listos para retirar" (y el chip de listos); (2) bajo la última patente quedan 2 (3 si hay más de 3 listos); en modo cuadrado, la última y al lado las 2 anteriores; (3) "Sincronizado" pasó a la izquierda; (4) reloj y clima rearmados para que no se corten (íconos con tamaño fijo, reintento del clima); (5) los tips tienen espacio para 3 líneas; (6) saludo según la hora (Buenos días / Buenas tardes / Buenas noches, bienvenido); (7) sonido de "Listo para retirar" que se activa o apaga desde la configuración (engranaje) del modo sala.
+    CAMBIOS v0.46 (sala de espera): (1) el fondo cambia con la hora del día (amanecer, mañana, mediodía, tarde, atardecer, anochecer, noche, según la salida y puesta del sol de Isla de Maipo) y con el clima ACTUAL de Isla de Maipo (nubes, lluvia, tormenta, niebla, estrellas de noche); la rotación de ciudades de la información NO lo afecta; (2) hora, fecha y clima ocupan un espacio fijo (no se mueven al cambiar de ciudad ni de texto); la ciudad rota en el mismo sitio con un fundido suave; (3) paneles de vidrio, mejor aprovechamiento del espacio y colores de texto que se adaptan al fondo claro/oscuro.
     CAMBIOS v0.45: la consulta de patente usa OpenAPI Chile (vehicles.open-api.cl/:patente) en vez de Autoriesgo; solo lee datos del vehículo (marca, modelo, versión, motor, combustible, cilindrada, año, color, chasis y lo que venga) e ignora cualquier dato de propietario.
     CAMBIOS v0.44: (1) botón junto a la patente (al crear/editar y en el detalle) que consulta la patente y completa marca, modelo, versión, motor, combustible, cilindrada, año, color y vencimiento de revisión técnica (km solo si está vacío; el chasis va a VIN si está vacío); (2) la orden guarda más datos: cliente (RUT, dirección, correo) y vehículo (año, color, cilindrada, venc. rev. técnica); (3) bloques Cliente y Vehículo colapsables: plegado muestra nombre y teléfono / marca, modelo, año y km; patente y N° de OT siempre visibles.
     CAMBIOS v0.43: (1) el aviso de Firebase solo aparece si hay error; (2) sala: Listos para retirar bajo los tips (última patente grande + 3), siguientes 4 en espera siempre visibles, reloj estable, clima rotativo de 6 localidades, ajuste automático a pantalla; (3) mecánico: textos más grandes, sin borde gris, secciones Revisión / Cambios / Repuestos, botón + para solicitar repuestos (el admin aprueba y se suma al proceso), ✓ solo AVISA listo (el admin completa; si se ignora, la tarjeta parpadea naranja con banner); (4) sincronización: actualización inmediata local y forzada en sala/mecánico.
@@ -7097,6 +7102,1811 @@
 
     .grp .fld, .grp .vg {
         margin: 4px 0
+    }/* ---- v1 · Paso 1: cerrar fijo, ventanas con teclado, fondo sin desplazar ---- */
+    .card.open .dtop {
+        position: relative;
+        padding-right: 64px;
+        min-height: 66px
+    }
+
+    .card.open .dtop .hd {
+        flex-wrap: wrap;
+        row-gap: 6px;
+        min-width: 0
+    }
+
+    .card.open .dtop .hd > * {
+        min-width: 0
+    }
+
+    .card.open .dtop .x {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        margin: 0;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff;
+        z-index: 3
+    }
+
+    .box .x {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    body.ovl #app {
+        overflow-y: hidden
+    }
+
+    body.m-mec:not(.kb) .bd, body.m-sala:not(.kb) .bd {
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px))
+    }
+
+    body.kb .bd {
+        padding-bottom: 8px
+    }
+    </style>
+    <style id="sala46">
+    /* v0.46 · SALA DE ESPERA: fondo dinámico, paneles de vidrio y bloques de tamaño fijo */
+    body.m-sala {
+        background: transparent !important;
+        --fg: #10151f;
+        --fg2: #38445a;
+        --glass: rgba(255, 255, 255, .48);
+        --gb: rgba(255, 255, 255, .75);
+        --acc: #b45f00;
+        --ok: #0c7a2a
+    }
+
+    body.m-sala.sk-dark {
+        --fg: #f5f8ff;
+        --fg2: #c9d4ee;
+        --glass: rgba(8, 14, 38, .44);
+        --gb: rgba(255, 255, 255, .16);
+        --acc: #ffc24d;
+        --ok: #6ee79a
+    }
+
+    body.m-sala #app {
+        background: transparent !important
+    }
+
+    #salabg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden
+    }
+
+    #salabg i {
+        position: absolute;
+        display: block
+    }
+
+    .sk-st {
+        inset: 0;
+        opacity: var(--st, 0);
+        transition: opacity 2s;
+        background-image: radial-gradient(1.6px 1.6px at 20px 30px, #fff, transparent), radial-gradient(1.2px 1.2px at 90px 120px, #fff, transparent), radial-gradient(2px 2px at 160px 60px, #ffe9b0, transparent), radial-gradient(1.2px 1.2px at 210px 190px, #fff, transparent), radial-gradient(1.4px 1.4px at 50px 200px, #cfe0ff, transparent);
+        background-size: 260px 260px
+    }
+
+    .sk-st::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(1.5px 1.5px at 60px 70px, #fff, transparent), radial-gradient(1.8px 1.8px at 140px 20px, #fff, transparent), radial-gradient(1.2px 1.2px at 200px 140px, #ffe9b0, transparent), radial-gradient(1.4px 1.4px at 30px 160px, #fff, transparent);
+        background-size: 300px 300px;
+        animation: twk 5s ease-in-out infinite
+    }
+
+    @keyframes twk {
+        50% {
+            opacity: .25
+        }
+    }
+
+    .sk-orb {
+        width: 9vw;
+        height: 9vw;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--orb, #fff1b0);
+        box-shadow: 0 0 5vw 2.5vw var(--orbg, rgba(255, 225, 120, .45));
+        opacity: var(--ob, 1);
+        transition: opacity 2s
+    }
+
+    .sk-cl {
+        width: 60vw;
+        height: 18vw;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, var(--ccol, rgba(255, 255, 255, .88)), transparent);
+        opacity: var(--cl, 0);
+        transition: opacity 2s;
+        animation: drift 150s linear infinite
+    }
+
+    .sk-cl.a {
+        top:4%
+    }
+
+    .sk-cl.b {
+        top: 36%;
+        animation-duration: 200s;
+        animation-delay: -70s;
+        width:75vw
+    }
+
+    .sk-cl.c {
+        top: 64%;
+        animation-duration: 240s;
+        animation-delay: -150s
+    }
+
+    @keyframes drift {
+        from {
+            transform:translateX(-75vw)
+        }
+
+        to {
+            transform: translateX(110vw)
+        }
+    }
+
+    .sk-fo {
+        inset: 0;
+        opacity: var(--fo, 0);
+        transition: opacity 2s;
+        background: linear-gradient(180deg, rgba(220, 226, 234, .12), rgba(220, 226, 234, .55))
+    }
+
+    .sk-rn {
+        inset: -10%;
+        opacity: var(--rn, 0);
+        transition: opacity 2s;
+        background-image: linear-gradient(100deg, transparent 48%, rgba(190, 210, 255, .5) 50%, transparent 52%), linear-gradient(100deg, transparent 48%, rgba(190, 210, 255, .35) 50%, transparent 52%);
+        background-size: 3.2vw 9vw, 5.1vw 13vw;
+        animation: rainf .55s linear infinite
+    }
+
+    @keyframes rainf {
+        to {
+            background-position: -3.2vw 9vw, -5.1vw 13vw
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #salabg i, #salabg i::after {
+            animation: none !important
+        }
+    }
+
+    .sl {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+        cursor: none;
+        color: #111
+    }
+
+    .sl-stage {
+        position: absolute;
+        transform-origin: 0 0;
+        display: grid;
+        grid-template-columns: 700px 1fr;
+        gap: 28px;
+        padding: 28px;
+        box-sizing: border-box
+    }
+
+    .sl-l, .sl-r {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--glass);
+        border: 1px solid var(--gb);
+        border-radius: 36px;
+        padding: 28px;
+        box-sizing: border-box;
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, .14)
+    }
+
+    .sl-l {
+        gap: 16px
+    }
+
+    .sl-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        height: 36px;
+        flex: none
+    }
+
+    .sl-biz {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 24px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--acc)
+    }
+
+    .sl-sync {
+        flex: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 22px;
+        font-weight: 700;
+        color:var(--fg)
+    }
+
+    .sl-sync i {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background:#12c21a
+    }
+
+    .sl-sync i.off {
+        background: #f5a623
+    }
+
+    .sl-clk {
+        flex: none;
+        height: 150px;
+        font-size: 140px;
+        font-weight: 800;
+        line-height: 150px;
+        letter-spacing: -2px;
+        color: var(--fg);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums
+    }
+
+    .sl-clk small {
+        font-size: 52px;
+        margin-left: 8px;
+        letter-spacing:0
+    }
+
+    .sl-clk .cl {
+        display: inline-block;
+        width: 40px;
+        text-align: center;
+        animation: blk 1s steps(1) infinite
+    }
+
+    .sl-date {
+        flex: none;
+        height: 44px;
+        line-height: 44px;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--fg);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .sl-wx {
+        flex: none;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: var(--fg);
+        transition:opacity .3s
+    }
+
+    .sl-wx.sw {
+        opacity: 0
+    }
+
+    .sl-wx .wx-t {
+        flex: none;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        gap:12px
+    }
+
+    .wx-t b {
+        width: 170px;
+        text-align: right;
+        font-size: 96px;
+        line-height: 1;
+        font-weight: 800
+    }
+
+    .sl-wx .material-symbols-outlined {
+        font-size: 84px;
+        width: 84px;
+        color:#f9a825
+    }
+
+    .sl-wx.wb_sunny .material-symbols-outlined {
+        animation:spn 24s linear infinite
+    }
+
+    .sl-wx.rainy .material-symbols-outlined, .sl-wx.thunderstorm .material-symbols-outlined {
+        color:#4a90d9
+    }
+
+    .sl-wx.cloud .material-symbols-outlined, .sl-wx.foggy .material-symbols-outlined {
+        color: #8a97a6
+    }
+
+    .wx-i {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .wx-i strong {
+        height: 64px;
+        line-height: 32px;
+        font-size: 28px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden
+    }
+
+    .wx-i span {
+        height: 32px;
+        line-height: 32px;
+        font-size: 26px;
+        color: var(--fg2);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .wx-i em {
+        height: 36px;
+        line-height: 36px;
+        font-size: 30px;
+        font-weight: 700;
+        font-style: normal;
+        white-space: nowrap
+    }
+
+    .sl-tip {
+        flex: none;
+        position: relative;
+        height: 140px;
+        box-sizing: border-box;
+        background: #fff;
+        border: 3px solid #111;
+        border-radius: 30px;
+        padding: 14px 26px 18px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        overflow: hidden
+    }
+
+    .sl-tip > .material-symbols-outlined {
+        font-size: 56px;
+        color: #f9a825;
+        flex: none
+    }
+
+    .sl-tip p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 31px;
+        line-height: 38px;
+        max-height: 114px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        transition:opacity .38s, transform .38s
+    }
+
+    .sl-tip p.out {
+        opacity: 0;
+        transform:translateY(10px)
+    }
+
+    .sl-tip .sala-tb {
+        height: 6px
+    }
+
+    .sl-ls {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px
+    }
+
+    .sl h2 {
+        margin: 0;
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 800;
+        color:var(--fg)
+    }
+
+    .sl-ls h2 {
+        color: var(--ok)
+    }
+
+    .sl-pl {
+        border: 4px solid #111;
+        border-radius: 14px;
+        padding: 2px 16px;
+        font-weight: 800;
+        font-size: 38px;
+        white-space: nowrap;
+        background: #fff;
+        color: #111
+    }
+
+    .sl-big {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        border: 5px solid #12a63a;
+        border-radius: 99px;
+        background: #effaf1;
+        color: #0c7a2a;
+        padding:12px 36px
+    }
+
+    .sl-big .material-symbols-outlined {
+        font-size:76px
+    }
+
+    .sl-big small {
+        display: block;
+        font-size: 24px;
+        font-weight:700
+    }
+
+    .sl-big .sl-pl {
+        font-size: 60px;
+        border-color: #0c7a2a;
+        color: #0c7a2a;
+        display: inline-block
+    }
+
+    .sl-lr {
+        display: flex;
+        flex-wrap: wrap;
+        gap:12px
+    }
+
+    .sl-ld {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 4px solid #12a63a;
+        border-radius: 99px;
+        padding: 6px 22px;
+        background: #effaf1;
+        color:#0c7a2a
+    }
+
+    .sl-ld .material-symbols-outlined {
+        font-size:34px
+    }
+
+    .sl-ld .sl-pl {
+        font-size: 34px;
+        border: 3px solid #12a63a;
+        color: #0c7a2a
+    }
+
+    .sl-no {
+        margin: 0;
+        font-size: 28px;
+        color:var(--fg2)
+    }
+
+    .sl-ls {
+        overflow:hidden
+    }
+
+    .sq .sl-lr {
+        min-width: 0;
+        overflow: hidden
+    }
+
+    .sl-r {
+        gap:0
+    }
+
+    .sl-st {
+        display: flex;
+        gap: 16px;
+        height: 64px;
+        flex: none;
+        margin-bottom: 16px;
+        padding-right: 70px
+    }
+
+    .sl-st span {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        background: #fff;
+        border: 3px solid #111;
+        border-radius: 99px;
+        padding: 6px 26px;
+        font-size: 28px;
+        font-weight: 600;
+        color:#111
+    }
+
+    .sl-st b {
+        font-size: 40px;
+        font-weight:800
+    }
+
+    .sl-st .g {
+        border-color: #12a63a;
+        color: #0c7a2a
+    }
+
+    .sl-r h2 {
+        flex: none;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        height: 48px;
+        margin-bottom:12px
+    }
+
+    .sl-r h2 em {
+        font-style: normal;
+        font-size: 26px;
+        color: var(--fg2);
+        font-weight:700
+    }
+
+    .sl .sala-e {
+        background: #f9a825;
+        border-radius: 99px;
+        padding: 0 18px;
+        font-size: 30px;
+        color: #111;
+        animation: none
+    }
+
+    .sl-pg {
+        flex: none;
+        height: 484px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom:16px
+    }
+
+    .sl-wg {
+        flex: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px
+    }
+
+    .sl-c {
+        flex: none;
+        height: 112px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: #fff;
+        border: 4px solid #111;
+        border-radius: 56px;
+        padding: 0 36px;
+        min-width: 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .08)
+    }
+
+    .sl-c.proceso {
+        border-color: #f26a21;
+        animation:cpl 3.6s ease-in-out infinite
+    }
+
+    .sl-c.pausa {
+        border-color: #d62020
+    }
+
+    .sl .dot {
+        flex: none;
+        width: 30px;
+        height:30px
+    }
+
+    .sl-ot {
+        flex: none;
+        width: 110px;
+        text-align: center;
+        font-size: 46px;
+        font-weight: 800
+    }
+
+    .sl-m {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .sl-m b {
+        font-size: 32px;
+        line-height: 38px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis
+    }
+
+    .sl-m span {
+        font-size: 27px;
+        line-height: 32px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .sl-pr {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        height:26px
+    }
+
+    .sl-bar {
+        flex: 1;
+        height: 10px;
+        border-radius: 99px;
+        background: rgba(0, 0, 0, .1);
+        overflow:hidden
+    }
+
+    .sl-bar i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #f9a825, #f26a21);
+        border-radius: 99px
+    }
+
+    .sl-pr small {
+        flex: none;
+        font-size: 22px;
+        font-weight: 600;
+        color: #444;
+        white-space:nowrap
+    }
+
+    .sl-c.pausa .sl-bar i {
+        background:#d62020
+    }
+
+    .sl-c.pausa .sl-pr small {
+        color: #d62020
+    }
+
+    .sl-p {
+        flex: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap:4px
+    }
+
+    .sl-p small {
+        font-size: 24px;
+        color: #333;
+        white-space: nowrap
+    }
+
+    .sl-w {
+        flex: none;
+        height: 56px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: #fff;
+        border: 3px solid #111;
+        border-radius: 28px;
+        padding: 0 28px;
+        min-width: 0
+    }
+
+    .sl-w .sl-ot {
+        width: 80px;
+        font-size:30px
+    }
+
+    .sl-w .dot {
+        width: 20px;
+        height:20px
+    }
+
+    .sl-w .sl-m {
+        flex-direction: row;
+        align-items: baseline;
+        gap:16px
+    }
+
+    .sl-w .sl-m b {
+        font-size: 27px;
+        line-height: 34px;
+        flex: none;
+        max-width:70%
+    }
+
+    .sl-w .sl-m span {
+        font-size: 22px;
+        color: #555
+    }
+
+    .sl-w .sl-pl {
+        font-size: 28px;
+        padding: 0 14px;
+        border-width:3px
+    }
+
+    .sl-w .sl-p {
+        flex-direction: row;
+        align-items: center;
+        gap:16px
+    }
+
+    .sl-w .sl-p small {
+        font-size: 22px
+    }
+
+    .sl-c.new, .sl-w.new, .sl-ld.new, .sl-big.new {
+        animation: cin .7s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    .sl-bn {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 18px 56px;
+        border-radius: 99px;
+        color: #fff;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+        animation:binl .6s both
+    }
+
+    .sl-bn.ok {
+        background:#12a63a
+    }
+
+    .sl-bn.go {
+        background:#f26a21
+    }
+
+    .sl-bn .material-symbols-outlined {
+        font-size:64px
+    }
+
+    .sl-bn div {
+        display: flex;
+        flex-direction: column;
+        line-height:1.1
+    }
+
+    .sl-bn small {
+        font-size: 26px;
+        font-weight:600
+    }
+
+    .sl-bn b {
+        font-size: 52px;
+        letter-spacing: .04em
+    }
+
+    @keyframes binl {
+        from {
+            opacity: 0;
+            transform:translate(-50%, -140%)
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+    }
+
+    .sl-test {
+        position: absolute;
+        left: 50%;
+        bottom: 8px;
+        transform: translateX(-50%);
+        background: #f9a825;
+        color: #111;
+        font-weight: 800;
+        font-size: 22px;
+        padding: 2px 22px;
+        border-radius: 99px;
+        z-index: 30
+    }
+
+    .sala-pn {
+        max-height: calc(100vh - 90px);
+        overflow:auto
+    }
+
+    .sala-pn small {
+        font-size: 12px;
+        color:#555
+    }
+
+    .sala-pn .stg {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:6px
+    }
+
+    .sala-pn .stg button {
+        min-height: 40px;
+        font-size: 14px;
+        border-width:2px
+    }
+
+    .sala-pn .stg button.on {
+        background: #f9a825
+    }/* cuadrado 1:1 (1080×1080) */
+
+    .sl-stage.sq {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 16px;
+        padding: 20px
+    }
+
+    .sq .sl-l, .sq .sl-r {
+        border-radius: 28px;
+        padding: 18px 22px
+    }
+
+    .sq .sl-l {
+        display: grid;
+        grid-template-columns: 480px 1fr;
+        grid-template-rows: 32px 112px 40px 92px 84px;
+        gap: 8px 16px;
+        grid-template-areas: "t t" "c w" "d w" "p p" "l l"
+    }
+
+    .sq .sl-top {
+        grid-area: t;
+        height:32px
+    }
+
+    .sq .sl-clk {
+        grid-area: c;
+        height: 112px;
+        line-height: 112px;
+        font-size:104px
+    }
+
+    .sq .sl-clk small {
+        font-size:40px
+    }
+
+    .sq .sl-clk .cl {
+        width:30px
+    }
+
+    .sq .sl-date {
+        grid-area: d;
+        font-size: 30px;
+        height: 40px;
+        line-height: 40px
+    }
+
+    .sq .sl-wx {
+        grid-area: w;
+        height: 160px;
+        align-self:center
+    }
+
+    .sq .sl-wx .wx-t {
+        width:250px
+    }
+
+    .sq .wx-t b {
+        font-size: 76px;
+        width:136px
+    }
+
+    .sq .sl-wx .material-symbols-outlined {
+        font-size: 64px;
+        width: 64px
+    }
+
+    .sq .wx-i strong {
+        font-size: 24px;
+        line-height: 28px;
+        height:56px
+    }
+
+    .sq .wx-i span {
+        font-size: 22px;
+        height: 28px;
+        line-height:28px
+    }
+
+    .sq .wx-i em {
+        font-size: 26px;
+        height: 30px;
+        line-height: 30px
+    }
+
+    .sq .sl-tip {
+        grid-area: p;
+        height: 92px;
+        padding:8px 22px 12px
+    }
+
+    .sq .sl-tip p {
+        font-size: 26px;
+        line-height: 32px;
+        -webkit-line-clamp:2
+    }
+
+    .sq .sl-tip > .material-symbols-outlined {
+        font-size: 44px
+    }
+
+    .sq .sl-ls {
+        grid-area: l;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        height:84px
+    }
+
+    .sq .sl-ls h2 {
+        font-size: 24px;
+        line-height: 28px;
+        width: 130px;
+        flex: none
+    }
+
+    .sq .sl-big {
+        padding: 6px 20px;
+        gap: 12px;
+        border-width:4px
+    }
+
+    .sq .sl-big small {
+        display:none
+    }
+
+    .sq .sl-big .sl-pl {
+        font-size:36px
+    }
+
+    .sq .sl-big .material-symbols-outlined {
+        font-size: 44px
+    }
+
+    .sq .sl-lr {
+        flex-wrap:nowrap
+    }
+
+    .sq .sl-ld {
+        padding:4px 12px
+    }
+
+    .sq .sl-ld .sl-pl {
+        font-size:24px
+    }
+
+    .sq .sl-ld .material-symbols-outlined {
+        font-size:26px
+    }
+
+    .sq .sl-ld:nth-child(n + 3) {
+        display: none
+    }
+
+    .sq .sl-st {
+        display:none
+    }
+
+    .sq .sl-r h2 {
+        font-size: 30px;
+        height: 40px;
+        margin-bottom:8px
+    }
+
+    .sq .sl-pg {
+        height: auto;
+        gap: 8px;
+        margin-bottom: 12px
+    }
+
+    .sq .sl-c {
+        height: 64px;
+        padding: 0 24px;
+        gap: 14px;
+        border-radius: 32px;
+        border-width:3px
+    }
+
+    .sq .sl-ot {
+        width: 80px;
+        font-size:30px
+    }
+
+    .sq .sl .dot, .sq .dot {
+        width: 20px;
+        height: 20px
+    }
+
+    .sq .sl-m b {
+        font-size: 24px;
+        line-height:28px
+    }
+
+    .sq .sl-m span {
+        font-size: 20px;
+        line-height:24px
+    }
+
+    .sq .sl-pr {
+        display:none
+    }
+
+    .sq .sl-pl {
+        font-size: 28px;
+        border-width: 3px;
+        padding:0 12px
+    }
+
+    .sq .sl-p small {
+        display: none
+    }
+
+    .sq .sl-wg {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 44px;
+        gap:8px
+    }
+
+    .sq .sl-w {
+        height: 44px;
+        padding: 0 16px;
+        gap: 10px;
+        border-radius:22px
+    }
+
+    .sq .sl-w .sl-ot {
+        width: 56px;
+        font-size:24px
+    }
+
+    .sq .sl-w .sl-m b {
+        font-size: 20px;
+        max-width:100%
+    }
+
+    .sq .sl-w .sl-m span {
+        display:none
+    }
+
+    .sq .sl-w .sl-pl {
+        font-size:22px
+    }
+
+    .sq .sl-w .sl-p small {
+        display: none
+    }
+
+    .sl-ls h2 {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color:var(--fg)
+    }
+
+    .sl-cnt {
+        min-width: 48px;
+        height: 48px;
+        line-height: 48px;
+        text-align: center;
+        border-radius: 99px;
+        background: #17b94a;
+        color: #fff;
+        font-size: 30px
+    }
+
+    .sl-big {
+        flex: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        border: 0;
+        background: none;
+        color: inherit;
+        padding: 16px 0 14px;
+        border-radius: 0
+    }
+
+    .sl-big .sl-pl {
+        display: block;
+        font-size: 84px;
+        line-height: 1.1;
+        padding: 4px 44px;
+        letter-spacing: 2px;
+        border: 6px solid #111;
+        border-radius: 18px;
+        background: #fff;
+        color: #111;
+        animation: ring 2.6s ease-in-out infinite
+    }
+
+    @keyframes ring {
+        0%, 100% {
+            box-shadow:0 0 0 6px #17b94a, 0 0 28px rgba(23, 185, 74, .55)
+        }
+
+        50% {
+            box-shadow: 0 0 0 12px rgba(23, 185, 74, .7), 0 0 56px rgba(23, 185, 74, .85)
+        }
+    }
+
+    .sl-lr {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:10px
+    }
+
+    .sl-ld {
+        display: block;
+        border: 0;
+        padding: 0;
+        background: none
+    }
+
+    .sl-ld .sl-pl {
+        display: block;
+        text-align: center;
+        font-size: 30px;
+        padding: 6px 8px;
+        border: 3px solid #111;
+        color: #111;
+        background: #fff;
+        border-radius: 12px
+    }
+
+    .sq .sl-big {
+        padding:0 4px
+    }
+
+    .sq .sl-big .sl-pl {
+        font-size: 38px;
+        border-width: 4px;
+        padding: 2px 20px;
+        animation: none;
+        box-shadow: 0 0 0 4px #17b94a
+    }
+
+    .sq .sl-lr {
+        display: flex;
+        gap:8px
+    }
+
+    .sq .sl-ld .sl-pl {
+        font-size: 24px;
+        padding:4px 10px
+    }
+
+    .sq .sl-cnt {
+        min-width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px
+    }
+
+    .sala-cfg {
+        opacity: .55 !important
+    }
+
+    .skp {
+        position: relative;
+        height: 190px;
+        border-radius: 16px;
+        overflow: hidden;
+        margin: 8px 0;
+        background:#18224a
+    }
+
+    .skp i {
+        position: absolute;
+        display: block
+    }
+
+    .skp .sk-orb {
+        width: 56px;
+        height: 56px;
+        box-shadow:0 0 30px 14px var(--orbg, rgba(255, 225, 120, .45))
+    }
+
+    .skp .sk-cl {
+        width: 60%;
+        height: 55%;
+        animation-name:driftp
+    }
+
+    .skp .sk-rn {
+        background-size: 14px 40px, 22px 60px;
+        animation-name: rainp
+    }
+
+    @keyframes driftp {
+        from {
+            transform:translateX(-110%)
+        }
+
+        to {
+            transform:translateX(190%)
+        }
+    }
+
+    @keyframes rainp {
+        to {
+            background-position: -14px 40px, -22px 60px
+        }
+    }
+
+    .btns button.on {
+        background: #f9a825 !important;
+        border-color: #f9a825 !important;
+        color: #111 !important
+    }/* v0.47 · sala: saludo, tips de 3 líneas, íconos de tamaño fijo, sync a la izquierda, sin contadores */
+    .sl .material-symbols-outlined {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        flex: none
+    }
+
+    .sl-sync {
+        flex: 1;
+        min-width:0
+    }
+
+    .sl-biz {
+        flex: none;
+        max-width: 45%;
+        text-align: right
+    }
+
+    .sl-hi {
+        flex: none;
+        height: 48px;
+        line-height: 48px;
+        font-size: 34px;
+        font-weight: 800;
+        color: var(--acc);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .sl-tip {
+        height:164px
+    }
+
+    .sl-tip p {
+        max-height: 116px
+    }
+
+    .sl-lr.c2 {
+        grid-template-columns:repeat(2, 1fr)
+    }
+
+    .sl-lr.c3 {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .sl-wx {
+        height:140px
+    }
+
+    .wx-i strong {
+        height: auto;
+        max-height: 64px
+    }
+
+    .sl-st {
+        padding-right: 70px
+    }
+
+    .sq .sl-l {
+        grid-template-rows: 32px 112px 40px 40px 126px 72px;
+        grid-template-areas: "t t" "c w" "d w" "g g" "p p" "l l"
+    }
+
+    .sq .sl-hi {
+        grid-area: g;
+        font-size: 28px;
+        height: 40px;
+        line-height: 40px
+    }
+
+    .sq .sl-tip {
+        height:126px
+    }
+
+    .sq .sl-tip p {
+        -webkit-line-clamp: 3;
+        max-height: 96px
+    }
+
+    .sq .sl-ls {
+        height:72px
+    }
+
+    .sq .sl-ls h2 {
+        width: 140px
+    }
+
+    .sq .sl-wx {
+        height:160px
+    }
+
+    .sq .wx-i strong {
+        height: auto
+    }
+
+    .sq .sl-lr.c2, .sq .sl-lr.c3 {
+        display:flex
+    }
+
+    .sq .sl-ld:nth-child(n + 3) {
+        display: none
+    }/* v0.48 */
+    .sl-top {
+        height:48px
+    }
+
+    .sl-sync {
+        gap:14px
+    }
+
+    .sl-sync i {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background:#12c21a
+    }
+
+    .sl-sync i.off {
+        background:#f5a623
+    }
+
+    .sl-sync i.bad {
+        background: #e02020
+    }
+
+    .sl-sync .sl-hi {
+        height: 48px;
+        line-height: 48px;
+        font-size: 32px;
+        min-width:0
+    }
+
+    .sl-biz {
+        max-width: 30%
+    }
+
+    .sl-r h2:first-child {
+        padding-right: 70px
+    }
+
+    .sala-pn {
+        gap:6px
+    }
+
+    .sala-pn > * {
+        flex:none
+    }
+
+    .sala-pn button {
+        min-height:42px
+    }
+
+    .sala-pn .stg {
+        grid-template-columns:repeat(3, 1fr)
+    }
+
+    .sala-pn .stg button {
+        min-height: 38px;
+        font-size: 13px;
+        padding: 0 4px
+    }
+
+    .sq .sl-top {
+        height:40px
+    }
+
+    .sq .sl-sync .sl-hi {
+        font-size: 26px;
+        height: 40px;
+        line-height:40px
+    }
+
+    .sq .sl-sync i {
+        width: 16px;
+        height: 16px
+    }
+
+    .sq .sl-l {
+        grid-template-rows: 40px 112px 40px 126px 72px;
+        grid-template-areas: "t t" "c w" "d w" "p p" "l l"
+    }
+
+    .sq .sl-pg {
+        margin-bottom:8px
+    }
+
+    .sq .sl-c {
+        height: 56px
+    }
+
+    .sq .sl-wg {
+        display: flex;
+        flex-direction: column;
+        gap: 5px
+    }
+
+    .sq .sl-w {
+        height: 38px;
+        padding: 0 18px;
+        gap: 12px;
+        border-radius: 19px
+    }
+
+    .sq .sl-w .sl-ot {
+        width: 64px;
+        font-size: 22px
+    }
+
+    .sq .sl-w .sl-m {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 12px
+    }
+
+    .sq .sl-w .sl-m b {
+        font-size: 20px;
+        line-height: 26px;
+        max-width: none;
+        flex: 0 1 auto
+    }
+
+    .sq .sl-w .sl-m span {
+        display: inline;
+        font-size: 18px
+    }
+
+    .sq .sl-w .sl-p small {
+        display: inline;
+        font-size: 18px
+    }
+
+    .sq .sl-w .sl-pl {
+        font-size: 20px
+    }/* v0.49 · aviso a media pantalla con fondo borroso */
+    .sl-bw {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(6, 12, 32, .38);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+        animation: bwf 7s linear both;
+        pointer-events: none
+    }
+
+    @keyframes bwf {
+        0% {
+            opacity:0
+        }
+
+        8% {
+            opacity:1
+        }
+
+        80% {
+            opacity:1
+        }
+
+        100% {
+            opacity: 0
+        }
+    }
+
+    .sl-bw .sl-bn {
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 54%;
+        height: 46%;
+        box-sizing: border-box;
+        justify-content: center;
+        gap: 44px;
+        padding: 0 40px;
+        border-radius: 90px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
+        animation: bnz 1.5s cubic-bezier(.2, .9, .25, 1.04) both
+    }
+
+    @keyframes bnz {
+        from {
+            transform: scale(.12);
+            opacity:0
+        }
+
+        25% {
+            opacity:1
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1
+        }
+    }
+
+    .sl-bw .sl-bn .material-symbols-outlined {
+        font-size: 150px
+    }
+
+    .sl-bw .sl-bn small {
+        font-size: 56px;
+        font-weight: 700
+    }
+
+    .sl-bw .sl-bn b {
+        font-size: 104px;
+        white-space: nowrap;
+        letter-spacing: .03em
+    }
+
+    .sq .sl-bw .sl-bn {
+        width: 92%;
+        height: 36%;
+        gap: 24px;
+        padding: 0 24px;
+        border-radius: 70px
+    }
+
+    .sq .sl-bw .sl-bn .material-symbols-outlined {
+        font-size:104px
+    }
+
+    .sq .sl-bw .sl-bn small {
+        font-size:38px
+    }
+
+    .sq .sl-bw .sl-bn b {
+        font-size: 74px
+    }/* saludo: mismo color que el resto del texto */
+
+    .sl .sl-hi, .sl-sync .sl-hi {
+        color: var(--fg)
+    }/* v0.49 · lluvia por capas (parallax) y rayos */
+
+    #salabg .sk-rn {
+        background-image: linear-gradient(100deg, transparent 47%, rgba(210, 224, 255, .5) 50%, transparent 52%), linear-gradient(100deg, transparent 48%, rgba(210, 224, 255, .38) 50%, transparent 52%), linear-gradient(100deg, transparent 48.5%, rgba(210, 224, 255, .45) 50%, transparent 51.5%);
+        background-size: 2.3vw 7vw, 3.7vw 11vw, 1.7vw 5.3vw;
+        animation: rainA calc(.55s / var(--rf, 1)) linear infinite
+    }
+
+    #salabg .sk-rn::before, #salabg .sk-rn::after {
+        content: '';
+        position: absolute;
+        inset: 0
+    }
+
+    #salabg .sk-rn::before {
+        opacity: .6;
+        background-image: linear-gradient(100deg, transparent 48%, rgba(210, 224, 255, .5) 50%, transparent 52%), linear-gradient(100deg, transparent 48%, rgba(210, 224, 255, .4) 50%, transparent 52%);
+        background-size: 1.2vw 3.6vw, 1.9vw 5.6vw;
+        animation: rainB calc(.4s / var(--rf, 1)) linear infinite
+    }
+
+    #salabg .sk-rn::after {
+        opacity: var(--rx, 0);
+        transition: opacity 2s;
+        background-image: linear-gradient(100deg, transparent 48.5%, rgba(235, 242, 255, .5) 50%, transparent 51.5%), linear-gradient(100deg, transparent 48.5%, rgba(235, 242, 255, .42) 50%, transparent 51.5%);
+        background-size: 2.9vw 9vw, 4.3vw 13.5vw;
+        animation: rainC calc(.45s / var(--rf, 1)) linear infinite
+    }
+
+    @keyframes rainA {
+        to {
+            background-position: -2.3vw 7vw, -3.7vw 11vw, -1.7vw 5.3vw
+        }
+    }
+
+    @keyframes rainB {
+        to {
+            background-position: -1.2vw 3.6vw, -1.9vw 5.6vw
+        }
+    }
+
+    @keyframes rainC {
+        to {
+            background-position: -2.9vw 9vw, -4.3vw 13.5vw
+        }
+    }
+
+    .sk-lg {
+        inset: 0;
+        opacity: var(--lg, 0);
+        transition: opacity 1.5s;
+        pointer-events: none
+    }
+
+    .sk-lg::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 72% 18%, rgba(240, 246, 255, .95), rgba(170, 195, 255, .5) 55%, rgba(120, 150, 230, .18));
+        opacity: 0;
+        animation: lgf 9s linear infinite
+    }
+
+    .sk-lg::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 66%;
+        width: 15%;
+        height: 80%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 230'%3E%3Cpath fill='white' d='M52 0 L18 100 L42 100 L10 230 L74 84 L50 84 L80 0 Z'/%3E%3C/svg%3E") center top/contain no-repeat;
+        filter: drop-shadow(0 0 10px #cfe0ff) drop-shadow(0 0 28px #7aa6ff);
+        opacity: 0;
+        animation: lgb 9s linear infinite
+    }
+
+    .sk-lg.b::before, .sk-lg.b::after {
+        animation-delay:-4.6s
+    }
+
+    .sk-lg.b::after {
+        left: 14%;
+        transform:scaleX(-1)
+    }
+
+    .sk-lg.b::before {
+        background: radial-gradient(ellipse at 20% 15%, rgba(240, 246, 255, .9), rgba(170, 195, 255, .45) 55%, rgba(120, 150, 230, .15))
+    }
+
+    @keyframes lgf {
+        0% {
+            opacity:0
+        }
+
+        2% {
+            opacity:.85
+        }
+
+        3% {
+            opacity:.15
+        }
+
+        4.5% {
+            opacity:1
+        }
+
+        8% {
+            opacity:0
+        }
+
+        62% {
+            opacity:0
+        }
+
+        63% {
+            opacity:.5
+        }
+
+        64% {
+            opacity:.05
+        }
+
+        65% {
+            opacity:.7
+        }
+
+        68% {
+            opacity:0
+        }
+
+        100% {
+            opacity: 0
+        }
+    }
+
+    @keyframes lgb {
+        0% {
+            opacity:0
+        }
+
+        2% {
+            opacity:1
+        }
+
+        3% {
+            opacity:.2
+        }
+
+        4.5% {
+            opacity:1
+        }
+
+        7% {
+            opacity:0
+        }
+
+        100% {
+            opacity: 0
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sk-lg::before, .sk-lg::after, #salabg .sk-rn::before, #salabg .sk-rn::after {
+            animation: none !important
+        }
     }
     </style>
 </head>
@@ -7117,6 +8927,9 @@
         appId: "1:734364983553:web:ed21ea0b9eccf248013b00",
         measurementId: "G-WQLZG0JYM4"
     };
+
+    /* v1 · INTERRUPTOR: botón "consultar patente en API". false = oculto (el código sigue completo). Pon true para mostrarlo de nuevo. */
+    const FEATURE_BUSCAR_PATENTE = false;
 
     /* ============ 2. CATÁLOGO BASE (editable en Configuración) ============
     Formato: Grupo=CODIGO:Nombre:minutos,...  ("?" delante del código = categoría "revisar") */
@@ -9763,6 +11576,7 @@
             S.fbWait = 1;
             return
         }
+        S.fbBad = 1;
         const p = e && e.code == 'permission-denied';
         alert(p ? 'Firebase rechazó el acceso. En la consola de Firebase → Firestore → Reglas, permite leer y escribir (reglas de prueba) y vuelve a intentar.' : 'Error de Firebase: ' + (e && e.message || e))
     };
@@ -9903,6 +11717,8 @@
                 };
                 ensureDemo();
                 f.onSnapshot(f.collection(db, COL()), s => {
+                    S.fbBad = 0;
+                    S.fbWait = 0;
                     S.jobs = s.docs.map(d => d.data());
                     R.snT = Date.now();
                     render(MODO == 'admin' || S.mrq ? 0 : 1)
@@ -10233,7 +12049,7 @@
         return k
     }
     function helpbox() {
-        return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
+        return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.filter(([i]) => FEATURE_BUSCAR_PATENTE || i != 'travel_explore').map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
     }
     const detail = j => {
         const t = j.tiempos,
@@ -10242,7 +12058,7 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${j.estado}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock ? '' : `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" data-id="${j.id}" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>`}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${j.estado}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" data-id="${j.id}" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>`}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[j.estado]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${Math.round(t.estSeg / 60)} min ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
          ${(() => {const xc = S.xc || {},I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', I('veh', 'marca', 'Marca') + I('veh', 'modelo', 'Modelo') + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"') + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'combustible', 'Combustible') + I('veh', 'color', 'Color') + I('veh', 'cil', 'Cilindrada') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"'), 'vg')})()}${otros(j)}
@@ -10412,7 +12228,7 @@
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
-         <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>` : ''}${fb ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button><button data-a="meq" data-m="sala">${ic('tv')} Este equipo: sala de espera</button><button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
+         <section><b>Probar fondo de la sala</b><p class="note">Vista previa del fondo según la hora del día y el clima. Solo es una prueba: no guarda nada.</p><div id="skprev" class="skp"></div><div class="btns" style="flex-wrap:wrap">${SKT.map(([v, n]) => `<button class="${((S.tst && S.tst.t) || '') == v ? 'on' : ''}" data-a="stt" data-v="${v}">${n}</button>`).join('')}</div><div class="btns" style="flex-wrap:wrap">${SKW.map(([v, n]) => `<button class="${((S.tst && S.tst.w) || '') == v ? 'on' : ''}" data-a="stw" data-v="${v}">${n}</button>`).join('')}</div></section><section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>` : ''}${fb ? '' : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}<button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button><button data-a="meq" data-m="sala">${ic('tv')} Este equipo: sala de espera</button><button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section></div>`
     }
     function create() {
         // formulario "Crear nuevo trabajo" (D = borrador en memoria)
@@ -10424,7 +12240,7 @@
             me = personas().find(p => p.nombre == autor())?.id;
         return `<div class="bd"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic(D._edit ? 'edit' : 'edit_note')}<div><b style="font-size:18px">${D._edit ? 'Editar orden de trabajo' : 'Crear nuevo trabajo'}</b><div class="sm">${D._edit ? 'Modifique los datos, servicios o repuestos de esta orden' : 'Registre un nuevo evento para el flujo de trabajo'}</div></div><div class="sm" style="margin-left:auto;text-align:right">Hora actual<br><b style="font-size:14px;color:var(--ink)">${hm(now())}</b></div><button class="x" data-a="cerrar" title="Cerrar" style="margin-left:6px!important">${ic('close')}</button></div>
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
-         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label><button class="plk${R.plk ? ' busy' : ''}" data-a="plk" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button></div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
+         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>` : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente')}${f('tel', 'Teléfono o celular', 'type=tel')}`, `${f('rut', 'RUT cliente')}${f('correo', 'Correo', 'type=email')}<div class="w">${f('dir', 'Dirección')}</div>`, 'fld')}
          ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${f('marca', 'Marca')}${f('modelo', 'Modelo')}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión')}${f('motor', 'Motor')}${f('comb', 'Combustible')}${f('color', 'Color')}${f('cil', 'Cilindrada')}<div><div class="sm">Venc. revisión técnica</div>${f('rt', 'mes/año', 'type=month')}</div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>
@@ -10527,6 +12343,70 @@
     if (MODO != 'admin')
         document.body.classList.add('mod', 'm-' + MODO);
     const TIPS = ['Revisa la presión de los neumáticos cada 15 días, siempre en frío.', 'Cambia el aceite según la pauta del fabricante, no solo por kilometraje.', 'Un filtro de aire sucio aumenta el consumo de combustible.', 'Si el pedal de freno se siente blando, revísalo de inmediato.', 'Alinear y balancear cada 10.000 km cuida neumáticos y suspensión.', 'Revisa el nivel de refrigerante solo con el motor frío.', 'Ruidos al frenar o vibraciones al volante: avísanos a tiempo.'];
+    /* v0.47 · sonido de "Listo para retirar" (solo modo sala). Se activa/apaga en el engranaje de la sala; por defecto activado.
+       Los navegadores exigen un primer toque en la pantalla para permitir audio: se desbloquea con el primer toque o tecla. */
+    const sndOn = () => {
+        try {
+            return localStorage.lubri_snd !== '0'
+        } catch (e) {
+            return true
+        }
+    };
+    let ACX = null;
+    const acx = () => {
+        try {
+            ACX = ACX || new (window.AudioContext || window.webkitAudioContext)();
+            if (ACX.state == 'suspended')
+                ACX.resume();
+            return ACX
+        } catch (e) {
+            return null
+        }
+    };
+    function salaChime(force) {
+        if (MODO != 'sala' || (!force && !sndOn()))
+            return;
+        const c = acx();
+        if (!c)
+            return;
+        try {
+            const t = c.currentTime + .03;
+            [[659.25, 0], [880, .3], [1318.5, .6]].forEach(([f, d]) => {
+                const o = c.createOscillator(),
+                    g = c.createGain();
+                o.type = 'sine';
+                o.frequency.value = f;
+                g.gain.setValueAtTime(0, t + d);
+                g.gain.linearRampToValueAtTime(.4, t + d + .02);
+                g.gain.exponentialRampToValueAtTime(.001, t + d + 1.1);
+                o.connect(g);
+                g.connect(c.destination);
+                o.start(t + d);
+                o.stop(t + d + 1.2)
+            })
+        } catch (e) {}
+    }
+    ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(e => addEventListener(e, () => {
+        if (MODO == 'sala' && sndOn())
+            acx()
+    }, {
+        passive: true
+    }));
+    const sgH = () => {
+            const t = (S.tst || {}).t,
+                h = t ? ({
+                    amanecer: 6,
+                    manana: 9,
+                    mediodia: 13,
+                    tarde: 16,
+                    atardecer: 19,
+                    anochecer: 21,
+                    noche: 2
+                })[t] : new Date().getHours();
+            return (h >= 5 && h < 12 ? 'Buenos días' : h >= 12 && h < 20 ? 'Buenas tardes' : 'Buenas noches') + ', bienvenido'
+        },
+        // 5–11 días · 12–19 tardes · 20–4 noches
+        syncDot = () => S.fbBad ? 'bad' : (!fb || S.fbWait || navigator.onLine === false) ? 'off' : 'ok'; // verde sincronizado · amarillo sin conexión/local · rojo error
     const mask = p => {
             const a = String(p || '').split('·');
             return a.length == 3 ? `${a[0]}· **·${a[2]}` : esc(p || '')
@@ -10537,12 +12417,14 @@
     const WXL = [['Isla de Maipo', -33.7467, -70.8892], ['La Islita · Isla de Maipo', -33.7170, -70.8790], ['Lonquén · Talagante', -33.6290, -70.8510], ['Talagante', -33.6636, -70.9310], ['Calera de Tango', -33.6314, -70.7742], ['Santiago', -33.4489, -70.6693]]; // coordenadas aproximadas
     async function getWx() {
         try {
-            const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + WXL.map(x => x[1]).join(',') + '&longitude=' + WXL.map(x => x[2]).join(',') + '&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1'),
+            const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + WXL.map(x => x[1]).join(',') + '&longitude=' + WXL.map(x => x[2]).join(',') + '&current=temperature_2m,weather_code,cloud_cover&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto&forecast_days=1'),
                 d = await r.json(),
                 D = Array.isArray(d) ? d : [d];
             S.wxs = D.map((q, k) => {
                 const [i, tx] = WXC(q.current.weather_code);
                 return {
+                    c: q.current.weather_code,
+                    cv: q.current.cloud_cover,
                     n: WXL[k][0],
                     t: Math.round(q.current.temperature_2m),
                     mn: Math.round(q.daily.temperature_2m_min[0]),
@@ -10553,8 +12435,24 @@
             });
             S.wxi = (S.wxi || 0) % S.wxs.length;
             S.wx = S.wxs[S.wxi];
+            try {
+                const q = D[WXBASE].daily,
+                    tm = x => +x.slice(11, 13) * 60 + +x.slice(14, 16);
+                if (q.sunrise && q.sunset)
+                    S.sun = {
+                        sr: tm(q.sunrise[0]),
+                        ss: tm(q.sunset[0])
+                    }
+            } catch (e) {}
+            S.wxf = 0;
+            R.bgt = 0;
             render(1)
-        } catch (e) {}
+        } catch (e) {
+            S.wxf = 1;
+            clearTimeout(R.wxr);
+            R.wxr = setTimeout(getWx, 30000);
+            wxPaint()
+        }
     }
     const clkH = () => {
             const d = new Date(),
@@ -10584,24 +12482,157 @@
             if (b.textContent !== t)
                 b.textContent = t
         }
+        const g = document.getElementById('sgr');
+        if (g) {
+            const t = sgH();
+            if (g.textContent !== t)
+                g.textContent = t
+        }
     }
     function fitSala() {
-        const s = document.querySelector('.sala');
+        const s = document.querySelector('.sl-stage');
         if (!s)
             return;
-        s.style.transform = '';
-        s.style.width = '';
-        s.style.height = '';
-        const h = s.scrollHeight,
-            H = innerHeight;
-        if (h > H + 2) {
-            const k = H / h;
-            s.style.transformOrigin = '0 0';
-            s.style.width = (100 / k) + '%';
-            s.style.height = h + 'px';
-            s.style.transform = 'scale(' + k + ')'
+        const w = innerWidth,
+            h = innerHeight,
+            q = w / h < 1.34,
+            W = q ? 1080 : 1920,
+            H = 1080,
+            k = Math.min(w / W, h / H);
+        s.classList.toggle('sq', q);
+        s.style.cssText = `width:${W}px;height:${H}px;left:${(w - W * k) / 2}px;top:${(h - H * k) / 2}px;transform:scale(${k})`
+    } // escenario fijo: 16:9 (1920×1080) o cuadrado (1080×1080) según la pantalla; se escala completo, sin reacomodar
+    addEventListener('resize', () => {
+        if (MODO == 'sala')
+            fitSala()
+    });
+
+    /* ---- v0.46: fondo de la sala según la hora y el clima de la ZONA BASE (Isla de Maipo · Lonquén) ---- */
+    const WXBASE = 0; // índice en WXL de la localidad que gobierna el fondo (0 = Isla de Maipo). La rotación de ciudades de la info no lo toca.
+    const H2C = h => [1, 3, 5].map(i => parseInt(h.substr(i, 2), 16)),
+        C2H = c => '#' + c.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join(''),
+        MX = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t),
+        LU = c => (.2126 * c[0] + .7152 * c[1] + .0722 * c[2]) / 255;
+    function bgSala(f) {
+        let e = document.getElementById('salabg');
+        if (!e) {
+            e = document.createElement('div');
+            e.id = 'salabg';
+            e.innerHTML = '<i class="sk-st"></i><i class="sk-orb"></i><i class="sk-cl a"></i><i class="sk-cl b"></i><i class="sk-cl c"></i><i class="sk-fo"></i><i class="sk-rn"></i><i class="sk-lg"></i><i class="sk-lg b"></i>';
+            document.body.insertBefore(e, document.body.firstChild);
+            f = 1
         }
-    } // si el contenido no cabe, se reduce para que nada quede oculto
+        if (!f && R.bgt && Date.now() - R.bgt < 25000)
+            return;
+        R.bgt = Date.now();
+        skyApply(e, 1)
+    }
+    function skyApply(e, main) {
+        const d = new Date(),
+            m0 = d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60,
+            doy = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5),
+            len = (12 + 2.2 * Math.cos(2 * Math.PI * (doy - 355) / 365)) * 60,
+            sn = S.sun || {
+                sr: 795 - len / 2,
+                ss: 795 + len / 2
+            },
+            sr = sn.sr,
+            ss = sn.ss,
+            nn = (sr + ss) / 2,
+            // sin datos del sol: estimación para el hemisferio sur
+            K = [[sr - 80, '#0a1030', '#18224a'], [sr - 25, '#2c3a78', '#c96f6a'], [sr + 25, '#5b86d6', '#ffb98a'], [sr + 120, '#58a6ef', '#cfe9ff'], [nn, '#2f8fe6', '#aedcff'], [ss - 120, '#4a9be6', '#ffe2b8'], [ss - 30, '#4a6fd0', '#ffb066'], [ss + 15, '#3b3f93', '#ff7b4a'], [ss + 60, '#1c2152', '#7a3f7d'], [ss + 120, '#0a1030', '#18224a']];
+        const T = S.tst || {},
+            TM = {
+                amanecer: sr + 10,
+                manana: sr + 100,
+                mediodia: nn,
+                tarde: ss - 100,
+                atardecer: ss + 5,
+                anochecer: ss + 50,
+                noche: 60
+            },
+            m = T.t && TM[T.t] != null ? TM[T.t] : m0,
+            TW = {
+                despejado: [0, 5],
+                parcial: [2, 40],
+                nublado: [3, 95],
+                lluvia: [63, 92],
+                tormenta: [95, 100],
+                niebla: [45, 85]
+            }[T.w];
+        let a = H2C(K[0][1]),
+            b = H2C(K[0][2]);
+        if (m > K[0][0] && m < K[K.length - 1][0])
+            for (let i = 0; i < K.length - 1; i++)
+                if (m < K[i + 1][0]) {
+                    const t = (m - K[i][0]) / (K[i + 1][0] - K[i][0]);
+                    a = MX(H2C(K[i][1]), H2C(K[i + 1][1]), t);
+                    b = MX(H2C(K[i][2]), H2C(K[i + 1][2]), t);
+                    break
+                }
+        const W0 = S.wxs && S.wxs[WXBASE],
+            c = TW ? TW[0] : W0 ? W0.c : 0,
+            cc = TW ? TW[1] / 100 : W0 && W0.cv != null ? W0.cv / 100 : (c <= 1 ? .1 : c == 2 ? .4 : c == 3 ? .9 : .6),
+            storm = c >= 95,
+            rain = (c >= 51 && c <= 67) || (c >= 80 && c <= 82),
+            fog = c == 45 || c == 48,
+            snow = (c >= 71 && c <= 77) || c == 85 || c == 86,
+            g = Math.min(.8, cc * .55 + (rain ? .15 : 0) + (storm ? .25 : 0) + (fog ? .25 : 0) + (snow ? .1 : 0)),
+            dk = storm ? .32 : rain ? .2 : cc > .7 ? .06 : 0,
+            wz = col => {
+                const L = LU(col) * 255;
+                return MX(col, [L * .93, L * .97, L * 1.03], g).map(v => v * (1 - dk))
+            };
+        a = wz(a);
+        b = wz(b);
+        const lm = (LU(a) + LU(b)) / 2,
+            dark = lm < .42,
+            day = m >= sr && m <= ss,
+            p = Math.min(1, Math.max(0, day ? (m - sr) / (ss - sr) : ((m >= ss ? m - ss : m + 1440 - ss) / (1440 - (ss - sr))))),
+            sp = Math.sin(Math.PI * p),
+            o = e.querySelector('.sk-orb'),
+            V = (k, v) => e.style.setProperty(k, v);
+        e.style.background = 'linear-gradient(180deg,' + C2H(a) + ',' + C2H(b) + ')';
+        if (main) {
+            document.documentElement.style.background = C2H(b);
+            document.body.classList.toggle('sk-dark', dark)
+        }
+        o.style.left = (10 + 80 * p) + '%';
+        o.style.top = (74 - 58 * sp) + '%';
+        V('--orb', day ? (sp < .3 ? '#ffb26b' : '#fff1b0') : '#eef2ff');
+        V('--orbg', day ? (sp < .3 ? 'rgba(255,150,70,.5)' : 'rgba(255,225,120,.45)') : 'rgba(170,190,255,.3)');
+        V('--ob', rain || storm ? 0 : Math.max(0, 1 - cc * 1.05).toFixed(2));
+        V('--st', (Math.max(0, Math.min(1, (.3 - lm) / .14)) * Math.max(0, 1 - cc * 1.2) * (rain || storm || fog ? 0 : 1)).toFixed(2));
+        V('--cl', Math.min(1, cc * 1.1).toFixed(2));
+        V('--ccol', dark ? 'rgba(150,160,205,.42)' : (rain || storm ? 'rgba(105,115,132,.8)' : 'rgba(255,255,255,.88)'));
+        V('--rn', storm ? 1 : rain ? (c >= 61 ? .9 : .5) : 0);
+        V('--rx', storm ? 1 : rain && c >= 65 ? .55 : 0);
+        V('--rf', storm ? 1.8 : rain && c >= 61 ? 1.25 : .95);
+        V('--lg', storm ? 1 : 0);
+        V('--fo', fog ? 1 : 0);
+    }
+    const SKT = [['', 'Auto'], ['amanecer', 'Amanecer'], ['manana', 'Mañana'], ['mediodia', 'Mediodía'], ['tarde', 'Tarde'], ['atardecer', 'Atardecer'], ['anochecer', 'Anochecer'], ['noche', 'Noche']],
+        SKW = [['', 'Clima real'], ['despejado', 'Despejado'], ['parcial', 'Parcial'], ['nublado', 'Nublado'], ['lluvia', 'Lluvia'], ['tormenta', 'Tormenta'], ['niebla', 'Niebla']];
+    function skyPrev() {
+        const e = document.getElementById('skprev');
+        if (!e)
+            return;
+        if (!e.firstChild)
+            e.innerHTML = '<i class="sk-st"></i><i class="sk-orb"></i><i class="sk-cl a"></i><i class="sk-cl b"></i><i class="sk-cl c"></i><i class="sk-fo"></i><i class="sk-rn"></i><i class="sk-lg"></i><i class="sk-lg b"></i>';
+        if (!S.wxs && !R.wxq) {
+            R.wxq = 1;
+            getWx()
+        }
+        skyApply(e, 0)
+    }
+    function wxPaint() {
+        const e = document.getElementById('swx');
+        if (!e)
+            return;
+        const W = S.wx;
+        e.className = 'sl-wx ' + (W ? W.i : '');
+        e.innerHTML = W ? `<div class="wx-t"><b>${W.t}°</b>${ic(W.i)}</div><div class="wx-i"><strong>${esc(W.n)}</strong><span>${W.tx}</span><em>${W.mn}° / ${W.mx}°</em></div>` : '<div class="wx-t"><b>--°</b></div><div class="wx-i"><strong>' + (S.wxf ? 'Clima no disponible, reintentando…' : 'Cargando clima…') + '</strong></div>'
+    }
     function vSala() {
         const now = Date.now(),
             sn = R.sn || (R.sn = {}),
@@ -10610,7 +12641,14 @@
             rd = j => j.estado == 'completado' || j.listo;
         const A = S.jobs.filter(j => (j.estado == 'proceso' || j.estado == 'pausa') && !j.listo).sort(byIng),
             Q = S.jobs.filter(j => j.estado == 'cola').sort(byIng),
-            rt = j => new Date(j.tiempos.completadoISO || j.listoISO || 0),
+            fu = x => {
+                const t = +new Date(x || 0);
+                return t > now + 60000 ? 0 : t
+            },
+            // fechas futuras (datos demo) se ignoran
+            rt = j => Math.max(fu(j.tiempos.completadoISO), fu(j.listoISO), (R.rts || {})[j.id] || 0),
+            // el más reciente de: completado, aviso de listo, o cuando la sala lo vio pasar a listo
+
             L = S.jobs.filter(j => (j.listo && j.estado != 'completado') || (j.estado == 'completado' && j.tiempos.completadoISO && now - new Date(j.tiempos.completadoISO) < 2700000)).sort((a, b) => rt(b) - rt(a)),
             W = S.wx,
             tips = S.cfg.tips && S.cfg.tips.length ? S.cfg.tips : TIPS;
@@ -10622,13 +12660,17 @@
                     S.salaMsg = {
                         k: 'ok',
                         t: 'Listo para retirar',
-                        p: mask(j.vehiculo.patente)
-                    }
+                        p: mask(j.vehiculo.patente),
+                        at: now
+                    };
+                    (R.rts = R.rts || {})[j.id] = now;
+                    salaChime()
                 } else if (k == 'proceso' && ss[j.id] == 'cola') {
                     S.salaMsg = {
                         k: 'go',
                         t: 'Ingresa a trabajo',
-                        p: mask(j.vehiculo.patente)
+                        p: mask(j.vehiculo.patente),
+                        at: now
                     }
                 } else
                     return;
@@ -10640,6 +12682,7 @@
             }
         });
         R.sst = nx;
+        L.sort((a, b) => rt(b) - rt(a));
         const nw = (id, i) => {
                 if (!sn[id])
                     sn[id] = now;
@@ -10658,20 +12701,15 @@
             },
             card = (j, i) => {
                 const q = pr(j);
-                return `<div class="sala-c ${j.estado}${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="sala-m"><b>${esc(nm(S.cfg.plataformas, j.plataformaId))}</b><span>${esc(j.titulo || sv(j))}</span><div class="sala-pr"><i style="width:${q.p}%"></i></div><small>${q.tx}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`
+                return `<div class="sl-c ${j.estado}${nw(j.id, i)}"><b class="sl-ot">${esc(j.ot || 'SOT')}</b><i class="dot ${j.estado}"></i><div class="sl-m"><b>${esc(nm(S.cfg.plataformas, j.plataformaId))}</b><span>${esc(j.titulo || sv(j))}</span><div class="sl-pr"><div class="sl-bar"><i style="width:${q.p}%"></i></div><small>${q.tx}</small></div></div><div class="sl-p"><span class="sl-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`
             },
-            wait = (j, i) => `<div class="sala-c b cola${nw(j.id, i)}"><b class="sala-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sala-m"><b>${esc(j.titulo || sv(j))}</b><small>Turno ${i + 1}</small></div><div class="sala-p"><span class="sala-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
-            done = (j, i) => `<div class="sala-ld${nw(j.id, i)}">${ic('check_circle')}<span class="sala-pl">${mask(j.vehiculo.patente)}</span></div>`,
-            big = j => `<div class="sala-big${nw(j.id, 0)}">${ic('check_circle')}<div><small>Último listo para retirar</small><span class="sala-pl">${mask(j.vehiculo.patente)}</span></div></div>`,
-            M = S.salaMsg;
-        return `<div class="sala"><div class="sala-bg"><i></i><i></i><i></i></div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><button data-a="sres">${ic('sync')}Resincronizar</button>${fb ? `<button data-a="modo">${ic('science')}Usar datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}<button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}${M ? `<div class="sala-bn ${M.k}">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div>` : ''}
-         <div class="sala-l"><div class="sala-sync">${syncTag()}</div><div class="sala-biz">${esc(S.cfg.negocio || '')}</div><div class="sala-clk" id="sclk">${clkH()}</div><div class="sala-date" id="sdate">${dateH()}</div>
-         <div class="sala-wx ${W ? W.i : ''}">${W ? `<b>${W.t}°</b>${ic(W.i)}<div><strong>${esc(W.n)}</strong><span>${W.tx}</span><em>${W.mn}° - ${W.mx}°</em></div>` : ''}</div>
-         <div class="sala-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div>
-         <h2 class="sala-h2 ok">Listos para retirar</h2>${L.length ? big(L[0]) + (L.length > 1 ? `<div class="sala-lr">${L.slice(1, 4).map(done).join('')}</div>` : '') : '<p class="sala-no">Sin vehículos listos</p>'}</div>
-         <div class="sala-r"><div class="sala-st"><span><b>${A.length}</b>en proceso</span><span><b>${Q.length}</b>en espera</span><span class="g"><b>${L.length}</b>listos</span></div>
-         <h2>Estamos trabajando en estos vehículos</h2>${A.length ? `<div class="sala-pg ${A.length > 2 ? 'two' : ''}">${A.slice(0, 4).map(card).join('')}</div>` : '<p class="sala-no">Sin vehículos en proceso</p>'}${A.length > 4 ? `<p class="sala-no">+${A.length - 4} más en proceso</p>` : ''}
-         <h2>Siguen en espera <span class="sala-e">E ${Q.length}</span></h2><div class="sala-g">${Q.slice(0, 4).map(wait).join('') || '<p class="sala-no">Sin vehículos en espera</p>'}</div>${Q.length > 4 ? `<p class="sala-no">+${Q.length - 4} más en espera</p>` : ''}</div></div>`
+            wait = (j, i) => `<div class="sl-w${nw(j.id, i)}"><b class="sl-ot">${esc(j.ot || 'SOT')}</b><i class="dot cola"></i><div class="sl-m"><b>${esc(j.titulo || sv(j))}</b><span>Turno ${i + 1}</span></div><div class="sl-p"><span class="sl-pl">${mask(j.vehiculo.patente)}</span><small>In: <b>${hm(j.tiempos.ingresoISO)}</b></small></div></div>`,
+            done = (j, i) => `<div class="sl-ld${nw(j.id, i)}"><span class="sl-pl">${mask(j.vehiculo.patente)}</span></div>`,
+            big = j => `<div class="sl-big${nw(j.id, 0)}"><span class="sl-pl">${mask(j.vehiculo.patente)}</span></div>`,
+            M = S.salaMsg,
+            LN = L.length > 3 ? 3 : 2; // bajo la última patente: 2 (3 si hay más de 3 listos)
+        const T = S.tst || {};
+        return `<div class="sl"><div class="sl-stage"><div class="sl-l"><div class="sl-top"><span class="sl-sync"><i class="${syncDot()}"></i><b class="sl-hi" id="sgr">${sgH()}</b></span><b class="sl-biz">${esc(S.cfg.negocio || '')}</b></div><div class="sl-clk" id="sclk"></div><div class="sl-date" id="sdate"></div><div class="sl-wx" id="swx"></div><div class="sl-tip">${ic('lightbulb')}<p id="stip">${esc(tips[(S.tipi || 0) % tips.length])}</p><div class="sala-tb"><i id="stb"></i></div></div><div class="sl-ls"><h2><span>Listos para retirar</span></h2>${L.length ? big(L[0]) + (L.length > 1 ? `<div class="sl-lr c${LN}">${L.slice(1, 1 + LN).map(done).join('')}</div>` : '') : '<p class="sl-no">Sin vehículos listos</p>'}</div></div><div class="sl-r"><h2>Estamos trabajando en estos vehículos${A.length > 4 ? `<em>+${A.length - 4} más</em>` : ''}</h2><div class="sl-pg">${A.length ? A.slice(0, 4).map(card).join('') : '<p class="sl-no">Sin vehículos en proceso</p>'}</div><h2>Siguen en espera <span class="sala-e">E ${Q.length}</span>${Q.length > 4 ? `<em>+${Q.length - 4} más</em>` : ''}</h2><div class="sl-wg">${Q.slice(0, 4).map(wait).join('') || '<p class="sl-no">Sin vehículos en espera</p>'}</div></div>${M ? (() => {const e = Math.max(0, (now - (M.at || now)) / 1000).toFixed(2);return `<div class="sl-bw" style="animation-delay:-${e}s"><div class="sl-bn ${M.k}" style="animation-delay:-${e}s">${ic(M.k == 'ok' ? 'check_circle' : 'directions_car')}<div><small>${M.t}</small><b>${M.p}</b></div></div></div>`})() : ''}${T.t || T.w ? '<div class="sl-test">MODO PRUEBA</div>' : ''}</div><button class="sala-cfg" data-a="sset" title="Configuración">${ic('settings')}</button>${S.sset ? `<div class="sala-pn"><b>Modo sala de espera</b><small>Probar fondo · hora del día</small><div class="stg">${[['', 'Auto'], ['amanecer', 'Amanecer'], ['manana', 'Mañana'], ['mediodia', 'Mediodía'], ['tarde', 'Tarde'], ['atardecer', 'Atardecer'], ['anochecer', 'Anochecer'], ['noche', 'Noche']].map(([v, n]) => `<button class="${(T.t || '') === '${v}' ? 'on' : ''}" data-a="stt" data-v="${v}">${n}</button>`).join('')}</div><small>Probar fondo · clima</small><div class="stg">${[['', 'Clima real'], ['despejado', 'Despejado'], ['parcial', 'Parcial'], ['nublado', 'Nublado'], ['lluvia', 'Lluvia'], ['tormenta', 'Tormenta'], ['niebla', 'Niebla']].map(([v, n]) => `<button class="${(T.w || '') === '${v}' ? 'on' : ''}" data-a="stw" data-v="${v}">${n}</button>`).join('')}</div><small>Sonido de aviso</small><button data-a="ssnd" class="${sndOn() ? 'on' : ''}">${ic(sndOn() ? 'volume_up' : 'volume_off')}Sonido "Listo para retirar": ${sndOn() ? 'ACTIVADO' : 'APAGADO'}</button><button data-a="sres">${ic('sync')}Resincronizar</button>${fb ? `<button data-a="modo">${ic('science')}Usar datos ${DM() ? 'REALES' : 'DEMO'}</button>` : ''}<button data-a="meq" data-m="admin">${ic('admin_panel_settings')}Volver a modo administrador</button><button class="x" data-a="sset">Cerrar</button></div>` : ''}</div>`
     }
     const mzone = () => {
         const k = localStorage.lubri_mz;
@@ -10737,8 +12775,46 @@
             body = P.map(sec).join('');
         return `<div class="mec"><div class="mec-h" data-mh><small>Taller de mantención</small><h1>${esc(pl ? pl.nombre : z.nombre)}</h1><div class="mec-sy">${syncTag()}</div></div>${body || `<p class="mec-no">Sin trabajos activos aquí</p>${fb && !DM() && !S.jobs.length ? `<div class="mec-btns" style="max-width:420px;margin:0 auto"><button data-a="modo">${ic('science')}Usar datos DEMO</button></div>` : ''}`}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}${S.mrq ? rqBox() : ''}`
     }
+
+    const focusKey = () => {
+        const a = document.activeElement;
+        if (!a || !a.matches || !a.matches('input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=range]),textarea'))
+            return null;
+        const sel = a.id ? '#' + CSS.escape(a.id) : a.dataset && a.dataset.f ? '[data-f="' + a.dataset.f + '"]' : null,
+            root = a.closest('#modal') ? '#modal' : a.closest('#app') ? '#app' : null;
+        if (!sel || !root)
+            return null;
+        let s = null,
+            e = null;
+        try {
+            s = a.selectionStart;
+            e = a.selectionEnd
+        } catch (x) {}
+        return {
+            sel,
+            root,
+            s,
+            e
+        }
+    };
+    const focusBack = k => {
+        if (!k)
+            return;
+        const el = document.querySelector(k.root + ' ' + k.sel);
+        if (!el || el === document.activeElement)
+            return;
+        try {
+            el.focus({
+                preventScroll: true
+            });
+            if (k.s != null)
+                el.setSelectionRange(k.s, k.e)
+        } catch (x) {}
+    };
     function render(f) {
         ensureZ();
+        if (S.modal && S.modal.k == 'new' && D && document.querySelector('#modal [data-f]'))
+            collect(); // v1: lo escrito no se pierde si algo redibuja la ventana
         if (MODO == 'sala')
             S.view = 'sala';
         if (MODO == 'mec') {
@@ -10767,6 +12843,7 @@
         const ah = V[S.view](),
             nh = navbar(),
             mh = modal() + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+        const fk = (ah !== R.ah || mh !== R.mh) ? focusKey() : null; // v1: si se redibuja con un campo en foco, el foco (y el teclado) se conserva
         if (ah !== R.ah) {
             app.innerHTML = ah;
             R.ah = ah;
@@ -10787,14 +12864,18 @@
             if (d && ds)
                 d.scrollTop = ds
         }
+        focusBack(fk);
         anim();
-        if (MODO == 'sala')
-            requestAnimationFrame(() => {
-                fitSala();
-                clk()
-            });
+        if (MODO == 'sala') {
+            fitSala();
+            clk();
+            wxPaint();
+            bgSala()
+        } else if (S.view == 'cfg')
+            skyPrev();
         document.body.classList.toggle('ovl', !!document.querySelector('#modal .bd:not([style*="pointer-events"]),.item.op,.card.open'));
-        vvSync()
+        vvSync();
+        histSync()
     }
 
     /* ============ 7. EVENTOS (cada data-a="x" del HTML llama a A.x) ============ */
@@ -11659,6 +13740,14 @@
             saveCfg()
         },
         go: d => {
+            if (S.modal && S.modal.k == 'new' && D && !D._edit) {
+                collect();
+                try {
+                    localStorage.lubri_draft = JSON.stringify(D)
+                } catch (e) {}
+            } /* v1: salir con el menú guarda el borrador */
+            S.help = 0;
+            S.mrq = null;
             S.mfc = null;
             S.vp = null;
             S.ms = '';
@@ -11929,7 +14018,8 @@
         },
         // v0.44: expandir/plegar Cliente y Vehículo
         plk: async d => {
-            // v0.44: consulta la patente y pasa los datos a la orden (formulario o detalle)
+            if (!FEATURE_BUSCAR_PATENTE)
+                return; // v1: oculto por interruptor · v0.44: consulta la patente y pasa los datos a la orden (formulario o detalle)
             if (R.plk)
                 return;
             const ed = !!d.id;
@@ -12666,18 +14756,74 @@
         dtLocal = ms => new Date(ms - new Date(ms).getTimezoneOffset() * 6e4).toISOString().slice(0, 16);
 
     /* ---- v0.25 · medidas de pantalla (barra, teclado) y buscador flotante del Mapa ---- */
+    /* v1 · TECLADO Y ALTURA REAL (reutilizable). Todas las ventanas (.bd), el detalle (.card.open) y el buscador flotante del mapa leen estas variables CSS:
+       --vvh altura visible · --vvt desplazamiento superior · --nh barra inferior · --avh altura que pueden ocupar las ventanas. body.kb = teclado abierto.
+       Sin campo de texto en foco no puede haber teclado: se usa la altura completa (así no queda un hueco con una medida vieja). */
+    const vvEditing = () => {
+        const a = document.activeElement;
+        return !!a && (a.tagName == 'TEXTAREA' || (a.tagName == 'INPUT' && !/^(checkbox|radio|button|submit|range|color|file)$/i.test(a.type)))
+    };
+    const vvLast = {};
     function vvSync() {
         const v = window.visualViewport,
-            h = v ? v.height : innerHeight,
-            t = v ? v.offsetTop : 0,
+            ed = vvEditing(),
+            ih = window.innerHeight,
+            hv = v ? v.height : ih,
+            h = Math.round(ed ? hv : Math.max(hv, ih)),
+            t = ed && v ? Math.round(v.offsetTop) : 0,
             nb = $('#nav'),
             nh = document.body.classList.contains('m-mec') ? 0 : (nb ? nb.offsetHeight : 78),
-            kb = innerHeight - h - t > 140,
-            r = document.documentElement.style;
-        r.setProperty('--vvh', h + 'px');
-        r.setProperty('--vvt', t + 'px');
-        r.setProperty('--nh', nh + 'px');
-        r.setProperty('--avh', Math.max(120, h - (kb ? 0 : nh)) + 'px')
+            kb = ed && (ih - hv - t) > 120,
+            set = (k, x) => {
+                if (vvLast[k] !== x) {
+                    vvLast[k] = x;
+                    document.documentElement.style.setProperty(k, x)
+                }
+            };
+        set('--vvh', h + 'px');
+        set('--vvt', t + 'px');
+        set('--nh', nh + 'px');
+        set('--avh', Math.max(120, h - (kb ? 0 : nh)) + 'px');
+        if (vvLast.kb !== kb) {
+            vvLast.kb = kb;
+            document.body.classList.toggle('kb', kb)
+        }
+    }
+    function vvSettle(ms) {
+        // sigue la animación del teclado hasta que la medida se estabiliza (evita el hueco al abrir y al cerrar)
+        const t0 = performance.now();
+        let st = 0,
+            lh = '';
+        cancelAnimationFrame(vvSettle.r);
+        const tick = () => {
+            vvSync();
+            const v = window.visualViewport,
+                cur = (v ? v.height + ':' + v.offsetTop : innerHeight) + ':' + innerHeight;
+            st = cur === lh ? st + 1 : 0;
+            lh = cur;
+            if (performance.now() - t0 < (ms || 1200) && st < 20)
+                vvSettle.r = requestAnimationFrame(tick)
+        };
+        tick()
+    }
+    function vvReveal(el) {
+        // si el teclado tapa el campo, desplaza SOLO el cuerpo de la ventana (no la página)
+        if (!el || !el.closest || !(el.tagName == 'TEXTAREA' || el.tagName == 'INPUT'))
+            return;
+        const c = el.closest('.bb,.dbody,.bd .box');
+        if (!c)
+            return;
+        setTimeout(() => {
+            if (document.activeElement !== el)
+                return;
+            const a = el.getBoundingClientRect(),
+                b = c.getBoundingClientRect(),
+                m = 24;
+            if (a.bottom > b.bottom - m)
+                c.scrollTop += a.bottom - b.bottom + m;
+            else if (a.top < b.top + m)
+                c.scrollTop -= b.top - a.top + m
+        }, 380)
     }
     {
         let q = 0;
@@ -12686,17 +14832,102 @@
                 return;
             q = requestAnimationFrame(() => {
                 q = 0;
-                vvSync()
+                vvSettle(700)
             })
         };
         addEventListener('resize', s);
         addEventListener('orientationchange', s);
-        visualViewport?.addEventListener('resize', s);
-        visualViewport?.addEventListener('scroll', s);
+        addEventListener('pageshow', s);
+        window.visualViewport?.addEventListener('resize', s);
+        window.visualViewport?.addEventListener('scroll', s); // v1: window. evita error en navegadores sin esta API
+
+        document.addEventListener('focusin', e => {
+            s();
+            setTimeout(() => vvSettle(900), 80);
+            vvReveal(e.target)
+        });
+        document.addEventListener('focusout', () => {
+            setTimeout(() => {
+                s();
+                if (!vvEditing()) {
+                    try {
+                        scrollTo(0, 0)
+                    } catch (e) {}
+                    vvSettle(900)
+                }
+            }, 90)
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden)
+                s()
+        });
         if (window.ResizeObserver)
             new ResizeObserver(s).observe($('#nav'));
-        vvSync()
+        vvSettle(300)
     }
+    /* v1 · NAVEGACIÓN: el botón atrás (Android o gesto de iOS) cierra la ventana abierta en vez de salir de la app.
+       Mientras haya una capa abierta (ventana, ayuda, solicitud o detalle) existe UNA entrada extra en el historial. */
+    const HB = {
+        on: false,
+        skip: 0
+    };
+    function histSync() {
+        const o = !!(S.modal || S.help || S.open || S.mrq);
+        if (o && !HB.on) {
+            try {
+                history.pushState({
+                    lub: 1
+                }, '');
+                HB.on = true
+            } catch (e) {}
+        }
+        else if (!o && HB.on) {
+            HB.on = false;
+            HB.skip++;
+            try {
+                history.back()
+            } catch (e) {
+                HB.skip--
+            }
+        }
+    }
+    function closeTop() {
+        // cierra la capa de más arriba
+        if (S.help)
+            S.help = 0;
+        else if (S.mrq)
+            S.mrq = null;
+        else if (S.modal) {
+            if (S.modal.k == 'new' && D && !D._edit) {
+                collect();
+                try {
+                    localStorage.lubri_draft = JSON.stringify(D)
+                } catch (e) {}
+            }
+            if (S.modal.k == 'img' && IMG) {
+                URL.revokeObjectURL(IMG.url);
+                IMG = null
+            }
+            S.modal = null;
+            S.pk = null
+        }
+        else if (S.open) {
+            S.open = null;
+            S.pk = null;
+            S.log = 0
+        }
+        render(1)
+    }
+    addEventListener('popstate', () => {
+        if (HB.skip > 0) {
+            HB.skip--;
+            return
+        }
+        if (!HB.on)
+            return;
+        HB.on = false;
+        closeTop()
+    });
     function msf(on) {
         const t = $('#mtop'),
             s = $('#mslot');
@@ -12875,6 +15106,34 @@
             S.mzp = 0;
             render(1)
         },
+        stt: d => {
+            (S.tst = S.tst || {}).t = d.v || null;
+            R.bgt = 0;
+            clearTimeout(R.ss);
+            R.ss = setTimeout(() => {
+                S.sset = 0;
+                render(1)
+            }, 60000);
+            render(1)
+        },
+        stw: d => {
+            (S.tst = S.tst || {}).w = d.v || null;
+            R.bgt = 0;
+            clearTimeout(R.ss);
+            R.ss = setTimeout(() => {
+                S.sset = 0;
+                render(1)
+            }, 60000);
+            render(1)
+        },
+        ssnd: () => {
+            try {
+                localStorage.lubri_snd = sndOn() ? '0' : '1'
+            } catch (e) {}
+            if (sndOn())
+                salaChime(1);
+            render(1)
+        },
         sset: () => {
             S.sset = !S.sset;
             clearTimeout(R.ss);
@@ -12882,7 +15141,7 @@
                 R.ss = setTimeout(() => {
                     S.sset = 0;
                     render(1)
-                }, 15000);
+                }, 40000);
             render(1)
         },
         sres: () => {
@@ -12940,13 +15199,20 @@
         }, 12000);
         setInterval(() => {
             clk();
-            render(1)
+            if (!S.sset)
+                render(1)
         }, 10000);
+        setInterval(() => bgSala(1), 60000);
         setInterval(() => {
             if (S.wxs && S.wxs.length > 1) {
                 S.wxi = ((S.wxi || 0) + 1) % S.wxs.length;
                 S.wx = S.wxs[S.wxi];
-                render(1)
+                const e = document.getElementById('swx');
+                if (e) {
+                    e.classList.add('sw');
+                    setTimeout(wxPaint, 300)
+                } else
+                    wxPaint()
             }
         }, 9000)
     }
