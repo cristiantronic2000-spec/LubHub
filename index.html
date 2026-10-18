@@ -16,6 +16,7 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.44: (1) botón junto a la patente (al crear/editar y en el detalle) que consulta la patente y completa marca, modelo, versión, motor, combustible, cilindrada, año, color y vencimiento de revisión técnica (km solo si está vacío; el chasis va a VIN si está vacío); (2) la orden guarda más datos: cliente (RUT, dirección, correo) y vehículo (año, color, cilindrada, venc. rev. técnica); (3) bloques Cliente y Vehículo colapsables: plegado muestra nombre y teléfono / marca, modelo, año y km; patente y N° de OT siempre visibles.
     CAMBIOS v0.43: (1) el aviso de Firebase solo aparece si hay error; (2) sala: Listos para retirar bajo los tips (última patente grande + 3), siguientes 4 en espera siempre visibles, reloj estable, clima rotativo de 6 localidades, ajuste automático a pantalla; (3) mecánico: textos más grandes, sin borde gris, secciones Revisión / Cambios / Repuestos, botón + para solicitar repuestos (el admin aprueba y se suma al proceso), ✓ solo AVISA listo (el admin completa; si se ignora, la tarjeta parpadea naranja con banner); (4) sincronización: actualización inmediata local y forzada en sala/mecánico.
     CAMBIOS v0.42: (1) modo MECÁNICO rediseñado según el boceto: menú lateral izquierdo (Dashboard, Línea de trabajo, Mapa, Completas, Configuración), encabezado "Taller de mantención / Plataforma", tarjeta grande con OT + punto de estado, patente grande y hora de ingreso, recuadro punteado con revisión/cambios/repuestos, botones laterales (ayuda|editar, pausar, completar) y cola con flecha e Iniciar; (2) Firebase: conexión con detección automática de long-polling, la demo se carga sola en demo_trabajos/demo_config con reintentos (ya no falla con "client is offline"), enlace ?datos=demo|real y botón Usar datos DEMO/REALES también en modo mecánico y sala.
     CAMBIOS v0.41: modos de equipo por enlace (?modo=mec&zona=2 · ?modo=sala · ?modo=admin) o desde Configuración: MECÁNICO (zona fija, botones grandes, procesos/repuestos/indicaciones visibles, nombre del cliente) y SALA DE ESPERA (solo visualización: reloj, clima, vehículos en proceso y en espera con patente parcial, tips).
@@ -7019,6 +7020,83 @@
             grid-template-columns: 1fr
         }
     }
+
+    .plw {
+        display: flex;
+        align-items: center;
+        gap: 8px
+    }
+
+    .plk {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%
+    }
+
+    .plk.busy {
+        opacity: .5;
+        pointer-events:none
+    }
+
+    .plk.busy .material-symbols-outlined {
+        animation: plkspin 1s linear infinite
+    }
+
+    @keyframes plkspin {
+        to {
+            transform: rotate(360deg)
+        }
+    }
+
+    .grp {
+        margin: 12px 0 4px;
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 14px;
+        padding: 2px 12px 8px
+    }
+
+    .grph {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        padding: 8px 0;
+        text-align: left;
+        font-size: 13px
+    }
+
+    .grph:active {
+        transform:none
+    }
+
+    .grph b {
+        flex:1
+    }
+
+    .grph .sm {
+        font-size:11px
+    }
+
+    .grph .chev {
+        transition: transform .2s;
+        flex: none
+    }
+
+    .grp.open .grph .chev {
+        transform:rotate(180deg)
+    }
+
+    .grp .fld, .grp .vg {
+        margin: 4px 0
+    }
     </style>
 </head>
 <body>
@@ -10028,6 +10106,44 @@
     /* "+" abre un panel con categorías → al elegir una categoría aparecen sus opciones (como en el prototipo) */
     const plus = (x, c) => `<button class="chip plus" data-a="pk" data-x="${x}" data-c="${c}" title="Agregar">${ic('add')}</button>`;
     const sec = (t, i) => `<div class="sec">${ic(i)} ${t}</div>`;
+    /* v0.44 · bloque colapsable: lo principal siempre visible, el resto al expandir (open) */
+    const grp = (open, k, id, icon, t, main, more, cls) => `<div class="grp ${open ? 'open' : ''}"><button class="grph" data-a="xt" data-k="${k}" ${id ? `data-id="${id}"` : ''} aria-expanded="${!!open}">${ic(icon)}<b>${t}</b><span class="sm">${open ? 'Ver menos' : 'Ver más'}</span>${ic('expand_more', 'chev')}</button><div class="${cls}">${main}</div>${open ? `<div class="${cls}">${more}</div>` : ''}</div>`;
+    /* v0.44 · consulta de patente (API Autoriesgo). Para usar un proxy propio: localStorage.lub_plk='https://tu-proxy/lookup' */
+    const plkUrl = () => {
+        let u = '';
+        try {
+            u = localStorage.lub_plk || ''
+        } catch (e) {}
+        return u || 'https://api.autoriesgo.cl/api/v1/report/agent/lookup'
+    };
+    const tcase = s => String(s || '').toLowerCase().replace(/(^|[\s\-\/])([a-zñáéíóú])/g, (m, a, b) => a + b.toUpperCase());
+    const combN = g => {
+        const t = String(g || '').toUpperCase();
+        return !t ? '' : /GLP|LICUADO/.test(t) ? 'GLP' : /DIESEL|DIÉSEL/.test(t) ? 'Diésel' : /ELECTRIC|ELÉCTRIC/.test(t) ? 'Eléctrico' : /HIBRID|HÍBRID/.test(t) ? 'Híbrido' : /GASOLINA|BENCINA/.test(t) ? 'Bencina' : tcase(t.split('(')[0].trim())
+    };
+    async function plkFetch(pat) {
+        const r = await fetch(plkUrl() + '?patente=' + encodeURIComponent(pat));
+        if (!r.ok)
+            throw new Error('El servicio respondió ' + r.status);
+        const j = await r.json(),
+            d = j && j.vehicle_data;
+        if (!d || d.status != 'success' || !d.data)
+            throw new Error('Sin datos para ' + pat);
+        const x = d.data;
+        return {
+            marca: tcase(x.make),
+            modelo: tcase(x.model),
+            version: String(x.version || ''),
+            motor: String(x.engine || ''),
+            comb: combN(x.gas_type),
+            cil: x.engine_size ? String(x.engine_size) : '',
+            anio: +x.year || '',
+            color: tcase(x.color),
+            km: +x.kilometers || 0,
+            rt: String(x.prt && x.prt.due_date || '').slice(0, 7),
+            vin: String(x.chassis || '')
+        }
+    }
     function pick(x, c) {
         // panel de grupos. x = id del trabajo o 'new'; c = cambiar|revisar|rep. Elige un grupo existente o crea uno nuevo
         const p = S.pk;
@@ -10049,8 +10165,8 @@
         mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
-        det: ['Detalle de la orden', [['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide confirmación)'], ['close', 'Cerrar el detalle']]],
-        nuevo: ['Crear / editar trabajo', [['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['check', 'Guardar el trabajo']]],
+        det: ['Detalle de la orden', [['travel_explore', 'Botón junto a la patente: consulta los datos del vehículo y los guarda en la orden'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide confirmación)'], ['close', 'Cerrar el detalle']]],
+        nuevo: ['Crear / editar trabajo', [['travel_explore', 'Botón junto a la patente: consulta marca, modelo, año, motor, color y revisión técnica y los completa (el kilometraje solo si está vacío)'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['check', 'Guardar el trabajo']]],
         cfg: ['Configuración', [['expand_more', 'Tocar un bloque lo expande o lo pliega; "Quién usa este equipo" y "Conexión y datos" siempre están a la vista'], ['event_repeat', 'Motivos de reapertura: lista de motivos frecuentes al volver una orden completada al taller'], ['visibility', 'Activar u ocultar personas, sub-zonas y motivos'], ['map', 'Zonas y sub-zonas: cada sub-zona pertenece a una zona'], ['science', 'Datos demo / Vaciar todo (solo modo demo)'], ['download', 'Exportar todo a JSON']]]
     };
     function helpKeys() {
@@ -10075,11 +10191,10 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${j.estado}"></i><div>${plate(j.vehiculo.patente, 'l')}<div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${j.estado}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock ? '' : `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" data-id="${j.id}" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>`}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[j.estado]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${Math.round(t.estSeg / 60)} min ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
-         ${sec('Datos del vehículo', 'directions_car')}
-         <div class="vg">${[['marca', 'Marca'], ['modelo', 'Modelo'], ['version', 'Versión'], ['motor', 'Motor'], ['combustible', 'Combustible']].map(([k, l]) => `<div><label>${l}</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" value="${esc(j.vehiculo[k] || '')}"></div>`).join('')}<div><label>Kilometraje</label><input type="number" inputmode="numeric" min="0" placeholder="0" data-ch="veh" ${lock ? 'disabled' : ''} data-k="km" data-id="${j.id}" value="${j.vehiculo.km || ''}"></div></div>${otros(j)}
+         ${(() => {const xc = S.xc || {},I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', I('veh', 'marca', 'Marca') + I('veh', 'modelo', 'Modelo') + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"') + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'combustible', 'Combustible') + I('veh', 'color', 'Color') + I('veh', 'cil', 'Cilindrada') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"'), 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
@@ -10258,7 +10373,9 @@
             me = personas().find(p => p.nombre == autor())?.id;
         return `<div class="bd"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic(D._edit ? 'edit' : 'edit_note')}<div><b style="font-size:18px">${D._edit ? 'Editar orden de trabajo' : 'Crear nuevo trabajo'}</b><div class="sm">${D._edit ? 'Modifique los datos, servicios o repuestos de esta orden' : 'Registre un nuevo evento para el flujo de trabajo'}</div></div><div class="sm" style="margin-left:auto;text-align:right">Hora actual<br><b style="font-size:14px;color:var(--ink)">${hm(now())}</b></div><button class="x" data-a="cerrar" title="Cerrar" style="margin-left:6px!important">${ic('close')}</button></div>
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
-         <div class="fld"><div><div class="sm">Patente vehículo</div><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div>${f('nombre', 'Nombre cliente')}${f('tel', 'Teléfono o celular', 'type=tel')}${f('marca', 'Marca')}${f('modelo', 'Modelo')}${f('version', 'Versión')}${f('motor', 'Motor')}${f('comb', 'Combustible')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}</div>
+         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label><button class="plk${R.plk ? ' busy' : ''}" data-a="plk" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button></div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
+         ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente')}${f('tel', 'Teléfono o celular', 'type=tel')}`, `${f('rut', 'RUT cliente')}${f('correo', 'Correo', 'type=email')}<div class="w">${f('dir', 'Dirección')}</div>`, 'fld')}
+         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${f('marca', 'Marca')}${f('modelo', 'Modelo')}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión')}${f('motor', 'Motor')}${f('comb', 'Combustible')}${f('color', 'Color')}${f('cil', 'Cilindrada')}<div><div class="sm">Venc. revisión técnica</div>${f('rt', 'mes/año', 'type=month')}</div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>
          ${sec('Agregar las órdenes de trabajo', 'build')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${sel('cambiar')}</div>${bar('cambiar')}${pick('new', 'cambiar')}
@@ -10930,15 +11047,19 @@
             version: D.version || '',
             motor: D.motor || '',
             combustible: D.comb || '',
-            km: +D.km || 0
+            km: +D.km || 0,
+            color: D.color || '',
+            cil: D.cil || '',
+            anio: +D.anio || '',
+            rt: D.rt || ''
         };
         for (const k in nw)
-            if (v[k] != nw[k])
+            if ((v[k] || '') != (nw[k] || ''))
                 ch.push(k);
         const ot = (D.ot || '').trim();
         if ((j.ot || '') != ot)
             ch.push('OT');
-        if ((j.cliente.nombre || '') != (D.nombre || '') || (j.cliente.telefono || '') != (D.tel || ''))
+        if ((j.cliente.nombre || '') != (D.nombre || '') || (j.cliente.telefono || '') != (D.tel || '') || (j.cliente.rut || '') != (D.rut || '') || (j.cliente.direccion || '') != (D.dir || '') || (j.cliente.correo || '') != (D.correo || ''))
             ch.push('cliente');
         if (j.plataformaId != D.plat)
             ch.push('plataforma');
@@ -10959,7 +11080,10 @@
         j.ot = ot;
         j.cliente = {
             nombre: D.nombre || '',
-            telefono: D.tel || ''
+            telefono: D.tel || '',
+            rut: D.rut || '',
+            direccion: D.dir || '',
+            correo: D.correo || ''
         };
         j.plataformaId = D.plat;
         j.mecanicoId = D.mec || '';
@@ -11179,6 +11303,13 @@
                 motor: v.motor,
                 comb: v.combustible,
                 km: v.km || '',
+                rut: j.cliente.rut || '',
+                dir: j.cliente.direccion || '',
+                correo: j.cliente.correo || '',
+                color: v.color || '',
+                cil: v.cil || '',
+                anio: v.anio || '',
+                rt: v.rt || '',
                 mec: j.mecanicoId,
                 plat: j.plataformaId,
                 ing: j.ingresadoPor?.id || '',
@@ -11732,6 +11863,91 @@
             };
             render(1)
         },
+        xt: d => {
+            if (d.id) {
+                S.xc = S.xc || {};
+                const k = d.id + ':' + d.k;
+                S.xc[k] = !S.xc[k]
+            } else {
+                if (!D)
+                    return;
+                collect();
+                D['_x' + d.k] = !D['_x' + d.k]
+            }
+            render(1)
+        },
+        // v0.44: expandir/plegar Cliente y Vehículo
+        plk: async d => {
+            // v0.44: consulta la patente y pasa los datos a la orden (formulario o detalle)
+            if (R.plk)
+                return;
+            const ed = !!d.id;
+            let pat = '';
+            if (ed) {
+                const j = get(d.id);
+                if (!j)
+                    return;
+                pat = j.vehiculo.patenteN || String(j.vehiculo.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
+            }
+            else {
+                if (!D)
+                    return;
+                collect();
+                pat = (D.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
+            }
+            if (pat.length < 5)
+                return toast('warning', 'Escribe la patente completa');
+            R.plk = 1;
+            toast('travel_explore', 'Consultando ' + pat + '…');
+            try {
+                const x = await plkFetch(pat);
+                if (ed) {
+                    const j = get(d.id);
+                    if (!j)
+                        return;
+                    const v = j.vehiculo,
+                        ch = [];
+                    for (const [k, f] of [['marca', 'marca'], ['modelo', 'modelo'], ['version', 'version'], ['motor', 'motor'], ['comb', 'combustible'], ['cil', 'cil'], ['anio', 'anio'], ['color', 'color'], ['rt', 'rt']])
+                        if (x[k] && v[f] != x[k]) {
+                            v[f] = x[k];
+                            ch.push(f)
+                        }
+                    if (!v.km && x.km) {
+                        v.km = x.km;
+                        ch.push('km')
+                    }
+                    j.opciones = j.opciones || {};
+                    if (!j.opciones.vin && x.vin) {
+                        j.opciones.vin = x.vin;
+                        ch.push('vin')
+                    }
+                    ev(j, 'vehiculo', 'consulta de patente: ' + (ch.join(', ') || 'sin cambios'));
+                    saveJob(j, 1);
+                    S.xc = S.xc || {};
+                    S.xc[j.id + ':v'] = true
+                }
+                else {
+                    if (!D)
+                        return;
+                    collect();
+                    for (const k of ['marca', 'modelo', 'version', 'motor', 'comb', 'cil', 'anio', 'color', 'rt'])
+                        if (x[k])
+                            D[k] = x[k];
+                    if (!D.km && x.km)
+                        D.km = x.km;
+                    if (!D.vin && x.vin)
+                        D.vin = x.vin;
+                    D._xv = true;
+                    D._known = 'Datos cargados desde la consulta de patente'
+                }
+                R.plk = 0;
+                toast('check', 'Datos del vehículo cargados')
+            }
+            catch (e) {
+                R.plk = 0;
+                toast('warning', e instanceof TypeError ? 'No se pudo consultar (sin conexión o bloqueo CORS)' : e.message)
+            }
+        },
         cust: () => {
             collect();
             const v = $('#cu').value.trim();
@@ -11810,11 +12026,18 @@
                         version: D.version || '',
                         motor: D.motor || '',
                         combustible: D.comb || '',
-                        km: +D.km || 0
+                        km: +D.km || 0,
+                        color: D.color || '',
+                        cil: D.cil || '',
+                        anio: +D.anio || '',
+                        rt: D.rt || ''
                     },
                     cliente: {
                         nombre: D.nombre || '',
-                        telefono: D.tel || ''
+                        telefono: D.tel || '',
+                        rut: D.rut || '',
+                        direccion: D.dir || '',
+                        correo: D.correo || ''
                     },
                     servicios: sv,
                     repuestos: D.rep,
@@ -12096,11 +12319,21 @@
         if (k == 'veh') {
             const j = get(t.dataset.id),
                 f = t.dataset.k,
-                x = f == 'km' ? Math.max(0, +t.value || 0) : t.value.trim();
-            if (j.vehiculo[f] == x)
+                x = f == 'km' ? Math.max(0, +t.value || 0) : f == 'anio' ? (+t.value || '') : t.value.trim();
+            if ((j.vehiculo[f] || '') == (x || ''))
                 return;
             j.vehiculo[f] = x;
             ev(j, 'vehiculo', f + ': ' + x);
+            saveJob(j, 1)
+        }
+        if (k == 'cli') {
+            const j = get(t.dataset.id),
+                f = t.dataset.k,
+                x = t.value.trim();
+            if (!j || (j.cliente[f] || '') == x)
+                return;
+            j.cliente[f] = x;
+            ev(j, 'cliente', f + ': ' + x);
             saveJob(j, 1)
         }
     });
@@ -12123,7 +12356,13 @@
             modelo: v.modelo,
             version: v.version,
             motor: v.motor,
-            comb: v.combustible
+            comb: v.combustible,
+            rut: o.cliente.rut,
+            dir: o.cliente.direccion,
+            correo: o.cliente.correo,
+            color: v.color,
+            cil: v.cil,
+            anio: v.anio
         }))
             if (!D[k] && x)
                 D[k] = x;
@@ -12140,7 +12379,7 @@
             else if (n.length != 6 && D?._known) {
                 D._known = '';
                 D._ap = null;
-                t.closest('div').querySelector('.known')?.remove()
+                t.closest('.plw').parentElement.querySelector('.known')?.remove()
             }
         }
         if (t.id == 'mq') {
