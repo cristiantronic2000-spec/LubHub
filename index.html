@@ -16,6 +16,7 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.45: la consulta de patente usa OpenAPI Chile (vehicles.open-api.cl/:patente) en vez de Autoriesgo; solo lee datos del vehículo (marca, modelo, versión, motor, combustible, cilindrada, año, color, chasis y lo que venga) e ignora cualquier dato de propietario.
     CAMBIOS v0.44: (1) botón junto a la patente (al crear/editar y en el detalle) que consulta la patente y completa marca, modelo, versión, motor, combustible, cilindrada, año, color y vencimiento de revisión técnica (km solo si está vacío; el chasis va a VIN si está vacío); (2) la orden guarda más datos: cliente (RUT, dirección, correo) y vehículo (año, color, cilindrada, venc. rev. técnica); (3) bloques Cliente y Vehículo colapsables: plegado muestra nombre y teléfono / marca, modelo, año y km; patente y N° de OT siempre visibles.
     CAMBIOS v0.43: (1) el aviso de Firebase solo aparece si hay error; (2) sala: Listos para retirar bajo los tips (última patente grande + 3), siguientes 4 en espera siempre visibles, reloj estable, clima rotativo de 6 localidades, ajuste automático a pantalla; (3) mecánico: textos más grandes, sin borde gris, secciones Revisión / Cambios / Repuestos, botón + para solicitar repuestos (el admin aprueba y se suma al proceso), ✓ solo AVISA listo (el admin completa; si se ignora, la tarjeta parpadea naranja con banner); (4) sincronización: actualización inmediata local y forzada en sala/mecánico.
     CAMBIOS v0.42: (1) modo MECÁNICO rediseñado según el boceto: menú lateral izquierdo (Dashboard, Línea de trabajo, Mapa, Completas, Configuración), encabezado "Taller de mantención / Plataforma", tarjeta grande con OT + punto de estado, patente grande y hora de ingreso, recuadro punteado con revisión/cambios/repuestos, botones laterales (ayuda|editar, pausar, completar) y cola con flecha e Iniciar; (2) Firebase: conexión con detección automática de long-polling, la demo se carga sola en demo_trabajos/demo_config con reintentos (ya no falla con "client is offline"), enlace ?datos=demo|real y botón Usar datos DEMO/REALES también en modo mecánico y sala.
@@ -10108,41 +10109,91 @@
     const sec = (t, i) => `<div class="sec">${ic(i)} ${t}</div>`;
     /* v0.44 · bloque colapsable: lo principal siempre visible, el resto al expandir (open) */
     const grp = (open, k, id, icon, t, main, more, cls) => `<div class="grp ${open ? 'open' : ''}"><button class="grph" data-a="xt" data-k="${k}" ${id ? `data-id="${id}"` : ''} aria-expanded="${!!open}">${ic(icon)}<b>${t}</b><span class="sm">${open ? 'Ver menos' : 'Ver más'}</span>${ic('expand_more', 'chev')}</button><div class="${cls}">${main}</div>${open ? `<div class="${cls}">${more}</div>` : ''}</div>`;
-    /* v0.44 · consulta de patente (API Autoriesgo). Para usar un proxy propio: localStorage.lub_plk='https://tu-proxy/lookup' */
-    const plkUrl = () => {
+    /* v0.45 · consulta de patente con OpenAPI Chile (GET https://vehicles.open-api.cl/:patente).
+       Solo se leen datos del VEHÍCULO; cualquier dato de propietario/dueño que devuelva la API se ignora y nunca se guarda.
+       Para usar un proxy propio: localStorage.lub_plk='https://tu-proxy/vehiculo/:plate' (si no trae :plate, se agrega /PATENTE al final). */
+    const plkUrl = pat => {
         let u = '';
         try {
             u = localStorage.lub_plk || ''
         } catch (e) {}
-        return u || 'https://api.autoriesgo.cl/api/v1/report/agent/lookup'
+        u = u || 'https://vehicles.open-api.cl/:plate';
+        const p = encodeURIComponent(pat);
+        return /:plate|\{plate\}/.test(u) ? u.replace(/:plate|\{plate\}/, p) : u.replace(/\/+$/, '') + '/' + p
     };
     const tcase = s => String(s || '').toLowerCase().replace(/(^|[\s\-\/])([a-zñáéíóú])/g, (m, a, b) => a + b.toUpperCase());
     const combN = g => {
         const t = String(g || '').toUpperCase();
         return !t ? '' : /GLP|LICUADO/.test(t) ? 'GLP' : /DIESEL|DIÉSEL/.test(t) ? 'Diésel' : /ELECTRIC|ELÉCTRIC/.test(t) ? 'Eléctrico' : /HIBRID|HÍBRID/.test(t) ? 'Híbrido' : /GASOLINA|BENCINA/.test(t) ? 'Bencina' : tcase(t.split('(')[0].trim())
     };
+    const plkNorm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, ''),
+        PLK_SKIP = /propiet|owner|duen|titular|^rut$|^run$|email|correo|phone|telefono|direcc|address|comuna|multa|fine/; // claves de personas: jamás se leen
+    function plkFind(o, names, d=0) {
+        // busca la primera clave que coincida (a cualquier profundidad ≤4), saltando datos de personas
+        if (!o || typeof o != 'object' || d > 4)
+            return '';
+        const N = names.map(plkNorm);
+        for (const k of Object.keys(o)) {
+            if (PLK_SKIP.test(plkNorm(k)))
+                continue;
+            const v = o[k];
+            if (N.includes(plkNorm(k)) && v != null && v !== '') {
+                if (typeof v != 'object')
+                    return v;
+                const t = v.name ?? v.nombre ?? v.value ?? v.valor;
+                if (t != null && typeof t != 'object' && t !== '')
+                    return t
+            }
+        }
+        for (const k of Object.keys(o)) {
+            if (PLK_SKIP.test(plkNorm(k)))
+                continue;
+            const v = o[k];
+            if (v && typeof v == 'object') {
+                const r = plkFind(v, names, d + 1);
+                if (r !== '')
+                    return r
+            }
+        }
+        return ''
+    }
     async function plkFetch(pat) {
-        const r = await fetch(plkUrl() + '?patente=' + encodeURIComponent(pat));
+        const r = await fetch(plkUrl(pat), {
+            headers: {
+                Accept: 'application/json'
+            }
+        });
+        if (r.status == 404)
+            throw new Error('Patente ' + pat + ' no encontrada');
         if (!r.ok)
             throw new Error('El servicio respondió ' + r.status);
-        const j = await r.json(),
-            d = j && j.vehicle_data;
-        if (!d || d.status != 'success' || !d.data)
-            throw new Error('Sin datos para ' + pat);
-        const x = d.data;
-        return {
-            marca: tcase(x.make),
-            modelo: tcase(x.model),
-            version: String(x.version || ''),
-            motor: String(x.engine || ''),
-            comb: combN(x.gas_type),
-            cil: x.engine_size ? String(x.engine_size) : '',
-            anio: +x.year || '',
-            color: tcase(x.color),
-            km: +x.kilometers || 0,
-            rt: String(x.prt && x.prt.due_date || '').slice(0, 7),
-            vin: String(x.chassis || '')
+        let j;
+        try {
+            j = await r.json()
+        } catch (e) {
+            throw new Error('Respuesta inválida del servicio')
         }
+        const f = (...n) => plkFind(j, n),
+            mo = String(f('engine', 'motor', 'tipoMotor') || ''),
+            serial = /^[A-Za-z0-9]{8,}$/.test(mo) && /\d/.test(mo) && /[A-Za-z]/.test(mo),
+            // un número de motor (serie) no es la descripción del motor
+            rt = String(f('revisionTecnica', 'revision_tecnica', 'technicalReview', 'prt', 'rtVencimiento') || ''),
+            x = {
+                marca: tcase(f('make', 'marca', 'brand')),
+                modelo: tcase(f('model', 'modelo')),
+                version: String(f('version', 'trim', 'versionName') || ''),
+                motor: serial ? '' : mo,
+                comb: combN(f('fuel', 'fuelType', 'fuel_type', 'combustible', 'gasType', 'gas_type')),
+                cil: String(f('engineSize', 'engine_size', 'cilindrada', 'displacement') || ''),
+                anio: +f('year', 'ano', 'anio', 'modelYear') || '',
+                color: tcase(f('color', 'colour')),
+                km: +f('kilometers', 'kilometraje', 'km', 'mileage') || 0,
+                rt: /^\d{4}-\d{2}/.test(rt) ? rt.slice(0, 7) : '',
+                vin: String(f('vin', 'chassis', 'chasis', 'chassisNumber', 'numeroChasis') || '')
+            };
+        if (!x.marca && !x.modelo)
+            throw new Error('Sin datos de vehículo para ' + pat);
+        return x
     }
     function pick(x, c) {
         // panel de grupos. x = id del trabajo o 'new'; c = cambiar|revisar|rep. Elige un grupo existente o crea uno nuevo
