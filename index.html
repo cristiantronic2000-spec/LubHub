@@ -87,6 +87,12 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-10: se quitó el botón del catálogo (lupa + auto); ahora las cajas de Marca, Modelo, Año y Cilindrada del bloque Vehículo sugieren opciones del catálogo al escribir o tocar la caja (los modelos dependen de la marca). Se puede escribir otro valor libremente.
+    CAMBIOS v9-8-9: el catálogo muestra desde el inicio año, versión, motor, cilindrada, combustible y transmisión (ya no dependen de elegir el año); elegir el año no redibuja la ventana; lista de años validada.
+    CAMBIOS v9-8-8: en el catálogo, tras elegir marca y modelo el Año es una lista (si auto-parts-db trae las generaciones del modelo, solo esos años) y al elegir el año aparecen versión, motor, cilindrada (lista o escribir), combustible y transmisión.
+    CAMBIOS v9-8-7: (a) la lupa de patente vuelve a ir JUNTO A LA PATENTE y el buscador por catálogo (lupa + auto) va DENTRO de «Vehículo»; (b) el catálogo ahora también completa año, versión, motor, cilindrada, combustible y transmisión; (c) corregido: la lista del catálogo se borraba sola porque el selector usaba data-w y el reloj de «Espera» lo reescribía; (d) se quitaron las marcas y modelos en cirílico del catálogo.
+    CAMBIOS v9-12: (a) al consultar una patente que ya se consultó hace menos de 30 días se muestran los últimos datos guardados en el historial (sin gastar consulta) con el botón «Consultar de nuevo», que vuelve a buscar y actualiza el historial; (b) en Configuración, las APIs y los botones de búsqueda están en una sección colapsable.
+    CAMBIOS v9-11: cada consulta de patente que trae datos queda registrada en la base de datos (colección consultas_patente, un documento por patente con su historial: se agrega una entrada cuando los datos cambian y, si son iguales, se actualiza la fecha y el contador); la ventana de datos muestra las últimas consultas de esa patente. El titular (nombre y RUT) no se guarda en el historial.
     CAMBIOS v9-10: la API key de Boostr, el nombre de su encabezado y los interruptores de los botones de búsqueda se guardan en la configuración de la base de datos (S.cfg.busq), así que valen para todos los dispositivos; en modo local quedan solo en el dispositivo.
     CAMBIOS v9-9: junto a la patente (formulario y detalle) hay tres lupas pequeñas: lupa = consultar la patente (Boostr Chile con API key guardada en Configuración; si no hay key o falla, OpenAPI Chile), lupa + auto = catálogo auto-parts-db para elegir marca y modelo, Los datos encontrados NO se escriben solos: aparece una ventana con cada dato (vehículo y cliente) para marcar y elegir «Ignorar datos» o «Copiar datos».
     CAMBIOS v9-8: (a) los banners de la Línea de trabajo ya no llevan los botones de foto, esquema ni inspección (siguen dentro del detalle de la orden) y la patente se ve más grande; (b) la patente se muestra siempre como AA·BB·11 en banners, citas, reaperturas y notificaciones, y el formulario de cita usa la misma patente chilena con formato automático; el botón Guardar cita ya no se puede duplicar con doble toque; (c) agitar para reiniciar el táctil: 1 s en vez de 1,5 s; (d) Vehículo: tras Motor van Cilindrada, Combustible (Bencina/Diésel) y Tipo de transmisión (Mecánico/Automático); (e) los repuestos tienen campo Precio (se ve en el detalle de la orden).
@@ -7689,6 +7695,16 @@
         min-height: 36px
     }
 
+    .rxm {
+        margin-top: -2px;
+        font-size:12px
+    }
+
+    .rxm .material-symbols-outlined {
+        font-size: 16px;
+        color:var(--mut)
+    }
+
     .rutaf {
         display: flex;
         flex-direction: column;
@@ -10838,7 +10854,68 @@
 
     .plkdb select {
         width: 100%;
-        margin-top: 4px
+        margin-top:4px
+    }
+
+    .plkh {
+        border: 1px solid var(--line2, #ddd);
+        border-radius: 12px;
+        margin-top: 8px;
+        padding:4px 8px
+    }
+
+    .plkhb {
+        all: unset;
+        cursor: pointer;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        width: 100%;
+        padding: 6px 0;
+        font-size:13px
+    }
+
+    .plkhb span {
+        flex: 1;
+        min-width:0
+    }
+
+    .plkhe {
+        border-top: 1px dashed rgba(128, 128, 128, .3);
+        padding:6px 0
+    }
+
+    .plkall {
+        margin-top: 10px;
+        border-top: 1px solid var(--bd, #ddd);
+        padding-top:6px
+    }
+
+    .plkall summary {
+        cursor: pointer;
+        font-weight: 700;
+        font-size:13px
+    }
+
+    .plkx {
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+        font-size: 12px;
+        padding: 3px 0;
+        border-bottom:1px dashed rgba(128, 128, 128, .25)
+    }
+
+    .plkx b {
+        font-weight: 600;
+        color: var(--mut);
+        word-break: break-word;
+        max-width:48%
+    }
+
+    .plkx span {
+        text-align: right;
+        word-break: break-word
     }
     </style>
 </head>
@@ -10960,22 +11037,33 @@
         fent = iso => hoy(iso) ? hm(iso) : fdt(iso),
         rutaOf = j => j.ruta && j.ruta.length > 1 ? j.ruta : null,
         RT = D => {
-            const d = D._done || [],
-                all = [...d, D._cur || D.plat, ...(D.rutaX || [])].filter((v, i, a) => v && (i == 0 || v != a[i - 1]));
-            return all.length > 1 ? {
-                ruta: all,
-                paso: d.length
+            const dn = D._done || [],
+                dm = D._doneM || [],
+                xm = D.rutaXm || [],
+                cur = D._cur || D.plat,
+                P = [...dn.map((id, i) => [id, dm[i] || '']), [cur, D.mec || ''], ...(D.rutaX || []).map((id, i) => [id, xm[i] || ''])].filter((q, i, a) => q[0] && (i == 0 || q[0] != a[i - 1][0])).map(q => [q[0], String(q[0]).startsWith('m:') ? '' : q[1]]);
+            return P.length > 1 ? {
+                ruta: P.map(q => q[0]),
+                rutaM: P.map(q => q[1]),
+                paso: dn.length
             } : {
                 ruta: null,
+                rutaM: null,
                 paso: 0
             }
+        },
+        // v9-8-6: rutaM = mecánico indicado para cada sub-zona de la ruta (mismo orden que ruta)
+        stepMec = (j, i) => {
+            const id = (j.ruta || [])[i],
+                m = (j.rutaM || [])[i] || (i == (j.paso || 0) ? j.mecanicoId : '');
+            return id && !String(id).startsWith('m:') && m ? ` <small>(${esc(nm(S.cfg.mecanicos, m))})</small>` : ''
         },
         rutaLine = j => {
             const r = rutaOf(j);
             if (!r)
                 return '';
             const p = j.paso || 0;
-            return `<div class="sm ruta">${ic('alt_route')} Ruta: ${r.map((id, i) => i == p ? '<b>' + stepLbl(id) + '</b>' : stepLbl(id)).join(' → ')} <small>(estación ${p + 1} de ${r.length})</small></div>`
+            return `<div class="sm ruta">${ic('alt_route')} Ruta: ${r.map((id, i) => (i == p ? '<b>' + stepLbl(id) + '</b>' : stepLbl(id)) + stepMec(j, i)).join(' → ')} <small>(estación ${p + 1} de ${r.length})</small></div>`
         },
         rutaNext = j => {
             const r = rutaOf(j),
@@ -14338,8 +14426,12 @@
             j.paso = p + 1;
             if (isMecStep(r[p + 1]))
                 j.mecanicoId = String(r[p + 1]).slice(2);
-            else
+            else {
                 j.plataformaId = r[p + 1];
+                const mm = (j.rutaM || [])[p + 1];
+                if (mm)
+                    j.mecanicoId = mm
+            }
             j.estado = 'cola';
             j.pausa = null;
             j.listo = false;
@@ -14375,7 +14467,7 @@
     const plate = (p, c='') => `<span class="pl ${c}"><small>CHILE</small><b>${esc(p ? fmtPl(p) : '—')}</b></span>`; // patente chilena minimalista
     const otros = j => {
         const o = j.opciones || {},
-            L = [o.espera && 'Cliente espera en el local', o.entregaISO && 'Entrega prometida ' + fent(o.entregaISO), o.nivelComb && 'Combustible: ' + o.nivelComb, o.vin && 'Chasis ' + o.vin].filter(Boolean);
+            L = [o.espera && 'Cliente espera en el local', o.entregaISO && 'Entrega prometida ' + fent(o.entregaISO), o.nivelComb && 'Combustible: ' + o.nivelComb, ].filter(Boolean);
         return L.length ? `<div class="sm">${L.map(esc).join(' · ')}</div>` : ''
     };
     const sv = j => j.servicios.map(s => s.nombre).join(' y ') || 'Sin servicios';
@@ -14467,6 +14559,30 @@
         }
         return ''
     }
+    function plkFlat(o, pre, out, d) {
+        // v9-8-5: aplana TODA la respuesta de la API en pares [campo, valor]
+        out = out || [];
+        d = d || 0;
+        if (o == null || d > 6 || out.length > 200)
+            return out;
+        if (Array.isArray(o)) {
+            if (o.every(v => v == null || typeof v != 'object')) {
+                if (o.length)
+                    out.push([pre.join(' › '), o.join(', ')])
+            } else
+                o.forEach((v, i) => plkFlat(v, [...pre, String(i + 1)], out, d + 1));
+            return out
+        }
+        if (typeof o == 'object') {
+            for (const k of Object.keys(o))
+                plkFlat(o[k], [...pre, k], out, d + 1);
+            return out
+        }
+        const v = String(o).trim();
+        if (v !== '' && v != 'null')
+            out.push([pre.join(' › '), v.length > 300 ? v.slice(0, 300) + '…' : v]);
+        return out
+    }
     async function plkFetch(pat) {
         const r = await fetch(plkUrl(pat), {
             headers: {
@@ -14499,10 +14615,13 @@
                 color: tcase(f('color', 'colour')),
                 km: +f('kilometers', 'kilometraje', 'km', 'mileage') || 0,
                 rt: /^\d{4}-\d{2}/.test(rt) ? rt.slice(0, 7) : '',
-                vin: String(f('vin', 'chassis', 'chasis', 'chassisNumber', 'numeroChasis') || '')
+                vin: String(f('vin', 'chassis', 'chasis', 'chassisNumber', 'numeroChasis') || ''),
+                nmotor: serial ? mo : String(f('engineNumber', 'engine_number', 'numeroMotor', 'nmotor', 'motorNumber') || ''),
+                tipov: tcase(f('type', 'vehicleType', 'vehicle_type', 'tipo', 'tipoVehiculo', 'bodyType', 'carroceria'))
             };
         if (!x.marca && !x.modelo)
             throw new Error('Sin datos de vehículo para ' + pat);
+        x.extra = plkFlat(j, []);
         return x
     }
 
@@ -14541,18 +14660,35 @@
             return true
         }
     };
-    const plkBtns = id => {
-        if (!PSH('pat') && !PSH('cat'))
-            return '';
-        const a = id ? ` data-id="${id}"` : '',
-            b = (act, i1, i2, t) => `<button type="button" class="plk${act == 'plk' && R.plk ? ' busy' : ''}" data-a="${act}"${a} title="${t}" aria-label="${t}">${ic(i1)}${i2 ? `<i class="plkb">${ic(i2)}</i>` : ''}</button>`;
-        return `<span class="plkg">${PSH('pat') ? b('plk', 'search', '', 'Buscar datos por patente') : ''}${PSH('cat') ? b('plka', 'search', 'directions_car', 'Buscar marca y modelo en el catálogo') : ''}</span>`
+    const PLK_CIL = ['0.8', '1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.8', '2.0', '2.2', '2.4', '2.5', '2.7', '2.8', '3.0', '3.5', '3.6', '4.0', '5.0'];
+    const plkMods = b => {
+        const ck = plkCatKey(b);
+        return ck ? [...new Set(PLK_CAT[ck])].sort((x, y) => x.localeCompare(y)) : []
     };
-    const plkSec = () => `<section><b>Búsqueda de datos del vehículo</b><div class="note">Elige qué botones aparecen junto a la patente (formulario y detalle de la orden). Estos ajustes y la API key se guardan en la base de datos: valen para todos los dispositivos.</div>
-    <div class="li"><span>Lupa: buscar por patente (Boostr Chile)</span><input type="checkbox" data-ch="plkshow" data-k="pat" ${PSH('pat') ? 'checked' : ''}></div>
-    <div class="li"><span>Lupa + auto: catálogo de marcas y modelos (auto-parts-db)</span><input type="checkbox" data-ch="plkshow" data-k="cat" ${PSH('cat') ? 'checked' : ''}></div>
+    const plkDL = marca => {
+        const cy = new Date().getFullYear() + 1,
+            o = a => a.map(x => `<option value="${esc(String(x))}">`).join('');
+        return `<datalist id="plk_marcas">${o(Object.keys(PLK_CAT).sort((x, y) => x.localeCompare(y)))}</datalist><datalist id="plk_modelos">${o(plkMods(marca))}</datalist><datalist id="plk_cil">${o(PLK_CIL)}</datalist><datalist id="plk_anios">${o(Array.from({length: cy - 1969}, (_, k) => cy - k))}</datalist>`
+    }; // v9-8-10: sugerencias del catálogo dentro de las cajas de Marca, Modelo, Año y Cilindrada
+    const plkAt = k => PSH('cat') ? ({
+        marca: ' list=plk_marcas autocomplete=off',
+        modelo: ' list=plk_modelos autocomplete=off',
+        anio: ' list=plk_anios',
+        cil: ' list=plk_cil autocomplete=off'
+    })[k] || '' : '';
+    const plkBtns = id => {
+        if (!PSH('pat'))
+            return '';
+        const t = 'Buscar datos por patente',
+            a = id ? ` data-id="${id}"` : '';
+        return `<span class="plkg"><button type="button" class="plk${R.plk ? ' busy' : ''}" data-a="plk"${a} title="${t}" aria-label="${t}">${ic('search')}<i class="plkb">${ic('description')}</i></button></span>`
+    }; // v9-8-7: lupa de patente junto a la patente
+    const plkSec = () => acc('apis', 'APIs y búsqueda de datos', 'Key de Boostr, catálogo de marcas y botones junto a la patente', `<div class="note">Elige qué aparece: la lupa junto a la patente y las sugerencias del catálogo dentro de las cajas de Vehículo (formulario y detalle de la orden). Estos ajustes y la API key se guardan en la base de datos: valen para todos los dispositivos.</div>
+    <div class="li"><span>Lupa junto a la patente: buscar por patente (Boostr Chile)</span><input type="checkbox" data-ch="plkshow" data-k="pat" ${PSH('pat') ? 'checked' : ''}></div>
+    <div class="li"><span>Sugerencias de marca, modelo, año y cilindrada en las cajas de Vehículo</span><input type="checkbox" data-ch="plkshow" data-k="cat" ${PSH('cat') ? 'checked' : ''}></div>
     <div class="note" style="margin-top:8px"><b>Boostr Chile</b> (solo para la lupa de patente) necesita una API key; se guarda en la base de datos y la usan todos los dispositivos. Sin key se usa OpenAPI Chile, sin datos del titular. El catálogo auto-parts-db <b>no necesita key</b>: es gratuito y se descarga solo al usarlo.</div>
-    <input type="password" data-ch="bkey" placeholder="API key de Boostr" autocomplete="off" value="${esc(BK())}" style="width:100%;margin-top:6px"><input data-ch="bhdr" placeholder="Encabezado de la key (por defecto x-api-key)" autocomplete="off" value="${esc(BH())}" style="width:100%;margin-top:6px"></section>`;
+    <input type="password" data-ch="bkey" placeholder="API key de Boostr" autocomplete="off" value="${esc(BK())}" style="width:100%;margin-top:6px"><input data-ch="bhdr" placeholder="Encabezado de la key (por defecto x-api-key)" autocomplete="off" value="${esc(BH())}" style="width:100%;margin-top:6px">
+    <div class="btns" style="margin-top:8px"><button type="button" data-a="plkhist">${ic('history')} Ver historial de patentes</button></div><div class="note" style="margin-top:8px">Si una patente se consultó hace menos de ${PLK_DIAS} días, se muestran los últimos datos guardados sin gastar una consulta; el botón «Consultar de nuevo» vuelve a buscar y actualiza el historial.</div>`);
     const transN = g => {
         const t = String(g || '').toLowerCase();
         return /auto/.test(t) ? 'Automático' : /mec|manual/.test(t) ? 'Mecánico' : ''
@@ -14593,14 +14729,19 @@
             color: tcase(f('color', 'colour')),
             km: +f('kilometers', 'kilometraje', 'km', 'mileage') || 0,
             vin: String(f('vin', 'chassis', 'chasis', 'chassisNumber', 'numeroChasis') || ''),
+            nmotor: serial ? mo : String(f('engineNumber', 'engine_number', 'numeroMotor', 'nmotor', 'motorNumber') || ''),
+            tipov: tcase(f('type', 'vehicleType', 'vehicle_type', 'tipo', 'tipoVehiculo', 'bodyType', 'carroceria')),
             nombre: tcase(ow.fullname || ow.name || ''),
             rut: String(ow.documentNumber || ow.rut || '')
         };
         if (!x.marca && !x.modelo)
             throw new Error('Boostr: sin datos de vehículo para ' + pat);
+        const {owner: _o, ...dv} = d;
+        x.extra = plkFlat(dv, []);
+        x.titular = plkFlat(ow, ['titular']); // el titular se muestra pero no se guarda en el historial
         return x
     }
-    const PLK_V = [['marca', 'Marca'], ['modelo', 'Modelo'], ['anio', 'Año'], ['version', 'Versión'], ['motor', 'Motor'], ['cil', 'Cilindrada'], ['comb', 'Combustible'], ['trans', 'Tipo de transmisión'], ['color', 'Color'], ['km', 'Kilometraje'], ['rt', 'Revisión técnica'], ['vin', 'VIN / chasis']],
+    const PLK_V = [['marca', 'Marca'], ['modelo', 'Modelo'], ['anio', 'Año'], ['version', 'Versión'], ['motor', 'Motor'], ['cil', 'Cilindrada'], ['comb', 'Combustible'], ['trans', 'Tipo de transmisión'], ['color', 'Color'], ['km', 'Kilometraje'], ['rt', 'Revisión técnica'], ['vin', 'VIN / chasis'], ['nmotor', 'N° de motor'], ['tipov', 'Tipo de vehículo'], ['otros', 'Otros datos del vehículo']],
         PLK_C = [['nombre', 'Nombre'], ['rut', 'RUT']];
     const plkCtxOf = d => {
         if (d && d.id) {
@@ -14691,30 +14832,474 @@
         if (!P)
             return '';
         const head = (t, sub) => `<b style="font-size:18px">${t}</b><div class="sm">${sub}</div>`;
-        if (P.kind == 'db') {
-            const DB = window.AutoPartsDB,
-                nm = x => typeof x == 'string' ? x : (x && (x.name || x.brand || x.title || x.model || x.slug)) || '',
-                U = a => [...new Set((a || []).map(nm).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-            let B = [],
-                M = [];
-            try {
-                B = U(DB.getBrands());
-                if (P.brand)
-                    M = U(DB.getModelsByBrand(P.brand))
-            } catch (e) {}
-            return `<div class="bd" data-a="cerrar"><div class="box plkdb" id="plkbox">${head('Catálogo de marcas y modelos', 'auto-parts-db · elige para completar o corregir')}
-               <div class="plkt">Marca</div><select data-ch="plkdb" data-w="b"><option value="">Seleccionar marca</option>${B.map(x => `<option ${x == P.brand ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-               <div class="plkt">Modelo</div><select data-ch="plkdb" data-w="m" ${P.brand ? '' : 'disabled'}><option value="">${P.brand ? 'Seleccionar modelo' : 'Primero elige la marca'}</option>${M.map(x => `<option ${x == P.model ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-               <div class="btns" style="margin-top:16px"><button data-a="cerrar">Ignorar</button><button data-a="plkdbok" ${P.brand ? '' : 'disabled'}>${ic('content_copy')} Copiar datos</button></div></div></div>`
+        if (P.kind == 'hist') {
+            const q = plkNorm(P.q || ''),
+                L = (P.list || []).filter(d => !q || plkNorm([d.patente, d.ultimo && d.ultimo.datos && [d.ultimo.datos.marca, d.ultimo.datos.modelo, d.ultimo.datos.anio].join(' ')].join(' ')).includes(q)).sort((a, b) => String(b.ultima).localeCompare(String(a.ultima))),
+                LB = Object.fromEntries([...PLK_V, ['extra', '']]),
+                one = d => {
+                    const u = (d.ultimo && d.ultimo.datos) || {},
+                        op = P.open == d.patente;
+                    return `<div class="plkh"><button type="button" class="plkhb" data-a="plkhopen" data-pat="${esc(d.patente)}"><b>${esc(d.patente)}</b><span>${esc([u.marca, u.modelo, u.anio].filter(Boolean).join(' ') || '—')}</span><small>${d.ultima ? fdt(d.ultima) : ''} · ${d.consultas || 1} ${(d.consultas || 1) == 1 ? 'consulta' : 'consultas'}</small>${ic(op ? 'expand_less' : 'expand_more')}</button>${op ? (d.historial || []).slice().reverse().map(e => `<div class="plkhe"><div class="plkn" style="margin:0"><b>${fdt(e.fechaISO)}</b> · ${esc(e.fuente || '')}${e.autor ? ' · ' + esc(e.autor) : ''}${e.veces > 1 ? ' · ' + e.veces + ' consultas iguales' : ''}</div>${PLK_V.filter(([k]) => k != 'otros' && e.datos && e.datos[k]).map(([k, l]) => `<div class="plkx"><b>${l}</b><span>${esc(String(e.datos[k]))}</span></div>`).join('')}${((e.datos && e.datos.extra) || []).map(([k, v]) => `<div class="plkx"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</div>`).join('') : ''}</div>`
+                };
+            return `<div class="bd" data-a="cerrar"><div class="box" id="plkbox" style="max-height:88vh;overflow:auto">${head('Historial de patentes', 'Todas las patentes consultadas · toca una para ver los datos de cada consulta')}
+               <input data-ch="plkhq" placeholder="Buscar patente, marca o modelo" value="${esc(P.q || '')}" style="width:100%;margin-top:8px" autocomplete="off">
+               ${P.list ? (L.length ? L.map(one).join('') : '<div class="plkn">No hay consultas guardadas' + (q ? ' con ese filtro' : '') + '.</div>') : '<div class="plkn">Cargando historial…</div>'}
+               <div class="btns" style="margin-top:16px">${P.back ? '<button data-a="plkhback">' + ic('arrow_back') + ' Volver</button>' : ''}<button data-a="cerrar">Cerrar</button></div></div></div>`
         }
-        const row = (r, sec) => `<label class="plkr"><input type="checkbox" data-ch="plkpk" data-k="${sec}:${r.k}" ${P.on[sec + ':' + r.k] ? 'checked' : ''}><span><b>${r.lbl}</b>${esc(String(r.nw))}${r.cur ? `<small>Ahora: ${esc(r.cur)}</small>` : '<small>Ahora: vacío</small>'}</span></label>`,
+        if (P.kind == 'db') {
+            const ck = plkCatKey(P.brand);
+            let B = Object.keys(PLK_CAT).sort((a, b) => a.localeCompare(b)),
+                M = ck ? [...new Set(PLK_CAT[ck])].sort((a, b) => a.localeCompare(b)) : [];
+            if (P.brand && !B.includes(P.brand))
+                B.unshift(P.brand);
+            if (P.model && !M.includes(P.model))
+                M.unshift(P.model); // la marca/modelo ya registrados nunca desaparecen de la lista
+            return `<div class="bd" data-a="cerrar"><div class="box plkdb" id="plkbox" style="max-height:88vh;overflow:auto">${head('Buscar datos del vehículo', 'Catálogo de marcas y modelos · v9-8-9')}
+               <div class="plkt">Marca</div><select data-ch="plkdb" data-sel="b"><option value="">Seleccionar marca</option>${B.map(x => `<option value="${esc(x)}" ${x == P.brand ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+               <div class="plkt">Modelo</div><select data-ch="plkdb" data-sel="m" ${P.brand ? '' : 'disabled'}><option value="">${P.brand ? 'Seleccionar modelo' : 'Primero elige la marca'}</option>${M.map(x => `<option value="${esc(x)}" ${x == P.model ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+               ${(() => {const cy = new Date().getFullYear() + 1;let Y = P.years && P.years.length ? P.years.filter(y => Number.isInteger(y) && y >= 1950 && y <= cy) : [];if (!Y.length)Y = Array.from({length: cy - 1969}, (_, k) => cy - k);if (P.anio && !Y.includes(+P.anio))Y.unshift(+P.anio);const gl = y => {try {return (P.gens || []).filter(g => y >= g.from && y <= g.to).map(g => g.label).filter(Boolean)[0] || ''} catch (e) {return ''}},stage = true,more = true;return `<div class="plkt">Año${P.years && P.years.length ? ' · según las generaciones del modelo' : P.yl ? ' · buscando generaciones…' : ''}</div><select data-ch="plkdbf" data-k="anio" ${stage ? '' : 'disabled'}><option value="">Seleccionar año</option>${Y.map(y => `<option value="${y}" ${y == P.anio ? 'selected' : ''}>${y}${gl(y) ? ' · ' + esc(gl(y)) : ''}</option>`).join('')}</select>
+                   ${more ? `<div class="plkt">Versión</div><input data-ch="plkdbf" data-k="version" value="${esc(P.version || '')}" style="width:100%;margin-top:4px" autocomplete="off">
+                   <div class="plkt">Motor</div><input data-ch="plkdbf" data-k="motor" value="${esc(P.motor || '')}" style="width:100%;margin-top:4px" autocomplete="off">
+                   <div class="plkt">Cilindrada</div><input data-ch="plkdbf" data-k="cil" list="plkcil" placeholder="Elige o escribe, ej: 1.6" value="${esc(P.cil || '')}" style="width:100%;margin-top:4px" autocomplete="off"><datalist id="plkcil">${['0.8', '1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.8', '2.0', '2.2', '2.4', '2.5', '2.7', '2.8', '3.0', '3.5', '3.6', '4.0', '5.0'].map(x => `<option value="${x}">`).join('')}</datalist>
+                   <div class="plkt">Combustible</div><select data-ch="plkdbf" data-k="comb">${vOpt(P.comb, COMB)}</select>
+                   <div class="plkt">Tipo de transmisión</div><select data-ch="plkdbf" data-k="trans">${vOpt(P.trans, TRANS)}</select>` : ''}`})()}
+               <div class="plkn">El catálogo entrega marca, modelo y años; versión, motor, cilindrada, combustible y transmisión se eligen o escriben a mano. Solo se copian los datos que cambien.</div>
+               <div class="btns" style="margin-top:16px"><button data-a="cerrar">Ignorar</button><button data-a="plkdbok" ${P.brand || P.anio || P.version || P.motor || P.cil || P.comb || P.trans ? '' : 'disabled'}>${ic('content_copy')} Copiar datos</button></div></div></div>`
+        }
+        const row = (r, sec) => `<label class="plkr"><input type="checkbox" data-ch="plkpk" data-k="${sec}:${r.k}" ${P.on[sec + ':' + r.k] ? 'checked' : ''}><span${r.k == 'otros' ? ' style="white-space:pre-line"' : ''}><b>${r.lbl}</b>${esc(String(r.nw))}${r.cur ? `<small>Ahora: ${esc(r.cur.length > 80 ? r.cur.slice(0, 80) + '…' : r.cur)}</small>` : '<small>Ahora: vacío</small>'}</span></label>`,
             V = P.rows.filter(r => r.sec == 'v'),
-            C = P.rows.filter(r => r.sec == 'c');
-        return `<div class="bd" data-a="cerrar"><div class="box" id="plkbox" style="max-height:88vh;overflow:auto">${head('Datos encontrados', esc(P.pat) + ' · fuente: ' + esc(P.src))}
+            C = P.rows.filter(r => r.sec == 'c'),
+            HH = P.h && P.h.historial ? `<div class="plkt">Historial de esta patente · ${P.h.consultas} ${P.h.consultas == 1 ? 'consulta' : 'consultas'} <button type="button" class="lnk" data-a="plkhist" data-pat="${esc(P.pat)}">${ic('history')} Ver todo</button></div>${P.h.historial.slice(-4).reverse().map(e => `<div class="plkn" style="margin-top:2px">${fdt(e.fechaISO)} · ${esc(e.fuente)} · ${esc([e.datos.marca, e.datos.modelo, e.datos.anio].filter(Boolean).join(' '))}${e.veces > 1 ? ' · ' + e.veces + ' consultas iguales' : ''}</div>`).join('')}` : '';
+        return `<div class="bd" data-a="cerrar"><div class="box" id="plkbox" style="max-height:88vh;overflow:auto">${head('Datos encontrados', esc(P.pat) + ' · fuente: ' + esc(P.src))}${HH}
           ${V.length ? `<div class="plkt">Vehículo</div>${V.map(r => row(r, 'v')).join('')}` : ''}
           ${C.length ? `<div class="plkt">Cliente (titular según el registro)</div>${C.map(r => row(r, 'c')).join('')}<div class="plkn">El titular puede no ser quien trae el vehículo: se marca solo si el campo está vacío. Revísalo antes de copiar.</div>` : ''}
-          <div class="btns" style="margin-top:16px"><button data-a="cerrar">Ignorar datos</button><button data-a="plkcopy">${ic('content_copy')} Copiar datos</button></div></div></div>`
+          ${(() => {const T = (P.tit || []),E = P.extra || [],L = (a, t) => a.length ? `<details class="plkall" open><summary>${t} (${a.length})</summary>${a.map(([k, v]) => `<div class="plkx"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</details>` : '';return L(E, 'Todos los datos del vehículo que devolvió la API') + L(T, 'Datos del titular que devolvió la API') + (E.length || T.length ? '<div class="plkn">Esta lista es solo para consultar. Para copiar un dato a la orden usa las casillas de arriba.</div>' : '')})()}
+          ${P.fromH && !P.rows.length ? '<div class="plkn">Los datos guardados de esta patente ya están en la orden. Si cambiaron, usa «Consultar de nuevo».</div>' : ''}<div class="btns" style="margin-top:16px;flex-wrap:wrap"><button data-a="cerrar">Ignorar datos</button>${P.fromH ? `<button data-a="plkre">${ic('refresh')} Consultar de nuevo</button>` : ''}<button data-a="plkcopy" ${P.rows.length ? '' : 'disabled'}>${ic('content_copy')} Copiar datos</button></div></div></div>`
     }
+
+    /* v9-10 · HISTORIAL DE CONSULTAS POR PATENTE: cada consulta con datos se registra en la base (colección consultas_patente, un documento por patente;
+       demo_consultas_patente en modo demo). Se agrega una entrada solo si los datos cambiaron; si son iguales se actualiza la fecha de la última consulta y el contador.
+       Solo se guardan datos del VEHÍCULO: el titular (nombre y RUT) no se guarda en el historial. Sin Firebase queda en el dispositivo (lubri_plkh). */
+    const plkOtros = x => {
+        const V = new Set(['marca', 'modelo', 'version', 'motor', 'comb', 'cil', 'trans', 'anio', 'color', 'km', 'rt', 'vin', 'nmotor', 'tipov'].map(k => plkNorm(x[k] ?? '')).filter(Boolean));
+        return (x.extra || []).filter(([k, v]) => !V.has(plkNorm(v)) && !/^(owner|titular)/i.test(k)).slice(0, 60).map(([k, v]) => k + ': ' + v).join('\n')
+    }; // v9-8-6: lo que devuelve la API y no tiene campo propio va a «Otros datos del vehículo»
+    const PLK_DIAS = 30; // una consulta más reciente que esto se muestra desde el historial
+    const PLKC = () => DM() ? 'demo_consultas_patente' : 'consultas_patente',
+        PLK_KEYS = ['marca', 'modelo', 'anio', 'version', 'motor', 'cil', 'comb', 'trans', 'color', 'km', 'rt', 'vin', 'nmotor', 'tipov'];
+    async function plkGet(pat) {
+        try {
+            if (fb && fb.f && fb.db) {
+                const g = await fb.f.getDoc(fb.f.doc(fb.db, PLKC(), pat));
+                return g.exists() ? g.data() : null
+            }
+            const M = JSON.parse(localStorage.lubri_plkh || '{}');
+            return M[pat] || null
+        } catch (e) {
+            console.warn('historial: no se pudo leer', e);
+            return null
+        }
+    }
+    async function plkAll() {
+        // v9-8-6: todas las patentes consultadas (historial completo)
+        try {
+            if (fb && fb.f && fb.db) {
+                const q = await fb.f.getDocs(fb.f.collection(fb.db, PLKC()));
+                return q.docs.map(d => d.data())
+            }
+            return Object.values(JSON.parse(localStorage.lubri_plkh || '{}'))
+        } catch (e) {
+            console.warn('historial: no se pudo leer', e);
+            return []
+        }
+    }
+    async function plkLog(pat, src, x) {
+        const datos = {};
+        for (const k of PLK_KEYS) {
+            const v = x[k];
+            if (v != null && v !== '' && v !== 0)
+                datos[k] = v
+        }
+        if (x.extra && x.extra.length)
+            datos.extra = x.extra; // v9-8-5: resto de los datos que devolvió la API (sin titular)
+        if (!Object.keys(datos).length)
+            return null;
+        const iso = now(),
+            sig = JSON.stringify(datos);
+        const upd = old => {
+            const d = old && typeof old == 'object' ? old : {
+                patente: pat,
+                patenteN: pat,
+                primera: iso,
+                consultas: 0,
+                historial: []
+            };
+            d.historial = Array.isArray(d.historial) ? d.historial : [];
+            const last = d.historial[d.historial.length - 1];
+            if (last && JSON.stringify(last.datos) == sig) {
+                last.vistoISO = iso;
+                last.veces = (last.veces || 1) + 1
+            } else
+                d.historial.push({
+                    fechaISO: iso,
+                    vistoISO: iso,
+                    veces: 1,
+                    fuente: src,
+                    autor: autor(),
+                    datos
+                });
+            if (d.historial.length > 60)
+                d.historial = d.historial.slice(-60);
+            d.patente = pat;
+            d.patenteN = pat;
+            d.ultima = iso;
+            d.consultas = (d.consultas || 0) + 1;
+            d.ultimo = {
+                fuente: src,
+                datos
+            };
+            return d
+        };
+        if (fb && fb.f && fb.db) {
+            const F = fb.f,
+                ref = F.doc(fb.db, PLKC(), pat);
+            let old = null;
+            try {
+                const g = await F.getDoc(ref);
+                if (g.exists())
+                    old = g.data()
+            } catch (e) {
+                console.warn('historial: no se pudo leer', e)
+            }
+            const d = upd(old);
+            await F.setDoc(ref, d);
+            return d
+        }
+        let M = {};
+        try {
+            M = JSON.parse(localStorage.lubri_plkh || '{}')
+        } catch (e) {}
+        const d = upd(M[pat]);
+        M[pat] = d;
+        try {
+            localStorage.lubri_plkh = JSON.stringify(M)
+        } catch (e) {}
+        return d
+    }
+
+    async function plkRun(d, force) {
+        // v9-11: si la patente se consultó hace poco muestra el último dato guardado; force = consultar de nuevo y actualizar el historial
+        if (!FEATURE_BUSCAR_PATENTE || R.plk)
+            return;
+        const c = plkCtxOf(d);
+        if (!c)
+            return;
+        const pat = plkPat(c);
+        if (pat.length < 5)
+            return toast('warning', 'Escribe la patente completa');
+        R.plk = 1;
+        render(1);
+        try {
+            let x = null,
+                src = '',
+                e1 = '',
+                H = null,
+                fromH = false;
+            if (!force) {
+                H = await plkGet(pat);
+                if (H && H.ultima && H.ultimo && H.ultimo.datos && Date.now() - Date.parse(H.ultima) < PLK_DIAS * 864e5) {
+                    x = {
+                        ...H.ultimo.datos
+                    };
+                    src = 'Historial · consulta del ' + fdt(H.ultima);
+                    fromH = true
+                }
+            }
+            if (!x) {
+                toast('search', 'Consultando ' + pat + '…');
+                if (BK()) {
+                    try {
+                        x = await boostrFetch(pat);
+                        src = 'Boostr Chile'
+                    } catch (e) {
+                        e1 = e instanceof TypeError ? 'Boostr no respondió (sin conexión o bloqueo CORS)' : e.message
+                    }
+                }
+                if (!x) {
+                    try {
+                        x = await plkFetch(pat);
+                        src = 'OpenAPI Chile'
+                    } catch (e) {
+                        throw new Error(e1 || (e instanceof TypeError ? 'No se pudo consultar (sin conexión o bloqueo CORS)' : e.message))
+                    }
+                }
+                try {
+                    H = await plkLog(pat, src, x)
+                } catch (e) {
+                    console.warn('historial de patente no guardado', e);
+                    toast('warning', 'Los datos no se pudieron guardar en el historial')
+                }
+            }
+            const rows = [],
+                on = {},
+                add = (L, sec) => {
+                    for (const [k, lbl] of L) {
+                        const nw = String(x[k] ?? '').trim();
+                        if (!nw || nw == '0')
+                            continue;
+                        const cur = plkCur(c, sec, k);
+                        if (cur.trim().toLowerCase() == nw.toLowerCase())
+                            continue;
+                        rows.push({
+                            k,
+                            lbl,
+                            sec,
+                            nw,
+                            cur
+                        });
+                        on[sec + ':' + k] = sec == 'v' ? true : !cur
+                    }
+                };
+            if (!x.otros)
+                x.otros = plkOtros(x);
+            add(PLK_V, 'v');
+            add(PLK_C, 'c');
+            R.plk = 0;
+            if (!rows.length && !fromH && !(x.extra && x.extra.length)) {
+                render(1);
+                return toast('info', 'La consulta no trajo datos nuevos')
+            }
+            S.plkp = {
+                ctx: c.ctx,
+                kind: 'pat',
+                pat: pat,
+                src: (e1 && src != 'Boostr Chile' ? src + ' (Boostr falló: ' + e1 + ')' : src),
+                rows,
+                on,
+                h: H,
+                fromH,
+                extra: x.extra || [],
+                tit: x.titular || []
+            };
+            plkOpen(c.ctx)
+        }
+        catch (e) {
+            R.plk = 0;
+            render(1);
+            toast('warning', e.message)
+        }
+    }
+    const PLK_CAT = {
+        "Abarth": ["124 Spider", "500", "595", "695", "Punto Evo"],
+        "Acura": ["CL", "EL", "ILX", "Integra", "Legend", "MDX", "NSX", "RDX", "RL", "RLX", "RSX", "SLX", "TL", "TLX", "TSX", "Vigor", "ZDX"],
+        "Aito": ["M5", "M7", "M9"],
+        "Aixam": ["City", "Crossline", "e-City", "Mega"],
+        "Alfa Romeo": ["4C", "33", "75", "90", "145", "146", "147", "155", "156", "156 Sportwagon", "159", "159 Sportwagon", "164", "166", "Alfasud", "Alfetta", "Arna", "Brera", "Crosswagon", "Disco Volante", "Giulia", "Giulietta", "GT", "GTV", "MiTo", "Montreal", "RZ", "Spider", "Sprint", "Stelvio", "Tonale"],
+        "Alpine": ["A110", "A310", "A610"],
+        "Aston Martin": ["DB11", "DB12", "DBS", "DBX", "Rapide", "Vanquish", "Vantage"],
+        "Audi": ["80", "80 Avant", "80 Cabrio", "90", "100", "100 Avant", "A1", "A2", "A3", "A3 Cabriolet", "A3 Limousine", "A3 Sportback", "A4", "A4 Allroad", "A4 Avant", "A4 Cabriolet", "A5", "A5 Cabriolet", "A5 Sportback", "A6", "A6 Allroad", "A6 Avant", "A7", "A8", "A8 Long", "e-tron", "e-tron GT", "Q3", "Q4 e-tron", "Q5", "Q6 e-tron", "Q7", "Q8", "Q8 e-tron", "R8", "RS Q8", "RS4", "RS4 Avant", "RS5", "RS6", "RS7", "S3", "S4", "S5", "S6", "S7", "S8", "SQ5", "SQ7", "SQ8", "TT Coupé", "TT Roadster", "TTS"],
+        "Avatr": ["11", "12"],
+        "BAIC": ["BJ40 Plus", "BJ60", "U5 Plus", "X7", "X35", "X55", "X75"],
+        "Belgee": ["S50", "X50", "X50+", "X70", "X80 PHEV"],
+        "Bentley": ["Arnage", "Azure", "Bentayga", "Brooklands", "Continental", "Continental Flying Spur", "Continental GT", "Continental GTC", "Eight", "Flying Spur", "Mulsanne", "Turbo R", "Turbo RT"],
+        "Bestune": ["B70", "T55", "T77", "T90", "T99"],
+        "BMW": ["i3", "i4", "i5", "i7", "i8", "iX", "iX1", "iX2", "iX3", "M3", "M4", "M5", "M6", "Series 1", "Series 1 Cabrio", "Series 1 Coupé", "Series 2", "Series 2 Active Tourer", "Series 2 Gran Coupé", "Series 2 Gran Tourer", "Series 3", "Series 3 Compact", "Series 3 Coupé", "Series 3 GT", "Series 3 Touring", "Series 4", "Series 4 Gran Coupé", "Series 5", "Series 5 GT", "Series 5 Touring", "Series 6", "Series 6 Gran Coupé", "Series 6 GT", "Series 7", "Series 8", "Series 8 Gran Coupé", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "XM", "Z3", "Z4"],
+        "Bugatti": ["Chiron", "Divo", "Mistral", "Veyron"],
+        "Buick": ["Apollo", "Cascada", "Century", "Electra", "Enclave", "Encore", "Encore GX", "Envision", "LaCrosse", "LeSabre", "Lucerne", "Park Avenue", "Rainier", "Reatta", "Regal", "Rendezvous", "Riviera", "Roadmaster", "Skylark", "Special", "Terraza", "Verano"],
+        "BYD": ["Atto 2", "Atto 2 DM-i", "Atto 3", "Atto 3 EVO", "Dolphin", "Dolphin G DM-i", "Dolphin Surf", "e5", "e6", "F0", "F3", "F3DM", "F6", "Flyer", "G3", "G5", "G6", "Han", "L3", "M6", "Qin", "S6", "S7", "Seal", "Seal 5 DM-i", "Seal 6 DM-i", "Seal 6 DM-i Touring", "Seal U", "Seal U DM-i", "Sealion 5 DM-i", "Sealion 7", "Song", "Song Max", "Song Plus", "Tang", "Yuan", "Yuan Plus"],
+        "Cadillac": ["Allanté", "ATS", "BLS", "Catera", "Coupe de Ville", "CT4", "CT5", "CT6", "DeVille", "DTS", "Eldorado", "ELR", "Escalade", "Fleetwood", "Seville", "SRX", "STS", "XLR", "XT4", "XT5", "XT6", "XTS"],
+        "Changan": ["Alsvin", "Alsvin V3", "Alsvin V5", "Alsvin V7", "BenBen", "BenBen Mini", "Benni", "CS15", "CS35", "CS35 Max", "CS35 Plus", "CS55", "CS55 Plus", "CS75", "CS75 Plus", "CS75 Pro", "CS85", "CS95", "CX20", "CX30", "Eado", "Eado DT", "Eado Max", "Eado Plus", "Eado XT", "Honor", "Hunter", "Hunter Plus", "Lamore", "Linmax", "Oushang", "Raeton", "Raeton Plus", "Shenlan", "Star", "Star 5", "Star 7", "Star 9", "Uni-K", "UNI-S", "Uni-T", "Uni-V", "Z-Shine"],
+        "Chery": ["Amulet", "Arrizo 5", "Arrizo 6", "Arrizo 7", "Arrizo 8", "Bonus", "Bonus 3", "CrossEastar", "E5", "Fora", "Fulwin", "IndiS", "Kimo", "M11", "QQ", "QQ6", "Tiggo", "Tiggo 2", "Tiggo 3", "Tiggo 4", "Tiggo 4 New", "Tiggo 4 Pro", "Tiggo 5", "Tiggo 7", "Tiggo 7 Pro Max", "Tiggo 7 Pro Plug-in Hybrid", "Tiggo 7L", "Tiggo 8", "Tiggo 8 Pro Max", "Tiggo 8 Pro Plug-in Hybrid", "Tiggo 9", "Very"],
+        "Chevrolet": ["Alero", "Astro", "Avalanche", "Aveo", "Blazer", "Blazer EV", "Bolt", "Bolt EUV", "Camaro", "Captiva", "Cavalier", "Cobalt", "Colorado", "Corvette", "Cruze", "Cruze SW", "Epica", "Equinox", "Equinox EV", "Evanda", "Express", "HHR", "Impala", "Kalos", "Lacetti", "Lacetti SW", "Lumina", "Malibu", "Matiz", "Montana", "Monte Carlo", "Nubira", "Orlando", "Silverado", "Sonic", "Spark", "SSR", "Suburban", "Tacuma", "Tahoe", "Tracker", "TrailBlazer", "Traverse", "Trax", "Volt"],
+        "Chrysler": ["300 C", "300 C Touring", "300 M", "Crossfire", "Grand Voyager", "LHS", "Neon", "Pacifica", "Plymouth", "PT Cruiser", "Sebring", "Sebring Convertible", "Stratus", "Stratus Cabrio", "Town & Country", "Voyager"],
+        "Citroën": ["Ami", "Basalt", "Berlingo", "C-Crosser", "C-Elissée", "C-Zero", "C1", "C2", "C3", "C3 Aircross", "C3 Picasso", "C4", "C4 Aircross", "C4 Cactus", "C4 Coupé", "C4 Grand Picasso", "C4 Sedan", "C4 X", "C5", "C5 Aircross", "C5 Break", "C5 Tourer", "C5 X", "C6", "C8", "DS3", "DS4", "DS5", "ë-C3", "ë-C4", "ë-C4 X", "Evasion", "Jumper", "Jumpy", "Nemo", "Saxo", "Spacetourer", "Xantia", "Xsara"],
+        "Cupra": ["Ateca", "Born", "Formentor", "Leon", "Tavascan", "Terramar"],
+        "Dacia": ["Dokker", "Duster", "Duster Stepway", "Jogger", "Lodgy", "Logan", "Logan MCV", "Logan Van", "Nova", "Sandero", "Sandero Stepway", "Solenza", "Spring", "Supernova"],
+        "Daewoo": ["Chairman", "Damas", "Espero", "Evanda", "G2X", "Gentra", "Kalos", "Labo", "Lacetti", "Lanos", "Leganza", "LeMans", "Lublin", "Magnus", "Matiz", "Nexia", "Nubira", "Nubira kombi", "Prince", "Racer", "Rezzo", "Sens", "Tacuma", "Tico", "Tosca", "Winstorm"],
+        "DAF": ["44", "45", "46", "55", "66", "75", "85", "95", "CF", "LF", "XF", "XF105", "XF480", "XF530", "XG", "XG+"],
+        "Daihatsu": ["Applause", "Charade", "Copen", "Mira", "Terios"],
+        "Datsun": ["240Z", "280ZX", "mi-DO", "on-DO"],
+        "Deepal": ["G318", "L07", "S05", "S07", "SL03"],
+        "Denza": ["D9", "N7", "N8", "Z9 GT"],
+        "Dodge": ["Avenger", "Caliber", "Challenger", "Charger", "Dart", "Daytona", "Durango", "Grand Caravan", "Hornet", "Intrepid", "Journey", "Magnum", "Neon", "Nitro", "Omni", "RAM 50", "Shadow", "Spirit", "Stealth", "Stratus", "Viper"],
+        "Dongfeng": ["500", "580", "Box", "DF6", "ix5", "ix7", "Mage HEV", "Shine Max"],
+        "DS Automobiles": ["DS 3", "DS 3 Crossback", "DS 4", "DS 5", "DS 7", "DS 9"],
+        "Eicher": ["Pro 2000 Series", "Pro 3000 Series"],
+        "Evolute": ["i-Joy", "i-Pro", "i-Sky", "i-Space"],
+        "Exeed": ["LX", "RX", "TXL", "VX"],
+        "Exlantix": ["ES", "ET"],
+        "FAW": ["Bestune M9", "Bestune T55", "Bestune T77", "Bestune T99", "Besturn B50", "Besturn B70", "Besturn X40", "Besturn X80"],
+        "Ferrari": ["296 GTB", "308", "328", "348", "360 Modena", "458 Italia", "488 GTB", "599 GTB", "612 Scaglietti", "812 Superfast", "California", "Enzo", "F8 Tributo", "F430", "FF", "GTC4Lusso", "Portofino", "Purosangue", "Roma", "SF90 Stradale", "Testarossa"],
+        "Fiat": ["124", "126", "131", "500", "500L", "500X", "850", "1100", "Argenta", "Barchetta", "Brava", "Bravo", "Cinquecento", "Coupé", "Croma", "Doblo", "Doblo Cargo", "Doblo Cargo Combi", "Ducato", "Ducato Kombi", "Ducato Podvozok", "Ducato Van", "Fiorino", "Fiorino Combi", "Freemont", "Grande Punto", "Idea", "Linea", "Marea", "Marea Weekend", "Multipla", "Palio Weekend", "Panda", "Panda Van", "Punto", "Punto Cabriolet", "Punto Evo", "Punto Van", "Qubo", "Ritmo", "Scudo", "Scudo Kombi", "Scudo Van", "Sedici", "Seicento", "Stilo", "Stilo Multiwagon", "Strada", "Talento", "Tempra", "Tipo", "Ulysse", "Uno", "X1/9"],
+        "Ford": ["Aerostar", "B-Max", "Bronco", "Bronco Sport", "C-Max", "Capri", "Cortina", "Cougar", "Edge", "Escort", "Escort Cabrio", "Escort kombi", "Explorer", "Explorer EV", "F-150", "F-250", "Fiesta", "Focus", "Focus C-Max", "Focus CC", "Focus kombi", "Fusion", "Galaxy", "Grand C-Max", "Ka", "Kuga", "Maverick", "Mondeo", "Mondeo Combi", "Mustang", "Mustang Mach-E", "Orion", "Puma", "Puma Gen-E", "Ranger", "S-Max", "Sierra", "Street Ka", "Tourneo Connect", "Tourneo Custom", "Transit", "Transit Bus", "Transit Connect LWB", "Transit Courier", "Transit Custom", "Transit kombi", "Transit Tourneo", "Transit Valnik", "Transit Van", "Transit Van 350", "Windstar"],
+        "Forthing": ["ix5", "T5", "T5 EVO", "U-Tour"],
+        "GAC": ["Emkoo", "Empow", "GN8", "GS4", "GS5", "GS8"],
+        "Geely": ["Atlas", "Atlas Pro", "Azkarra", "Borui", "Boyue", "Boyue Cool", "Boyue L", "Cityray", "CK", "Coolray", "Emgrand", "Emgrand 7", "Emgrand EC7", "Emgrand EV", "Emgrand GL", "Emgrand GS", "Emgrand GT", "Emgrand X7", "EX2", "EX5", "EX5 EM-i", "Galaxy E5", "Galaxy Starship 7", "GC9", "Geometry A", "Geometry C", "GX7", "Haoqing", "LC", "MK", "Monjaro", "Okavango", "Panda", "Preface", "Radar RD6", "SC7", "Tugella", "TX4", "Vision", "X7"],
+        "Genesis": ["G70", "G80", "G90", "GV60", "GV70", "GV80"],
+        "GMC": ["Acadia", "Canyon", "Envoy", "Hummer EV", "Jimmy", "Safari", "Savana", "Sierra", "Sonoma", "Syclone", "Terrain", "Typhoon", "Vandura", "Yukon", "Yukon XL"],
+        "Great Wall": ["Cannon", "Coolbear", "Cowry", "Deer", "Florid", "Hover", "Hover H3", "Hover H5", "Hover H6", "Hover H9", "Hover M1", "Hover M2", "Hover M4", "King Kong Poer", "Pegasus", "Peri", "Poer", "Safe", "Sailor", "Sing", "Socool", "Voleex C10", "Voleex C20", "Voleex C30", "Wingle"],
+        "Hanomag": ["Henschel", "Rekord"],
+        "Haval": ["Chitu", "Chulian", "Cool Dog", "Dargo", "F5", "F7", "F7x", "H-Dog", "H1", "H2", "H2s", "H3", "H4", "H4 Pro", "H5", "H6", "H6 Coupe", "H6 GT", "H6L", "H6S", "H7", "H8", "H9", "Jolion", "M6", "M6 Plus", "Raptor", "Shenshou", "X5", "Xiaolong", "Xiaolong Max"],
+        "Honda": ["1300", "Accord", "Acty", "Airwave", "Amaze", "Avancier", "Ballade", "Beat", "Brio", "Capa", "City", "Civic", "Clarity", "Concerto", "CR-V", "CR-Z", "Crossroad", "Crosstour", "Domani", "e", "e:Ny1", "Edix", "Element", "Elevate", "Elysion", "Fit", "FR-V", "Freed", "Grace", "HR-V", "Insight", "Inspire", "Integra", "Jade", "Jazz", "Lagreat", "Legend", "Life", "Logo", "Mobilio", "N-Box", "N-One", "N-WGN", "NSX", "Odyssey", "Orthia", "Partner", "Passport", "Pilot", "Prelude", "Prologue", "Quint", "Ridgeline", "S500", "S600", "S660", "S2000", "Saber", "Shuttle", "Stepwgn", "Stream", "That's", "Today", "Torneo", "Vamos", "Vezel", "Z", "Zest", "ZR-V"],
+        "Hongqi": ["E-HS7", "E-HS9", "E-QM5", "EH7", "H5", "H7", "H9", "HQ9", "HS3", "HS5", "HS7"],
+        "Hummer": ["H1", "H2", "H3", "Hummer EV", "HX Concept"],
+        "Hyundai": ["Accent", "Atos", "Avante", "Azera", "Bayon", "Casper", "Celesta", "Creta", "Custo", "Dynasty", "Elantra", "Entourage", "Eon", "Equus", "Excel", "Galloper", "Genesis", "Genesis Coupe", "Getz", "Grandeur", "H-1", "i10", "i20", "i30", "i40", "Inster", "IONIQ", "IONIQ 5", "Ioniq 5 N", "IONIQ 6", "Ioniq 9", "ix20", "ix35", "ix55", "Kona", "Kona Electric", "Lantra", "Lavita", "Matrix", "Maxcruz", "Mistra", "Nexo", "Palisade", "Pony", "Santa Cruz", "Santa Fe", "Santamo", "Scoupe", "Solaris", "Sonata", "Starex", "Staria", "Terracan", "Trajet", "Tucson", "Veloster", "Venue", "Veracruz", "Verna", "Xcent", "XG"],
+        "Infiniti": ["EX", "FX", "G", "I", "J", "JX", "M", "Q", "Q30", "Q40", "Q45", "Q50", "Q60", "Q70", "QX", "QX4", "QX30", "QX50", "QX55", "QX56", "QX60", "QX70", "QX80"],
+        "Isuzu": ["D-Max", "Trooper"],
+        "Iveco": ["Daily", "Stralis"],
+        "JAC": ["iEV7S", "J7", "JS3", "JS4", "JS6", "JS9", "RF8", "S3", "S5", "S7", "T6", "T8", "T8 Pro", "T9"],
+        "Jaecoo": ["J7", "J8"],
+        "Jaguar": ["Daimler", "E-Pace", "F-Pace", "F-Type", "I-Pace", "S-Type", "Sovereign", "X-Type", "X-type Estate", "XE", "XF", "XJ", "XJ6", "XJ8", "XJ12", "XJR", "XK", "XK8 Convertible", "XKR", "XKR Convertible"],
+        "Jeep": ["Cherokee", "Commander", "Compass", "Gladiator", "Grand Cherokee", "Grand Wagoneer", "Patriot", "Renegade", "Wagoneer", "Wrangler"],
+        "Jetour": ["Dashing", "T1", "T2", "T2 i-DM", "Traveler", "X50", "X70", "X70 Plus", "X70 Pro", "X90", "X90 Plus", "X90 Pro"],
+        "Jetta": ["VA3", "VA7", "VS5", "VS7", "VS8"],
+        "John Deere": ["2R Series", "5E Series", "5M Series", "6M Series", "6R Series", "7R Series"],
+        "Kaiyi": ["E5", "X3", "X3 Pro", "X7 Kunlun"],
+        "Kia": ["Avella", "Besta", "Carens", "Carnival", "Cee'd", "Cee'd SW", "Cerato", "EV3", "EV5", "EV6", "EV9", "K2500", "Magentis", "Niro", "Niro EV", "Opirus", "Optima", "Picanto", "Pregio", "Pride", "Pro Cee'd", "PV5", "Rio", "Rio Combi", "Rio Sedan", "Sephia", "Shuma", "Sonet", "Sorento", "Soul", "Sportage", "Stinger", "Stonic", "Tasman", "Venga", "XCeed"],
+        "Kogel": ["Cargo", "Cool", "Duplex", "Tankplex", "Tipper", "Triplex"],
+        "Komatsu": ["PC30MR‑5", "PC35MR‑5", "PC45MR‑5", "PC55MR‑5", "PC78US‑5"],
+        "Krone": ["AX forage wagon", "GX forage wagon", "Profi Liner", "RX forage wagon", "TX forage wagon", "ZX forage wagon"],
+        "Lada": ["110", "111", "112", "1200", "1300", "1500", "1600", "2101", "2102", "2103", "2104", "2105", "2106", "2107", "2108", "2109", "2110", "2111", "2112", "2113", "2114", "2115", "21099", "Aura", "Granta", "Iskra", "Kalina", "Largus", "Largus Cross", "Niva", "Niva Legend", "Niva Travel", "Priora", "Samara", "Vesta", "XRAY"],
+        "Lamborghini": ["Aventador", "Countach", "Diablo", "Gallardo", "Huracán", "Revuelto", "Sian", "Urus"],
+        "Lancia": ["2000", "Beta", "Delta", "Flavia", "Fulvia", "Gamma", "Ypsilon"],
+        "Land Rover": ["109", "Defender", "Discovery", "Discovery Sport", "Freelander", "Range Rover", "Range Rover Evoque", "Range Rover Sport", "Range Rover Velar"],
+        "LDV": ["Convoy", "Cub", "D90 SUV", "Deliver 7", "Deliver 9", "eDeliver 7", "eDeliver 9", "eT60 UTE", "EV80", "G10", "Maxus", "MIFA 9", "Pilot", "T60", "T60 MAX", "V80"],
+        "Leapmotor": ["B10", "C10", "C11", "C16", "T03"],
+        "Lexus": ["CT", "ES", "GS", "GX", "IS", "IS 200", "IS 250 C", "IS-F", "LC", "LFA", "LS", "LS 500h", "LX", "NX", "RC", "RC 300", "RC 350", "RC F", "RX", "RX 300", "RX 400h", "RX 450h", "SC 430", "UX", "UX 250h"],
+        "Li Auto": ["Li L6", "Li L7", "Li L8", "Li L9", "Li MEGA", "Li ONE"],
+        "Lifan": ["320", "330", "520", "530", "620", "630", "650", "720", "820", "Cebrium", "Foison", "Lotto", "Maiwei", "Myway", "Smily", "X50", "X60", "X70"],
+        "Ligier": ["JS50", "JS60", "Myli"],
+        "Lincoln": ["Aviator", "Blackwood", "Continental", "Corsair", "LS", "Mark III", "Mark IV", "Mark LT", "Mark V", "Mark VI", "Mark VII", "Mark VIII", "MKC", "MKS", "MKT", "MKX", "MKZ", "Nautilus", "Navigator", "Premiere", "Town Car", "Versailles", "Zephyr"],
+        "Livan": ["S6 Pro", "X3 Pro", "X6 Pro"],
+        "Lynk & Co": ["01", "02", "03", "05", "06", "08", "09"],
+        "MAN": ["eTGE", "eTGL", "eTGM", "Lion's City", "Lion's Coach", "Lion's Intercity", "Lion's Regio", "TGA", "TGE", "TGL", "TGM", "TGS", "TGX"],
+        "Maserati": ["3200 GT", "4200 GT", "Biturbo", "Coupe", "Ghibli", "GranCabrio", "GranSport", "GranTurismo", "Grecale", "Levante", "MC12", "MC20", "Quattroporte", "Shamal", "Spyder"],
+        "Mazda": ["2", "2 Hybrid", "3", "5", "6", "6 Combi", "6e", "121", "323", "323 Combi", "323 Coupé", "323 F", "626", "626 Combi", "929", "Atenza", "AZ-1", "B-Fighter", "B2500", "Bongo", "BT", "BT-50", "Carol", "Cosmo", "CX-3", "CX-5", "CX-7", "CX-8", "CX-9", "CX-30", "CX-60", "CX-70", "CX-80", "CX-90", "Demio", "Eunos 800", "Eunos Cosmo", "Eunos Presso", "EZ-6", "Flair", "Lantis", "Luce", "Millenia", "MPV", "MX-3", "MX-5", "MX-6", "MX-30", "Persona", "Premacy", "Proceed", "Protege", "Roadster", "RX-7", "RX-8", "Savanna", "Scrum", "Sentia", "Titan", "Verisa", "Xedos 6"],
+        "McLaren": ["540C", "570S", "600LT", "650S", "720S", "750S", "Artura", "GT", "MP4-12C", "P1"],
+        "Mercedes-Benz": ["A-Class", "AMG GT", "B-Class", "C-Class", "CL", "CLA", "CLE", "CLK", "CLS", "E-Class", "EQA", "EQB", "EQC", "EQE", "EQE SUV", "EQS", "EQS SUV", "EQT", "EQV", "G-Class", "GLA", "GLB", "GLC", "GLE (ML-Class)", "GLK-Class", "GLS (GL-Class)", "Maybach S-Class", "S-Class", "SL", "SLK/SLC", "Sprinter", "T-Class", "V-Class"],
+        "Mercury": ["Bobcat", "Capri", "Colony Park", "Comet", "Cougar", "Cyclone", "Grand Marquis", "Lynx", "Marauder", "Mariner", "Marquis", "Milan", "Monarch", "Montego", "Monterey", "Mountaineer", "Mystique", "Sable", "Topaz", "Tracer", "Villager", "Zephyr"],
+        "MG": ["3", "4", "5", "6", "7", "EHS", "F", "GS", "GT", "HS", "Marvel R", "MGA", "MGB", "MGC", "Midget", "RV8", "TF", "ZR", "ZS", "ZT"],
+        "Microlino": ["Microlino", "Microlino Lite"],
+        "MINI": ["Cabrio", "Clubman", "Cooper", "Cooper Cabrio", "Cooper Clubman", "Cooper D", "Cooper D Clubman", "Cooper S", "Cooper S Cabrio", "Cooper S Clubman", "Cooper SD", "Cooper SD Clubman", "Cooper SD Countryman", "Cooper SE", "Cooper SE Countryman", "Countryman", "Coupe", "Electric", "John Cooper Works", "John Cooper Works Cabrio", "John Cooper Works Clubman", "John Cooper Works Countryman", "Mini One", "One", "One Cabrio", "One Clubman", "One Countryman", "One D", "Paceman", "Roadster"],
+        "Mitsubishi": ["3000 GT", "Airtrek", "ASX", "Attrage", "Carisma", "Chariot", "Colt", "Colt CC", "Diamante", "Dignity", "Eclipse", "Eclipse Cross", "Eterna", "Fuso Canter", "Galant", "Galant Combi", "Grandis", "GTO", "i-MiEV", "L200", "L200 Pick up", "L200 Pick up Allrad", "L300", "Lancer", "Lancer Combi", "Lancer Evo", "Lancer Sportback", "Mirage", "Montero", "Montero Sport", "Outlander", "Outlander Sport", "Pajero", "Pajero Pinin", "Pajero Pinin Wagon", "Pajero Sport", "Pajero Wagon", "Proudia", "RVR", "Sapporo", "Sigma", "Space Gear", "Space Runner", "Space Star", "Space Wagon", "Starion", "Tredia", "Triton", "Xpander"],
+        "Neta": ["Aya", "GT", "L", "S", "V", "X"],
+        "Nissan": ["100 NX", "200 SX", "350 Z", "350 Z Roadster", "370 Z", "Almera", "Almera Tino", "Ariya", "Cabstar E - T", "Cabstar TL2 Valnik", "e-NV200", "GT-R", "Interstar", "Juke", "Kicks", "King Cab", "Leaf", "Magnite", "Maxima", "Maxima QX", "Micra", "Murano", "Navara", "Note", "NP300", "NP300 Pickup", "NV200", "NV400", "Pathfinder", "Patrol", "Patrol GR", "Pickup", "Pixo", "Primastar", "Primastar Combi", "Primera", "Primera Combi", "Pulsar", "Qashqai", "Qashqai+2", "Sentra", "Serena", "Sunny", "Sylphy", "Terrano", "Tiida", "Trade", "Vanette Cargo", "X-Trail", "X-Trail e-Power"],
+        "Omoda": ["C5", "C7", "C9", "S5"],
+        "Opel": ["Adam", "Agila", "Ampera", "Antara", "Astra", "Astra cabrio", "Astra caravan", "Astra coupé", "Astra Electric", "Calibra", "Campo", "Cascada", "Combo", "Combo-e", "Corsa", "Corsa Electric", "Crossland", "Frontera", "Grandland", "Insignia", "Insignia kombi", "Kadett", "Karl", "Meriva", "Mokka", "Mokka-e", "Monza", "Movano", "Omega", "Rekord", "Rocks-e", "Senator", "Signum", "Tigra", "Vectra", "Vectra Caravan", "Vivaro", "Vivaro Kombi", "Vivaro-e", "Zafira"],
+        "Ora": ["03", "07", "Good Cat", "Punk Cat"],
+        "Pagani": ["Huayra", "Utopia", "Zonda"],
+        "Peugeot": ["106", "107", "108", "205", "205 Cabrio", "206", "206 CC", "206 SW", "207", "207 CC", "207 SW", "208", "208 GTi", "306", "307", "307 CC", "307 SW", "308", "308 CC", "308 SW", "309", "405", "406", "407", "407 SW", "408", "508", "508 SW", "605", "607", "806", "807", "1007", "2008", "3008", "4007", "4008", "5008", "Bipper", "Boxer", "e-208", "e-308", "e-2008", "e-Rifter", "e-Traveller", "Expert", "Partner", "RCZ", "Rifter", "Traveller"],
+        "Plymouth": ["Acclaim", "Arrow", "Barracuda", "Belvedere", "Breeze", "Caravelle", "Champ", "Colt", "Conquest", "Cuda", "Duster", "Expo", "Fury", "Gran Fury", "GTX", "Horizon", "Laser", "Neon", "Prowler", "Reliant", "Road Runner", "Sapporo", "Satellite", "Scamp", "Sundance", "Superbird", "TC", "Trailduster", "Turismo", "Valiant", "Volare", "Voyager"],
+        "Polestar": ["1", "2", "3", "4"],
+        "Pontiac": ["6000", "Aztek", "Bonneville", "Catalina", "Fiero", "Firebird", "G3", "G5", "G6", "G8", "Grand Am", "Grand Prix", "GTO", "J2000", "LeMans", "Montana", "Phoenix", "Pursuit", "Solstice", "Sunbird", "Sunfire", "Tempest", "Torrent", "Trans Am", "Trans Sport", "Vibe", "Wave"],
+        "Porsche": ["356", "911 Carrera", "911 Carrera Cabrio", "911 Targa", "911 Turbo", "912", "914", "924", "928", "944", "959", "968", "997", "Boxster", "Carrera GT", "Cayenne", "Cayman", "Macan", "Mission X", "Panamera", "Taycan"],
+        "Proton": ["Arena", "Exora", "Gen-2", "Inspira", "Iriz", "Juara", "Perdana", "Persona", "Preve", "Putra", "Saga", "Satria", "Savvy", "Suprima S", "Tiara", "Waja", "Wira", "X50", "X70", "X90"],
+        "Ravon": ["Cobalt", "Gentra", "Matiz", "Nexia R3"],
+        "Renault": ["Arkana", "Austral", "Captur", "Clio", "Clio Grandtour", "Espace", "Express", "Fluence", "Grand Espace", "Grand Modus", "Grand Scenic", "Kadjar", "Kangoo", "Kangoo E-Tech", "Kangoo Express", "Koleos", "Laguna", "Laguna Grandtour", "Latitude", "Mascott", "Mégane", "Mégane CC", "Mégane Combi", "Mégane Coupé", "Megane E-Tech", "Mégane Grandtour", "Mégane Scénic", "Rafale", "Scénic", "Scenic E-Tech", "Symbioz", "Talisman", "Talisman Grandtour", "Thalia", "Twingo", "Wind", "Zoé", "Zoe"],
+        "Rolls-Royce": ["Cullinan", "Dawn", "Ghost", "Phantom", "Spectre", "Wraith"],
+        "Rover": ["25", "25 Streetwise", "45", "75", "75 Tourer", "100", "200", "200 Cabriolet", "200 Coupe", "214", "218", "400", "400 Tourer", "414", "416", "600", "620", "800", "Maestro", "Metro", "Montego", "P4", "P5", "P6", "SD1", "Streetwise"],
+        "Saab": ["9-3", "9-3 Cabriolet", "9-3 Coupé", "9-3 SportCombi", "9-5", "9-5 SportCombi", "92", "93", "95", "96", "99", "900", "900 C", "900 C Turbo", "9000", "Sonett"],
+        "Saturn": ["Astra", "Aura", "Ion", "L-Series", "Outlook", "Relay", "S-Series", "Sky", "Vue"],
+        "Scania": ["3-Series", "4-Series", "Citywide", "G-Series", "Interlink", "Irizar i6S", "OmniCity", "OmniLine", "P-Series", "R-Series", "S-Series", "Touring"],
+        "Schmitz": ["Cargobull", "S.CS", "S.KO", "S.PR", "S.SI"],
+        "Seat": ["Alhambra", "Altea", "Altea XL", "Arona", "Arona e-HYBRID", "Arosa", "Ateca", "Born", "Cordoba", "Cordoba Vario", "Exeo", "Exeo ST", "Ibiza", "Ibiza ST", "Inca", "Leon", "Leon e-HYBRID", "Leon ST", "Mii", "Tarraco", "Toledo"],
+        "Seres": ["3", "5", "7"],
+        "Setra": ["ComfortClass 500", "MultiClass", "S 200", "S 300", "S 400", "S 500", "TopClass 500"],
+        "Skoda": ["100", "105/120/125", "130", "Citigo", "Elroq", "Enyaq", "Enyaq Coupé", "Epiaq", "Fabia", "Fabia Combi", "Fabia Sedan", "Favorit", "Felicia", "Felicia Combi", "Kamiq", "Karoq", "Kodiaq", "Octavia", "Octavia Combi", "Popular", "Praktik", "Rapid", "Rapid Spaceback", "Roomster", "Scala", "Superb", "Superb Combi", "Yeti"],
+        "Skywell": ["ET5", "ET5 Premium"],
+        "Smart": ["#1", "Cabrio", "City-Coupé", "Compact Pulse", "Crossblade", "Forfour", "Forfour BRABUS", "Forfour electric drive", "Forfour EQ", "Forfour Passion", "Forfour Prime", "Forfour Pulse", "Fortwo BRABUS", "Fortwo cabrio", "Fortwo coupé", "Fortwo electric drive", "Fortwo EQ", "Fortwo K", "Fortwo Passion", "Fortwo Prime", "Fortwo Pulse", "Fortwo Pure", "Roadster", "Roadster BRABUS", "Roadster-Coupé"],
+        "Solaris": ["HC", "HS", "KRS", "KRX"],
+        "Sollers": ["Argo", "Atlant", "SF1"],
+        "Soueast": ["DX8S", "S07", "S09"],
+        "SsangYong": ["Actyon", "Chairman", "Istana", "Korando", "Korando Sports", "Kyron", "Musso", "Rexton", "Rodius", "Tivoli", "XLV"],
+        "Subaru": ["360", "Alcyone", "Baja", "BRZ", "Crosstrek", "Dex", "Exiga", "FF-1", "Forester", "Impreza", "Impreza Wagon", "Justy", "Legacy", "Legacy Outback", "Legacy Wagon", "Leone", "Levorg", "Libero", "Outback", "Pleo", "R1", "R2", "Rex", "Sambar", "Solterra", "Stella", "SVX", "Traviq", "Trezia", "Tribeca", "Tribeca B9", "Vivio", "WRX", "WRX STI", "XV"],
+        "Suzuki": ["Across", "Alto", "Baleno", "Baleno kombi", "Grand Vitara", "Grand Vitara XL-7", "Ignis", "Jimny", "Kizashi", "Liana", "Samurai", "Splash", "Swace", "Swift", "SX4", "SX4 Sedan", "Vitara", "Wagon R+"],
+        "SWM": ["G01", "G05"],
+        "Tank": ["300", "400", "500", "700"],
+        "Tenet": ["T4", "T5", "T7", "T8"],
+        "Tesla": ["Cybertruck", "Model 3", "Model 3 Long Range", "Model 3 Performance", "Model 3 Standard Range Plus", "Model S", "Model S Long Range", "Model S Performance", "Model S Plaid", "Model X", "Model X Long Range", "Model X Performance", "Model X Plaid", "Model Y", "Model Y Long Range", "Model Y Performance", "Roadster", "Semi"],
+        "Toyota": ["4-Runner", "Alphard", "Auris", "Avalon", "Avensis", "Avensis Combi", "Avensis Van Verso", "Aygo", "bZ3", "bZ4X", "C-HR", "Camry", "Carina", "Celica", "Corolla", "Corolla Combi", "Corolla sedan", "Corolla Verso", "Crown", "FJ Cruiser", "Fortuner", "GR Supra", "GR Yaris", "GT86", "Hiace", "Hiace Van", "Highlander", "Hilux", "Innova", "Land Cruiser", "Land Cruiser 80", "Land Cruiser Prado", "Matrix", "Mirai", "MR2", "Paseo", "Picnic", "Previa", "Prius", "RAV4", "Sequoia", "Sienna", "Starlet", "Supra", "Tundra", "Urban Cruiser", "Vellfire", "Venza", "Verso", "Wish", "Yaris", "Yaris Cross", "Yaris Verso"],
+        "Triumph": ["Acclaim", "Dolomite", "GT6", "Herald", "Spitfire", "Stag", "TR2", "TR3", "TR4", "TR5", "TR6", "TR7", "TR8", "Vitesse"],
+        "Volkswagen": ["Amarok", "Arteon", "Beetle", "Bora", "Caddy", "California", "Caravelle", "CC", "Crafter", "Eos", "Fox", "Golf", "Golf GTI", "ID.3", "ID.4", "ID.5", "ID.7", "ID.Buzz", "Jetta", "Passat", "Phaeton", "Polo", "Scirocco", "Sharan", "T-Cross", "T-Roc", "Taigo", "Tiguan", "Touareg", "Touran", "Transporter", "up!", "Vento"],
+        "Volvo": ["240", "340", "360", "460", "850", "850 kombi", "C30", "C40", "C70", "C70 Cabrio", "C70 Coupé", "EM90", "EX30", "EX40", "EX90", "S40", "S60", "S70", "S80", "S90", "V40", "V50", "V60", "V70", "V90", "XC60", "XC70", "XC90"],
+        "Voyah": ["Courage", "Dream", "Dream Plus", "Free", "Free Plus", "i-Land", "Passion", "Passion EV", "Passion EVR", "Passion L", "Pursuit", "Taishan"],
+        "Wartburg": ["1.3", "311", "312", "313", "353"],
+        "Xcite": ["X-Cross 7", "X-Cross 8"],
+        "Xiaomi": ["SU7", "YU7"],
+        "Zeekr": ["001", "007", "7X", "8X", "009", "9X", "Mix", "X"]
+    }; // v9-8-5: catálogo auto-parts-db 3.0.0 incluido en el archivo (marca → modelos): funciona sin internet y sin CDN
+    async function plkGen(P) {
+        // v9-8-8: años por generación del modelo, leídos de auto-parts-db; si no hay datos queda la lista completa de años
+        if (!P || P.kind != 'db' || !P.brand || !P.model) {
+            if (P) {
+                P.years = null;
+                P.gens = null
+            }
+            return
+        }
+        const b = P.brand,
+            m = P.model;
+        P.yl = 1;
+        P.years = null;
+        P.gens = null;
+        try {
+            await dbLoad();
+            const A = window.AutoPartsDB,
+                L = A && A.getModelsByBrand ? (A.getModelsByBrand(b) || []) : [],
+                nm = x => typeof x == 'string' ? x : x && (x.name || x.model || x.title || x.slug || x.id) || '',
+                mo = L.find(x => plkNorm(nm(x)) == plkNorm(m)),
+                cy = new Date().getFullYear() + 1,
+                gens = [];
+            const GA = mo && typeof mo == 'object' ? (Object.values(mo).find(v => Array.isArray(v) && v.length && typeof v[0] == 'object') || []) : [];
+            for (const g of GA) {
+                const nums = [];
+                let open = false;
+                const walk = (k, v) => {
+                    if (v == null)
+                        return;
+                    if (typeof v == 'object') {
+                        for (const [kk, vv] of Object.entries(v))
+                            walk(kk, vv);
+                        return
+                    }
+                    const t = String(v);
+                    if (/present|н\.?\s?в|now|actual|current/i.test(t) && /year|to|end|prod|until|range|period/i.test(k + t))
+                        open = true;
+                    if (/year|from|to|start|end|prod|since|until|range|period|date/i.test(k)) {
+                        (t.match(/(19|20)\d\d/g) || []).forEach(n => nums.push(+n))
+                    }
+                };
+                walk('', g);
+                if (nums.length) {
+                    const nn = nums.filter(n => n >= 1950 && n <= cy + 1);
+                    if (!nn.length)
+                        continue;
+                    const f = Math.min(...nn),
+                        e = Math.max(...nn);
+                    gens.push({
+                        from: f,
+                        to: (open || nums.length == 1 && f >= cy - 3) ? cy : e,
+                        label: String(g.name || g.title || g.generation || g.code || g.slug || '').slice(0, 40)
+                    })
+                }
+            }
+            if (gens.length) {
+                const ys = new Set();
+                gens.forEach(g => {
+                    for (let y = Math.min(g.from, g.to); y <= Math.min(Math.max(g.from, g.to), cy); y++)
+                        ys.add(y)
+                });
+                P.gens = gens;
+                P.years = [...ys].sort((x, y) => y - x)
+            }
+        } catch (e) {
+            console.warn('catálogo: sin años', e)
+        }
+        P.yl = 0;
+        if (S.plkp === P)
+            render(1)
+    }
+    const plkCatKey = b => Object.keys(PLK_CAT).find(k => plkNorm(k) == plkNorm(b)) || '';
     function dbLoad() {
         return window.AutoPartsDB ? Promise.resolve() : new Promise((ok, no) => {
             const e = document.createElement('script');
@@ -14745,8 +15330,8 @@
         mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
-        det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'Lupa + auto: catálogo de marcas y modelos para completar o corregir marca y modelo'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
-        nuevo: ['Crear / editar trabajo', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; elige Ignorar o Copiar datos'], ['directions_car', 'Lupa + auto: elegir marca y modelo desde el catálogo'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Firebase cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
+        det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
+        nuevo: ['Crear / editar trabajo', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; elige Ignorar o Copiar datos'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Firebase cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
         cfg: ['Configuración', [['expand_more', 'Tocar un bloque lo expande o lo pliega; "Quién usa este equipo" y "Conexión y datos" siempre están a la vista. Modo demo, Modo mecánico, Modo salón y Probar fondo de la sala son bloques plegables (cerrados al entrar)'], ['event_repeat', 'Motivos de reapertura: lista de motivos frecuentes al volver una orden completada al taller'], ['visibility', 'Activar u ocultar personas, sub-zonas y motivos'], ['map', 'Zonas y sub-zonas: cada sub-zona pertenece a una zona'], ['science', 'Datos demo / Vaciar todo (solo modo demo)'], ['download', 'Exportar todo a JSON']]]
     };
     function helpKeys() {
@@ -14774,7 +15359,7 @@
         return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
-         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', I('veh', 'marca', 'Marca') + I('veh', 'modelo', 'Modelo') + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"') + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada') + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"'), 'vg')})()}${otros(j)}
+         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + I('veh', 'tipov', 'Tipo de vehículo') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
@@ -15505,10 +16090,13 @@
             M = S.cfg.mecanicos.filter(m => m.activo),
             opt = v => `<option value="">Elige sub-zona o mecánico</option><optgroup label="Sub-zonas">${P.map(p => `<option value="${p.id}" ${v == p.id ? 'selected' : ''}>${esc(p.nombre)} · ${esc(zn(p.zonaId)?.nombre || '')}</option>`).join('')}</optgroup><optgroup label="Mecánicos">${M.map(m => `<option value="m:${m.id}" ${v == 'm:' + m.id ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</optgroup>${v && !P.some(p => p.id == v) && !M.some(m => 'm:' + m.id == v) ? `<option value="${esc(v)}" selected>${esc(stepNm(v))} (inactivo)</option>` : ''}`,
             X = D.rutaX || [],
+            Y = D.rutaXm || [],
             cur = D._cur || D.plat,
-            names = [...(D._done || []), cur, ...X].filter(Boolean).map(id => stepLbl(id)),
+            mz = (id, m) => stepLbl(id) + (m && !isMecStep(id) ? ' (' + esc(nm(S.cfg.mecanicos, m)) + ')' : ''),
+            names = [...(D._done || []).map((id, i) => [id, (D._doneM || [])[i]]), [cur, D.mec], ...X.map((id, i) => [id, Y[i]])].filter(q => q[0]).map(q => mz(q[0], q[1])),
+            mo = (v, m) => `<select data-f="rtm" data-i="${v}" aria-label="Mecánico de esta sub-zona"><option value="">Mecánico: sin indicar</option>${M.map(q => `<option value="${q.id}" ${m == q.id ? 'selected' : ''}>${esc(q.nombre)}</option>`).join('')}${m && !M.some(q => q.id == m) ? `<option value="${esc(m)}" selected>${esc(nm(S.cfg.mecanicos, m))} (inactivo)</option>` : ''}</select>`,
             up0 = !D._cur && D.plat && X[0] && !isMecStep(X[0]);
-        return `<div class="sm" style="margin-top:8px">Flujo de estaciones (opcional)</div><div class="rutaf">${X.map((v, i) => `<div class="rx"><span class="rxn">${(D._done || []).length + i + 2}</span><select data-f="rtx" data-i="${i}" aria-label="Estación ${(D._done || []).length + i + 2}">${opt(v)}</select><button type="button" data-a="rtmv" data-i="${i}" data-d="-1" title="Subir" aria-label="Subir estación" ${(i == 0 ? !up0 : false) ? 'disabled' : ''}>${ic('arrow_upward')}</button><button type="button" data-a="rtmv" data-i="${i}" data-d="1" title="Bajar" aria-label="Bajar estación" ${i >= X.length - 1 ? 'disabled' : ''}>${ic('arrow_downward')}</button><button type="button" data-a="rtdel" data-i="${i}" title="Quitar" aria-label="Quitar estación">${ic('close')}</button></div>`).join('')}<button type="button" class="rtadd" data-a="rtadd">${ic('add')} Agregar sub-zona o mecánico</button></div>${names.length > 1 ? `<div class="est">Flujo: <b>${names.join(' → ')}</b>. Al terminar cada estación el vehículo pasa a la siguiente y queda en cola; si la estación es un mecánico, la orden se le reasigna.</div>` : '<div class="est">Si el vehículo debe pasar por varias estaciones (por ejemplo Vulca 1, luego el mecánico Juan y luego Plataforma 1), agrégalas aquí en orden. Puedes mezclar sub-zonas y mecánicos, cambiar el orden con las flechas y quitar las que sobren.</div>'}`
+        return `<div class="sm" style="margin-top:8px">Flujo de estaciones (opcional)</div><div class="rutaf">${X.map((v, i) => `<div class="rx"><span class="rxn">${(D._done || []).length + i + 2}</span><select data-f="rtx" data-i="${i}" aria-label="Estación ${(D._done || []).length + i + 2}">${opt(v)}</select><button type="button" data-a="rtmv" data-i="${i}" data-d="-1" title="Subir" aria-label="Subir estación" ${(i == 0 ? !up0 : false) ? 'disabled' : ''}>${ic('arrow_upward')}</button><button type="button" data-a="rtmv" data-i="${i}" data-d="1" title="Bajar" aria-label="Bajar estación" ${i >= X.length - 1 ? 'disabled' : ''}>${ic('arrow_downward')}</button><button type="button" data-a="rtdel" data-i="${i}" title="Quitar" aria-label="Quitar estación">${ic('close')}</button></div>${v && !isMecStep(v) ? `<div class="rx rxm"><span class="rxn" style="visibility:hidden"></span>${ic('engineering')}${mo(i, Y[i])}</div>` : ''}`).join('')}<button type="button" class="rtadd" data-a="rtadd">${ic('add')} Agregar sub-zona o mecánico</button></div>${names.length > 1 ? `<div class="est">Flujo: <b>${names.join(' → ')}</b>. Al terminar cada estación el vehículo pasa a la siguiente y queda en cola; si la estación es un mecánico, la orden se le reasigna.</div>` : '<div class="est">Si el vehículo debe pasar por varias estaciones (por ejemplo Vulca 1, luego el mecánico Juan y luego Plataforma 1), agrégalas aquí en orden. Puedes mezclar sub-zonas y mecánicos, cambiar el orden con las flechas y quitar las que sobren. En cada sub-zona puedes indicar el mecánico que la atiende: queda a la vista en la ruta y la orden se le asigna al llegar a esa estación.</div>'}`
     }
     function formTick() {
         if (!D || D._edit || D._ingEdit || !S.modal || S.modal.k != 'new')
@@ -15534,7 +16122,7 @@
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
          <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente', 'autocapitalize=words autocomplete=name')}${f('tel', 'Teléfono o celular', 'type=tel inputmode=tel autocomplete=tel')}`, `${f('rut', 'RUT cliente', 'autocapitalize=characters')}${f('correo', 'Correo', 'type=email inputmode=email autocapitalize=none autocomplete=email')}<div class="w">${f('dir', 'Dirección', 'autocapitalize=sentences')}</div>`, 'fld')}
-         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${f('marca', 'Marca', 'autocapitalize=words')}${f('modelo', 'Modelo', 'autocapitalize=words')}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada')}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>`, 'fld')}
+         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${PSH('cat') ? plkDL(D.marca) : ''}${f('marca', 'Marca', 'autocapitalize=words' + plkAt('marca'))}${f('modelo', 'Modelo', 'autocapitalize=words' + plkAt('modelo'))}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100' + plkAt('anio'))}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada', plkAt('cil'))}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>${f('vin', 'N° de chasis (VIN)', 'autocapitalize=characters')}${f('nmotor', 'N° de motor', 'autocapitalize=characters')}${f('tipov', 'Tipo de vehículo', 'autocapitalize=words')}<div class="fl w"><label class="sm" for="f_otros">Otros datos del vehículo</label><textarea id="f_otros" data-f="otros" rows="3" style="width:100%;border-radius:12px" placeholder="Otros datos que entrega la búsqueda por patente">${esc(D.otros || '')}</textarea></div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>${rutaUI()}
          ${sec('Agregar las órdenes de trabajo', 'build')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${sel('cambiar')}</div>${bar('cambiar')}${pick('new', 'cambiar')}
@@ -15543,7 +16131,7 @@
          <div class="cols"><div><h3>${D._edit ? 'Agregar nota a la orden' : 'Notas de la orden'}</h3><textarea data-f="notaO" rows="3" style="width:100%;border-radius:12px" placeholder="Agrega comentarios sobre la orden">${esc(D.notaO || '')}</textarea></div><div><h3>${D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo'}</h3><textarea data-f="notaV" rows="3" style="width:100%;border-radius:12px" placeholder="Estado del vehículo o eventos relevantes">${esc(D.notaV || '')}</textarea></div></div>
          ${sec('Inspección', 'fact_check')}${inspBox('new')}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
-         ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><div><div class="sm">N° de chasis (VIN)</div>${fbi('vin', 'VIN', 'autocapitalize=characters')}</div><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
+         ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
          ${sec('Tiempos', 'schedule')}<div class="fld tm"><div><label class="sm" for="f_ingreso">Hora de ingreso</label><input id="f_ingreso" type="time" data-f="ingreso" class="${D._ingEdit ? '' : 'sug'}" value="${esc(D._ingEdit ? (D.ingreso || '') : hhmm(now()))}" enterkeyhint="next" aria-describedby="ingh"></div><div><label class="sm" for="f_estMin">Tiempo estimado</label><div class="estw"><input id="f_estMin" type="number" min="0" step="any" inputmode="decimal" data-f="estMin" class="${D._estEdit ? '' : 'sug'}" value="${esc(D._estEdit ? (D.estMin || '') : fmtEst(est, D.estU))}" enterkeyhint="next"><select data-f="estU" aria-label="Unidad del tiempo estimado">${[['min', 'min'], ['h', 'horas'], ['d', 'días']].map(([v, t]) => `<option value="${v}" ${(D.estU || 'min') == v ? 'selected' : ''}>${t}</option>`).join('')}</select></div></div></div>
          ${D._edit && D.iniD ? `<div class="sm" style="margin-top:8px">Inicio y fin del proceso</div><div class="fld tm"><div><label class="sm" for="f_iniD">Inicio (fecha y hora)</label><input id="f_iniD" type="datetime-local" data-f="iniD" value="${esc(D.iniD)}"></div>${D.finD ? `<div><label class="sm" for="f_finD">Fin (fecha y hora)</label><input id="f_finD" type="datetime-local" data-f="finD" value="${esc(D.finD)}"></div>` : ''}</div><div class="est">Al cambiar el inicio o el fin, el tiempo trabajado se ajusta en la misma cantidad (las pausas se conservan).</div>` : ''}<div class="est" id="ingh">${D._ingEdit ? 'Hora editada a mano.' : 'La hora (en gris) se actualiza sola: si no la cambias, se guarda la hora exacta en que confirmas.'}</div>
          <div class="est">${D._estEdit ? `Editado a mano · cálculo automático: <b>${fdur(est * 60)}</b> <button type="button" class="lnk" data-a="estreset">${ic('restart_alt')} Restablecer cálculo</button>` : `Calculado sumando la duración de los servicios: <b>${fdur(est * 60)}</b>. Puedes editarlo.`}</div>
@@ -16337,6 +16925,10 @@
             (D.rutaX = D.rutaX || [])[+i.dataset.i] = i.value;
             return
         }
+        if (k == 'rtm') {
+            (D.rutaXm = D.rutaXm || [])[+i.dataset.i] = i.value;
+            return
+        }
         D[k] = i.type == 'checkbox' ? i.checked : i.value
     }); // v4: la hora y el estimado automáticos no se guardan como «editados a mano»
     const blank = () => ({
@@ -16348,7 +16940,9 @@
         fotos: [],
         estU: 'min',
         rutaX: [],
-        _done: []
+        rutaXm: [],
+        _done: [],
+        _doneM: []
     });
 
     /* ---- Imagen PNG del detalle de la orden (se dibuja en un canvas, sin librerías) ---- */
@@ -16677,7 +17271,10 @@
             color: D.color || '',
             cil: D.cil || '',
             anio: +D.anio || '',
-            rt: D.rt || ''
+            rt: D.rt || '',
+            nmotor: D.nmotor || '',
+            tipov: D.tipov || '',
+            otros: D.otros || ''
         };
         for (const k in nw)
             if ((v[k] || '') != (nw[k] || ''))
@@ -16704,7 +17301,7 @@
         if ((j.modo || 'proceso') != (D.modo || 'proceso'))
             ch.push('tipo de trabajo');
         const rt = RT(D);
-        if (JSON.stringify(j.ruta || null) != JSON.stringify(rt.ruta))
+        if (JSON.stringify(j.ruta || null) != JSON.stringify(rt.ruta) || JSON.stringify(j.rutaM || null) != JSON.stringify(rt.rutaM))
             ch.push('ruta');
         if ((o.entregaISO || '') != entISO(D))
             ch.push('entrega prometida');
@@ -16730,6 +17327,7 @@
         j.repuestos = D.rep;
         j.modo = D.modo || 'proceso';
         j.ruta = rt.ruta;
+        j.rutaM = rt.rutaM;
         j.paso = rt.paso;
         j.fotos = D.fotos || [];
         j.opciones = {
@@ -16945,6 +17543,9 @@
                 ru = rutaOf(j);
             D = {
                 _edit: j.id,
+                nmotor: v.nmotor || '',
+                tipov: v.tipov || '',
+                otros: v.otros || '',
                 _jid: j.id,
                 _ingEdit: 1,
                 _estEdit: manual ? 1 : 0,
@@ -16953,7 +17554,9 @@
                     ...x
                 })),
                 rutaX: ru ? ru.slice((j.paso || 0) + 1) : [],
+                rutaXm: ru ? (j.rutaM || []).slice((j.paso || 0) + 1) : [],
                 _done: ru ? ru.slice(0, j.paso || 0) : [],
+                _doneM: ru ? (j.rutaM || []).slice(0, j.paso || 0) : [],
                 _cur: ru && isMecStep(ru[j.paso || 0]) ? ru[j.paso || 0] : '',
                 estU: manual ? u : 'min',
                 entD: ent ? ymd(new Date(ent)) : '',
@@ -17055,39 +17658,50 @@
         rtadd: () => {
             collect();
             (D.rutaX = D.rutaX || []).push('');
+            (D.rutaXm = D.rutaXm || []).push('');
             render(1)
         },
         rtdel: d => {
             collect();
             (D.rutaX || []).splice(+d.i, 1);
+            (D.rutaXm = D.rutaXm || []).splice(+d.i, 1);
             R.nc = 1;
             render(1)
         },
         rtmv: d => {
             collect();
             const X = D.rutaX = D.rutaX || [],
-                i = +d.i;
+                Y = D.rutaXm = D.rutaXm || [],
+                i = +d.i,
+                sw = (a, x, y) => {
+                    const q = a[x];
+                    a[x] = a[y];
+                    a[y] = q
+                };
+            while (Y.length < X.length)
+                Y.push('');
             if (+d.d < 0) {
                 if (i == 0) {
                     if (D._cur || !D.plat || !X[0] || isMecStep(X[0]))
                         return;
-                    const q = D.plat;
+                    const q = D.plat,
+                        m = D.mec || '';
                     D.plat = X[0];
-                    X[0] = q
+                    X[0] = q;
+                    D.mec = Y[0] || '';
+                    Y[0] = m
                 } else {
-                    const q = X[i - 1];
-                    X[i - 1] = X[i];
-                    X[i] = q
+                    sw(X, i - 1, i);
+                    sw(Y, i - 1, i)
                 }
             } else if (i < X.length - 1) {
-                const q = X[i + 1];
-                X[i + 1] = X[i];
-                X[i] = q
+                sw(X, i, i + 1);
+                sw(Y, i, i + 1)
             }
             R.nc = 1;
             render(1)
         },
-        // v9-4: cambiar el orden de la ruta
+        // v9-4: cambiar el orden de la ruta (v9-8-6: el mecánico de cada sub-zona viaja con ella)
         col: d => {
             S.col[d.k] = !colH(d.k, d.d == '1');
             render(1)
@@ -17834,81 +18448,58 @@
             render(1)
         },
         // v0.44: expandir/plegar Cliente y Vehículo
-        plk: async d => {
-            if (!FEATURE_BUSCAR_PATENTE || R.plk)
-                return; // v9-9: busca la patente y MUESTRA los datos en una ventana (Ignorar / Copiar)
-            const c = plkCtxOf(d);
-            if (!c)
-                return;
-            const pat = plkPat(c);
-            if (pat.length < 5)
-                return toast('warning', 'Escribe la patente completa');
-            R.plk = 1;
-            render(1);
-            toast('search', 'Consultando ' + pat + '…');
-            try {
-                let x = null,
-                    src = '',
-                    e1 = '';
-                if (BK()) {
-                    try {
-                        x = await boostrFetch(pat);
-                        src = 'Boostr Chile'
-                    } catch (e) {
-                        e1 = e instanceof TypeError ? 'Boostr no respondió (sin conexión o bloqueo CORS)' : e.message
-                    }
-                }
-                if (!x) {
-                    try {
-                        x = await plkFetch(pat);
-                        src = 'OpenAPI Chile'
-                    } catch (e) {
-                        throw new Error(e1 || (e instanceof TypeError ? 'No se pudo consultar (sin conexión o bloqueo CORS)' : e.message))
-                    }
-                }
-                const rows = [],
-                    on = {},
-                    add = (L, sec) => {
-                        for (const [k, lbl] of L) {
-                            const nw = String(x[k] ?? '').trim();
-                            if (!nw || nw == '0')
-                                continue;
-                            const cur = plkCur(c, sec, k);
-                            if (cur.trim().toLowerCase() == nw.toLowerCase())
-                                continue;
-                            rows.push({
-                                k,
-                                lbl,
-                                sec,
-                                nw,
-                                cur
-                            });
-                            on[sec + ':' + k] = sec == 'v' ? true : !cur
-                        }
-                    };
-                add(PLK_V, 'v');
-                add(PLK_C, 'c');
-                R.plk = 0;
-                if (!rows.length) {
-                    render(1);
-                    return toast('info', 'La consulta no trajo datos nuevos')
-                }
-                S.plkp = {
-                    ctx: c.ctx,
-                    kind: 'pat',
-                    pat: pat,
-                    src: (e1 && src != 'Boostr Chile' ? src + ' (Boostr falló: ' + e1 + ')' : src),
-                    rows,
-                    on
+        plk: d => plkRun(d, false),
+        plkhist: async d => {
+            const prev = S.plkp && S.plkp.kind == 'pat' ? S.plkp : null,
+                ctx = prev ? prev.ctx : (d.id || 'cfg'),
+                P = S.plkp = {
+                    ctx,
+                    kind: 'hist',
+                    list: null,
+                    q: '',
+                    open: d.pat || '',
+                    back: prev
                 };
-                plkOpen(c.ctx)
-            }
-            catch (e) {
-                R.plk = 0;
+            if (!prev)
+                plkOpen(ctx);
+            else
                 render(1);
-                toast('warning', e.message)
+            const L = await plkAll();
+            if (S.plkp === P) {
+                P.list = L;
+                render(1)
             }
         },
+        plkhopen: d => {
+            const P = S.plkp;
+            if (!P)
+                return;
+            P.open = P.open == d.pat ? '' : d.pat;
+            render(1)
+        },
+        plkhback: () => {
+            const P = S.plkp;
+            if (P && P.back) {
+                S.plkp = P.back;
+                render(1)
+            }
+        },
+        plkre: () => {
+            const P = S.plkp;
+            if (!P)
+                return;
+            const ctx = P.ctx;
+            if (ctx == 'new')
+                S.ov = null;
+            else
+                S.modal = null;
+            R.nc = ctx == 'new' ? 1 : R.nc;
+            S.plkp = null;
+            plkRun(ctx == 'new' ? {} : {
+                id: ctx
+            }, true)
+        },
+        // «Consultar de nuevo»: busca otra vez y actualiza el historial
         plkcopy: () => {
             const P = S.plkp;
             if (!P)
@@ -17918,9 +18509,10 @@
                 return toast('warning', 'No hay datos marcados para copiar');
             const n = plkApply(P.ctx, L);
             S.plkp = null;
-            if (P.ctx == 'new')
+            if (P.ctx == 'new') {
                 S.ov = null;
-            else
+                R.nc = 1
+            } else
                 S.modal = null;
             render(1);
             toast('check', n + (n == 1 ? ' dato copiado' : ' datos copiados'))
@@ -17931,57 +18523,56 @@
             const c = plkCtxOf(d);
             if (!c)
                 return;
-            toast('directions_car', 'Cargando catálogo…');
-            try {
-                await dbLoad()
-            } catch (e) {
-                return toast('warning', 'No se pudo cargar el catálogo (' + e.message + ')')
-            }
-            const DB = window.AutoPartsDB,
-                nm = x => typeof x == 'string' ? x : (x && (x.name || x.brand || x.title || x.model || x.slug)) || '',
-                cm = plkCur(c, 'v', 'marca'),
-                cd = plkCur(c, 'v', 'modelo'),
-                same = (a, b) => plkNorm(a) == plkNorm(b);
-            let brand = '',
-                model = '';
-            try {
-                brand = (DB.getBrands() || []).map(nm).find(x => cm && same(x, cm)) || '';
-                if (brand)
-                    model = (DB.getModelsByBrand(brand) || []).map(nm).find(x => cd && same(x, cd)) || ''
-            } catch (e) {
-                return toast('warning', 'El catálogo no respondió como se esperaba')
-            }
+            const cm = plkCur(c, 'v', 'marca').trim(),
+                cd = plkCur(c, 'v', 'modelo').trim(),
+                ck = plkCatKey(cm),
+                brand = ck || cm,
+                model = ck ? ((PLK_CAT[ck] || []).find(x => plkNorm(x) == plkNorm(cd)) || cd) : cd;
+            const g = k => plkCur(c, 'v', k).trim();
             S.plkp = {
                 ctx: c.ctx,
                 kind: 'db',
                 brand,
-                model
+                model,
+                anio: g('anio') == '0' ? '' : g('anio'),
+                version: g('version'),
+                motor: g('motor'),
+                cil: g('cil'),
+                comb: g('comb'),
+                trans: g('trans')
             };
-            plkOpen(c.ctx)
+            plkOpen(c.ctx);
+            if (S.plkp.model)
+                plkGen(S.plkp)
         },
         plkdbok: () => {
             const P = S.plkp;
-            if (!P || !P.brand)
+            if (!P)
                 return;
-            const L = [{
-                k: 'marca',
-                sec: 'v',
-                nw: P.brand
-            }];
-            if (P.model)
-                L.push({
-                    k: 'modelo',
-                    sec: 'v',
-                    nw: P.model
-                });
-            plkApply(P.ctx, L);
+            const c = plkCtxOf(P.ctx == 'new' ? {} : {
+                id: P.ctx
+            });
+            if (!c)
+                return;
+            const L = [];
+            for (const [k, v] of [['marca', P.brand], ['modelo', P.model], ['anio', P.anio], ['version', P.version], ['motor', P.motor], ['cil', P.cil], ['comb', P.comb], ['trans', P.trans]]) {
+                const nw = String(v || '').trim();
+                if (nw && nw != plkCur(c, 'v', k).trim())
+                    L.push({
+                        k,
+                        sec: 'v',
+                        nw
+                    })
+            }
+            const n = plkApply(P.ctx, L);
             S.plkp = null;
-            if (P.ctx == 'new')
+            if (P.ctx == 'new') {
                 S.ov = null;
-            else
+                R.nc = 1
+            } else
                 S.modal = null;
             render(1);
-            toast('check', 'Marca y modelo copiados')
+            toast(n ? 'check' : 'info', n ? n + (n == 1 ? ' dato copiado' : ' datos copiados') : 'No hubo cambios')
         },
         cust: () => {
             collect();
@@ -18052,6 +18643,7 @@
                     modo: D.modo || 'proceso',
                     fotos: D.fotos || [],
                     ruta: RT(D).ruta,
+                    rutaM: RT(D).rutaM,
                     paso: RT(D).paso,
                     ot,
                     ingresadoPor: {
@@ -18076,7 +18668,10 @@
                         color: D.color || '',
                         cil: D.cil || '',
                         anio: +D.anio || '',
-                        rt: D.rt || ''
+                        rt: D.rt || '',
+                        nmotor: D.nmotor || '',
+                        tipov: D.tipov || '',
+                        otros: D.otros || ''
                     },
                     cliente: {
                         nombre: D.nombre || '',
@@ -18307,7 +18902,7 @@
         render(1)
     });
     /* v2b · filtro de doble toque: una acción que MODIFICA datos no se repite si llega la misma otra vez en menos de 450 ms (evita eventos y avisos duplicados al tocar muchas veces seguidas) */
-    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'plka', 'plkcopy', 'plkdbok', 'cfok', 'citaok', 'cnew']),
+    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'plka', 'plkre', 'plkcopy', 'plkdbok', 'cfok', 'citaok', 'cnew']),
         TAPG = {};
     function tapDup(b) {
         const a = b.dataset.a;
@@ -18348,6 +18943,23 @@
             }
         }
     });
+    document.addEventListener('input', e => {
+        const t = e.target;
+        if (t.dataset && (t.dataset.f == 'marca' || (t.dataset.ch == 'veh' && t.dataset.k == 'marca'))) {
+            const d = document.getElementById('plk_modelos');
+            if (d)
+                d.innerHTML = plkMods(t.value).map(x => `<option value="${esc(x)}">`).join('')
+        }
+        if (t.dataset && t.dataset.ch == 'plkdbf' && t.tagName == 'INPUT') {
+            const P = S.plkp;
+            if (P && P.kind == 'db') {
+                P[t.dataset.k] = t.value;
+                const ok = document.querySelector('#plkbox [data-a=plkdbok]');
+                if (ok)
+                    ok.disabled = !(P.brand || P.anio || P.version || P.motor || P.cil || P.comb || P.trans)
+            }
+        }
+    }); // v9-8-7: los campos del catálogo guardan al escribir
     document.addEventListener('change', e => {
         const t = e.target,
             k = t.dataset.ch;
@@ -18369,21 +18981,46 @@
             saveCfg();
             return
         }
+        if (k == 'plkhq') {
+            if (S.plkp)
+                S.plkp.q = t.value;
+            render(1);
+            return
+        }
         if (k == 'plkpk') {
             if (S.plkp)
                 (S.plkp.on = S.plkp.on || {})[t.dataset.k] = t.checked;
+            return
+        }
+        if (k == 'plkdbf') {
+            const P = S.plkp;
+            if (P && P.kind == 'db') {
+                P[t.dataset.k] = t.value;
+                const ok = document.querySelector('#plkbox [data-a=plkdbok]');
+                if (ok)
+                    ok.disabled = !(P.brand || P.anio || P.version || P.motor || P.cil || P.comb || P.trans)
+            }
             return
         }
         if (k == 'plkdb') {
             const P = S.plkp;
             if (!P)
                 return;
-            if (t.dataset.w == 'b') {
+            if (t.dataset.sel == 'b') {
                 P.brand = t.value;
-                P.model = ''
-            } else
+                P.model = '';
+                P.anio = '';
+                P.years = null;
+                P.gens = null
+            } else {
                 P.model = t.value;
+                P.anio = ''
+            }
             render(1);
+            if (t.dataset.sel == 'm' && P.model)
+                plkGen(P);
+            else
+                P.years = null;
             return
         }
         if (k.startsWith('cita_')) {
@@ -18539,6 +19176,19 @@
             const r = document.querySelector('input[name=rmodo][value=prog]');
             if (r)
                 r.checked = true
+        }
+        if (k == 'veh' && t.dataset.k == 'vin') {
+            const j = get(t.dataset.id);
+            if (!j)
+                return;
+            const o = j.opciones = j.opciones || {},
+                x = t.value.trim().toUpperCase();
+            if ((o.vin || '') == x)
+                return;
+            o.vin = x;
+            ev(j, 'vehiculo', 'vin: ' + x);
+            saveJob(j, 1);
+            return
         }
         if (k == 'veh') {
             const j = get(t.dataset.id),
