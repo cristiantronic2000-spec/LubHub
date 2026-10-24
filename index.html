@@ -4,43 +4,71 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-visual">
     <title>Línea de trabajo · Lubricentro</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
     <meta name="theme-color" content="#111111">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Lubricentro">
     <script>
-    /* v0.49 beta · icono de la aplicación: lee favicon.png (misma carpeta que este archivo). Para cambiar el nombre del archivo, edita ICONO. */
-    try {
-        var ICONO = 'favicon.png',
-            u = new URL(ICONO, location.href).href,
-            m = {
-                name: 'Línea de trabajo · Lubricentro',
-                short_name: 'Lubricentro',
-                start_url: location.href.split('#')[0],
-                display: 'standalone',
-                background_color: '#ffffff',
-                theme_color: '#111111',
-                icons: [{
-                    src: u,
-                    sizes: '192x192',
-                    type: 'image/png',
-                    purpose: 'any'
-                }, {
-                    src: u,
-                    sizes: '512x512',
-                    type: 'image/png',
-                    purpose: 'any'
-                }]
-            },
-            l = document.createElement('link');
-        l.rel = 'manifest';
-        l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {
-            type: 'application/manifest+json'
-        }));
-        document.head.appendChild(l)
-    } catch (e) {}
+    /* v0.49 beta · icono de la aplicación: busca el logo junto a este archivo (en GitHub Pages, en la misma carpeta que index.html). Prueba estos nombres en orden; agrega el tuyo al inicio de la lista si es otro. */
+    (function() {
+        var N = ['favicon.png', '.favicon.png', 'Favicon.png', 'favicon.PNG', 'logo.png', 'icon.png', 'icono.png', 'favicon.ico'],
+            b = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
+        function set(u) {
+            try {
+                document.querySelectorAll('link[rel=icon],link[rel=apple-touch-icon],link[rel=manifest]').forEach(function(e) {
+                    e.remove()
+                });
+                ['icon', 'apple-touch-icon'].forEach(function(r) {
+                    var l = document.createElement('link');
+                    l.rel = r;
+                    l.href = u;
+                    document.head.appendChild(l)
+                });
+                var m = {
+                        name: 'Línea de trabajo · Lubricentro',
+                        short_name: 'Lubricentro',
+                        start_url: b,
+                        scope: b,
+                        display: 'standalone',
+                        background_color: '#ffffff',
+                        theme_color: '#111111',
+                        icons: [{
+                            src: u,
+                            sizes: '192x192',
+                            type: 'image/png',
+                            purpose: 'any'
+                        }, {
+                            src: u,
+                            sizes: '512x512',
+                            type: 'image/png',
+                            purpose: 'any'
+                        }]
+                    },
+                    k = document.createElement('link');
+                k.rel = 'manifest';
+                k.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {
+                    type: 'application/manifest+json'
+                }));
+                document.head.appendChild(k);
+                window.ICONO_URL = u
+            } catch (e) {}
+        }
+        (function t(i) {
+            if (i >= N.length)
+                return;
+            var u = b + N[i].replace(/^\./, function(x) {
+                    return '.'
+                }) + '?v=1',
+                im = new Image();
+            im.onload = function() {
+                set(u)
+            };
+            im.onerror = function() {
+                t(i + 1)
+            };
+            im.src = u
+        })(0)
+    })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
