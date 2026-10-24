@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-visual">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-content">
     <title>Línea de trabajo · Lubricentro</title>
     <meta name="theme-color" content="#111111">
     <meta name="mobile-web-app-capable" content="yes">
@@ -87,6 +87,9 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-10: la API key de Boostr, el nombre de su encabezado y los interruptores de los botones de búsqueda se guardan en la configuración de la base de datos (S.cfg.busq), así que valen para todos los dispositivos; en modo local quedan solo en el dispositivo.
+    CAMBIOS v9-9: junto a la patente (formulario y detalle) hay tres lupas pequeñas: lupa = consultar la patente (Boostr Chile con API key guardada en Configuración; si no hay key o falla, OpenAPI Chile), lupa + auto = catálogo auto-parts-db para elegir marca y modelo, Los datos encontrados NO se escriben solos: aparece una ventana con cada dato (vehículo y cliente) para marcar y elegir «Ignorar datos» o «Copiar datos».
+    CAMBIOS v9-8: (a) los banners de la Línea de trabajo ya no llevan los botones de foto, esquema ni inspección (siguen dentro del detalle de la orden) y la patente se ve más grande; (b) la patente se muestra siempre como AA·BB·11 en banners, citas, reaperturas y notificaciones, y el formulario de cita usa la misma patente chilena con formato automático; el botón Guardar cita ya no se puede duplicar con doble toque; (c) agitar para reiniciar el táctil: 1 s en vez de 1,5 s; (d) Vehículo: tras Motor van Cilindrada, Combustible (Bencina/Diésel) y Tipo de transmisión (Mecánico/Automático); (e) los repuestos tienen campo Precio (se ve en el detalle de la orden).
     CAMBIOS v9b (Notificaciones y recordatorios por orden): «Más» tiene una sección Notificaciones (vencidos ahora y programados, con avisos del dispositivo opcionales) y cada orden permite programar recordatorios con fecha y hora (atajos 30 min / 1 h / 3 h / mañana), marcarlos como hechos o posponerlos; al llegar la hora la app avisa y suma al globo de «Más».
     CAMBIOS v9 (Más · calendario de citas · reingresos · pruebas): (a) la pestaña «Configuración» de la barra inferior pasó a «Más» (icono +): ahí están el calendario del mes (indicador VIOLETA = cita, NARANJA = reapertura), las 3 próximas citas/reaperturas, el botón «Ir al calendario de citas» y debajo «Ir a configuración»; (b) calendario de citas: crear cita (fecha, patente, cliente, motivo) y crear reapertura buscando una orden completada por patente u OT (reutiliza la ventana de reabrir con hora personalizada); (c) las órdenes con reingreso agendado muestran el recuadro «Reingreso agendado · fecha» y el Dashboard muestra Recordatorios (atrasadas, hoy y mañana); (d) Configuración: botones «Probar datos de Firebase» y «Probar datos de Cloudinary» con resultado paso a paso.
     CAMBIOS v4 (Paso 4 · formulario de ingreso + En reparación + fotos + flujo de estaciones): (a) hora de ingreso sugerida en gris que se actualiza sola, tiempo estimado automático editable con unidad min/horas/días y «Restablecer cálculo», entrega prometida con fecha y hora completas, teclados y etiquetas por campo, Enter pasa al siguiente campo; (b) nuevo tipo «En reparación» (azul, trabajos largos con pausas): selector en el formulario, recuadros En proceso / En reparación, bloque colapsable arriba de la línea de trabajo con resumen y destello azul; (c) fotos del vehículo con plantilla (cámara por zona) en En reparación y fotos libres en En proceso: respaldo local en IndexedDB, subida a Firebase Storage y botón para guardar en la galería; (d) flujo de estaciones: un vehículo puede pasar por varias sub-zonas en orden.
@@ -4397,12 +4400,12 @@
         }
 
         #app .row .pl.s {
-            padding:1px 6px
+            padding:2px 10px 3px
         }
 
         #app .row .pl.s b {
-            font-size: 15px;
-            letter-spacing: .6px
+            font-size: 19px;
+            letter-spacing: 1.5px
         }
 
         #app .tg.rt {
@@ -8213,6 +8216,58 @@
         margin-top: 18px;
         font-size: 13px;
         color: #555
+    }/* ---- v9-7 · pantallas, teclado y objetivos táctiles ---- */
+    @media (min-width: 1024px) {
+        :root {
+            --colw: 720px
+        }
+    }
+
+    @supports (height: 100dvh) {
+        .sala-pn {
+            max-height: calc(100dvh - 90px)
+        }
+    }
+
+    @media (any-pointer: coarse) {
+        button, [role=button], select, .chip, .zc {
+            min-height: 44px !important
+        }
+
+        button, [role=button], .chip, .zc {
+            min-width: 44px
+        }
+
+        input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=color]), textarea {
+            min-height: 44px
+        }
+
+        .chip, .zc {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .cd {
+            min-width: 0
+        }
+    }
+
+    .rpb {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top:8px
+    }
+
+    .rpb input {
+        flex: 1;
+        min-width:0
+    }
+
+    .rpb button {
+        flex: none;
+        white-space: nowrap
     }
     </style>
     <style id="sala46">
@@ -10689,6 +10744,101 @@
         color: #fff;
         font: 700 10px/16px Inter, Arial, sans-serif;
         text-align: center
+    }/* v9-9 · botones de búsqueda junto a la patente (lupa · lupa+auto · lupa+mundo) y ventana de datos encontrados */
+    .plkg {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        flex:none
+    }
+
+    .plkg .plk {
+        position: relative;
+        width: 30px;
+        height:30px
+    }
+
+    .plkg .plk .material-symbols-outlined {
+        font-size: 17px
+    }
+
+    .plk .plkb {
+        position: absolute;
+        right: -5px;
+        bottom: -5px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid var(--line2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style:normal
+    }
+
+    .plk .plkb .material-symbols-outlined {
+        font-size: 10px !important
+    }
+
+    .plkg .plk.busy .plkb .material-symbols-outlined {
+        animation: none
+    }
+
+    .plkt {
+        font-size: 12px;
+        font-weight: 700;
+        margin: 12px 0 2px;
+        text-align:left
+    }
+
+    .plkr {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        text-align: left;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--line);
+        cursor:pointer
+    }
+
+    .plkr input {
+        width: 22px;
+        height: 22px;
+        flex: none;
+        margin: 1px 0 0;
+        padding:0
+    }
+
+    .plkr b {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color:var(--mut)
+    }
+
+    .plkr span {
+        font-size: 15px;
+        min-width: 0;
+        overflow-wrap:anywhere
+    }
+
+    .plkr small {
+        display: block;
+        font-size: 11px;
+        color: var(--mut)
+    }
+
+    .plkn {
+        font-size: 11px;
+        color: var(--mut);
+        text-align: left;
+        margin-top:6px
+    }
+
+    .plkdb select {
+        width: 100%;
+        margin-top: 4px
     }
     </style>
 </head>
@@ -10714,7 +10864,7 @@
     };
 
     /* v1 · INTERRUPTOR: botón "consultar patente en API". false = oculto (el código sigue completo). Pon true para mostrarlo de nuevo. */
-    const FEATURE_BUSCAR_PATENTE = false;
+    const FEATURE_BUSCAR_PATENTE = true;
 
     /* ============ 2. CATÁLOGO BASE (editable en Configuración) ============
     Formato: Grupo=CODIGO:Nombre:minutos,...  ("?" delante del código = categoría "revisar") */
@@ -14215,7 +14365,14 @@
     } // v0.49: los mensajes bajan desde arriba como banner (ya no ventana central)
 
     /* ============ 6. VISTAS ============ */
-    const plate = (p, c='') => `<span class="pl ${c}"><small>CHILE</small><b>${esc(p || '—')}</b></span>`; // patente chilena minimalista
+    const fmtPl = p => {
+        const t = String(p || '');
+        if (!/^[A-Za-z0-9·.\-\s]+$/.test(t))
+            return t;
+        const n = t.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        return n && n.length <= 6 ? fmtPat(n) : t
+    }; // v9-8: AA·BB·11 siempre
+    const plate = (p, c='') => `<span class="pl ${c}"><small>CHILE</small><b>${esc(p ? fmtPl(p) : '—')}</b></span>`; // patente chilena minimalista
     const otros = j => {
         const o = j.opciones || {},
             L = [o.espera && 'Cliente espera en el local', o.entregaISO && 'Entrega prometida ' + fent(o.entregaISO), o.nivelComb && 'Combustible: ' + o.nivelComb, o.vin && 'Chasis ' + o.vin].filter(Boolean);
@@ -14225,7 +14382,7 @@
     const side = j => `<div class="side">${j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'pausa' ? `<button data-a="ini" data-id="${j.id}" title="Reanudar">${ic('replay')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : `<button data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button>`}</div>`;
     const row = j => {
         const [tx, cl] = estado(j);
-        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${rfotB(j)}${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -14348,6 +14505,225 @@
             throw new Error('Sin datos de vehículo para ' + pat);
         return x
     }
+
+    /* ============ v9-9 · BÚSQUEDA POR PATENTE, CATÁLOGO Y WEB ============
+       Lupa            → consulta la patente (Boostr Chile con API key; si no hay key o falla, OpenAPI Chile) y abre una ventana con los datos.
+       Lupa + auto     → catálogo auto-parts-db (marcas y modelos) para elegir/corregir marca y modelo.
+       Nada se escribe solo: la ventana muestra los datos y se elige «Ignorar» o «Copiar datos». */
+    const BQ = () => (S.cfg && S.cfg.busq) || {}; // v9-10: la key y los interruptores viven en la configuración de la base de datos (iguales en todos los dispositivos)
+    const BK = () => {
+            const v = BQ().bkey;
+            if (v != null)
+                return String(v).trim();
+            try {
+                return (localStorage.lub_bkey || '').trim()
+            } catch (e) {
+                return ''
+            }
+        },
+        BH = () => {
+            const v = BQ().bhdr;
+            if (v != null)
+                return String(v).trim() || 'x-api-key';
+            try {
+                return (localStorage.lub_bhdr || 'x-api-key').trim() || 'x-api-key'
+            } catch (e) {
+                return 'x-api-key'
+            }
+        };
+    const PSH = k => {
+        const v = BQ()[k];
+        if (v != null)
+            return v !== false;
+        try {
+            return localStorage['lub_sh_' + k] !== '0'
+        } catch (e) {
+            return true
+        }
+    };
+    const plkBtns = id => {
+        if (!PSH('pat') && !PSH('cat'))
+            return '';
+        const a = id ? ` data-id="${id}"` : '',
+            b = (act, i1, i2, t) => `<button type="button" class="plk${act == 'plk' && R.plk ? ' busy' : ''}" data-a="${act}"${a} title="${t}" aria-label="${t}">${ic(i1)}${i2 ? `<i class="plkb">${ic(i2)}</i>` : ''}</button>`;
+        return `<span class="plkg">${PSH('pat') ? b('plk', 'search', '', 'Buscar datos por patente') : ''}${PSH('cat') ? b('plka', 'search', 'directions_car', 'Buscar marca y modelo en el catálogo') : ''}</span>`
+    };
+    const plkSec = () => `<section><b>Búsqueda de datos del vehículo</b><div class="note">Elige qué botones aparecen junto a la patente (formulario y detalle de la orden). Estos ajustes y la API key se guardan en la base de datos: valen para todos los dispositivos.</div>
+    <div class="li"><span>Lupa: buscar por patente (Boostr Chile)</span><input type="checkbox" data-ch="plkshow" data-k="pat" ${PSH('pat') ? 'checked' : ''}></div>
+    <div class="li"><span>Lupa + auto: catálogo de marcas y modelos (auto-parts-db)</span><input type="checkbox" data-ch="plkshow" data-k="cat" ${PSH('cat') ? 'checked' : ''}></div>
+    <div class="note" style="margin-top:8px"><b>Boostr Chile</b> (solo para la lupa de patente) necesita una API key; se guarda en la base de datos y la usan todos los dispositivos. Sin key se usa OpenAPI Chile, sin datos del titular. El catálogo auto-parts-db <b>no necesita key</b>: es gratuito y se descarga solo al usarlo.</div>
+    <input type="password" data-ch="bkey" placeholder="API key de Boostr" autocomplete="off" value="${esc(BK())}" style="width:100%;margin-top:6px"><input data-ch="bhdr" placeholder="Encabezado de la key (por defecto x-api-key)" autocomplete="off" value="${esc(BH())}" style="width:100%;margin-top:6px"></section>`;
+    const transN = g => {
+        const t = String(g || '').toLowerCase();
+        return /auto/.test(t) ? 'Automático' : /mec|manual/.test(t) ? 'Mecánico' : ''
+    };
+    async function boostrFetch(pat) {
+        const r = await fetch('https://api.boostr.cl/vehicle/' + encodeURIComponent(pat) + '.json?include=owner', {
+            headers: {
+                Accept: 'application/json',
+                [BH()]: BK()
+            }
+        });
+        if (r.status == 429)
+            throw new Error('Boostr: demasiadas consultas seguidas, espera 1 minuto');
+        if (r.status == 401 || r.status == 403)
+            throw new Error('Boostr: la API key no es válida o no tiene permiso');
+        let j;
+        try {
+            j = await r.json()
+        } catch (e) {
+            throw new Error('Respuesta inválida de Boostr')
+        }
+        if (!r.ok || !j || j.status != 'success' || !j.data || typeof j.data != 'object')
+            throw new Error('Boostr: ' + ((j && (typeof j.data == 'string' ? j.data : j.message || j.code)) || ('respondió ' + r.status)));
+        const d = j.data,
+            f = (...n) => plkFind(d, n),
+            mo = String(f('engine', 'motor', 'tipoMotor') || ''),
+            serial = /^[A-Za-z0-9]{8,}$/.test(mo) && /\d/.test(mo) && /[A-Za-z]/.test(mo),
+            ow = d.owner && typeof d.owner == 'object' ? d.owner : {};
+        const x = {
+            marca: tcase(f('make', 'marca', 'brand')),
+            modelo: tcase(f('model', 'modelo')),
+            version: String(f('version', 'trim', 'versionName') || ''),
+            motor: serial ? '' : mo,
+            comb: combN(f('fuel', 'fuelType', 'fuel_type', 'combustible', 'gasType', 'gas_type', 'tipoBencina')),
+            cil: String(f('engineSize', 'engine_size', 'cilindrada', 'displacement') || ''),
+            trans: transN(f('transmission', 'transmision', 'transmissionType', 'transmission_type', 'tipoTransmision')),
+            anio: +f('year', 'ano', 'anio', 'modelYear') || '',
+            color: tcase(f('color', 'colour')),
+            km: +f('kilometers', 'kilometraje', 'km', 'mileage') || 0,
+            vin: String(f('vin', 'chassis', 'chasis', 'chassisNumber', 'numeroChasis') || ''),
+            nombre: tcase(ow.fullname || ow.name || ''),
+            rut: String(ow.documentNumber || ow.rut || '')
+        };
+        if (!x.marca && !x.modelo)
+            throw new Error('Boostr: sin datos de vehículo para ' + pat);
+        return x
+    }
+    const PLK_V = [['marca', 'Marca'], ['modelo', 'Modelo'], ['anio', 'Año'], ['version', 'Versión'], ['motor', 'Motor'], ['cil', 'Cilindrada'], ['comb', 'Combustible'], ['trans', 'Tipo de transmisión'], ['color', 'Color'], ['km', 'Kilometraje'], ['rt', 'Revisión técnica'], ['vin', 'VIN / chasis']],
+        PLK_C = [['nombre', 'Nombre'], ['rut', 'RUT']];
+    const plkCtxOf = d => {
+        if (d && d.id) {
+            const j = get(d.id);
+            return j ? {
+                ctx: d.id,
+                j
+            } : null
+        }
+        if (!D)
+            return null;
+        collect();
+        return {
+            ctx: 'new',
+            j: null
+        }
+    };
+    const plkCur = (c, sec, k) => {
+        if (c.ctx == 'new') {
+            const D_ = D || {};
+            return String(D_[k] ?? '')
+        }
+        const j = c.j;
+        if (sec == 'c')
+            return String(j.cliente[k] || '');
+        if (k == 'vin')
+            return String((j.opciones || {}).vin || '');
+        const f = k == 'comb' ? 'combustible' : k == 'trans' ? 'transmision' : k;
+        return String(j.vehiculo[f] ?? '')
+    };
+    const plkPat = c => c.ctx == 'new' ? (D.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, '') : (c.j.vehiculo.patenteN || String(c.j.vehiculo.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, ''));
+    function plkOpen(ctx) {
+        if (ctx == 'new')
+            S.ov = {
+                k: 'plk'
+            };
+        else
+            S.modal = {
+                k: 'plkr',
+                id: ctx
+            };
+        render(1)
+    }
+    function plkApply(ctx, L) {
+        // L = [{k,sec,nw}] → escribe en el formulario (D) o en la orden
+        if (!L.length)
+            return 0;
+        if (ctx == 'new') {
+            if (!D)
+                return 0;
+            collect();
+            for (const r of L) {
+                D[r.k] = r.nw
+            }
+            D._xv = true;
+            if (L.some(r => r.sec == 'c'))
+                D._xc = true;
+            return L.length
+        }
+        const j = get(ctx);
+        if (!j)
+            return 0;
+        const ch = [];
+        for (const r of L) {
+            if (r.sec == 'c') {
+                j.cliente[r.k] = r.nw;
+                ch.push('cliente ' + r.k)
+            } else if (r.k == 'vin') {
+                j.opciones = j.opciones || {};
+                j.opciones.vin = r.nw;
+                ch.push('vin')
+            } else {
+                const f = r.k == 'comb' ? 'combustible' : r.k == 'trans' ? 'transmision' : r.k;
+                j.vehiculo[f] = (r.k == 'km' || r.k == 'anio') ? (+r.nw || 0) : r.nw;
+                ch.push(f)
+            }
+        }
+        ev(j, 'vehiculo', 'datos copiados: ' + ch.join(', '));
+        saveJob(j, 1);
+        S.xc = S.xc || {};
+        S.xc[j.id + ':v'] = true;
+        if (L.some(r => r.sec == 'c'))
+            S.xc[j.id + ':c'] = true;
+        return L.length
+    }
+    function plkBox() {
+        const P = S.plkp;
+        if (!P)
+            return '';
+        const head = (t, sub) => `<b style="font-size:18px">${t}</b><div class="sm">${sub}</div>`;
+        if (P.kind == 'db') {
+            const DB = window.AutoPartsDB,
+                nm = x => typeof x == 'string' ? x : (x && (x.name || x.brand || x.title || x.model || x.slug)) || '',
+                U = a => [...new Set((a || []).map(nm).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+            let B = [],
+                M = [];
+            try {
+                B = U(DB.getBrands());
+                if (P.brand)
+                    M = U(DB.getModelsByBrand(P.brand))
+            } catch (e) {}
+            return `<div class="bd" data-a="cerrar"><div class="box plkdb" id="plkbox">${head('Catálogo de marcas y modelos', 'auto-parts-db · elige para completar o corregir')}
+               <div class="plkt">Marca</div><select data-ch="plkdb" data-w="b"><option value="">Seleccionar marca</option>${B.map(x => `<option ${x == P.brand ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+               <div class="plkt">Modelo</div><select data-ch="plkdb" data-w="m" ${P.brand ? '' : 'disabled'}><option value="">${P.brand ? 'Seleccionar modelo' : 'Primero elige la marca'}</option>${M.map(x => `<option ${x == P.model ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+               <div class="btns" style="margin-top:16px"><button data-a="cerrar">Ignorar</button><button data-a="plkdbok" ${P.brand ? '' : 'disabled'}>${ic('content_copy')} Copiar datos</button></div></div></div>`
+        }
+        const row = (r, sec) => `<label class="plkr"><input type="checkbox" data-ch="plkpk" data-k="${sec}:${r.k}" ${P.on[sec + ':' + r.k] ? 'checked' : ''}><span><b>${r.lbl}</b>${esc(String(r.nw))}${r.cur ? `<small>Ahora: ${esc(r.cur)}</small>` : '<small>Ahora: vacío</small>'}</span></label>`,
+            V = P.rows.filter(r => r.sec == 'v'),
+            C = P.rows.filter(r => r.sec == 'c');
+        return `<div class="bd" data-a="cerrar"><div class="box" id="plkbox" style="max-height:88vh;overflow:auto">${head('Datos encontrados', esc(P.pat) + ' · fuente: ' + esc(P.src))}
+          ${V.length ? `<div class="plkt">Vehículo</div>${V.map(r => row(r, 'v')).join('')}` : ''}
+          ${C.length ? `<div class="plkt">Cliente (titular según el registro)</div>${C.map(r => row(r, 'c')).join('')}<div class="plkn">El titular puede no ser quien trae el vehículo: se marca solo si el campo está vacío. Revísalo antes de copiar.</div>` : ''}
+          <div class="btns" style="margin-top:16px"><button data-a="cerrar">Ignorar datos</button><button data-a="plkcopy">${ic('content_copy')} Copiar datos</button></div></div></div>`
+    }
+    function dbLoad() {
+        return window.AutoPartsDB ? Promise.resolve() : new Promise((ok, no) => {
+            const e = document.createElement('script');
+            e.src = 'https://cdn.jsdelivr.net/npm/auto-parts-db/dist/browser/auto-parts-db.min.js';
+            e.onload = () => window.AutoPartsDB ? ok() : no(new Error('catálogo no disponible'));
+            e.onerror = () => no(new Error('sin conexión'));
+            document.head.appendChild(e)
+        })
+    }
     function pick(x, c) {
         // panel de grupos. x = id del trabajo o 'new'; c = cambiar|revisar|rep. Elige un grupo existente o crea uno nuevo
         const p = S.pk;
@@ -14359,7 +14735,7 @@
             J = x == 'new' ? null : get(x),
             nw = p.g == '__new';
         const on = i => rep ? (x == 'new' ? D.rep : J.repuestos).some(r => r.grupo == i.grupo && r.nombre == i.nombre) : (x == 'new' ? D.svc.includes(i.cod) : J.servicios.some(s => s.cod == i.cod));
-        return `<div class="pkr"><div class="sm">1. Elige un grupo o crea uno nuevo</div><div class="chips">${Gs.map(g => `<button class="chip ${p.g == g ? 'sel' : ''}" data-a="pg" data-g="${esc(g)}">${esc(g)}</button>`).join('')}<button class="chip plus ${nw ? 'sel' : ''}" data-a="pg" data-g="__new" title="Crear un grupo nuevo">${ic('add')} Nuevo grupo</button></div>${p.g ? `<div class="sm" style="margin-top:8px">2. ${nw ? 'Nombra el grupo y crea su primer elemento' : 'Toca para agregar o quitar'}</div>${nw ? '<input id="pk_g" placeholder="Nombre del nuevo grupo" style="width:100%;margin:4px 0">' : `<div class="chips">${L.filter(i => i.grupo == p.g).map(i => `<button class="chip ${on(i) ? 'done' : ''}" data-a="pi" data-x="${x}" data-cod="${esc(i.cod || '')}" data-g="${esc(i.grupo)}" data-n="${esc(i.nombre)}">${on(i) ? ic('check') : ''}${esc(i.nombre)}</button>`).join('')}</div>`}<div class="add"><input id="pk_n" placeholder="${rep ? 'Crear repuesto nuevo' : 'Crear servicio nuevo'}">${rep ? '<input id="pk_c" placeholder="Código (opcional)" style="max-width:118px" autocomplete="off">' : '<input id="pk_m" type="number" min="1" placeholder="min" style="max-width:62px">'}<button data-a="pkadd" data-x="${x}" data-c="${c}" title="Crear y agregar">${ic('add')}</button></div>` : ''}<div style="text-align:right;margin-top:6px"><button data-a="pk" data-x="${x}" data-c="${c}" style="font-size:12px">Listo</button></div></div>`
+        return `<div class="pkr"><div class="sm">1. Elige un grupo o crea uno nuevo</div><div class="chips">${Gs.map(g => `<button class="chip ${p.g == g ? 'sel' : ''}" data-a="pg" data-g="${esc(g)}">${esc(g)}</button>`).join('')}<button class="chip plus ${nw ? 'sel' : ''}" data-a="pg" data-g="__new" title="Crear un grupo nuevo">${ic('add')} Nuevo grupo</button></div>${p.g ? `<div class="sm" style="margin-top:8px">2. ${nw ? 'Nombra el grupo y crea su primer elemento' : 'Toca para agregar o quitar'}</div>${nw ? '<input id="pk_g" placeholder="Nombre del nuevo grupo" style="width:100%;margin:4px 0">' : `<div class="chips">${L.filter(i => i.grupo == p.g).map(i => `<button class="chip ${on(i) ? 'done' : ''}" data-a="pi" data-t="${rep ? 'r' : 's'}" data-x="${x}" data-cod="${rep ? '' : esc(i.cod || '')}" data-g="${esc(i.grupo)}" data-n="${esc(i.nombre)}">${on(i) ? ic('check') : ''}${esc(i.nombre)}</button>`).join('')}</div>`}<div class="add"><input id="pk_n" placeholder="${rep ? 'Crear repuesto nuevo' : 'Crear servicio nuevo'}">${rep ? '<input id="pk_c" placeholder="Código (opcional)" style="max-width:118px" autocomplete="off">' : '<input id="pk_m" type="number" min="1" placeholder="min" style="max-width:62px">'}<button data-a="pkadd" data-x="${x}" data-c="${c}" title="Crear y agregar">${ic('add')}</button></div>` : ''}<div style="text-align:right;margin-top:6px"><button data-a="pk" data-x="${x}" data-c="${c}" style="font-size:12px">Listo</button></div></div>`
     }
     /* AYUDA CONTEXTUAL: al presionar "?" solo se muestran las funciones de lo que hay en pantalla.
        HELP[clave] = bloque de una pantalla. helpKeys() decide qué bloques mostrar según la vista, el detalle abierto o el formulario.
@@ -14369,8 +14745,8 @@
         mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
-        det: ['Detalle de la orden', [['travel_explore', 'Botón junto a la patente: consulta los datos del vehículo y los guarda en la orden'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
-        nuevo: ['Crear / editar trabajo', [['travel_explore', 'Botón junto a la patente: consulta marca, modelo, año, motor, color y revisión técnica y los completa (el kilometraje solo si está vacío)'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Firebase cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
+        det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'Lupa + auto: catálogo de marcas y modelos para completar o corregir marca y modelo'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
+        nuevo: ['Crear / editar trabajo', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; elige Ignorar o Copiar datos'], ['directions_car', 'Lupa + auto: elegir marca y modelo desde el catálogo'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Firebase cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
         cfg: ['Configuración', [['expand_more', 'Tocar un bloque lo expande o lo pliega; "Quién usa este equipo" y "Conexión y datos" siempre están a la vista. Modo demo, Modo mecánico, Modo salón y Probar fondo de la sala son bloques plegables (cerrados al entrar)'], ['event_repeat', 'Motivos de reapertura: lista de motivos frecuentes al volver una orden completada al taller'], ['visibility', 'Activar u ocultar personas, sub-zonas y motivos'], ['map', 'Zonas y sub-zonas: cada sub-zona pertenece a una zona'], ['science', 'Datos demo / Vaciar todo (solo modo demo)'], ['download', 'Exportar todo a JSON']]]
     };
     function helpKeys() {
@@ -14386,7 +14762,7 @@
         return k
     }
     function helpbox() {
-        return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.filter(([i]) => FEATURE_BUSCAR_PATENTE || i != 'travel_explore').map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
+        return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.filter(([i]) => FEATURE_BUSCAR_PATENTE || !['search', 'travel_explore'].includes(i)).map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
     }
     const detail = j => {
         const t = j.tiempos,
@@ -14395,14 +14771,14 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" data-id="${j.id}" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>`}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
-         ${(() => {const xc = S.xc || {},I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', I('veh', 'marca', 'Marca') + I('veh', 'modelo', 'Modelo') + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"') + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'combustible', 'Combustible') + I('veh', 'color', 'Color') + I('veh', 'cil', 'Cilindrada') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"'), 'vg')})()}${otros(j)}
+         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', I('veh', 'marca', 'Marca') + I('veh', 'modelo', 'Modelo') + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"') + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada') + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"'), 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
-         <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map((r, i) => `<button type="button" class="chip" data-a="repm" data-x="${j.id}" data-i="${i}" title="Código del producto y código de barras">${esc(r.nombre)} ×${r.cant}${r.cod ? ' · ' + esc(r.cod) : ''}${r.bc ? ic('barcode_scanner') : ''}</button>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
+         <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map((r, i) => `<button type="button" class="chip" data-a="repm" data-x="${j.id}" data-i="${i}" title="Código del producto y código de barras">${esc(r.nombre)} ×${r.cant}${r.cod ? ' · ' + esc(r.cod) : ''}${r.precio ? ' · $' + (+r.precio).toLocaleString('es-CL') : ''}${r.bc ? ic('barcode_scanner') : ''}</button>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
          ${sec('Inspección', 'fact_check')}${inspBox(j.id)}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
          <div class="cols"><div><h3>${ic('edit_note')} Notas de la orden</h3>${notas(j, 'orden')}</div><div><h3>${ic('directions_car')} Notas del vehículo</h3>${notas(j, 'vehiculo')}</div></div>
          ${recSec(j)}<div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
@@ -14605,7 +14981,7 @@
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
-         ${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
+         ${plkSec()}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
          <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
          ${testSec()}
          ${acc('demo', 'Modo demo', 'Datos de prueba, separados de los reales', `<p class="note">${fb ? (DM() ? 'Ahora este equipo usa datos DEMO.' : 'Ahora este equipo usa datos REALES.') : 'Los datos de este navegador son de prueba.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>${DM() ? `<button data-a="vac">${ic('delete_sweep')} Vaciar demo</button>` : ''}` : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}</div>`)}
@@ -15028,6 +15404,14 @@
         const g = FSRC() == 'gal';
         return `<div class="fsrc" role="radiogroup" aria-label="Cómo agregar las fotos del esquema"><button type="button" role="radio" aria-checked="${!g}" class="${g ? '' : 'on'}" data-a="fsrc" data-v="cam">${ic('photo_camera')} Tomar foto</button><button type="button" role="radio" aria-checked="${g}" class="${g ? 'on' : ''}" data-a="fsrc" data-v="gal">${ic('photo_library')} Galería</button></div>`
     };
+    const COMB = ['Bencina', 'Diésel'],
+        TRANS = ['Mecánico', 'Automático'];
+    const vOpt = (cur, L) => {
+        const c = String(cur || ''),
+            n = c.toLowerCase();
+        let m = L.find(x => x.toLowerCase() == n) || (/gasolina|bencina/.test(n) ? 'Bencina' : /di[eé]sel|petr/.test(n) ? 'Diésel' : /auto/.test(n) ? 'Automático' : /mec|manual/.test(n) ? 'Mecánico' : '');
+        return `<option value="">Seleccionar</option>${L.map(x => `<option value="${x}" ${m == x ? 'selected' : ''}>${x}</option>`).join('')}${c && !m ? `<option value="${esc(c)}" selected>${esc(c)}</option>` : ''}`
+    }; // v9-8: selectores de combustible y transmisión
     const rfotB = j => {
         const ni = inspL(j).length,
             ib = `<button type="button" class="rfot" data-a="insp" data-id="${j.id}" title="Inspección" aria-label="Inspección">${ic('fact_check')}${ni ? `<b>${ni}</b>` : ''}</button>`;
@@ -15072,6 +15456,8 @@
                 x: 'new',
                 i: o.i
             });
+        if (o.k == 'plk')
+            return plkBox();
         const who = D.patente ? `${esc(D.patente)} · ${D.ot ? 'OT ' + esc(D.ot) : 'SOT'}` : 'Orden nueva';
         if (o.k == 'insp')
             return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div>${inspBox('new')}<div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
@@ -15146,14 +15532,14 @@
         return `<div class="bd"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic(D._edit ? 'edit' : 'edit_note')}<div><b style="font-size:18px">${D._edit ? 'Editar orden de trabajo' : 'Crear nuevo trabajo'}</b><div class="sm">${D._edit ? 'Modifique los datos, servicios o repuestos de esta orden' : 'Registre un nuevo evento para el flujo de trabajo'}</div></div><div class="sm" style="margin-left:auto;text-align:right">Hora actual<br><b style="font-size:14px;color:var(--ink)">${hm(now())}</b></div><button class="x" data-a="cerrar" title="Cerrar" style="margin-left:6px!important">${ic('close')}</button></div>
          ${sec('Tipo de trabajo', 'build')}<div class="tipo" role="radiogroup" aria-label="Tipo de trabajo"><button type="button" role="radio" aria-checked="${D.modo != 'reparacion'}" class="${D.modo != 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="proceso"><i class="dot proceso"></i><span><b>En proceso</b><small>Trabajo corto del día</small></span></button><button type="button" role="radio" aria-checked="${D.modo == 'reparacion'}" class="${D.modo == 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="reparacion"><i class="dot reparacion"></i><span><b>En reparación</b><small>Largo: 2-3 días o más, con pausas</small></span></button></div>
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
-         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? `<button class="plk${R.plk ? ' busy' : ''}" data-a="plk" title="Consultar datos de la patente" aria-label="Consultar datos de la patente">${ic('travel_explore')}</button>` : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
+         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente', 'autocapitalize=words autocomplete=name')}${f('tel', 'Teléfono o celular', 'type=tel inputmode=tel autocomplete=tel')}`, `${f('rut', 'RUT cliente', 'autocapitalize=characters')}${f('correo', 'Correo', 'type=email inputmode=email autocapitalize=none autocomplete=email')}<div class="w">${f('dir', 'Dirección', 'autocapitalize=sentences')}</div>`, 'fld')}
-         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${f('marca', 'Marca', 'autocapitalize=words')}${f('modelo', 'Modelo', 'autocapitalize=words')}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('comb', 'Combustible', 'autocapitalize=words')}${f('color', 'Color', 'autocapitalize=words')}${f('cil', 'Cilindrada')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>`, 'fld')}
+         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${f('marca', 'Marca', 'autocapitalize=words')}${f('modelo', 'Modelo', 'autocapitalize=words')}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100')}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada')}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>${rutaUI()}
          ${sec('Agregar las órdenes de trabajo', 'build')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${sel('cambiar')}</div>${bar('cambiar')}${pick('new', 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${sel('revisar')}</div>${bar('revisar')}${pick('new', 'revisar')}
-         <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}${r.cod ? ` <small>· ${esc(r.cod)}</small>` : ''}<button type="button" class="bcb" data-a="repm" data-x="new" data-i="${i}" title="Código y código de barras" aria-label="Código y código de barras">${ic('barcode_scanner')}</button><input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
+         <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}${r.cod ? ` <small>· ${esc(r.cod)}</small>` : ''}${r.precio ? ` <small>· $${(+r.precio).toLocaleString('es-CL')}</small>` : ''}<button type="button" class="bcb" data-a="repm" data-x="new" data-i="${i}" title="Código y código de barras" aria-label="Código y código de barras">${ic('barcode_scanner')}</button><input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
          <div class="cols"><div><h3>${D._edit ? 'Agregar nota a la orden' : 'Notas de la orden'}</h3><textarea data-f="notaO" rows="3" style="width:100%;border-radius:12px" placeholder="Agrega comentarios sobre la orden">${esc(D.notaO || '')}</textarea></div><div><h3>${D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo'}</h3><textarea data-f="notaV" rows="3" style="width:100%;border-radius:12px" placeholder="Estado del vehículo o eventos relevantes">${esc(D.notaV || '')}</textarea></div></div>
          ${sec('Inspección', 'fact_check')}${inspBox('new')}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
@@ -15173,6 +15559,8 @@
             return create();
         if (m.k == 'cita')
             return citaModal();
+        if (m.k == 'plkr')
+            return plkBox();
         if (m.k == 'rcs')
             return rcModal();
         if (m.k == 'subz')
@@ -16284,6 +16672,7 @@
             version: D.version || '',
             motor: D.motor || '',
             combustible: D.comb || '',
+            transmision: D.trans || '',
             km: +D.km || 0,
             color: D.color || '',
             cil: D.cil || '',
@@ -16430,7 +16819,7 @@
         // elige categoría
         pi: d => {
             const x = d.x,
-                rep = !d.cod; // agrega o quita un servicio/repuesto (borrador 'new' o trabajo existente)
+                rep = d.t ? d.t == 'r' : !d.cod; // v9-7: el tipo viene explícito (data-t); antes se deducía de data-cod y un repuesto con código se trataba como servicio // agrega o quita un servicio/repuesto (borrador 'new' o trabajo existente)
             if (x == 'new') {
                 collect();
                 if (rep) {
@@ -16579,6 +16968,7 @@
                 version: v.version,
                 motor: v.motor,
                 comb: v.combustible,
+                trans: v.transmision || '',
                 km: v.km || '',
                 rut: j.cliente.rut || '',
                 dir: j.cliente.direccion || '',
@@ -17445,76 +17835,153 @@
         },
         // v0.44: expandir/plegar Cliente y Vehículo
         plk: async d => {
-            if (!FEATURE_BUSCAR_PATENTE)
-                return; // v1: oculto por interruptor · v0.44: consulta la patente y pasa los datos a la orden (formulario o detalle)
-            if (R.plk)
+            if (!FEATURE_BUSCAR_PATENTE || R.plk)
+                return; // v9-9: busca la patente y MUESTRA los datos en una ventana (Ignorar / Copiar)
+            const c = plkCtxOf(d);
+            if (!c)
                 return;
-            const ed = !!d.id;
-            let pat = '';
-            if (ed) {
-                const j = get(d.id);
-                if (!j)
-                    return;
-                pat = j.vehiculo.patenteN || String(j.vehiculo.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
-            }
-            else {
-                if (!D)
-                    return;
-                collect();
-                pat = (D.patente || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
-            }
+            const pat = plkPat(c);
             if (pat.length < 5)
                 return toast('warning', 'Escribe la patente completa');
             R.plk = 1;
-            toast('travel_explore', 'Consultando ' + pat + '…');
+            render(1);
+            toast('search', 'Consultando ' + pat + '…');
             try {
-                const x = await plkFetch(pat);
-                if (ed) {
-                    const j = get(d.id);
-                    if (!j)
-                        return;
-                    const v = j.vehiculo,
-                        ch = [];
-                    for (const [k, f] of [['marca', 'marca'], ['modelo', 'modelo'], ['version', 'version'], ['motor', 'motor'], ['comb', 'combustible'], ['cil', 'cil'], ['anio', 'anio'], ['color', 'color'], ['rt', 'rt']])
-                        if (x[k] && v[f] != x[k]) {
-                            v[f] = x[k];
-                            ch.push(f)
+                let x = null,
+                    src = '',
+                    e1 = '';
+                if (BK()) {
+                    try {
+                        x = await boostrFetch(pat);
+                        src = 'Boostr Chile'
+                    } catch (e) {
+                        e1 = e instanceof TypeError ? 'Boostr no respondió (sin conexión o bloqueo CORS)' : e.message
+                    }
+                }
+                if (!x) {
+                    try {
+                        x = await plkFetch(pat);
+                        src = 'OpenAPI Chile'
+                    } catch (e) {
+                        throw new Error(e1 || (e instanceof TypeError ? 'No se pudo consultar (sin conexión o bloqueo CORS)' : e.message))
+                    }
+                }
+                const rows = [],
+                    on = {},
+                    add = (L, sec) => {
+                        for (const [k, lbl] of L) {
+                            const nw = String(x[k] ?? '').trim();
+                            if (!nw || nw == '0')
+                                continue;
+                            const cur = plkCur(c, sec, k);
+                            if (cur.trim().toLowerCase() == nw.toLowerCase())
+                                continue;
+                            rows.push({
+                                k,
+                                lbl,
+                                sec,
+                                nw,
+                                cur
+                            });
+                            on[sec + ':' + k] = sec == 'v' ? true : !cur
                         }
-                    if (!v.km && x.km) {
-                        v.km = x.km;
-                        ch.push('km')
-                    }
-                    j.opciones = j.opciones || {};
-                    if (!j.opciones.vin && x.vin) {
-                        j.opciones.vin = x.vin;
-                        ch.push('vin')
-                    }
-                    ev(j, 'vehiculo', 'consulta de patente: ' + (ch.join(', ') || 'sin cambios'));
-                    saveJob(j, 1);
-                    S.xc = S.xc || {};
-                    S.xc[j.id + ':v'] = true
-                }
-                else {
-                    if (!D)
-                        return;
-                    collect();
-                    for (const k of ['marca', 'modelo', 'version', 'motor', 'comb', 'cil', 'anio', 'color', 'rt'])
-                        if (x[k])
-                            D[k] = x[k];
-                    if (!D.km && x.km)
-                        D.km = x.km;
-                    if (!D.vin && x.vin)
-                        D.vin = x.vin;
-                    D._xv = true;
-                    D._known = 'Datos cargados desde la consulta de patente'
-                }
+                    };
+                add(PLK_V, 'v');
+                add(PLK_C, 'c');
                 R.plk = 0;
-                toast('check', 'Datos del vehículo cargados')
+                if (!rows.length) {
+                    render(1);
+                    return toast('info', 'La consulta no trajo datos nuevos')
+                }
+                S.plkp = {
+                    ctx: c.ctx,
+                    kind: 'pat',
+                    pat: pat,
+                    src: (e1 && src != 'Boostr Chile' ? src + ' (Boostr falló: ' + e1 + ')' : src),
+                    rows,
+                    on
+                };
+                plkOpen(c.ctx)
             }
             catch (e) {
                 R.plk = 0;
-                toast('warning', e instanceof TypeError ? 'No se pudo consultar (sin conexión o bloqueo CORS)' : e.message)
+                render(1);
+                toast('warning', e.message)
             }
+        },
+        plkcopy: () => {
+            const P = S.plkp;
+            if (!P)
+                return;
+            const L = P.rows.filter(r => P.on[r.sec + ':' + r.k]);
+            if (!L.length)
+                return toast('warning', 'No hay datos marcados para copiar');
+            const n = plkApply(P.ctx, L);
+            S.plkp = null;
+            if (P.ctx == 'new')
+                S.ov = null;
+            else
+                S.modal = null;
+            render(1);
+            toast('check', n + (n == 1 ? ' dato copiado' : ' datos copiados'))
+        },
+        plka: async d => {
+            if (!FEATURE_BUSCAR_PATENTE)
+                return;
+            const c = plkCtxOf(d);
+            if (!c)
+                return;
+            toast('directions_car', 'Cargando catálogo…');
+            try {
+                await dbLoad()
+            } catch (e) {
+                return toast('warning', 'No se pudo cargar el catálogo (' + e.message + ')')
+            }
+            const DB = window.AutoPartsDB,
+                nm = x => typeof x == 'string' ? x : (x && (x.name || x.brand || x.title || x.model || x.slug)) || '',
+                cm = plkCur(c, 'v', 'marca'),
+                cd = plkCur(c, 'v', 'modelo'),
+                same = (a, b) => plkNorm(a) == plkNorm(b);
+            let brand = '',
+                model = '';
+            try {
+                brand = (DB.getBrands() || []).map(nm).find(x => cm && same(x, cm)) || '';
+                if (brand)
+                    model = (DB.getModelsByBrand(brand) || []).map(nm).find(x => cd && same(x, cd)) || ''
+            } catch (e) {
+                return toast('warning', 'El catálogo no respondió como se esperaba')
+            }
+            S.plkp = {
+                ctx: c.ctx,
+                kind: 'db',
+                brand,
+                model
+            };
+            plkOpen(c.ctx)
+        },
+        plkdbok: () => {
+            const P = S.plkp;
+            if (!P || !P.brand)
+                return;
+            const L = [{
+                k: 'marca',
+                sec: 'v',
+                nw: P.brand
+            }];
+            if (P.model)
+                L.push({
+                    k: 'modelo',
+                    sec: 'v',
+                    nw: P.model
+                });
+            plkApply(P.ctx, L);
+            S.plkp = null;
+            if (P.ctx == 'new')
+                S.ov = null;
+            else
+                S.modal = null;
+            render(1);
+            toast('check', 'Marca y modelo copiados')
         },
         cust: () => {
             collect();
@@ -17604,6 +18071,7 @@
                         version: D.version || '',
                         motor: D.motor || '',
                         combustible: D.comb || '',
+                        transmision: D.trans || '',
                         km: +D.km || 0,
                         color: D.color || '',
                         cil: D.cil || '',
@@ -17839,7 +18307,7 @@
         render(1)
     });
     /* v2b · filtro de doble toque: una acción que MODIFICA datos no se repite si llega la misma otra vez en menos de 450 ms (evita eventos y avisos duplicados al tocar muchas veces seguidas) */
-    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'cfok']),
+    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'plka', 'plkcopy', 'plkdbok', 'cfok', 'citaok', 'cnew']),
         TAPG = {};
     function tapDup(b) {
         const a = b.dataset.a;
@@ -17870,7 +18338,14 @@
                     ...b.dataset
                 }
             };
-            A[b.dataset.a]?.(b.dataset, b, e)
+            try {
+                A[b.dataset.a]?.(b.dataset, b, e)
+            } catch (err) {
+                console.error('[acción falló]', b.dataset.a, err);
+                try {
+                    toast('warning', 'No se pudo completar la acción')
+                } catch (z) {}
+            }
         }
     });
     document.addEventListener('change', e => {
@@ -17878,6 +18353,39 @@
             k = t.dataset.ch;
         if (!k)
             return;
+        if (k == 'bkey') {
+            (S.cfg.busq = S.cfg.busq || {}).bkey = t.value.trim();
+            saveCfg();
+            toast('check', t.value.trim() ? (fb ? 'API key guardada en la base de datos (todos los dispositivos)' : 'API key guardada solo en este dispositivo (modo local)') : 'API key borrada');
+            return
+        }
+        if (k == 'plkshow') {
+            (S.cfg.busq = S.cfg.busq || {})[t.dataset.k] = t.checked;
+            saveCfg();
+            return
+        }
+        if (k == 'bhdr') {
+            (S.cfg.busq = S.cfg.busq || {}).bhdr = t.value.trim() || 'x-api-key';
+            saveCfg();
+            return
+        }
+        if (k == 'plkpk') {
+            if (S.plkp)
+                (S.plkp.on = S.plkp.on || {})[t.dataset.k] = t.checked;
+            return
+        }
+        if (k == 'plkdb') {
+            const P = S.plkp;
+            if (!P)
+                return;
+            if (t.dataset.w == 'b') {
+                P.brand = t.value;
+                P.model = ''
+            } else
+                P.model = t.value;
+            render(1);
+            return
+        }
         if (k.startsWith('cita_')) {
             const m = S.modal;
             if (!m || m.k != 'cita')
@@ -18073,6 +18581,7 @@
             version: v.version,
             motor: v.motor,
             comb: v.combustible,
+            trans: v.transmision,
             rut: o.cliente.rut,
             dir: o.cliente.direccion,
             correo: o.cliente.correo,
@@ -18087,6 +18596,12 @@
     }
     document.addEventListener('input', e => {
         const t = e.target;
+        if (t.id == 'cpat') {
+            t.value = fmtPat(t.value);
+            if (S.modal && S.modal.k == 'cita')
+                S.modal.pat = t.value;
+            return
+        }
         if (t.classList?.contains('plin')) {
             t.value = fmtPat(t.value);
             const n = t.value.replace(/[^A-Z0-9]/g, '');
@@ -18137,7 +18652,7 @@
             x,
             cl,
             m: cl == 'atraso' ? Math.max(0, Math.ceil((el(j) - j.tiempos.estSeg) / 60)) : Math.max(1, Math.ceil((j.tiempos.estSeg - el(j)) / 60)),
-            d: (j.ot ? 'OT ' + j.ot + ' · ' : '') + j.vehiculo.patente
+            d: (j.ot ? 'OT ' + j.ot + ' · ' : '') + fmtPl(j.vehiculo.patente)
         };
         {
             const ttl = cl == 'listo' ? 'Listo para entregar' : cl == 'rep' ? 'Solicitud de repuesto' : cl == 'atraso' ? 'Atrasada' + (a.m ? ' · +' + a.m + ' min' : '') : 'Por vencer · quedan ' + a.m + ' min',
@@ -18402,22 +18917,35 @@
         tick()
     }
     function vvReveal(el) {
-        // si el teclado tapa el campo, desplaza SOLO el cuerpo de la ventana (no la página)
+        // si el teclado tapa el campo, lo centra en su ventana (scrollIntoView) sin desplazar la página
         if (!el || !el.closest || !(el.tagName == 'TEXTAREA' || el.tagName == 'INPUT'))
             return;
         const c = el.closest('.bb,.dbody,.bd .box');
-        if (!c)
-            return;
         setTimeout(() => {
             if (document.activeElement !== el)
                 return;
-            const a = el.getBoundingClientRect(),
-                b = c.getBoundingClientRect(),
-                m = 24;
-            if (a.bottom > b.bottom - m)
-                c.scrollTop += a.bottom - b.bottom + m;
-            else if (a.top < b.top + m)
-                c.scrollTop -= b.top - a.top + m
+            if (el.id != 'mq') {
+                try {
+                    el.scrollIntoView({
+                        block: 'center',
+                        inline: 'nearest'
+                    })
+                } catch (e) {}
+            } // v9-7
+            const se = document.scrollingElement;
+            if (se && (se.scrollTop || se.scrollLeft)) {
+                se.scrollTop = 0;
+                se.scrollLeft = 0
+            } // el cuerpo de la página no debe moverse (dejaría un hueco)
+            if (c) {
+                const a = el.getBoundingClientRect(),
+                    b = c.getBoundingClientRect(),
+                    m = 24;
+                if (a.bottom > b.bottom - m)
+                    c.scrollTop += a.bottom - b.bottom + m;
+                else if (a.top < b.top + m)
+                    c.scrollTop -= b.top - a.top + m
+            }
         }, 380)
     }
     {
@@ -19018,7 +19546,7 @@
             v = k => esc(m[k] || '');
         return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event')}<div><b style="font-size:18px">Crear cita</b><div class="sm">Queda en el calendario con indicador violeta</div></div></div>
          <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="cdt" data-ch="cita_dt" value="${v('dt')}" style="width:100%">
-         <div class="sec">${ic('directions_car')} Patente</div><input id="cpat" data-ch="cita_pat" value="${v('pat')}" placeholder="Ej: LTKC95" autocapitalize="characters" autocomplete="off" style="width:100%">
+         <div class="sec">${ic('directions_car')} Patente</div><div class="plw" style="justify-content:center"><label class="pl f" style="min-width:190px"><small>CHILE</small><input id="cpat" data-ch="cita_pat" value="${esc(fmtPl(m.pat || ''))}" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" inputmode="text"></label></div>
          <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono (opcional)" style="width:100%;margin-top:8px">
          <div class="sec">${ic('edit_note')} Motivo</div><input id="cmot" data-ch="cita_mot" value="${v('mot')}" placeholder="Ej: Cambio de aceite" style="width:100%"><input id="cnota" data-ch="cita_nota" value="${v('nota')}" placeholder="Nota (opcional)" style="width:100%;margin-top:8px">
          <div class="btns" style="margin-top:16px"><button data-a="citaok">Guardar cita</button><button data-a="cerrar">Cancelar</button></div></div></div>`
@@ -19164,7 +19692,7 @@
                 return;
             const g = i => ($(i)?.value || '').trim(),
                 dt = g('#cdt'),
-                pat = g('#cpat').toUpperCase(),
+                pat = fmtPl(g('#cpat').toUpperCase()),
                 cli = g('#ccli');
             if (!dt)
                 return toast('warning', 'Elige fecha y hora');
@@ -19588,7 +20116,7 @@
                 k: x.r.id,
                 cat: 'rec',
                 ttl: 'Recordatorio',
-                txt: x.j.vehiculo.patente + ': ' + x.r.texto,
+                txt: fmtPl(x.j.vehiculo.patente) + ': ' + x.r.texto,
                 jid: x.j.id
             })),
             D2 = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30).map(x => ({
@@ -20068,6 +20596,8 @@
                 o.bc = {
                     ...c.bc
                 };
+            if (c.precio)
+                o.precio = c.precio;
             return o
         };
     function repApply(x, i, p) {
@@ -20104,10 +20634,19 @@
                 delete c.bc
             }
         }
+        if ('precio' in p) {
+            if (p.precio) {
+                it.precio = p.precio;
+                c.precio = p.precio
+            } else {
+                delete it.precio;
+                delete c.precio
+            }
+        }
         if (x != 'new') {
             const j = get(x);
             if (j) {
-                ev(j, 'repuesto', 'código de ' + it.nombre);
+                ev(j, 'repuesto', 'datos de ' + it.nombre);
                 saveJob(j, 1)
             }
         }
@@ -20126,10 +20665,11 @@
             k = bc ? bcKind(bc.v, bc.f) : '';
         return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">${esc(it.nombre)}</b><div class="sm">${esc(it.grupo || '')} · ${pat}</div>
          <label class="sm" for="rp_c" style="display:block;margin-top:10px;text-align:left">Código o nombre del producto</label><input id="rp_c" style="width:100%" placeholder="Código del proveedor, medida, etc." value="${esc(it.cod || '')}" maxlength="60" autocomplete="off">
+         <label class="sm" for="rp_p" style="display:block;margin-top:12px;text-align:left">Precio del repuesto (opcional)</label><input id="rp_p" type="text" inputmode="numeric" style="width:100%" placeholder="Ej: 12990" value="${it.precio ? esc(String(it.precio)) : ''}" maxlength="10" autocomplete="off">
          <div class="sm" style="margin-top:12px;text-align:left">Código de barras</div>
-         ${bc ? `<div class="bcbox">${bcSvg(bc.v, bc.f, {h: 70})}<div class="bcv">${esc(bc.v)}</div>${k == 'code128' && /^(ean|upc|code39|code128|)/.test(String(bc.f || '').toLowerCase().replace(/[^a-z0-9]/g, '')) && bc.f && !/code128|code39/.test(String(bc.f).toLowerCase().replace(/[^a-z0-9]/g, '')) ? '<div class="sm">Se dibuja como Code 128 (mismo texto).</div>' : ''}</div><div class="btns" style="flex-wrap:wrap"><button type="button" data-a="bcshow" data-x="${x}" data-i="${i}">${ic('fullscreen')} Mostrar para escanear</button><button type="button" data-a="rpclr" data-x="${x}" data-i="${i}">${ic('delete')} Quitar</button></div>` : '<div class="sm" style="text-align:left">Aún no tiene código de barras.</div>'}
+         ${bc ? `<div id="rp_prev"><div class="bcbox">${bcSvg(bc.v, bc.f, {h: 70})}<div class="bcv">${esc(bc.v)}</div>${k == 'code128' && /^(ean|upc|code39|code128|)/.test(String(bc.f || '').toLowerCase().replace(/[^a-z0-9]/g, '')) && bc.f && !/code128|code39/.test(String(bc.f).toLowerCase().replace(/[^a-z0-9]/g, '')) ? '<div class="sm">Se dibuja como Code 128 (mismo texto).</div>' : ''}</div></div><div class="btns" style="flex-wrap:wrap"><button type="button" data-a="bcshow" data-x="${x}" data-i="${i}">${ic('fullscreen')} Mostrar para escanear</button><button type="button" data-a="rpclr" data-x="${x}" data-i="${i}">${ic('delete')} Quitar</button></div>` : '<div id="rp_prev"><div class="sm" style="text-align:left">Aún no tiene código de barras.</div></div>'}
          <div class="btns" style="flex-wrap:wrap;margin-top:8px"><button type="button" data-a="rpscan" data-x="${x}" data-i="${i}">${ic('photo_camera')} ${bc ? 'Escanear de nuevo' : 'Foto del código de barras'}</button><button type="button" data-a="rpscan" data-g="1" data-x="${x}" data-i="${i}">${ic('photo_library')} Galería</button></div>
-         <input id="rp_b" style="width:100%;margin-top:8px" placeholder="…o escribe el código de barras a mano" maxlength="60" autocomplete="off">
+         <div class="rpb"><input id="rp_b" placeholder="Código de barras (texto)" maxlength="60" autocomplete="off" value="${esc(bc ? bc.v : '')}"><button type="button" data-a="rpuse" data-x="${x}" data-i="${i}" title="Copiar el código de arriba al código de barras">${ic('content_copy')} Usar código</button></div><div class="sm" style="text-align:left">Los dos campos se pueden editar por separado.</div>
          <div class="btns" style="margin-top:14px"><button type="button" data-a="rpsave" data-x="${x}" data-i="${i}">Guardar</button><button type="button" data-a="cerrar">Cerrar</button></div></div></div>`
     }
     let BCWL = null;
@@ -20144,7 +20684,33 @@
         } catch (e) {}
     }
     const bcFull = () => S.bcv ? `<div class="bcfs" data-a="bcx"><div class="bcin"><div class="bcn">${esc(S.bcv.n || '')}</div>${bcSvg(S.bcv.v, S.bcv.f, {h: 160})}<div class="bcv">${esc(S.bcv.v)}</div><div class="bch">Sube el brillo al máximo y acerca la pistola · toca para cerrar</div></div></div>` : '';
+    document.addEventListener('input', e => {
+        if (e.target.id != 'rp_b')
+            return;
+        const v = e.target.value.trim().slice(0, 60),
+            pv = document.getElementById('rp_prev');
+        if (pv && v)
+            pv.innerHTML = `<div class="bcbox">${bcSvg(v, '', {h: 70})}<div class="bcv">${esc(v)}</div><div class="sm">Vista previa · toca Guardar para conservarlo</div></div>`
+    }); // v9-7: el código de barras se dibuja mientras se escribe
     Object.assign(A, {
+        rpuse: d => {
+            const c = ($('#rp_c')?.value || '').trim().slice(0, 60);
+            if (!c) {
+                toast('warning', 'Escribe primero el código del producto');
+                $('#rp_c')?.focus();
+                return
+            }
+            repApply(d.x, +d.i, {
+                cod: c,
+                bc: {
+                    v: c,
+                    f: ''
+                }
+            });
+            render(1);
+            toast('check', 'Código de barras generado: ' + c)
+        },
+        // v9-7: copia Código → código de barras y lo genera
         ifoto: d => inspPick(d.x, 0),
         igal: d => inspPick(d.x, 1),
         repm: d => {
@@ -20168,8 +20734,10 @@
                 i = +d.i,
                 c = ($('#rp_c')?.value || '').trim().slice(0, 60),
                 b = ($('#rp_b')?.value || '').trim().slice(0, 60),
+                pr = ($('#rp_p')?.value || '').replace(/\D/g, '').slice(0, 9),
                 p = {
-                    cod: c
+                    cod: c,
+                    precio: pr ? +pr : 0
                 };
             if (b)
                 p.bc = {
@@ -20249,8 +20817,8 @@
         }
     });
 
-    /* ============ v9-5 · AGITAR 1,5 s → reiniciar táctil y pantalla ============
-       Se detecta con el acelerómetro (devicemotion): golpes de agitación seguidos, sin pausas de más de 0,4 s, durante 1,5 s.
+    /* ============ v9-5 · AGITAR 1 s → reiniciar táctil y pantalla ============
+       Se detecta con el acelerómetro (devicemotion): golpes de agitación seguidos, sin pausas de más de 0,4 s, durante 1 s.
        Abre una ventana para confirmar o cancelar. «Reiniciar» no cierra la app ni borra datos: vuelve a medir la pantalla,
        suelta toques/temporizadores pegados y redibuja todo. En iPhone el sistema pide permiso la primera vez que se toca la pantalla. */
     const SHK = {
@@ -20295,7 +20863,7 @@
         if (!SHK.t0 || now - SHK.last > 400)
             SHK.t0 = now; // se cortó la agitación: empieza de nuevo
         SHK.last = now;
-        if (now - SHK.t0 >= 1500 && now > SHK.cool) {
+        if (now - SHK.t0 >= 1000 && now > SHK.cool) {
             SHK.t0 = 0;
             SHK.need = 1;
             SHK.cool = now + 1500;
@@ -20396,7 +20964,7 @@
         }
     }
     const shkModal = () => S.shk ? `<div class="bd shkb" data-a="shkno"><div class="box c">${ic('touch_app', 'big t-mid')}<p><b>¿Reiniciar táctil y pantalla?</b></p><div class="sm">Detecté que agitaste el teléfono. Esto vuelve a medir la pantalla y destraba los toques, sin cerrar la app ni perder datos.</div><div class="btns" style="margin-top:16px"><button data-a="shkok">${ic('restart_alt')} Reiniciar</button><button data-a="shkno">Cancelar</button></div><div class="sm" style="margin-top:10px">Si no responde, agita otra vez para confirmar.</div></div></div>` : '';
-    const shkSec = () => `<section><b>Táctil y pantalla</b><div class="note">Si la app se pega o se descuadra, agita el teléfono 1,5 s: aparece una ventana para reiniciar el táctil y el tamaño de pantalla.</div><div class="li"><span>Agitar para reiniciar</span><input type="checkbox" data-ch="shake" ${SHK.on() ? 'checked' : ''}></div><div class="btns"><button data-a="shkman">${ic('restart_alt')} Reiniciar ahora</button></div></section>`;
+    const shkSec = () => `<section><b>Táctil y pantalla</b><div class="note">Si la app se pega o se descuadra, agita el teléfono 1 s: aparece una ventana para reiniciar el táctil y el tamaño de pantalla.</div><div class="li"><span>Agitar para reiniciar</span><input type="checkbox" data-ch="shake" ${SHK.on() ? 'checked' : ''}></div><div class="btns"><button data-a="shkman">${ic('restart_alt')} Reiniciar ahora</button></div></section>`;
     Object.assign(A, {
         shkok: () => shkGo(),
         shkno: (d, b, e) => {
