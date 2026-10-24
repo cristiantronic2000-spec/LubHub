@@ -13471,7 +13471,7 @@
     }
     /* ============ v4 · FOTOS DEL VEHÍCULO ============
        1) Cada foto se comprime (máx. 1600 px, JPEG) y se guarda PRIMERO en el teléfono (IndexedDB «lubfotos»): respaldo local que funciona sin conexión.
-       2) Con conexión y Firebase listo se sube a Firebase Storage (fotos/<colección>/<orden>/<zona>_<id>.jpg) y la orden guarda solo el enlace; los pendientes se reintentan solos.
+       2) Con conexión se sube a Cloudinary (fotos/<colección>/<orden>/<zona>_<id>) y la orden guarda solo el enlace; los pendientes se reintentan solos.
        3) Un sitio web NO puede escribir en la galería en silencio: el botón «Guardar en la galería» usa la hoja de compartir del teléfono («Guardar imagen») con todas las fotos pendientes.
        En «En reparación» las zonas a fotografiar salen en una plantilla con el vehículo al centro; en «En proceso» se agregan fotos libres. */
     const FZ = [{
@@ -13680,14 +13680,28 @@
         };
         i.click()
     }
+    const CLD = {
+        cloud: 'axo1zduq',
+        preset: 'lubhubphotos'
+    }; // Cloudinary: nombre de la nube y preset sin firma (Unsigned)
     const FOT = {
             put: async (path, blob) => {
-                const m = await import(fb.B + 'firebase-storage.js'),
-                    r = m.ref(m.getStorage(fb.ap), path);
-                await m.uploadBytes(r, blob, {
-                    contentType: 'image/jpeg'
+                const fd = new FormData();
+                fd.append('file', blob, 'foto.jpg');
+                fd.append('upload_preset', CLD.preset);
+                fd.append('public_id', path.replace(/\.jpg$/, ''));
+                const r = await fetch('https://api.cloudinary.com/v1_1/' + CLD.cloud + '/image/upload', {
+                    method: 'POST',
+                    body: fd
                 });
-                return m.getDownloadURL(r)
+                const j = await r.json().catch(() => ({}));
+                if (!r.ok || !j.secure_url) {
+                    const m = (j.error && j.error.message) || ('HTTP ' + r.status);
+                    S.fotErr = m;
+                    throw new Error('Cloudinary: ' + m)
+                }
+                S.fotErr = '';
+                return j.secure_url
             }
         },
         FQ = {
@@ -13695,7 +13709,7 @@
             t: 0
         };
     async function fotoUp() {
-        const put = window.lubFotPut || (fb ? FOT.put : null);
+        const put = window.lubFotPut || FOT.put;
         if (FQ.run || !put || navigator.onLine === false)
             return;
         FQ.run = 1;
@@ -13873,7 +13887,7 @@
             up = L.filter(m => m.url).length,
             pg = L.filter(m => !m.sv).length;
         return `<div class="fot ${modo == 'reparacion' ? 'tpl' : ''}" data-fx="${x}">${modo == 'reparacion' ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
-         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en Firebase${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
+         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
     }
     function fotoVer(id, x) {
         S.fv = {
