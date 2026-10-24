@@ -4,6 +4,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-visual">
     <title>Línea de trabajo · Lubricentro</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <meta name="theme-color" content="#111111">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Lubricentro">
+    <script>
+    /* v0.49 beta · icono de la aplicación: lee favicon.png (misma carpeta que este archivo). Para cambiar el nombre del archivo, edita ICONO. */
+    try {
+        var ICONO = 'favicon.png',
+            u = new URL(ICONO, location.href).href,
+            m = {
+                name: 'Línea de trabajo · Lubricentro',
+                short_name: 'Lubricentro',
+                start_url: location.href.split('#')[0],
+                display: 'standalone',
+                background_color: '#ffffff',
+                theme_color: '#111111',
+                icons: [{
+                    src: u,
+                    sizes: '192x192',
+                    type: 'image/png',
+                    purpose: 'any'
+                }, {
+                    src: u,
+                    sizes: '512x512',
+                    type: 'image/png',
+                    purpose: 'any'
+                }]
+            },
+            l = document.createElement('link');
+        l.rel = 'manifest';
+        l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {
+            type: 'application/manifest+json'
+        }));
+        document.head.appendChild(l)
+    } catch (e) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Inter:wght@400;500;700&display=swap">
@@ -16,6 +54,9 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9b (Notificaciones y recordatorios por orden): «Más» tiene una sección Notificaciones (vencidos ahora y programados, con avisos del dispositivo opcionales) y cada orden permite programar recordatorios con fecha y hora (atajos 30 min / 1 h / 3 h / mañana), marcarlos como hechos o posponerlos; al llegar la hora la app avisa y suma al globo de «Más».
+    CAMBIOS v9 (Más · calendario de citas · reingresos · pruebas): (a) la pestaña «Configuración» de la barra inferior pasó a «Más» (icono +): ahí están el calendario del mes (indicador VIOLETA = cita, NARANJA = reapertura), las 3 próximas citas/reaperturas, el botón «Ir al calendario de citas» y debajo «Ir a configuración»; (b) calendario de citas: crear cita (fecha, patente, cliente, motivo) y crear reapertura buscando una orden completada por patente u OT (reutiliza la ventana de reabrir con hora personalizada); (c) las órdenes con reingreso agendado muestran el recuadro «Reingreso agendado · fecha» y el Dashboard muestra Recordatorios (atrasadas, hoy y mañana); (d) Configuración: botones «Probar datos de Firebase» y «Probar datos de Cloudinary» con resultado paso a paso.
     CAMBIOS v4 (Paso 4 · formulario de ingreso + En reparación + fotos + flujo de estaciones): (a) hora de ingreso sugerida en gris que se actualiza sola, tiempo estimado automático editable con unidad min/horas/días y «Restablecer cálculo», entrega prometida con fecha y hora completas, teclados y etiquetas por campo, Enter pasa al siguiente campo; (b) nuevo tipo «En reparación» (azul, trabajos largos con pausas): selector en el formulario, recuadros En proceso / En reparación, bloque colapsable arriba de la línea de trabajo con resumen y destello azul; (c) fotos del vehículo con plantilla (cámara por zona) en En reparación y fotos libres en En proceso: respaldo local en IndexedDB, subida a Firebase Storage y botón para guardar en la galería; (d) flujo de estaciones: un vehículo puede pasar por varias sub-zonas en orden.
     CAMBIOS v3 (Paso 3 · eliminaciones con motivo): eliminar una orden o un aviso de reingreso abre un modal con motivo obligatorio (mínimo 3 caracteres, con mensaje de error) y Cancelar / Confirmar; al confirmar se guarda PRIMERO en el registro persistente lubri_eliminados (localStorage) y recién después se quita de la lista activa; se limpian las referencias (detalle abierto, mapa, alertas, vehículo, cachés); getEliminados() queda lista para la futura vista.
     CAMBIOS v2b (REPITE del Paso 2 · correcciones): (1) textos en rojo: la clase que se agregaba al body con el teclado abierto se llamaba "kb" y chocaba con la regla .kb{color:rojo}; ahora es "vvkb"; (2) con el teclado abierto la ventana ocupa exactamente el área sobre el teclado (el teclado se detecta por el campo en foco, no solo por la altura) y la barra inferior se oculta mientras se escribe; (3) toques desplazados: el cuerpo de la página queda fijo (sin desplazamiento del viewport), se quitó la capa compuesta de la barra inferior, el botón flotante no queda activo bajo una ventana y los avisos superiores ya no capturan toques; con ?dbg=1 aparece un panel de diagnóstico; (4) cajas de tiempos: grillas minmax(0,1fr), campos de hora sin ancho propio y apiladas en pantallas angostas; (5) Probar fondo de la sala: plegable, horas ordenadas con su hora real, sol en arco continuo con etiquetas de salida y puesta, el orbe se desvanece en el horizonte; (6) Modo demo, Modo mecánico, Modo salón y Probar fondo son bloques plegables; Modo salón tiene interruptor y Ir a modo salón no entra si está desactivado; acciones destructivas piden confirmación; (7) rendimiento: formato de hora en caché, hoy() sin Date.toDateString, orden sin localeCompare, varios render() de una misma acción se juntan, escrituras a localStorage agrupadas, filtro anti doble toque, bucle del mapa sin consultas al DOM por fotograma, comprobación de demo máx. 1 vez al día.
@@ -114,6 +155,7 @@
       notas[{id, tipo:orden|vehiculo, texto, autor, fechaISO}]
       alertas[{id, tipo:revision, texto, estado:abierta|resuelta, fechaISO}]
       eventos[{tipo, detalle, autor, fechaISO}]  ← BITÁCORA (nunca se borra)
+      recordatorios[{id, iso (fecha y hora), texto, autor, creadaISO, hecho, hechoISO}]  ← avisos programados dentro de la orden
          tipos: creado|iniciado|pausado|reanudado|completado|reabierto|nota|servicio|repuesto|alerta|vehiculo|editado
     config/principal: zonas[{id,nombre,activo,x,y,w,h}] (plano del taller, coordenadas 0-100 x 0-154), plataformas[{id,nombre,activo,zonaId}] (sub-zonas de cada zona), mecanicos[], motivos[] ({id,nombre,activo}), motivosReab[] ({id,nombre,activo}: motivos frecuentes al reabrir una orden),
       catalogo[{cod,nombre,grupo,cat,min}], repuestos[{grupo,nombre}], umbral, negocio, supervision (WhatsApp de supervisión), alertas (bool: avisos automáticos)
@@ -9577,6 +9619,691 @@
         .sk-lg::before, .sk-lg::after, #salabg .sk-rn::before, #salabg .sk-rn::after {
             animation: none !important
         }
+    }/* ---- v9 · Más / calendario de citas / recordatorios / pruebas ---- */
+    .cal {
+        border: 1.5px solid var(--line);
+        border-radius: 22px;
+        padding: 10px 10px 12px;
+        margin-top: 6px
+    }
+
+    .calh {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom:6px
+    }
+
+    .calh b {
+        font-size:16px
+    }
+
+    .calh button {
+        border: 0;
+        padding: 4px;
+        display: flex
+    }
+
+    .calg {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        text-align: center
+    }
+
+    .calg .dw {
+        font-style: normal;
+        font-size: 11px;
+        color: var(--mut);
+        padding: 2px 0
+    }
+
+    .cd {
+        border: 0;
+        border-radius: 14px;
+        padding: 3px 0 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
+        min-height: 44px;
+        font-variant-numeric: tabular-nums
+    }
+
+    .cd span {
+        font-size: 14px;
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        border-radius: 50%
+    }
+
+    .cd.td span {
+        border: 1.5px solid var(--ink);
+        line-height: 23px;
+        font-weight: 700
+    }
+
+    .cd.sel {
+        background: #111;
+        color:#fff
+    }
+
+    .cd.sel.td span {
+        border-color: #fff
+    }
+
+    .cd em {
+        display: flex;
+        gap: 3px;
+        height: 7px;
+        font-style: normal
+    }
+
+    .cd u {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        display:block
+    }
+
+    .cd u.v {
+        background:#7c3aed
+    }
+
+    .cd u.o {
+        background:var(--proceso)
+    }
+
+    .cd.sel u.v {
+        background: #b794ff
+    }
+
+    .cleg {
+        display: flex;
+        gap: 14px;
+        font-size: 12px;
+        color: var(--mut);
+        margin:8px 2px 0
+    }
+
+    .cleg u {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        margin-right: 5px;
+        vertical-align: middle
+    }
+
+    .crow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1.25px solid var(--line2);
+        border-radius: 16px;
+        padding: 8px 10px;
+        margin: 8px 0
+    }
+
+    .crow[data-a] {
+        cursor: pointer
+    }
+
+    .crow .cb {
+        width: 5px;
+        align-self: stretch;
+        border-radius: 3px;
+        flex:none
+    }
+
+    .crow.c-cita .cb {
+        background:#7c3aed
+    }
+
+    .crow.c-rea .cb {
+        background: var(--proceso)
+    }
+
+    .crow .cm {
+        flex: 1;
+        min-width:0
+    }
+
+    .crow .cr1 {
+        font-size:13px
+    }
+
+    .crow .cr2 {
+        font-size: 12px;
+        color: #444;
+        overflow-wrap:anywhere
+    }
+
+    .crow .rm {
+        color: var(--mut)
+    }
+
+    .crow.dn {
+        opacity:.55
+    }
+
+    .crow .ca {
+        display: flex;
+        flex-direction:column
+    }
+
+    .crow .ca button {
+        border: 0;
+        padding: 5px;
+        display: flex
+    }
+
+    .rtag {
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 1px 7px;
+        background: #eee;
+        color: #444;
+        white-space:nowrap
+    }
+
+    .rtag.late {
+        background: var(--pausa);
+        color:#fff
+    }
+
+    .rtag.hoy {
+        background: #7c3aed;
+        color: #fff
+    }
+
+    .cbt {
+        display: flex;
+        gap: 8px;
+        margin-top:12px
+    }
+
+    .cbt button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px
+    }
+
+    .mbtn {
+        width: 100%;
+        margin-top: 14px;
+        padding: 10px;
+        background: #111;
+        color: #fff;
+        border-color: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px
+    }
+
+    .mopt {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        text-align:left
+    }
+
+    .mopt .material-symbols-outlined:last-child {
+        margin-left: auto
+    }
+
+    .bdg.vi {
+        background: #7c3aed
+    }
+
+    .rea.ag {
+        border-color: #7c3aed;
+        background:#f3edff
+    }
+
+    .rea.ag .material-symbols-outlined {
+        color: #7c3aed
+    }
+
+    .tbox {
+        margin-top:10px
+    }
+
+    .tres {
+        margin-top: 8px
+    }
+
+    .tr {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        font-size: 12px;
+        line-height: 1.35;
+        margin: 4px 0;
+        overflow-wrap:anywhere
+    }
+
+    .tr .material-symbols-outlined {
+        font-size: 18px
+    }
+
+    .tr.ok .material-symbols-outlined {
+        color:var(--completado)
+    }
+
+    .tr.bad .material-symbols-outlined {
+        color: var(--pausa)
+    }
+
+    button[disabled] {
+        opacity: .5;
+        pointer-events: none
+    }/* ---- v9b · notificaciones y recordatorios de orden ---- */
+    .crow.c-rc .cb {
+        background: #38bdf8
+    }
+
+    .rea.rc {
+        border-color: #38bdf8;
+        background:#e8f7ff
+    }
+
+    .rea.rc .material-symbols-outlined {
+        color:#0ea5e9
+    }
+
+    .rea.rc.due {
+        border-color: var(--pausa);
+        background:#fff0f0
+    }
+
+    .rea.rc.due .material-symbols-outlined {
+        color: var(--pausa)
+    }
+
+    .rqs {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+        flex-wrap:wrap
+    }
+
+    .rqs button {
+        font-size: 11px;
+        padding: 2px 9px;
+        border-radius: 12px
+    }
+
+    .rcadd {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top:8px
+    }
+
+    .rcadd input {
+        width:100%
+    }
+
+    .rcadd .rcq {
+        display: flex;
+        gap: 6px;
+        flex-wrap:wrap
+    }
+
+    .rcadd .rcq button {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 12px
+    }
+
+    .rcl .crow {
+        margin: 6px 0
+    }
+
+    .mopt .nb {
+        margin-left: auto;
+        background: #7c3aed;
+        color: #fff;
+        border: 0;
+        border-radius: 12px;
+        min-width: 24px;
+        height: 24px;
+        font: 700 13px/24px Inter, Arial, sans-serif;
+        text-align: center;
+        padding: 0 6px
+    }
+
+    .mopt .nb + .material-symbols-outlined {
+        margin-left: 8px
+    }
+
+    .nsub {
+        font-size: 12px;
+        color: var(--mut);
+        margin: 4px 2px 0
+    }/* ---- v0.49 beta · banners desde arriba, notificaciones, horario, fotos ---- */
+
+    #stk {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: calc(var(--vvt, 0px) + max(8px, env(safe-area-inset-top, 0px)));
+        z-index: 70;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+        pointer-events: none
+    }
+
+    #stk #alb, #stk #tst {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: auto;
+        width: 100%;
+        max-width: 460px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: none
+    }
+
+    #stk .alb {
+        margin-bottom: 8px
+    }
+
+    .alb.tb {
+        padding: 10px 8px 10px 14px;
+        font-size: 14px;
+        border-radius: 22px;
+        gap: 10px;
+        border-width: 1.5px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .22)
+    }
+
+    .alb.tb .tx {
+        white-space:normal
+    }
+
+    .alb.tb .tx b {
+        font-size:15px
+    }
+
+    .alb.tb .tx span {
+        display: block
+    }
+
+    .alb.tb > .material-symbols-outlined:first-child {
+        font-size: 26px;
+        flex: none
+    }
+
+    .alb.tb button {
+        font-size: 13px;
+        padding: 6px 10px;
+        border: 0;
+        background: transparent;
+        font-weight: 700
+    }
+
+    .alb.tb .xx {
+        padding: 4px
+    }
+
+    .alb.ok {
+        border-color:var(--completado)
+    }
+
+    .alb.ok > .material-symbols-outlined:first-child {
+        color: var(--completado)
+    }
+
+    .alb.atraso > .material-symbols-outlined:first-child {
+        color: var(--pausa)
+    }
+
+    .alb.vencer > .material-symbols-outlined:first-child {
+        color: #c99700
+    }
+
+    .alb.rec {
+        border-color: #38bdf8;
+        background:#f2fbff
+    }
+
+    .alb.rec > .material-symbols-outlined:first-child {
+        color: #0ea5e9
+    }
+
+    .alb.cita {
+        border-color:#7c3aed
+    }
+
+    .alb.cita > .material-symbols-outlined:first-child {
+        color: #7c3aed
+    }
+
+    .alb.cierre {
+        border-color:#f26a21
+    }
+
+    .alb.cierre > .material-symbols-outlined:first-child {
+        color: #f26a21
+    }
+
+    .alb.listo > .material-symbols-outlined:first-child, .alb.rep > .material-symbols-outlined:first-child {
+        color: #f26a21
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes tbin {
+            from {
+                opacity: 0;
+                transform:translateY(-90px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes tbout {
+            to {
+                opacity: 0;
+                transform: translateY(-90px)
+            }
+        }
+
+        .alb.tb {
+            animation:tbin .38s cubic-bezier(.2, .9, .3, 1.1) both
+        }
+
+        .alb.tb.out {
+            animation: tbout .22s ease-in forwards
+        }
+    }
+
+    .top .tcfg {
+        margin-left: auto
+    }
+
+    .crow.c-n .cb {
+        background:#9aa3ad
+    }
+
+    .crow.c-n.c-vencer .cb {
+        background:var(--cola)
+    }
+
+    .crow.c-n.c-atraso .cb {
+        background:var(--pausa)
+    }
+
+    .crow.c-n.c-listo .cb, .crow.c-n.c-rep .cb, .crow.c-n.c-cierre .cb {
+        background:#f26a21
+    }
+
+    .crow.c-n.c-rec .cb {
+        background:#38bdf8
+    }
+
+    .crow.c-n.c-cita .cb {
+        background: #7c3aed
+    }
+
+    .crow.c-n.dn {
+        opacity: .75
+    }
+
+    .mgap {
+        margin-top:34px
+    }
+
+    .verb {
+        text-align: center;
+        color: var(--mut);
+        font-size: 12px;
+        margin: 28px 0 12px;
+        letter-spacing: .3px
+    }
+
+    .nsw {
+        align-items: center;
+        padding: 6px 0;
+        border-bottom:1px solid var(--line2)
+    }
+
+    .nsw span {
+        display: flex;
+        flex-direction: column;
+        font-weight:600
+    }
+
+    .nsw.lock {
+        opacity: .6;
+        cursor:default
+    }
+
+    .nsw small {
+        font-weight: 400;
+        color: var(--mut);
+        font-size: 12px
+    }
+
+    .nsec {
+        margin-top:18px
+    }
+
+    .nsec > b {
+        font-size:16px
+    }
+
+    .nsec .note {
+        margin: 2px 0 6px
+    }
+
+    .hr {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 6px 0;
+        flex-wrap:wrap
+    }
+
+    .hr .hd {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 118px;
+        font-weight:600
+    }
+
+    .hr input[type=time] {
+        width: 112px
+    }
+
+    .fsrc {
+        display: flex;
+        gap: 6px;
+        margin: 0 0 10px;
+        border: 1.25px solid var(--line2);
+        border-radius: 14px;
+        padding: 3px
+    }
+
+    .fsrc button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 0;
+        border-radius: 11px;
+        padding: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        background: transparent
+    }
+
+    .fsrc button.on {
+        background: #111;
+        color:#fff
+    }
+
+    .fsrc button .material-symbols-outlined {
+        font-size: 20px
+    }
+
+    .rfw {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 6px
+    }
+
+    .rfot {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.25px solid var(--line2);
+        background: #fff;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        padding: 0
+    }
+
+    .rfot .material-symbols-outlined {
+        font-size:20px
+    }
+
+    .rfot b {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        background: #111;
+        color: #fff;
+        font: 700 10px/16px Inter, Arial, sans-serif;
+        text-align: center
     }
     </style>
 </head>
@@ -9584,7 +10311,10 @@
     <div id="app"></div>
     <nav id="nav" aria-label="Menú principal"></nav>
     <div id="modal"></div>
-    <div id="alb"></div>
+    <div id="stk">
+        <div id="alb"></div>
+        <div id="tst"></div>
+    </div>
     <div id="fbst" role="status"></div>
     <script type="module">
     /* ============ 1. CONFIGURACIÓN (pega aquí tu config de Firebase) ============ */
@@ -9643,6 +10373,7 @@
             activo: true
         })),
         recepcion: [],
+        citas: [],
         umbral: 80,
         avisoMin: 20,
         negocio: '',
@@ -9985,7 +10716,7 @@
         return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
          <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          ${fb && !DM() && !S.jobs.length ? `<div class="empty">Aún no hay órdenes reales en la base.<br><button data-a="modo" style="margin-top:8px">${ic('science')} Usar datos DEMO</button></div>` : ''}
-         <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
+         ${remSec()}<div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
          <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="dsec"><h2>Trabajos más solicitados</h2>${kpiTop()}</div>
@@ -9994,9 +10725,15 @@
     function navbar() {
         if (MODO == 'sala')
             return '';
-        const T = [['home', 'dashboard', 'Dashboard'], ['linea', 'format_list_numbered', 'Línea de trabajo'], ['mapa', 'warehouse', 'Mapa de procesos'], ['comp', 'assignment_turned_in', 'Órdenes completas'], ['cfg', 'settings', 'Configuración']],
-            cur = S.view == 'zona' ? 'linea' : S.view;
-        return T.map(([v, i, t]) => `<button class="${cur == v ? 'on' : ''}" data-a="go" data-v="${v}" ${cur == v ? 'aria-current="page"' : ''}><span class="hi">${ic(i)}${v == 'linea' ? homeBadge() : ''}</span><small>${t}</small></button>`).join('')
+        const T = [['home', 'dashboard', 'Dashboard'], ['linea', 'format_list_numbered', 'Línea de trabajo'], ['mapa', 'warehouse', 'Mapa de procesos'], ['comp', 'assignment_turned_in', 'Órdenes completas'], MODO == 'mec' ? ['cfg', 'settings', 'Configuración'] : ['mas', 'add', 'Más']],
+            cur = ({
+                zona: 'linea',
+                cal: 'mas',
+                not: 'mas',
+                nset: 'mas',
+                cfg: MODO == 'mec' ? 'cfg' : 'mas'
+            })[S.view] || S.view;
+        return T.map(([v, i, t]) => `<button class="${cur == v ? 'on' : ''}" data-a="go" data-v="${v}" ${cur == v ? 'aria-current="page"' : ''}><span class="hi">${ic(i)}${v == 'linea' ? homeBadge() : v == 'mas' ? masBadge() : ''}</span><small>${t}</small></button>`).join('')
     }
     const homeBadge = () => {
         const A = S.jobs.filter(j => j.estado != 'completado'),
@@ -11738,7 +12475,7 @@
         },
         jcard = (j, z) => {
             const ac = j.estado == 'pausa' ? AC.reanudar : j.estado == 'cola' ? AC.iniciar : AC.completar;
-            return `${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${sc(j)}"></i><span>${ESTADO[sc(j)]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div>${S.mfc == j.id ? `<div class="zcf"><b>${AC[S.mfa || 'completar'][3]}</b><div><button class="zno" data-a="mfno">Cancelar</button><button class="zyes" data-a="mfok" data-id="${j.id}">${AC[S.mfa || 'completar'][1]}</button></div></div>` : `<div class="zbt"><button class="zact" data-a="mfin" data-id="${j.id}" data-ac="${ac[0]}">${ic(ac[2])} ${ac[1]}</button><button class="zgo" data-a="dpop" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`}`
+            return `${plate(j.vehiculo.patente, 's')}<div class="jr"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${sc(j)}"></i><span>${ESTADO[sc(j)]}</span></div>${j.cliente.nombre ? `<div class="sm">${esc(j.cliente.nombre)}</div>` : ''}<div class="sm">${esc(z.nombre)} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div>${S.mfc == j.id ? `<div class="zcf"><b>${AC[S.mfa || 'completar'][3]}</b><div><button class="zno" data-a="mfno">Cancelar</button><button class="zyes" data-a="mfok" data-id="${j.id}">${AC[S.mfa || 'completar'][1]}</button></div></div>` : `<div class="zbt"><button class="zact" data-a="${ac[0] == 'completar' ? 'com' : 'mfin'}" data-id="${j.id}" data-ac="${ac[0]}">${ic(ac[2])} ${ac[1]}</button><button class="zgo" data-a="dpop" data-id="${j.id}" title="Ver este proceso">${ic('arrow_circle_right')}</button></div>`}`
         },
         jpop = () => {
             const j = S.mj && get(S.mj);
@@ -13067,17 +13804,14 @@
         } catch (e) {}
     }
     function toast(icono, txt) {
-        S.toast = {
-            icono,
-            txt
-        };
-        render(1);
-        clearTimeout(R.tt);
-        R.tt = setTimeout(() => {
-            S.toast = null;
-            render(1)
-        }, 1800)
-    }
+        bnr({
+            k: 'msg',
+            ic: icono,
+            t: txt,
+            raw: 1,
+            ms: icono == 'warning' ? 4200 : 2800
+        })
+    } // v0.49: los mensajes bajan desde arriba como banner (ya no ventana central)
 
     /* ============ 6. VISTAS ============ */
     const plate = (p, c='') => `<span class="pl ${c}"><small>CHILE</small><b>${esc(p || '—')}</b></span>`; // patente chilena minimalista
@@ -13090,7 +13824,7 @@
     const side = j => `<div class="side">${j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'pausa' ? `<button data-a="ini" data-id="${j.id}" title="Reanudar">${ic('replay')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : `<button data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button>`}</div>`;
     const row = j => {
         const [tx, cl] = estado(j);
-        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}${plate(j.vehiculo.patente, 's')}<div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${rfotB(j)}${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -13109,10 +13843,18 @@
             n: E.length
         }
     }; // última reapertura (de la bitácora, que nunca se borra)
-    const reaBox = j => {
+    const reaBox0 = j => {
         const r = reaOf(j);
         return r ? `<div class="rea">${ic('replay')}<div><b>Orden reactivada</b> · ${fdt(r.iso)}${r.n > 1 ? ` <small>(${r.n}.ª vez)</small>` : ''}${r.mot ? `<div class="rm">${esc(r.mot)}</div>` : ''}</div>${MODO == 'admin' ? `<button class="v3rdel" data-a="bdel" data-id="${j.id}" aria-label="Eliminar aviso de reingreso" title="Eliminar aviso">${ic('delete')}</button>` : ''}</div>` : ''
     };
+    const agBox = j => {
+        const i = reaIso(j);
+        if (!i || j.estado != 'cola')
+            return '';
+        const t = remTag(i);
+        return `<div class="rea ag">${ic('event_repeat')}<div><b>Reingreso agendado</b> · ${fdt(i)} <span class="rtag ${t.c}">${t.t}</span></div></div>`
+    }; // v9
+    const reaBox = j => reaBox0(j) + agBox(j) + recBox(j);
     const notas = (j, t) => `<div class="nt">${j.notas.filter(n => n.tipo == t).reverse().map(n => `<p>${esc(n.texto)}<br><small>${esc(n.autor)} · ${hm(n.fechaISO)}</small></p>`).join('') || '<span class="mut">Sin comentarios registrados.</span>'}</div>${j.estado == 'completado' ? '' : `<div class="add"><input placeholder="Agregar nota" aria-label="Nota"><button data-a="nota" data-id="${j.id}" data-t="${t}" title="Agregar">${ic('add')}</button></div>`}`;
     /* "+" abre un panel con categorías → al elegir una categoría aparecen sus opciones (como en el prototipo) */
     const plus = (x, c) => `<button class="chip plus" data-a="pk" data-x="${x}" data-c="${c}" title="Agregar">${ic('add')}</button>`;
@@ -13222,7 +13964,7 @@
        HELP[clave] = bloque de una pantalla. helpKeys() decide qué bloques mostrar según la vista, el detalle abierto o el formulario.
        Si agregas una función o pantalla, agrégala aquí. */
     const HELP = {
-        home: ['Dashboard', [['wb_sunny', 'Saludo según la hora, con fecha y hora en vivo'], ['warehouse', 'Mapa: solo el número de trabajos por zona; el borde blanco parpadea suave si la zona está activa'], ['build', 'Globos: resumen del día (en proceso, en pausa, en cola y completadas hoy); tocar uno abre la Línea de trabajo filtrada; con 0 el punto queda quieto y apagado'], ['add', 'Nuevo trabajo: botón negro bajo "Ver en línea de trabajo'], ['format_list_numbered', 'Trabajos en proceso ahora: tocar uno lo abre; pausar o completar desde los botones de la derecha'], ['garage', 'Talleres activos: acceso directo al detalle de cada zona con procesos, pausas o colas'], ['query_stats', 'Flujo y rendimiento: KPI del taller (puntualidad, tiempos, ingresadas, espera en cola, pausas, reaperturas, por mecánico, motivos de pausa)'], ['autorenew', 'Trabajos más solicitados: tipo, cantidad y recurrencia ("1 cada X") de los trabajos, y vehículos que vuelven'], ['dashboard', 'Barra inferior: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Configuración']]],
+        home: ['Dashboard', [['wb_sunny', 'Saludo según la hora, con fecha y hora en vivo'], ['warehouse', 'Mapa: solo el número de trabajos por zona; el borde blanco parpadea suave si la zona está activa'], ['build', 'Globos: resumen del día (en proceso, en pausa, en cola y completadas hoy); tocar uno abre la Línea de trabajo filtrada; con 0 el punto queda quieto y apagado'], ['add', 'Nuevo trabajo: botón negro bajo "Ver en línea de trabajo'], ['format_list_numbered', 'Trabajos en proceso ahora: tocar uno lo abre; pausar o completar desde los botones de la derecha'], ['garage', 'Talleres activos: acceso directo al detalle de cada zona con procesos, pausas o colas'], ['query_stats', 'Flujo y rendimiento: KPI del taller (puntualidad, tiempos, ingresadas, espera en cola, pausas, reaperturas, por mecánico, motivos de pausa)'], ['autorenew', 'Trabajos más solicitados: tipo, cantidad y recurrencia ("1 cada X") de los trabajos, y vehículos que vuelven'], ['dashboard', 'Barra inferior: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Más (calendario de citas y configuración)']]],
         mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
@@ -13262,7 +14004,7 @@
          <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map(r => `<span class="chip">${esc(r.nombre)} ×${r.cant}</span>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
          ${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
          <div class="cols"><div><h3>${ic('edit_note')} Notas de la orden</h3>${notas(j, 'orden')}</div><div><h3>${ic('directions_car')} Notas del vehículo</h3>${notas(j, 'vehiculo')}</div></div>
-         <div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
+         ${recSec(j)}<div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
          <div><h3>Problemas con la OT</h3><div class="chips" style="flex-wrap:nowrap"><button data-a="alerta" data-id="${j.id}" style="font-size:11px">${ic('fact_check')} Solicitar revisión</button><button data-a="sup" data-id="${j.id}" title="WhatsApp de supervisión">${ic('sms')}</button></div>${j.alertas.filter(a => a.estado == 'abierta').map(a => `<div class="sm al">${ic('warning')} ${esc(a.texto)} <button data-a="alres" data-id="${j.id}" data-i="${a.id}" style="border:0;padding:0" title="Resolver">${ic('done')}</button></div>`).join('')}</div></div>
          ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
          </div><div class="ft"><button data-a="help" title="Ayuda">${ic('help')}</button><button data-a="log" title="Bitácora">${ic('history')}</button><button data-a="del" data-id="${j.id}" title="Eliminar">${ic('delete')}</button>
@@ -13456,13 +14198,15 @@
     const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><span class="${x.activo ? '' : 'mut'}">${esc(x.nombre)}</span><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
     function config() {
         const X = skyTM();
-        return `<div class="top"><button data-a="go" data-v="home">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
+        return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
          <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
          ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden.')}${lst('recepcion', 'Quién ingresa las órdenes', 'Personal de recepción que registra cada orden.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
+         ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
          ${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
          <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
+         ${testSec()}
          ${acc('demo', 'Modo demo', 'Datos de prueba, separados de los reales', `<p class="note">${fb ? (DM() ? 'Ahora este equipo usa datos DEMO.' : 'Ahora este equipo usa datos REALES.') : 'Los datos de este navegador son de prueba.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>${DM() ? `<button data-a="vac">${ic('delete_sweep')} Vaciar demo</button>` : ''}` : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}</div>`)}
          ${acc('mec', 'Modo mecánico', 'Usar este equipo como puesto de un taller', `<p class="note">El equipo queda con la vista simple del mecánico (su zona y sub-zona). Para volver, mantén presionado el nombre de la zona.</p><div class="btns"><button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button></div>`)}
          ${acc('sala', 'Modo salón', 'Pantalla de la sala de espera', `<label class="swt"><input type="checkbox" data-ch="salaon" ${salaOn() ? 'checked' : ''}><i></i><span>${salaOn() ? 'Modo salón activado' : 'Modo salón desactivado'}</span></label><div class="btns"><button data-a="meq" data-m="sala" ${salaOn() ? '' : 'class="off" aria-disabled="true"'}>${ic('tv')} Ir a modo salón</button></div><p class="note">${salaOn() ? 'Al tocar «Ir a modo salón» este equipo pasa a mostrar la sala de espera.' : 'Desactivado: «Ir a modo salón» no hace nada y este equipo no entra a la sala.'}</p>`)}
@@ -13657,7 +14401,7 @@
         i.accept = 'image/*';
         if (!gal)
             i.setAttribute('capture', 'environment');
-        i.multiple = !!gal;
+        i.multiple = !!gal && !slot;
         i.style.display = 'none';
         document.body.appendChild(i);
         i.addEventListener('cancel', () => i.remove());
@@ -13689,7 +14433,6 @@
                 const fd = new FormData();
                 fd.append('file', blob, 'foto.jpg');
                 fd.append('upload_preset', CLD.preset);
-                fd.append('public_id', path.replace(/\.jpg$/, ''));
                 const r = await fetch('https://api.cloudinary.com/v1_1/' + CLD.cloud + '/image/upload', {
                     method: 'POST',
                     body: fd
@@ -13713,7 +14456,9 @@
         if (FQ.run || !put || navigator.onLine === false)
             return;
         FQ.run = 1;
-        let pend = 0;
+        let pend = 0,
+            okU = 0;
+        const e0 = S.fotErr || '';
         try {
             for (const r of await FDB.all()) {
                 if (r.up)
@@ -13738,6 +14483,7 @@
                 }
                 r.up = 1;
                 r.url = url;
+                okU = 1;
                 await FDB.put(r);
                 m.url = url;
                 saveJob(j, 1)
@@ -13747,7 +14493,11 @@
         } finally {
             FQ.run = 0;
             clearTimeout(FQ.t);
-            FQ.t = pend ? setTimeout(fotoUp, 45000) : 0
+            FQ.t = pend ? setTimeout(fotoUp, 45000) : 0;
+            if (okU || (S.fotErr || '') !== e0)
+                try {
+                    render(1)
+                } catch (x) {}
         }
     }
     function fotoKick() {
@@ -13866,6 +14616,23 @@
         }
     }
     const FCAR = '<svg class="fcar" viewBox="0 0 100 130" aria-hidden="true"><g stroke="#9aa3ad" stroke-width="1.4" fill="none"><rect x="31" y="14" width="38" height="102" rx="15" fill="#f3f5f8"/><path d="M35 38 Q50 31 65 38 L63 51 Q50 47 37 51Z" fill="#dfe6ee"/><rect x="36" y="54" width="28" height="26" rx="5" fill="#eaeff5"/><path d="M37 83 Q50 87 63 83 L65 95 Q50 101 35 95Z" fill="#dfe6ee"/><rect x="25" y="26" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="69" y="26" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="25" y="86" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="69" y="86" width="6" height="18" rx="3" fill="#cfd6df"/></g></svg>';
+    const FSRC = () => {
+        try {
+            return localStorage.lubri_fsrc == 'gal' ? 'gal' : 'cam'
+        } catch (e) {
+            return 'cam'
+        }
+    };
+    const fsrcSel = () => {
+        const g = FSRC() == 'gal';
+        return `<div class="fsrc" role="radiogroup" aria-label="Cómo agregar las fotos del esquema"><button type="button" role="radio" aria-checked="${!g}" class="${g ? '' : 'on'}" data-a="fsrc" data-v="cam">${ic('photo_camera')} Tomar foto</button><button type="button" role="radio" aria-checked="${g}" class="${g ? 'on' : ''}" data-a="fsrc" data-v="gal">${ic('photo_library')} Galería</button></div>`
+    };
+    const rfotB = j => {
+        if (j.modo == 'reparacion' || j.estado == 'completado')
+            return '';
+        const n = (j.fotos || []).length;
+        return `<button type="button" class="rfot" data-a="rfot" data-id="${j.id}" title="Agregar fotos" aria-label="Agregar fotos">${ic('add_a_photo')}${n ? `<b>${n}</b>` : ''}</button>`
+    };
     function fotosSec(x) {
         const isNew = x == 'new',
             j = isNew ? null : get(x);
@@ -13878,7 +14645,7 @@
             img = m => `<img data-fid="${m.id}" alt="Foto" src="${FT.get(m.id) || m.url || ''}">`,
             cam = (s, n) => {
                 const m = by(s);
-                return m ? `<button type="button" class="fcam ok" data-a="fver" data-id="${m.id}" data-x="${x}" title="${n} · ver" aria-label="${n}: ver foto">${img(m)}<i class="fchk">${ic('check')}</i></button>` : `<button type="button" class="fcam" ${lock ? 'disabled' : ''} data-a="fcam" data-x="${x}" data-s="${s}" title="${n}" aria-label="${n}: tomar foto">${ic('photo_camera')}</button>`
+                return m ? `<button type="button" class="fcam ok" data-a="fver" data-id="${m.id}" data-x="${x}" title="${n} · ver" aria-label="${n}: ver foto">${img(m)}<i class="fchk">${ic('check')}</i></button>` : `<button type="button" class="fcam" ${lock ? 'disabled' : ''} data-a="fcam" data-x="${x}" data-s="${s}" title="${n}" aria-label="${n}: ${FSRC() == 'gal' ? 'elegir de la galería' : 'tomar foto'}">${ic(FSRC() == 'gal' ? 'photo_library' : 'photo_camera')}</button>`
             },
             extra = L.filter(m => !(modo == 'reparacion' && [...FZ, ...FX].some(z => z.k == m.slot))),
             free = `<div class="fgrid">${extra.map(m => `<button type="button" class="fth" data-a="fver" data-id="${m.id}" data-x="${x}" aria-label="Ver foto">${img(m)}</button>`).join('')}${lock ? '' : `<button type="button" class="fadd" data-a="fcam" data-x="${x}" data-s="">${ic('add_a_photo')}<small>Foto</small></button><button type="button" class="fadd" data-a="fpick" data-x="${x}">${ic('photo_library')}<small>Galería</small></button>`}</div>`,
@@ -13886,8 +14653,8 @@
             dn = modo == 'reparacion' ? [...FZ, ...FX].filter(z => by(z.k)).length : 0,
             up = L.filter(m => m.url).length,
             pg = L.filter(m => !m.sv).length;
-        return `<div class="fot ${modo == 'reparacion' ? 'tpl' : ''}" data-fx="${x}">${modo == 'reparacion' ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
-         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
+        return `<div class="fot ${modo == 'reparacion' ? 'tpl' : ''}" data-fx="${x}">${fsrcSel()}${modo == 'reparacion' ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
+         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${isNew && L.length - up ? ' · se suben al guardar la orden' : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
     }
     function fotoVer(id, x) {
         S.fv = {
@@ -13968,7 +14735,7 @@
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
          ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><div><div class="sm">N° de chasis (VIN)</div>${fbi('vin', 'VIN', 'autocapitalize=characters')}</div><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
          ${sec('Tiempos', 'schedule')}<div class="fld tm"><div><label class="sm" for="f_ingreso">Hora de ingreso</label><input id="f_ingreso" type="time" data-f="ingreso" class="${D._ingEdit ? '' : 'sug'}" value="${esc(D._ingEdit ? (D.ingreso || '') : hhmm(now()))}" enterkeyhint="next" aria-describedby="ingh"></div><div><label class="sm" for="f_estMin">Tiempo estimado</label><div class="estw"><input id="f_estMin" type="number" min="0" step="any" inputmode="decimal" data-f="estMin" class="${D._estEdit ? '' : 'sug'}" value="${esc(D._estEdit ? (D.estMin || '') : fmtEst(est, D.estU))}" enterkeyhint="next"><select data-f="estU" aria-label="Unidad del tiempo estimado">${[['min', 'min'], ['h', 'horas'], ['d', 'días']].map(([v, t]) => `<option value="${v}" ${(D.estU || 'min') == v ? 'selected' : ''}>${t}</option>`).join('')}</select></div></div></div>
-         <div class="est" id="ingh">${D._ingEdit ? 'Hora editada a mano.' : 'La hora (en gris) se actualiza sola: si no la cambias, se guarda la hora exacta en que confirmas.'}</div>
+         ${D._edit && D.iniD ? `<div class="sm" style="margin-top:8px">Inicio y fin del proceso</div><div class="fld tm"><div><label class="sm" for="f_iniD">Inicio (fecha y hora)</label><input id="f_iniD" type="datetime-local" data-f="iniD" value="${esc(D.iniD)}"></div>${D.finD ? `<div><label class="sm" for="f_finD">Fin (fecha y hora)</label><input id="f_finD" type="datetime-local" data-f="finD" value="${esc(D.finD)}"></div>` : ''}</div><div class="est">Al cambiar el inicio o el fin, el tiempo trabajado se ajusta en la misma cantidad (las pausas se conservan).</div>` : ''}<div class="est" id="ingh">${D._ingEdit ? 'Hora editada a mano.' : 'La hora (en gris) se actualiza sola: si no la cambias, se guarda la hora exacta en que confirmas.'}</div>
          <div class="est">${D._estEdit ? `Editado a mano · cálculo automático: <b>${fdur(est * 60)}</b> <button type="button" class="lnk" data-a="estreset">${ic('restart_alt')} Restablecer cálculo</button>` : `Calculado sumando la duración de los servicios: <b>${fdur(est * 60)}</b>. Puedes editarlo.`}</div>
          <div class="sm" style="margin-top:8px">Entrega prometida</div><div class="fld tm"><div><label class="sm" for="entD">Fecha</label><input id="entD" type="date" data-f="entD" value="${esc(D.entD || '')}" enterkeyhint="next"></div><div><label class="sm" for="entH">Hora</label><input id="entH" type="time" data-f="entH" value="${esc(D.entH || '')}" enterkeyhint="done"></div></div>
          <div class="chips entq">${[[0, 'Hoy'], [1, 'Mañana'], [2, 'En 2 días'], [3, 'En 3 días']].map(([n, t]) => `<button type="button" class="chip" data-a="entq" data-d="${n}">${t}</button>`).join('')}${D.entD || D.entH ? `<button type="button" class="chip" data-a="entq" data-d="x">${ic('close')} Quitar</button>` : ''}</div><div class="est">Se guarda como fecha y hora completas (para el futuro calendario de reservas).</div>
@@ -13980,6 +14747,10 @@
             return '';
         if (m.k == 'new')
             return create();
+        if (m.k == 'cita')
+            return citaModal();
+        if (m.k == 'rcs')
+            return rcModal();
         if (m.k == 'subz')
             return subz();
         if (m.k == 'mapaed')
@@ -14009,14 +14780,23 @@
               <input id="rmot" data-ch="rmot" style="width:100%;margin-top:8px" placeholder="Detalle (opcional; obligatorio si eliges Otro)" value="${esc(m.mot || '')}">
               <div class="btns" style="margin-top:16px"><button data-a="reabok" data-id="${j.id}">Reabrir</button><button data-a="cerrar">Cancelar</button></div></div></div>`
         }
+        if (m.k == 'comc') {
+            const j = get(m.id);
+            if (!j)
+                return '';
+            const seg = j.estado == 'pausa' ? 'Seguir en pausa' : 'Continuar en proceso';
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('task_alt', 'big t-mid')}<p><b>¿Completar esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · ${j.ot ? 'OT ' + esc(j.ot) : 'SOT'} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm" style="margin-top:6px">Se detiene el cronómetro y el vehículo sale del taller.</div><div class="btns" style="margin-top:16px;flex-wrap:wrap"><button data-a="comok" data-id="${j.id}">${ic('check')} Completar</button><button data-a="cerrar">${seg}</button></div></div></div>`
+        }
         if (m.k == 'sig') {
             const j = get(m.id);
             if (!j)
                 return '';
             const r = rutaOf(j),
                 p = j.paso || 0;
-            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('alt_route', 'big t-mid')}<p><b>¿Qué hacemos con esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · estación ${p + 1} de ${r.length}: ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="btns" style="margin-top:14px;flex-wrap:wrap"><button data-a="sigok" data-id="${j.id}">${ic('arrow_forward')} Pasar a ${esc(rutaNext(j))}</button><button data-a="comall" data-id="${j.id}">${ic('check')} Completar la orden</button><button data-a="cerrar">Volver</button></div></div></div>`
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('alt_route', 'big t-mid')}<p><b>¿Qué hacemos con esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · estación ${p + 1} de ${r.length}: ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="btns" style="margin-top:14px;flex-wrap:wrap"><button data-a="sigok" data-id="${j.id}">${ic('arrow_forward')} Pasar a ${esc(rutaNext(j))}</button><button data-a="comall" data-id="${j.id}">${ic('check')} Completar la orden</button><button data-a="cerrar">Continuar en proceso</button></div></div></div>`
         }
+        if (m.k == 'cf')
+            return cfModal(m);
         if (m.k == 'del' || m.k == 'bdel')
             return delModal(m);
         const opts = S.cfg.motivos.filter(x => x.activo).map(x => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('');
@@ -14582,18 +15362,28 @@
         rPend = 0,
         rPF = 0;
     function armOk(k, msg) {
-        const n = Date.now();
-        if (R.arm && R.arm.k == k && n - R.arm.t > 600 && n - R.arm.t < 5000) {
-            R.arm = null;
+        // v0.49: acciones destructivas: abre una ventana con los botones Confirmar / Cancelar (ya no hay que tocar dos veces)
+        if (R.cfOk === k) {
+            R.cfOk = null;
             return true
         }
-        R.arm = {
-            k,
-            t: n
+        const c = R.curA || {};
+        S.modal = {
+            k: 'cf',
+            key: k,
+            a: c.a,
+            d: c.d || {},
+            msg: msg || ''
         };
-        toast('warning', msg || 'Toca otra vez para confirmar');
+        render(1);
         return false
-    } // acciones destructivas: primer toque avisa, segundo confirma
+    }
+    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
+    const cfModal = m => {
+        const [i, t, ok] = CFT(m.key || ''),
+            sub = String(m.msg || '').replace(/\.?\s*Toca otra vez[^.]*\.?$/i, '').trim();
+        return `<div class="bd" data-a="cerrar"><div class="box c">${ic(i, 'big t-' + (i == 'delete' ? 'del' : 'mid'))}<p><b>${t}</b></p>${sub ? `<div class="sm">${esc(sub)}</div>` : ''}<div class="btns" style="margin-top:16px"><button data-a="cfok">${ok}</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    };
     function render(f) {
         // v2b: varios render() dentro de la misma acción se juntan: el primero es inmediato y el resto se dibuja UNA vez al terminar la acción
         if (rBusy) {
@@ -14651,6 +15441,10 @@
                 linea,
                 comp: completas,
                 cfg: MODO == 'mec' ? vMecSet : config,
+                mas: vMas,
+                cal: vCal,
+                not: vNot,
+                nset: vNset,
                 mec: vMec,
                 sala: vSala
             },
@@ -14982,6 +15776,35 @@
         }
         if (j.estado == 'proceso' && D.plat != j.plataformaId && S.jobs.some(x => x.plataformaId == D.plat && x.estado == 'proceso' && x.id != j.id))
             return toast('warning', 'Ya hay un trabajo en proceso en esa sub-zona');
+        const e1 = (j.eventos || []).find(x => x.tipo == 'iniciado'),
+            tI = j.tiempos,
+            ni = D.iniD ? new Date(D.iniD).getTime() : NaN,
+            nf = D.finD ? new Date(D.finD).getTime() : NaN;
+        let dI = 0,
+            dF = 0;
+        if (e1 && !isNaN(ni)) {
+            const o0 = Date.parse(e1.fechaISO);
+            if (Math.abs(ni - o0) >= 6e4)
+                dI = ni - o0
+        }
+        if (j.estado == 'completado' && tI.completadoISO && !isNaN(nf)) {
+            const o0 = Date.parse(tI.completadoISO);
+            if (Math.abs(nf - o0) >= 6e4)
+                dF = nf - o0
+        }
+        if (dI || dF) {
+            const sI = e1 ? (dI ? ni : Date.parse(e1.fechaISO)) : 0,
+                sF = dF ? nf : Date.parse(tI.completadoISO || 0);
+            if (dI && ni > Date.now() + 6e4)
+                return toast('warning', 'El inicio no puede estar en el futuro');
+            if (dF && nf > Date.now() + 6e4)
+                return toast('warning', 'El fin no puede estar en el futuro');
+            if (j.estado == 'completado' && sF <= sI)
+                return toast('warning', 'El fin debe ser posterior al inicio');
+            const w = j.estado == 'completado' ? tI.realSeg + (dF - dI) / 1000 : el(j) - dI / 1000;
+            if (w < 0)
+                return toast('warning', 'Esas horas dejarían un tiempo trabajado negativo')
+        }
         const cat = S.cfg.catalogo,
             v = j.vehiculo,
             o = j.opciones || {},
@@ -15091,6 +15914,26 @@
             d.setHours(+h, +m, 0, 0);
             j.tiempos.ingresoISO = d.toISOString();
             ch.push('ingreso')
+        }
+        if (dI || dF) {
+            const ev0 = e1 && e1.fechaISO,
+                f0 = tI.completadoISO;
+            if (dI) {
+                e1.fechaISO = new Date(ni).toISOString();
+                ch.push('inicio ' + fdt(ev0) + ' → ' + fdt(e1.fechaISO))
+            }
+            if (dF) {
+                tI.completadoISO = new Date(nf).toISOString();
+                const ec = [...j.eventos].reverse().find(x => x.tipo == 'completado');
+                if (ec)
+                    ec.fechaISO = tI.completadoISO;
+                ch.push('fin ' + fdt(f0) + ' → ' + fdt(tI.completadoISO))
+            }
+            if (j.estado == 'completado') {
+                tI.realSeg = Math.max(0, Math.round(tI.realSeg + (dF - dI) / 1000));
+                tI.acumSeg = tI.realSeg
+            } else if (dI)
+                tI.acumSeg = Math.max(0, tI.acumSeg - dI / 1000)
         }
         const nn = (tp, x) => {
             if (x && x.trim()) {
@@ -15321,7 +16164,12 @@
                 vin: o.vin || '',
                 espera: !!o.espera,
                 ingreso: hhmm(j.tiempos.ingresoISO),
-                estMin: manual ? fmtEst(mins, u) : ''
+                estMin: manual ? fmtEst(mins, u) : '',
+                iniD: (() => {
+                    const e = (j.eventos || []).find(x => x.tipo == 'iniciado');
+                    return e ? dtLocal(Date.parse(e.fechaISO)) : ''
+                })(),
+                finD: j.estado == 'completado' && j.tiempos.completadoISO ? dtLocal(Date.parse(j.tiempos.completadoISO)) : ''
             };
             S.pk = null;
             S.modal = {
@@ -15389,7 +16237,16 @@
             R.nc = 1;
             render(1)
         },
-        fcam: d => fotoPick(d.x, d.s || '', 0),
+        fcam: d => fotoPick(d.x, d.s || '', FSRC() == 'gal' && d.s ? 1 : 0),
+        fsrc: d => {
+            if (D && S.modal && S.modal.k == 'new')
+                collect();
+            try {
+                localStorage.lubri_fsrc = d.v == 'gal' ? 'gal' : 'cam'
+            } catch (e) {}
+            render(1)
+        },
+        rfot: d => fotoPick(d.id, '', FSRC() == 'gal' ? 1 : 0),
         fpick: d => fotoPick(d.x, '', 1),
         fver: d => fotoVer(d.id, d.x),
         fgal: d => fotoGaleria(d.x),
@@ -15413,11 +16270,23 @@
         },
         sigok: d => {
             S.modal = null;
+            if (S.view == 'mapa') {
+                S.vp = null;
+                S.mj = null;
+                S.zp = null;
+                S.mfc = null
+            }
             mover(d.id, 'siguiente');
             toast('alt_route', 'Pasó a la siguiente estación (en cola)')
         },
         comall: d => {
             S.modal = null;
+            if (S.view == 'mapa') {
+                S.vp = null;
+                S.mj = null;
+                S.zp = null;
+                S.mfc = null
+            }
             mover(d.id, 'completar')
         },
         help: () => {
@@ -15762,6 +16631,22 @@
                 render(1);
                 return
             }
+            if (j && j.estado != 'completado') {
+                S.modal = {
+                    k: 'comc',
+                    id: j.id
+                };
+                render(1)
+            }
+        },
+        comok: d => {
+            S.modal = null;
+            if (S.view == 'mapa') {
+                S.vp = null;
+                S.mj = null;
+                S.zp = null;
+                S.mfc = null
+            }
             mover(d.id, 'completar')
         },
         reab: d => {
@@ -15796,6 +16681,12 @@
                 ant = ingT(t.ingresoISO);
             t.ultimoInicioISO = null;
             t.completadoISO = null;
+            j.reingresoISO = modo == 'prog' ? new Date(dt).toISOString() : null;
+            if (modo == 'prog') {
+                S.cd2 = dkey(dt);
+                const q = new Date(dt);
+                S.cm = [q.getFullYear(), q.getMonth()]
+            } // v9: fecha del reingreso agendado (calendario)
             if (modo == 'nuevo') {
                 t.ingresoISO = now();
                 t.acumSeg = 0;
@@ -16440,7 +17331,7 @@
         render(1)
     });
     /* v2b · filtro de doble toque: una acción que MODIFICA datos no se repite si llega la misma otra vez en menos de 450 ms (evita eventos y avisos duplicados al tocar muchas veces seguidas) */
-    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk']),
+    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'cfok']),
         TAPG = {};
     function tapDup(b) {
         const a = b.dataset.a;
@@ -16465,6 +17356,12 @@
                 return;
             if (b.tagName == 'BUTTON')
                 navigator.vibrate?.(8);
+            R.curA = {
+                a: b.dataset.a,
+                d: {
+                    ...b.dataset
+                }
+            };
             A[b.dataset.a]?.(b.dataset, b, e)
         }
     });
@@ -16473,6 +17370,36 @@
             k = t.dataset.ch;
         if (!k)
             return;
+        if (k.startsWith('cita_')) {
+            const m = S.modal;
+            if (!m || m.k != 'cita')
+                return;
+            m[k.slice(5)] = t.value;
+            if (k == 'cita_pat') {
+                const n = pN(t.value),
+                    j = n && S.jobs.filter(x => pN(x.vehiculo.patente) == n).sort((a, b) => cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO))[0];
+                if (j) {
+                    const c = $('#ccli'),
+                        f = $('#ctel');
+                    if (c && !c.value) {
+                        c.value = m.cli = j.cliente?.nombre || ''
+                    }
+                    if (f && !f.value) {
+                        f.value = m.tel = j.cliente?.telefono || ''
+                    }
+                }
+            }
+            return
+        } // v9: formulario de cita
+        if (k == 'rc_q') {
+            const m = S.modal;
+            if (m && m.k == 'rcs') {
+                m.q = t.value;
+                m.go = 1;
+                render(1)
+            }
+            return
+        }
         if (k == 'salaon') {
             try {
                 localStorage.lubri_salaon = t.checked ? '1' : '0'
@@ -16667,6 +17594,14 @@
             m: cl == 'atraso' ? Math.max(0, Math.ceil((el(j) - j.tiempos.estSeg) / 60)) : Math.max(1, Math.ceil((j.tiempos.estSeg - el(j)) / 60)),
             d: (j.ot ? 'OT ' + j.ot + ' · ' : '') + j.vehiculo.patente
         };
+        {
+            const ttl = cl == 'listo' ? 'Listo para entregar' : cl == 'rep' ? 'Solicitud de repuesto' : cl == 'atraso' ? 'Atrasada' + (a.m ? ' · +' + a.m + ' min' : '') : 'Por vencer · quedan ' + a.m + ' min',
+                txt = a.d + (x ? ' · ' + x : '');
+            devPush(cl, ttl, txt);
+            if (!NP.app[cl])
+                return;
+            nlog(cl, ttl, txt, j.id)
+        }
         AL.q = AL.q.filter(x => x.id !== a.id);
         AL.q.push(a);
         if (!AL.cur)
@@ -16722,7 +17657,9 @@
         if (!b || !AL.cur)
             return;
         if (b.dataset.al == 'c') {
-            mover(AL.cur.jid, 'completar')
+            A.com({
+                id: AL.cur.jid
+            })
         }
         if (b.dataset.al == 'v') {
             S.open = null;
@@ -16815,8 +17752,12 @@
             render()
     }
     setInterval(() => {
-        if (document.hidden)
-            return;
+        if (document.hidden) {
+            try {
+                watch()
+            } catch (e) {}
+            return
+        }
         formTick();
         document.querySelectorAll('[data-c]').forEach(n => {
             const j = get(n.dataset.c);
@@ -17368,6 +18309,921 @@
         });
         ['pointerup', 'pointercancel', 'pointermove'].forEach(t => document.addEventListener(t, cl))
     }
+
+    /* ============ v9 · MÁS · CALENDARIO DE CITAS · REINGRESOS · RECORDATORIOS · PRUEBAS ============
+       Citas: S.cfg.citas[{id, iso, pat, cli, tel, mot, nota, hecha}] (violeta). Reaperturas: órdenes con j.reingresoISO (naranja),
+       que se crean con la ventana «Reabrir» en modo «hora personalizada». Recordatorios = pendientes atrasados, de hoy y de mañana. */
+    const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        DSEM = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+    const dkey = d => {
+        d = d instanceof Date ? d : new Date(d);
+        return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate())
+    };
+    const pN = s => String(s || '').replace(/[^0-9a-z]/gi, '').toUpperCase();
+    const dayDiff = iso => Math.round((new Date(iso).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 864e5);
+    const remTag = iso => {
+        const d = dayDiff(iso);
+        return d < 0 ? {
+            t: 'Atrasada',
+            c: 'late',
+            d
+        } : d == 0 ? {
+            t: 'Hoy',
+            c: 'hoy',
+            d
+        } : d == 1 ? {
+            t: 'Mañana',
+            c: '',
+            d
+        } : {
+            t: 'En ' + d + ' días',
+            c: '',
+            d
+        }
+    };
+    function reaIso(j) {
+        if (j.reingresoISO)
+            return j.reingresoISO;
+        if (j.estado == 'cola') {
+            const E = (j.eventos || []).filter(e => e.tipo == 'reabierto'),
+                e = E[E.length - 1];
+            if (e && /^programada/.test(e.detalle || ''))
+                return j.tiempos.ingresoISO
+        }
+        return null
+    } // también reconoce reingresos programados antes de la v9
+    function calItems() {
+        const A = [];
+        (S.cfg.citas || []).forEach(c => A.push({
+            t: 'cita',
+            id: c.id,
+            iso: c.iso,
+            pat: c.pat,
+            cli: c.cli,
+            tel: c.tel,
+            mot: c.mot,
+            nota: c.nota,
+            done: !!c.hecha
+        }));
+        S.jobs.forEach(j => {
+            const i = reaIso(j);
+            if (i)
+                A.push({
+                    t: 'rea',
+                    id: j.id,
+                    iso: i,
+                    pat: j.vehiculo.patente,
+                    ot: j.ot,
+                    cli: (j.cliente || {}).nombre || '',
+                    tel: (j.cliente || {}).telefono || '',
+                    mot: (reaOf(j) || {}).mot || '',
+                    done: j.estado != 'cola'
+                })
+        });
+        return A.sort((a, b) => cmpS(a.iso, b.iso))
+    }
+    const calUp = () => calItems().filter(x => !x.done && dayDiff(x.iso) >= 0);
+    const remList = () => calItems().filter(x => {
+        if (x.done)
+            return false;
+        const d = dayDiff(x.iso);
+        return d <= 1 && d >= -30
+    });
+    const masBadge = () => {
+        const n = remList().filter(x => dayDiff(x.iso) <= 0).length + dueRecs().length;
+        return n ? `<span class="bdg vi" title="Citas o reaperturas para hoy o atrasadas">${n}</span>` : ''
+    };
+    const calYM = () => S.cm || (S.cm = [new Date().getFullYear(), new Date().getMonth()]);
+    function monthGrid(sel, act) {
+        const [y, m] = calYM(),
+            off = (new Date(y, m, 1).getDay() + 6) % 7,
+            dim = new Date(y, m + 1, 0).getDate(),
+            by = {},
+            td = dkey(new Date());
+        calItems().forEach(x => {
+            const k = dkey(x.iso),
+                b = by[k] = by[k] || {
+                    c: 0,
+                    r: 0
+                };
+            x.t == 'cita' ? b.c++ : b.r++
+        });
+        let h = `<div class="cal"><div class="calh"><button data-a="cmv" data-d="-1" aria-label="Mes anterior">${ic('chevron_left')}</button><b>${MESES[m]} ${y}</b><button data-a="cmv" data-d="1" aria-label="Mes siguiente">${ic('chevron_right')}</button></div><div class="calg">${DSEM.map(d => `<i class="dw">${d}</i>`).join('')}`;
+        for (let i = 0; i < off; i++)
+            h += '<i></i>';
+        for (let d = 1; d <= dim; d++) {
+            const k = y + '-' + p2(m + 1) + '-' + p2(d),
+                b = by[k];
+            h += `<button class="cd ${k == td ? 'td' : ''} ${k == sel ? 'sel' : ''}" data-a="${act}" data-k="${k}" aria-label="${d} de ${MESES[m]}"><span>${d}</span><em>${b && b.c ? '<u class="v"></u>' : ''}${b && b.r ? '<u class="o"></u>' : ''}</em></button>`
+        }
+        return h + '</div></div><div class="cleg"><span><u style="background:#7c3aed"></u>Cita</span><span><u style="background:var(--proceso)"></u>Reapertura</span></div>'
+    }
+    const calRow = (x, full) => {
+        const t = remTag(x.iso),
+            cita = x.t == 'cita';
+        return `<div class="crow c-${x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">Atendida</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
+    };
+    function remSec() {
+        const R3 = dueRecs(),
+            L = remList();
+        if (!L.length && !R3.length)
+            return '';
+        return `<div class="dsec"><h2>Recordatorios</h2>${R3.slice(0, 3).map(x => recN(x, 1)).join('')}${L.slice(0, 5).map(x => calRow(x)).join('')}${L.length > 5 ? `<div class="sm">+${L.length - 5} más en el calendario de citas</div>` : ''}</div>`
+    }
+    function vMas() {
+        const up = calUp().slice(0, 3);
+        return `<div class="top"><h1>Más</h1></div><div class="mas">${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button></div><div class="verb">v0.49 beta</div></div>`
+    }
+    function vCal() {
+        const sel = S.cd2 || dkey(new Date()),
+            L = calItems().filter(x => dkey(x.iso) == sel),
+            [y, m, d] = sel.split('-').map(Number),
+            tt = new Date(y, m - 1, d).toLocaleDateString('es-CL', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long'
+            });
+        return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Calendario de citas</h1></div>${monthGrid(sel, 'csel')}<div class="cbt"><button data-a="cnew">${ic('add')} Crear cita</button><button data-a="crea">${ic('replay')} Crear reapertura</button></div><h2>${esc(tt.charAt(0).toUpperCase() + tt.slice(1))}</h2>${L.map(x => calRow(x, 1)).join('') || '<div class="mut">Sin citas ni reaperturas este día.</div>'}`
+    }
+    const calDef = () => {
+        const s = S.cd2 || dkey(new Date()),
+            [y, m, d] = s.split('-').map(Number);
+        let t = new Date(y, m - 1, d, 9, 0);
+        if (t < Date.now()) {
+            t = new Date(Math.ceil(Date.now() / 36e5) * 36e5);
+            if (dkey(t) != s && s < dkey(new Date())) {
+                t = new Date();
+                t.setDate(t.getDate() + 1);
+                t.setHours(9, 0, 0, 0)
+            }
+        }
+        return dtLocal(t.getTime())
+    };
+    function citaModal() {
+        const m = S.modal,
+            v = k => esc(m[k] || '');
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event')}<div><b style="font-size:18px">Crear cita</b><div class="sm">Queda en el calendario con indicador violeta</div></div></div>
+         <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="cdt" data-ch="cita_dt" value="${v('dt')}" style="width:100%">
+         <div class="sec">${ic('directions_car')} Patente</div><input id="cpat" data-ch="cita_pat" value="${v('pat')}" placeholder="Ej: LTKC95" autocapitalize="characters" autocomplete="off" style="width:100%">
+         <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono (opcional)" style="width:100%;margin-top:8px">
+         <div class="sec">${ic('edit_note')} Motivo</div><input id="cmot" data-ch="cita_mot" value="${v('mot')}" placeholder="Ej: Cambio de aceite" style="width:100%"><input id="cnota" data-ch="cita_nota" value="${v('nota')}" placeholder="Nota (opcional)" style="width:100%;margin-top:8px">
+         <div class="btns" style="margin-top:16px"><button data-a="citaok">Guardar cita</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
+    function rcModal() {
+        const m = S.modal,
+            q = String(m.q || '').trim(),
+            n = pN(q);
+        let R2 = [];
+        if (m.go && n)
+            R2 = S.jobs.filter(j => pN(j.vehiculo.patente).includes(n) || String(j.ot || '').trim().toLowerCase() == q.toLowerCase()).sort((a, b) => (a.estado == 'completado' ? 0 : 1) - (b.estado == 'completado' ? 0 : 1) || cmpS(b.tiempos.completadoISO || '', a.tiempos.completadoISO || '')).slice(0, 6);
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('replay')}<div><b style="font-size:18px">Crear reapertura</b><div class="sm">Busca la orden completada por patente u OT</div></div></div>
+         <div class="add" style="margin-top:10px"><input id="rcq" data-ch="rc_q" value="${esc(m.q || '')}" placeholder="Patente u orden de trabajo" autocapitalize="characters" autocomplete="off"><button data-a="rcbuscar" title="Buscar">${ic('search')}</button></div>
+         ${m.go ? (R2.length ? R2.map(j => {const ok = j.estado == 'completado';return `<div class="crow" style="cursor:default"><div class="cm"><div class="cr1"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span> ${ok ? 'Completada ' + fdt(j.tiempos.completadoISO || j.tiempos.ingresoISO) : '<span class="rtag">Aún no completada</span>'}</div><div class="cr2">${esc((j.cliente || {}).nombre || '')}${j.titulo ? ' · ' + esc(j.titulo) : ''}</div></div>${plate(j.vehiculo.patente, 's')}${ok ? `<button data-a="rcpick" data-id="${j.id}" title="Elegir" style="border:0">${ic('chevron_right')}</button>` : ''}</div>`}).join('') : `<div class="mut" style="margin-top:10px">No encontré órdenes con «${esc(q)}».</div>`) : ''}
+         <div class="btns" style="margin-top:16px"><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
+    /* ---- Pruebas de conexión (Configuración) ---- */
+    const wt = (p, ms) => Promise.race([p, new Promise((_, x) => setTimeout(() => x({
+        code: 'timeout',
+        message: 'sin respuesta en ' + ms / 1000 + ' s'
+    }), ms))]);
+    const trRow = ([o, t]) => `<div class="tr ${o ? 'ok' : 'bad'}">${ic(o ? 'check_circle' : 'error')}<span>${t}</span></div>`;
+    function testSec() {
+        const T = S.tr || {},
+            bx = (k, ic2, act, lbl) => `<div class="tbox"><button data-a="${act}" ${T[k] && T[k].run ? 'disabled' : ''}>${ic(ic2)} ${lbl}</button>${T[k] ? `<div class="tres">${T[k].run ? '<div class="note">Probando…</div>' : T[k].L.map(trRow).join('')}</div>` : ''}</div>`;
+        return `<section><b>Pruebas de conexión</b><p class="note">Comprueba paso a paso que los datos lleguen a cada servicio.</p>${bx('fb', 'cloud_sync', 'tfb', 'Probar datos de Firebase')}${bx('cl', 'image', 'tcl', 'Probar datos de Cloudinary')}</section>`
+    }
+    async function testFB() {
+        const T = S.tr = S.tr || {},
+            L = [],
+            ok = (o, t) => L.push([o, t]);
+        T.fb = {
+            run: 1
+        };
+        render(1);
+        try {
+            ok(1, 'Proyecto: ' + esc(FIREBASE_CONFIG.projectId || '—') + ' · datos ' + (DM() ? 'DEMO' : 'REALES') + ' (' + esc(COL()) + ' / ' + esc(CFGC()) + ')');
+            if (!fb) {
+                ok(0, 'Firebase no está conectado' + (S.fbErr ? ': ' + esc(S.fbErr) : '') + '. Los datos se guardan solo en este navegador.');
+                if (FIREBASE_CONFIG.apiKey) {
+                    const d = await fbDiag();
+                    ok(!!d.ok, esc(d.t) + (d.d ? ' ' + esc(d.d) : ''))
+                } else
+                    ok(0, 'Falta pegar la config de Firebase en FIREBASE_CONFIG.')
+            }
+            else {
+                const F = fb.f,
+                    r = F.doc(fb.db, '_sistema', 'ping');
+                let t0 = performance.now();
+                try {
+                    await wt(F.setDoc(r, {
+                        t: now(),
+                        origen: 'prueba'
+                    }), 12000);
+                    ok(1, 'Escritura correcta (' + Math.round(performance.now() - t0) + ' ms)');
+                    t0 = performance.now();
+                    const g = await wt(F.getDocFromServer(r), 12000);
+                    ok(g.exists(), g.exists() ? 'Lectura desde el servidor correcta (' + Math.round(performance.now() - t0) + ' ms)' : 'Se escribió pero no se pudo leer: revisa las reglas de Firestore.');
+                    const c = await wt(F.getDocFromServer(F.doc(fb.db, CFGC(), 'principal')), 12000);
+                    ok(1, 'Configuración ' + esc(CFGC()) + ': ' + (c.exists() ? 'encontrada' : 'aún no existe (se crea al guardar algo)') + ' · citas guardadas: ' + (S.cfg.citas || []).length);
+                    let n;
+                    try {
+                        n = F.getCountFromServer ? (await wt(F.getCountFromServer(F.collection(fb.db, COL())), 12000)).data().count : (await wt(F.getDocs(F.collection(fb.db, COL())), 12000)).size
+                    } catch (e) {
+                        n = null
+                    }
+                    ok(n != null, n != null ? 'Órdenes en ' + esc(COL()) + ': ' + n + ' · en pantalla: ' + S.jobs.length : 'No pude contar las órdenes de ' + esc(COL()) + '.')
+                }
+                catch (e) {
+                    ok(0, esc(fbWhy(e)));
+                    const d = await fbDiag();
+                    ok(!!d.ok, esc(d.t) + (d.d ? ' ' + esc(d.d) : ''))
+                }
+            }
+        }
+        catch (e) {
+            ok(0, esc(String(e && e.message || e)))
+        }
+        T.fb = {
+            L
+        };
+        render(1)
+    }
+    async function testCLD() {
+        const T = S.tr = S.tr || {},
+            L = [],
+            ok = (o, t) => L.push([o, t]);
+        T.cl = {
+            run: 1
+        };
+        render(1);
+        ok(1, 'Nube: ' + esc(CLD.cloud) + ' · preset: ' + esc(CLD.preset));
+        try {
+            const png = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='), c => c.charCodeAt(0)),
+                t0 = performance.now(),
+                u = await wt(FOT.put('prueba', new Blob([png], {
+                    type: 'image/png'
+                })), 20000);
+            ok(1, 'Subida correcta (' + Math.round(performance.now() - t0) + ' ms). Se envió una imagen de 1×1 px; puedes borrarla desde tu Media Library.');
+            ok(1, 'Enlace: <a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(u) + '</a>')
+        }
+        catch (e) {
+            const m = String(e && e.message || e);
+            ok(0, esc(m));
+            ok(0, /preset/i.test(m) ? 'Revisa que el preset «' + esc(CLD.preset) + '» exista en Cloudinary y esté en modo Unsigned.' : /cloud/i.test(m) ? 'Revisa el nombre de la nube («' + esc(CLD.cloud) + '»).' : 'Revisa tu conexión a internet o bloqueadores de contenido.')
+        }
+        T.cl = {
+            L
+        };
+        render(1)
+    }
+    /* ---- Acciones ---- */
+    Object.assign(A, {
+        cmv: d => {
+            const [y, m] = calYM(),
+                n = new Date(y, m + +d.d, 1);
+            S.cm = [n.getFullYear(), n.getMonth()];
+            render(1)
+        },
+        cday: d => {
+            A.go({
+                v: 'cal'
+            });
+            S.cd2 = d.k;
+            const [y, m] = d.k.split('-').map(Number);
+            S.cm = [y, m - 1];
+            render(1)
+        },
+        csel: d => {
+            S.cd2 = d.k;
+            render(1)
+        },
+        cnew: () => {
+            S.modal = {
+                k: 'cita',
+                dt: calDef()
+            };
+            render(1)
+        },
+        citaok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'cita')
+                return;
+            const g = i => ($(i)?.value || '').trim(),
+                dt = g('#cdt'),
+                pat = g('#cpat').toUpperCase(),
+                cli = g('#ccli');
+            if (!dt)
+                return toast('warning', 'Elige fecha y hora');
+            if (!pat && !cli)
+                return toast('warning', 'Escribe la patente o el cliente');
+            (S.cfg.citas = S.cfg.citas || []).push({
+                id: uid(),
+                iso: new Date(dt).toISOString(),
+                pat,
+                cli,
+                tel: g('#ctel'),
+                mot: g('#cmot'),
+                nota: g('#cnota'),
+                creadaISO: now()
+            });
+            const q = new Date(dt);
+            S.cd2 = dkey(q);
+            S.cm = [q.getFullYear(), q.getMonth()];
+            S.modal = null;
+            saveCfg();
+            toast('event', 'Cita creada')
+        },
+        cdone: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            c.hecha = !c.hecha;
+            saveCfg()
+        },
+        cdel2: d => {
+            if (!armOk('cdel2' + d.id, 'Toca otra vez para eliminar la cita'))
+                return;
+            S.cfg.citas = (S.cfg.citas || []).filter(x => x.id != d.id);
+            saveCfg();
+            toast('delete', 'Cita eliminada')
+        },
+        copen: d => {
+            const j = get(d.id);
+            if (!j)
+                return;
+            A.go({
+                v: j.estado == 'completado' ? 'comp' : 'linea'
+            });
+            S.open = j.id;
+            render(1)
+        },
+        crea: () => {
+            S.modal = {
+                k: 'rcs',
+                q: '',
+                go: 0
+            };
+            render(1)
+        },
+        rcbuscar: () => {
+            const m = S.modal;
+            if (!m || m.k != 'rcs')
+                return;
+            m.q = $('#rcq')?.value || m.q || '';
+            m.go = 1;
+            render(1)
+        },
+        rcpick: d => {
+            S.modal = {
+                k: 'reab',
+                id: d.id,
+                step: 2,
+                modo: 'prog',
+                dt: calDef(),
+                fromCal: 1
+            };
+            render(1)
+        },
+        tfb: () => {
+            testFB()
+        },
+        tcl: () => {
+            testCLD()
+        }
+    });
+    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl'].forEach(x => TAPS.add(x));
+    Object.assign(HELP, {
+        mas: ['Más', [['calendar_month', 'Calendario del mes: violeta = cita, naranja = reapertura; tocar un día abre el calendario de citas en esa fecha'], ['event_upcoming', 'Las 3 próximas citas o reaperturas, con etiqueta Hoy / Mañana / Atrasada'], ['event', 'Ir al calendario de citas'], ['settings', 'Ir a configuración']]],
+        cal: ['Calendario de citas', [['calendar_month', 'Tocar un día muestra sus citas y reaperturas'], ['add', 'Crear cita: fecha, patente, cliente y motivo (si la patente ya existe, completa el cliente)'], ['replay', 'Crear reapertura: busca una orden completada por patente u OT y elige la fecha y hora de reingreso'], ['check_circle', 'Marcar una cita como atendida o eliminarla'], ['notifications', 'Recordatorios: lo atrasado, de hoy y de mañana aparece en el Dashboard y como globo violeta en «Más»']]]
+    });
+    HELP.det[1].push(['alarm', 'Recordatorios de la orden: escribe qué recordar, elige 30 min / 1 h / 3 h / mañana o una fecha y hora, y toca «Programar recordatorio»']);
+    HELP.cfg[1].push(['cloud_sync', 'Pruebas de conexión: «Probar datos de Firebase» (escribe, lee y cuenta datos) y «Probar datos de Cloudinary» (sube una imagen de 1×1 px)']);
+
+    /* ============ v9b · RECORDATORIOS DE ORDEN + NOTIFICACIONES ============ */
+    const RS = (() => {
+            try {
+                return new Set(JSON.parse(localStorage.lubri_rseen || '[]'))
+            } catch (e) {
+                return new Set()
+            }
+        })(),
+        rsSave = () => {
+            try {
+                localStorage.lubri_rseen = JSON.stringify([...RS].slice(-300))
+            } catch (e) {}
+        };
+    const allRecs = () => S.jobs.flatMap(j => (j.recordatorios || []).map(r => ({
+        j,
+        r
+    })));
+    const dueRecs = () => allRecs().filter(x => !x.r.hecho && Date.parse(x.r.iso) <= Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
+    const nextRecs = () => allRecs().filter(x => !x.r.hecho && Date.parse(x.r.iso) > Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
+    const recTag = r => {
+        if (r.hecho)
+            return '<span class="rtag">Hecho</span>';
+        if (Date.parse(r.iso) <= Date.now())
+            return '<span class="rtag late">Vencido</span>';
+        const t = remTag(r.iso);
+        return `<span class="rtag ${t.c}">${t.t}</span>`
+    };
+    const recBox = j => {
+        const P = (j.recordatorios || []).filter(r => !r.hecho).sort((a, b) => cmpS(a.iso, b.iso));
+        if (!P.length)
+            return '';
+        const r = P[0],
+            due = Date.parse(r.iso) <= Date.now();
+        return `<div class="rea rc ${due ? 'due' : ''}">${ic('alarm')}<div><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}${P.length > 1 ? ` <small>(+${P.length - 1})</small>` : ''}<div class="rm">${esc(r.texto)}</div></div></div>`
+    };
+    const snzBtns = (j, r) => `<div class="rqs"><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="10">+10 min</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="60">+1 h</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="tm">Mañana 9:00</button></div>`;
+    const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
+    const recRow = (j, r) => {
+        const due = !r.hecho && Date.parse(r.iso) <= Date.now();
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
+    };
+    const recSec = j => {
+        const L = (j.recordatorios || []).slice().sort((a, b) => cmpS(a.iso, b.iso));
+        return `<h3>${ic('alarm')} Recordatorios de la orden</h3><div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div>`
+    };
+    const notCount = () => dueRecs().length + calItems().filter(x => !x.done && Date.parse(x.iso) <= Date.now() && dayDiff(x.iso) >= -30).length;
+    const notBtn = () => {
+        const n = notCount();
+        return `<button class="mopt" data-a="go" data-v="not">${ic('notifications')}<span>Notificaciones</span>${n ? `<span class="nb">${n}</span>` : ''}${ic('chevron_right')}</button>`
+    };
+    /* ---- v0.49 beta · categorías, preferencias (por equipo), historial, banners y avisos al dispositivo ---- */
+    const NCAT = {
+        vencer: {
+            n: 'Aviso de vencimiento',
+            d: 'Una orden está por vencer',
+            i: 'hourglass_top'
+        },
+        atraso: {
+            n: 'Vencido o atrasado',
+            d: 'Una orden pasó su tiempo estimado',
+            i: 'alarm'
+        },
+        listo: {
+            n: 'Listo para retirar',
+            d: 'Un vehículo quedó listo para entregar',
+            i: 'task_alt'
+        },
+        rep: {
+            n: 'Solicitud de repuesto',
+            d: 'Un mecánico pidió un repuesto',
+            i: 'build'
+        },
+        rec: {
+            n: 'Recordatorios',
+            d: 'Recordatorios programados dentro de una orden',
+            i: 'alarm'
+        },
+        cita: {
+            n: 'Citas y reaperturas',
+            d: 'Citas y reingresos que llegaron a su hora',
+            i: 'event'
+        },
+        cierre: {
+            n: 'Cierre del local',
+            d: 'Aviso antes y a la hora de cierre',
+            i: 'storefront'
+        },
+        msg: {
+            n: 'Mensajes de la app',
+            d: 'Confirmaciones al guardar, crear, pausar o eliminar',
+            i: 'info'
+        }
+    };
+    const NP = (() => {
+            let o = {};
+            try {
+                o = JSON.parse(localStorage.lubri_notif || '{}')
+            } catch (e) {}
+            const a = {},
+                p = {};
+            for (const k in NCAT) {
+                a[k] = o.app && k in o.app ? !!o.app[k] : true;
+                p[k] = o.push && k in o.push ? !!o.push[k] : false
+            }
+            a.msg = true;
+            p.msg = false;
+            return {
+                app: a,
+                push: p
+            }
+        })(),
+        npSave = () => {
+            try {
+                localStorage.lubri_notif = JSON.stringify(NP)
+            } catch (e) {}
+        };
+    const NL = (() => {
+            try {
+                const L = JSON.parse(localStorage.lubri_nlog || '[]');
+                return Array.isArray(L) ? L : []
+            } catch (e) {
+                return []
+            }
+        })(),
+        nlSave = () => {
+            try {
+                localStorage.lubri_nlog = JSON.stringify(NL.slice(0, 120))
+            } catch (e) {}
+        };
+    function nlog(cat, t, x, jid) {
+        NL.unshift({
+            id: uid(),
+            ts: now(),
+            cat,
+            t: String(t || ''),
+            x: String(x || ''),
+            jid: jid || '',
+            read: 0
+        });
+        if (NL.length > 120)
+            NL.length = 120;
+        nlSave();
+        if (S.view == 'not' && !(document.activeElement?.matches('input,textarea,select')))
+            renderLater()
+    }
+    function devPush(cat, t, x) {
+        // aviso del dispositivo: solo si esa categoría está activada y hay permiso; si la app está a la vista y el banner está activo, no se duplica
+        if (!NP.push[cat] || !('Notification' in window) || Notification.permission != 'granted')
+            return;
+        if (!document.hidden && NP.app[cat])
+            return;
+        try {
+            new Notification(S.cfg.negocio || 'Lubricentro', {
+                body: t + (x ? ' · ' + x : ''),
+                tag: cat + ':' + t,
+                icon: 'favicon.png'
+            })
+        } catch (e) {}
+    }
+    function notify(cat, t, x, o) {
+        o = o || {};
+        if (!NCAT[cat])
+            return;
+        devPush(cat, t, x);
+        if (!NP.app[cat])
+            return;
+        nlog(cat, t, x, o.jid);
+        bnr({
+            k: cat,
+            ic: NCAT[cat].i,
+            t,
+            x,
+            jid: o.jid
+        })
+    }
+    let bnrN = 0;
+    function bnr(o) {
+        const box = document.getElementById('tst');
+        if (!box)
+            return;
+        const id = 'bn' + (++bnrN),
+            w = o.ic == 'warning' || o.ic == 'delete' ? 'atraso' : o.k == 'msg' ? 'ok' : o.k,
+            esq = o.raw ? o.t : esc(o.t),
+            ico = o.ic == 'warning' ? 'warning' : (o.ic || 'notifications');
+        while (box.children.length >= 3)
+            box.firstElementChild.remove();
+        box.insertAdjacentHTML('beforeend', `<div class="alb tb ${w}" id="${id}" role="${o.ic == 'warning' ? 'alert' : 'status'}">${ic(ico)}<span class="tx"><b>${esq}</b>${o.x ? `<span>${esc(o.x)}</span>` : ''}</span>${o.k != 'msg' ? '<button data-tb="v">Ver</button>' : ''}<button class="xx" data-tb="x" title="Cerrar" aria-label="Cerrar">${ic('close')}</button></div>`);
+        const el = document.getElementById(id);
+        if (o.k != 'msg')
+            try {
+                navigator.vibrate?.([80, 40, 80])
+            } catch (e) {}
+        const kill = () => {
+                clearTimeout(el._t);
+                if (!el.isConnected || el.classList.contains('out'))
+                    return;
+                el.classList.add('out');
+                setTimeout(() => el.remove(), 230)
+            },
+            arm = ms => {
+                clearTimeout(el._t);
+                el._t = setTimeout(kill, ms)
+            };
+        el._kill = kill;
+        arm(o.ms || (o.k == 'msg' ? 2800 : 6500));
+        el.addEventListener('pointerenter', () => clearTimeout(el._t));
+        el.addEventListener('pointerleave', () => arm(2000))
+    }
+    document.getElementById('tst').addEventListener('click', e => {
+        const b = e.target.closest('[data-tb]');
+        if (!b)
+            return;
+        const el = b.closest('.alb');
+        if (b.dataset.tb == 'v')
+            A.go({
+                v: 'not'
+            });
+        el && el._kill && el._kill()
+    });
+    /* horario del local (0 = domingo … 6 = sábado) */
+    const HOR0 = [{
+            on: false,
+            ab: '09:00',
+            ci: '14:00'
+        }, ...[1, 2, 3, 4, 5].map(() => ({
+            on: true,
+            ab: '09:00',
+            ci: '19:00'
+        })), {
+            on: true,
+            ab: '09:00',
+            ci: '14:00'
+        }],
+        DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const horario = () => {
+        const h = S.cfg.horario;
+        return Array.isArray(h) && h.length == 7 ? h.map(x => ({
+            ...x
+        })) : HOR0.map(x => ({
+            ...x
+        }))
+    };
+    function horUI() {
+        const H = horario();
+        return `<p class="note">Marca los días que abre el local y su horario. Con esto la app avisa antes del cierre y a la hora de cierre (se activa o desactiva en Notificaciones › Configurar).</p>${[1, 2, 3, 4, 5, 6, 0].map(d => `<div class="hr"><label class="hd"><input type="checkbox" data-ch="horon" data-d="${d}" ${H[d].on ? 'checked' : ''}> ${DIAS[d]}</label>${H[d].on ? `<input type="time" data-ch="horab" data-d="${d}" value="${H[d].ab}" aria-label="Apertura ${DIAS[d]}"><span>a</span><input type="time" data-ch="horci" data-d="${d}" value="${H[d].ci}" aria-label="Cierre ${DIAS[d]}">` : '<span class="mut">Cerrado</span>'}</div>`).join('')}<div class="li"><span>Avisar antes del cierre (minutos)</span><input type="number" min="1" max="240" value="${S.cfg.cierreMin || 30}" data-ch="cierreMin"></div>`
+    }
+    const CIER = (() => {
+        try {
+            return JSON.parse(localStorage.lubri_cierre || '{}')
+        } catch (e) {
+            return {}
+        }
+    })();
+    function cierreTick() {
+        const n = new Date(),
+            h = horario()[n.getDay()];
+        if (!h || !h.on || !/^\d\d:\d\d$/.test(h.ci || ''))
+            return;
+        const [hh, mm] = h.ci.split(':').map(Number),
+            cl = new Date(n);
+        cl.setHours(hh, mm, 0, 0);
+        const min = Math.ceil((cl - n) / 6e4),
+            key = dkey(n),
+            pre = Math.max(1, +S.cfg.cierreMin || 30);
+        if (CIER.d !== key) {
+            CIER.d = key;
+            CIER.pre = 0;
+            CIER.at = 0
+        }
+        const pend = S.jobs.filter(j => j.estado != 'completado').length,
+            pt = pend ? pend + (pend > 1 ? ' órdenes sin completar' : ' orden sin completar') : 'No quedan órdenes pendientes',
+            sv = () => {
+                try {
+                    localStorage.lubri_cierre = JSON.stringify(CIER)
+                } catch (e) {}
+            };
+        if (min > 0 && min <= pre && !CIER.pre) {
+            CIER.pre = 1;
+            sv();
+            notify('cierre', 'El local cierra a las ' + h.ci, 'Faltan ' + min + ' min · ' + pt)
+        }
+        else if (min <= 0 && min > -15 && !CIER.at) {
+            CIER.at = 1;
+            sv();
+            notify('cierre', 'Hora de cierre · ' + h.ci, pt)
+        }
+    }
+    const nRow = x => `<div class="crow c-n c-${x.cat}${x.read ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>${esc(x.t)}</b> · ${fdt(x.ts)}</div><div class="cr2">${esc(x.x)}</div></div><div class="ca">${x.jid && get(x.jid) ? `<button data-a="copen" data-id="${x.jid}" title="Ver orden">${ic('open_in_new')}</button>` : ''}<button data-a="ndel" data-id="${x.id}" title="Borrar" aria-label="Borrar">${ic('delete')}</button></div></div>`;
+    function vNot() {
+        const now = Date.now(),
+            dr = dueRecs(),
+            dc = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30),
+            fr = nextRecs(),
+            fc = calItems().filter(x => !x.done && Date.parse(x.iso) > now && dayDiff(x.iso) <= 1),
+            nu = NL.filter(x => !x.read),
+            hi = NL.filter(x => x.read);
+        clearTimeout(R.nrt);
+        R.nrt = setTimeout(() => {
+            if (S.view == 'not' && NL.some(x => !x.read)) {
+                NL.forEach(x => x.read = 1);
+                nlSave()
+            }
+        }, 2500); // al abrirlas pasan al historial (se ven abajo la próxima vez)
+        return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Notificaciones</h1><button class="tcfg" data-a="go" data-v="nset" aria-label="Configurar notificaciones" title="Configurar notificaciones">${ic('tune')}</button></div>
+         <h2>Ahora${dr.length + dc.length ? ` · ${dr.length + dc.length}` : ''}</h2>${dr.map(x => recN(x, 1)).join('')}${dc.map(x => calRow(x, 1)).join('')}${dr.length + dc.length ? '' : '<div class="mut">No tienes notificaciones pendientes.</div>'}
+         ${nu.length ? `<h2>Nuevas · ${nu.length}</h2>${nu.map(nRow).join('')}` : ''}
+         <h2>Programados</h2>${fr.slice(0, 10).map(x => recN(x, 0)).join('')}${fc.map(x => calRow(x, 1)).join('')}${fr.length + fc.length ? '' : '<div class="mut">No hay recordatorios programados. Crea uno desde el detalle de una orden.</div>'}
+         <h2>Historial${hi.length ? ` · ${hi.length}` : ''}</h2>${hi.map(nRow).join('') || '<div class="mut">Aquí quedan los avisos que ya abriste. Se borran con el botón de cada uno.</div>'}${hi.length ? `<button class="mopt" data-a="nclr">${ic('delete_sweep')}<span>Borrar todo el historial</span></button>` : ''}`
+    }
+    function vNset() {
+        const perm = 'Notification' in window ? Notification.permission : 'none',
+            sw = (sec, k) => k == 'msg' ? `<label class="swt nsw lock"><input type="checkbox" checked disabled><i></i><span>${NCAT[k].n}<small>${NCAT[k].d} · siempre activo, evita errores al operar</small></span></label>` : `<label class="swt nsw"><input type="checkbox" data-ch="nsw" data-s="${sec}" data-k="${k}" ${NP[sec][k] ? 'checked' : ''}><i></i><span>${NCAT[k].n}<small>${NCAT[k].d}</small></span></label>`,
+            pm = perm == 'granted' ? '<div class="nsub">Avisos del dispositivo permitidos. Llegan cuando la app está en segundo plano (o si apagaste el banner de esa categoría).</div>' : perm == 'denied' ? '<div class="nsub">Bloqueaste los avisos en el navegador; actívalos en los ajustes del sitio.</div>' : perm == 'none' ? '<div class="nsub">Este navegador no permite avisos del dispositivo.</div>' : `<button class="mopt" data-a="nreq">${ic('notifications_active')}<span>Permitir avisos del dispositivo</span></button>`,
+            h = horario()[new Date().getDay()],
+            hoy = h.on ? `Hoy el local abre ${h.ab} y cierra ${h.ci}.` : 'Hoy el local está cerrado.';
+        return `<div class="top"><button data-a="go" data-v="not" aria-label="Volver">${ic('first_page')}</button><h1>Configurar notificaciones</h1></div>
+         <div class="nsec"><b>Dentro de la aplicación</b><div class="note">Banners que bajan desde arriba mientras usas la app. Se guardan en el historial de Notificaciones.</div>${Object.keys(NCAT).map(k => sw('app', k)).join('')}</div>
+         <div class="nsec"><b>Al dispositivo (push)</b><div class="note">Notificación normal del teléfono o computador.</div>${pm}${Object.keys(NCAT).filter(k => k != 'msg').map(k => sw('push', k)).join('')}</div>
+         <div class="nsec"><b>Horario del local</b><div class="note">${hoy} Avisa ${S.cfg.cierreMin || 30} min antes del cierre y a la hora de cierre.</div><button class="mopt" data-a="nhor">${ic('schedule')}<span>Editar horario del local</span>${ic('chevron_right')}</button></div>`
+    }
+    function rqTick() {
+        if (MODO == 'sala')
+            return;
+        const now = Date.now();
+        try {
+            cierreTick()
+        } catch (e) {}
+        const D1 = dueRecs().map(x => ({
+                k: x.r.id,
+                cat: 'rec',
+                ttl: 'Recordatorio',
+                txt: x.j.vehiculo.patente + ': ' + x.r.texto,
+                jid: x.j.id
+            })),
+            D2 = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30).map(x => ({
+                k: 'c' + x.id + x.iso,
+                cat: 'cita',
+                ttl: x.t == 'cita' ? 'Cita' : 'Reapertura',
+                txt: x.pat || x.cli || ''
+            })),
+            nw = [...D1, ...D2].filter(x => !RS.has(x.k));
+        if (nw.length) {
+            nw.forEach(x => RS.add(x.k));
+            rsSave();
+            nw.slice(0, 4).forEach(x => notify(x.cat, x.ttl, x.txt, {
+                jid: x.jid
+            }));
+            if (nw.length > 4)
+                notify('rec', (nw.length - 4) + ' avisos más', 'Míralos en Notificaciones')
+        }
+        const sg = D1.length + '|' + D2.length;
+        if (sg !== rqTick.sg) {
+            rqTick.sg = sg;
+            if (!nw.length)
+                render()
+        }
+    }
+    const qMs = m => {
+        if (m == 'tm') {
+            const d = new Date();
+            d.setDate(d.getDate() + 1);
+            d.setHours(9, 0, 0, 0);
+            return d.getTime()
+        }
+        return Date.now() + +m * 6e4
+    };
+    Object.assign(A, {
+        rqquick: d => {
+            const i = $('#rqd_' + d.id);
+            if (i)
+                i.value = dtLocal(qMs(d.m))
+        },
+        rqadd: d => {
+            const j = get(d.id),
+                t = ($('#rqt_' + d.id)?.value || '').trim(),
+                v = $('#rqd_' + d.id)?.value;
+            if (!j)
+                return;
+            if (!t)
+                return toast('warning', 'Escribe qué hay que recordar');
+            if (!v)
+                return toast('warning', 'Elige fecha y hora');
+            if (new Date(v).getTime() < Date.now() - 6e4)
+                return toast('warning', 'La hora ya pasó: elige una futura');
+            const iso = new Date(v).toISOString();
+            (j.recordatorios = j.recordatorios || []).push({
+                id: uid(),
+                iso,
+                texto: t,
+                autor: autor(),
+                creadaISO: now()
+            });
+            ev(j, 'recordatorio', 'programado para ' + ingT(iso) + ' · ' + t);
+            saveJob(j);
+            toast('alarm', 'Recordatorio programado')
+        },
+        rqdone: d => {
+            const j = get(d.id),
+                r = j && (j.recordatorios || []).find(x => x.id == d.r);
+            if (!r)
+                return;
+            r.hecho = !r.hecho;
+            r.hechoISO = r.hecho ? now() : null;
+            if (r.hecho)
+                ev(j, 'recordatorio', 'hecho · ' + r.texto);
+            saveJob(j)
+        },
+        rqdel: d => {
+            const j = get(d.id);
+            if (!j || !armOk('rqdel' + d.r, 'Toca otra vez para eliminar el recordatorio'))
+                return;
+            j.recordatorios = (j.recordatorios || []).filter(x => x.id != d.r);
+            saveJob(j);
+            toast('delete', 'Recordatorio eliminado')
+        },
+        rqsnz: d => {
+            const j = get(d.id),
+                r = j && (j.recordatorios || []).find(x => x.id == d.r);
+            if (!r)
+                return;
+            r.iso = new Date(qMs(d.m)).toISOString();
+            RS.delete(r.id);
+            rsSave();
+            ev(j, 'recordatorio', 'pospuesto a ' + ingT(r.iso) + ' · ' + r.texto);
+            saveJob(j);
+            toast('snooze', 'Recordatorio pospuesto')
+        },
+        nreq: () => {
+            try {
+                Notification.requestPermission().then(() => render(1))
+            } catch (e) {
+                toast('warning', 'Tu navegador no permite avisos')
+            }
+        },
+        ndel: d => {
+            const i = NL.findIndex(x => x.id == d.id);
+            if (i >= 0) {
+                NL.splice(i, 1);
+                nlSave();
+                render(1)
+            }
+        },
+        nclr: () => {
+            for (let i = NL.length - 1; i >= 0; i--)
+                if (NL[i].read)
+                    NL.splice(i, 1);
+            nlSave();
+            render(1)
+        },
+        nhor: () => {
+            S.cx.hor = true;
+            A.go({
+                v: 'cfg'
+            })
+        },
+        cfok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'cf')
+                return;
+            S.modal = null;
+            R.cfOk = m.key;
+            try {
+                const f = A[m.a];
+                if (f)
+                    f(m.d || {}, {
+                        tagName: 'DIV',
+                        dataset: m.d || {}
+                    }, {})
+            } finally {
+                R.cfOk = null
+            }
+            render(1)
+        }
+    });
+    document.addEventListener('change', e => {
+        const t = e.target,
+            k = t.dataset && t.dataset.ch;
+        if (!k)
+            return;
+        if (k == 'nsw') {
+            const s2 = t.dataset.s,
+                c = t.dataset.k;
+            if (c == 'msg' || !NP[s2] || !(c in NP[s2]))
+                return;
+            NP[s2][c] = t.checked;
+            npSave();
+            if (s2 == 'push' && t.checked && 'Notification' in window && Notification.permission == 'default')
+                try {
+                    Notification.requestPermission().then(() => render(1))
+                } catch (x) {}
+            render(1);
+            return
+        }
+        if (k == 'horon' || k == 'horab' || k == 'horci') {
+            const H = horario(),
+                d = +t.dataset.d;
+            if (!H[d])
+                return;
+            if (k == 'horon')
+                H[d].on = t.checked;
+            else if (k == 'horab' && t.value)
+                H[d].ab = t.value;
+            else if (k == 'horci' && t.value)
+                H[d].ci = t.value;
+            S.cfg.horario = H;
+            saveCfg();
+            return
+        }
+        if (k == 'cierreMin') {
+            S.cfg.cierreMin = Math.max(1, Math.min(240, +t.value || 30));
+            saveCfg()
+        }
+    });
+    ['rqadd', 'rqdone', 'rqdel', 'rqsnz'].forEach(x => TAPS.add(x));
+    Object.assign(HELP, {
+        not: ['Notificaciones', [['notifications', '«Ahora»: recordatorios vencidos y citas o reaperturas que ya llegaron a su hora'], ['snooze', 'Posponer un recordatorio: +10 min, +1 h o mañana 9:00'], ['check_circle', 'Marcar como hecho'], ['alarm', '«Programados»: lo que viene, con su fecha y hora'], ['notifications_active', 'Activar avisos del dispositivo: aviso del navegador cuando llega la hora (con la app abierta)']]]
+    });
+    HELP.mas[1].push(['notifications', 'Notificaciones: recordatorios y citas que ya llegaron a su hora; el globo violeta de «Más» cuenta los pendientes']);
+    HELP.not[1].push(['tune', 'Configurar notificaciones: elige qué avisos salen como banner dentro de la app y cuáles llegan al dispositivo'], ['history', 'Historial: los avisos que ya abriste quedan abajo; bórralos uno a uno con el tacho o todos juntos']);
+    Object.assign(HELP, {
+        nset: ['Configurar notificaciones', [['notifications', 'Dentro de la aplicación: banners que bajan desde arriba (vencimiento, atraso, recordatorios, citas, cierre…)'], ['notifications_active', 'Al dispositivo: notificación normal del teléfono; hay que permitir los avisos en el navegador'], ['storefront', 'Horario del local: se edita en Configuración y activa los avisos de cierre']]]
+    });
+    setInterval(rqTick, 20000);
+    setTimeout(rqTick, 4000);
+
     await initDB();
     render(1);
     setTimeout(() => {
