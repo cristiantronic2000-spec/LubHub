@@ -8,10 +8,14 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Lubricentro">
+    <!-- v9-5: iconos fijos en el HTML (los navegadores los leen al abrir); el script de abajo los reemplaza solo si encuentra otro nombre de archivo -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     <script>
     /* v0.49 beta · icono de la aplicación: busca el logo junto a este archivo (en GitHub Pages, en la misma carpeta que index.html). Prueba estos nombres en orden; agrega el tuyo al inicio de la lista si es otro. */
     (function() {
-        var N = ['favicon.png', '.favicon.png', 'Favicon.png', 'favicon.PNG', 'logo.png', 'icon.png', 'icono.png', 'favicon.ico'],
+        var N = ['favicon.png', '.favicon.png', 'Favicon.png', 'favicon.PNG', 'logo.png', 'icon.png', 'icono.png', 'icon-192.png', 'apple-touch-icon.png', 'favicon-32x32.png', 'favicon.jpg', 'favicon.ico'],
             b = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
         function set(u) {
             try {
@@ -4462,7 +4466,7 @@
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;
         background: #fff;
-        padding: max(16px, env(safe-area-inset-top)) max(12px, calc(50% - 228px)) 28px
+        padding: max(16px, env(safe-area-inset-top)) max(12px, calc(50% - var(--colw) /2)) 28px
     }
 
     #nav {
@@ -4479,7 +4483,7 @@
         left: auto;
         top: auto;
         bottom: calc(var(--nh) + 12px);
-        right: max(calc(12px + env(safe-area-inset-right, 0px)), calc(50vw - 228px));
+        right: max(calc(12px + env(safe-area-inset-right, 0px)), calc(50vw - var(--colw) /2));
         z-index: 30;
         text-align: right;
         transition: opacity .22s ease, transform .22s ease
@@ -7959,6 +7963,101 @@
         max-height: 60vh;
         border-radius: 12px;
         background: #eee
+    }/* ---- v9-5 · fluidez y pantallas verticales (móvil y tablet) ---- */
+    :root {
+        --colw: 456px
+    }
+
+    @media (min-width: 600px) {
+        :root {
+            --colw: 560px
+        }
+    }
+
+    @media (min-width: 768px) {
+        :root {
+            --colw: 640px
+        }
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%
+    }
+
+    html, body, #app, #nav, .bd, .box {
+        touch-action: pan-x pan-y
+    }
+
+    body {
+        font-size: clamp(13px, 3.6vw, 16px)
+    }
+
+    @media (pointer: coarse) {
+        .bd {
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+            background: rgba(255, 255, 255, .88)
+        }
+    }
+
+    @media (min-width: 600px) {
+        #nav {
+            max-width:calc(var(--colw) + 24px)
+        }
+
+        .card.open, .alb, .kpb {
+            max-width:calc(var(--colw) + 4px)
+        }
+
+        .box, .bd .box {
+            max-width: calc(var(--colw) - 16px)
+        }
+    }
+
+    @media (max-width: 350px) {
+        #app {
+            padding-left: 9px !important;
+            padding-right:9px !important
+        }
+
+        .btns {
+            gap: 6px
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes tgpv {
+            0%, 100% {
+                transform:scale(1)
+            }
+
+            50% {
+                transform: scale(1.045)
+            }
+        }
+
+        @keyframes tgpa {
+            0%, 100% {
+                transform:scale(1)
+            }
+
+            50% {
+                transform: scale(1.09)
+            }
+        }
+
+        .tg.vencer {
+            animation:tgpv 2.2s ease-in-out infinite
+        }
+
+        .tg.atraso {
+            animation: tgpa 1.3s ease-in-out infinite
+        }
+    }
+
+    .shkb {
+        z-index: 80 !important
     }
     </style>
     <style id="sala46">
@@ -10656,6 +10755,7 @@
         cx: {},
         col: {},
         ov: null,
+        shk: null,
         zg: false,
         zid: null,
         zp: null,
@@ -12554,12 +12654,7 @@
     ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault(), {
         passive: false
     })); // iOS: sin zoom de pellizco
-    document.addEventListener('touchmove', e => {
-        if (e.touches.length > 1)
-            e.preventDefault()
-    }, {
-        passive: false
-    });
+    /* v9-5: el listener touchmove no pasivo frenaba el scroll en cada movimiento; el pellizco ahora se bloquea con touch-action (CSS) */
     function mapaSvg(ed, dash) {
         let ZO = [];
         TRF.rebuild();
@@ -14345,7 +14440,7 @@
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
-         ${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
+         ${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
          <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
          ${testSec()}
          ${acc('demo', 'Modo demo', 'Datos de prueba, separados de los reales', `<p class="note">${fb ? (DM() ? 'Ahora este equipo usa datos DEMO.' : 'Ahora este equipo usa datos REALES.') : 'Los datos de este navegador son de prueba.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>${DM() ? `<button data-a="vac">${ic('delete_sweep')} Vaciar demo</button>` : ''}` : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}</div>`)}
@@ -15622,7 +15717,7 @@
             ds = document.querySelector('.card.open .dbody')?.scrollTop || 0; // conserva el scroll al redibujar
         const ah = V[S.view](),
             nh = navbar(),
-            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.shk ? shkModal() : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
         const fk = (ah !== R.ah || mh !== R.mh) ? focusKey() : null; // v1: si se redibuja con un campo en foco, el foco (y el teclado) se conserva
         if (ah !== R.ah) {
             app.innerHTML = ah;
@@ -17650,6 +17745,14 @@
             render(1);
             return
         }
+        if (k == 'shake') {
+            try {
+                localStorage.lubri_shake = t.checked ? '1' : '0'
+            } catch (e) {}
+            if (t.checked)
+                shkInit(true);
+            return
+        }
         if (k == 'cren') {
             const a = S.cfg[t.dataset.k] || [],
                 x = a.find(y => y.id == t.dataset.id),
@@ -18204,7 +18307,7 @@
         skip: 0
     };
     function histSync() {
-        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv || S.ov);
+        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv || S.ov || S.shk);
         if (o && !HB.on) {
             try {
                 history.pushState({
@@ -18225,7 +18328,9 @@
     }
     function closeTop() {
         // cierra la capa de más arriba
-        if (S.fv)
+        if (S.shk)
+            S.shk = null;
+        else if (S.fv)
             S.fv = null;
         else if (S.ov)
             S.ov = null;
@@ -19502,6 +19607,174 @@
     });
     setInterval(rqTick, 20000);
     setTimeout(rqTick, 4000);
+
+    /* ============ v9-5 · AGITAR 1,5 s → reiniciar táctil y pantalla ============
+       Se detecta con el acelerómetro (devicemotion): golpes de agitación seguidos, sin pausas de más de 0,4 s, durante 1,5 s.
+       Abre una ventana para confirmar o cancelar. «Reiniciar» no cierra la app ni borra datos: vuelve a medir la pantalla,
+       suelta toques/temporizadores pegados y redibuja todo. En iPhone el sistema pide permiso la primera vez que se toca la pantalla. */
+    const SHK = {
+        t0: 0,
+        last: 0,
+        cool: 0,
+        pn: null,
+        need: 0,
+        added: 0,
+        on: () => {
+            try {
+                return localStorage.lubri_shake !== '0'
+            } catch (e) {
+                return true
+            }
+        }
+    };
+    function shkMotion(e) {
+        if (!SHK.on() || document.hidden || MODO == 'sala')
+            return;
+        const a = e.accelerationIncludingGravity || e.acceleration;
+        if (!a || a.x == null)
+            return;
+        const x = a.x || 0,
+            y = a.y || 0,
+            z = a.z || 0,
+            now = performance.now(),
+            q = SHK.pn,
+            d = q ? Math.hypot(x - q[0], y - q[1], z - q[2]) : 0;
+        SHK.pn = [x, y, z]; // cambio de aceleración entre dos lecturas seguidas
+        if (d < 5)
+            return; // movimiento normal (caminar, sostener, teclear): se ignora
+        if (SHK.need) {
+            if (now - SHK.last > 600) {
+                SHK.need = 0;
+                SHK.t0 = now
+            } else {
+                SHK.last = now;
+                return
+            }
+        } // tras avisar, hay que parar de agitar antes de poder volver a avisar
+        if (!SHK.t0 || now - SHK.last > 400)
+            SHK.t0 = now; // se cortó la agitación: empieza de nuevo
+        SHK.last = now;
+        if (now - SHK.t0 >= 1500 && now > SHK.cool) {
+            SHK.t0 = 0;
+            SHK.need = 1;
+            SHK.cool = now + 1500;
+            shkAsk()
+        }
+    }
+    function shkAsk() {
+        if (S.shk) {
+            if (performance.now() - S.shk.t > 2500)
+                shkGo();
+            return
+        } // agitar otra vez con la ventana abierta = confirmar (por si el táctil no responde)
+        try {
+            navigator.vibrate?.([30, 40, 30])
+        } catch (e) {}
+        S.shk = {
+            t: performance.now()
+        };
+        render(1)
+    }
+    function shkInit(force) {
+        const DM_ = window.DeviceMotionEvent;
+        if (!DM_ || !SHK.on())
+            return;
+        const add = () => {
+            if (SHK.added)
+                return;
+            SHK.added = 1;
+            addEventListener('devicemotion', shkMotion, {
+                passive: true
+            })
+        };
+        if (typeof DM_.requestPermission === 'function') {
+            const ask = () => {
+                removeEventListener('click', ask, true);
+                try {
+                    DM_.requestPermission().then(r => {
+                        if (r === 'granted')
+                            add()
+                    }).catch(() => {})
+                } catch (e) {}
+            };
+            if (force)
+                ask();
+            else
+                addEventListener('click', ask, true)
+        }
+        else
+            add()
+    }
+    function shkGo() {
+        S.shk = null;
+        resetUI()
+    }
+    function resetUI() {
+        // reinicia táctil y redimensionado sin recargar la página
+        try {
+            clearTimeout(R.lt);
+            R.lt = 0;
+            R.lv = 0;
+            clearTimeout(R.lp);
+            for (const k of Object.keys(TAPG))
+                delete TAPG[k];
+            cancelAnimationFrame(vvSettle.r);
+            for (const k of Object.keys(vvLast))
+                delete vvLast[k];
+            const de = document.documentElement,
+                b = document.body;
+            ['--vvh', '--vvt', '--avh'].forEach(k => de.style.removeProperty(k));
+            b.classList.remove('vvkb', 'fabh');
+            const ae = document.activeElement;
+            if (ae && ae !== b && ae.blur)
+                ae.blur();
+            try {
+                scrollTo(0, 0)
+            } catch (e) {}
+            de.style.touchAction = 'auto';
+            b.style.display = 'none';
+            void b.offsetHeight;
+            b.style.display = '';
+            de.style.touchAction = ''; // fuerza al navegador a recalcular el diseño y los toques
+            vvSync();
+            vvSettle(900);
+            R.ah = R.mh = R.nv = null;
+            S.toast = null;
+            render(1);
+            setTimeout(() => {
+                try {
+                    vvSync();
+                    dispatchEvent(new Event('resize'))
+                } catch (e) {}
+            }, 150);
+            toast('check', 'Táctil y pantalla reiniciados')
+        } catch (e) {
+            try {
+                location.reload()
+            } catch (z) {}
+        }
+    }
+    const shkModal = () => S.shk ? `<div class="bd shkb" data-a="shkno"><div class="box c">${ic('touch_app', 'big t-mid')}<p><b>¿Reiniciar táctil y pantalla?</b></p><div class="sm">Detecté que agitaste el teléfono. Esto vuelve a medir la pantalla y destraba los toques, sin cerrar la app ni perder datos.</div><div class="btns" style="margin-top:16px"><button data-a="shkok">${ic('restart_alt')} Reiniciar</button><button data-a="shkno">Cancelar</button></div><div class="sm" style="margin-top:10px">Si no responde, agita otra vez para confirmar.</div></div></div>` : '';
+    const shkSec = () => `<section><b>Táctil y pantalla</b><div class="note">Si la app se pega o se descuadra, agita el teléfono 1,5 s: aparece una ventana para reiniciar el táctil y el tamaño de pantalla.</div><div class="li"><span>Agitar para reiniciar</span><input type="checkbox" data-ch="shake" ${SHK.on() ? 'checked' : ''}></div><div class="btns"><button data-a="shkman">${ic('restart_alt')} Reiniciar ahora</button></div></section>`;
+    Object.assign(A, {
+        shkok: () => shkGo(),
+        shkno: (d, b, e) => {
+            if (e.target == b || b.tagName == 'BUTTON') {
+                S.shk = null;
+                render(1)
+            }
+        },
+        shkman: () => {
+            S.shk = {
+                t: performance.now()
+            };
+            render(1)
+        }
+    });
+    shkInit();
+    try {
+        screen.orientation && screen.orientation.lock && screen.orientation.lock('portrait').catch(() => {})
+    } catch (e) {} // solo funciona instalada/pantalla completa; si no, se ignora
 
     await initDB();
     render(1);
