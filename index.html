@@ -167,7 +167,7 @@
     trabajos/{id}:
       v: versión del esquema (1) · ot: n° orden (vacío = "SOT", sin orden de trabajo)
       prioridad: normal|urgente · titulo: resumen opcional del trabajo
-      ingresadoPor{id,nombre}: persona de recepción que registró la orden
+      ingresadoPor{id,nombre}: persona administrativa o de ventas que registró la orden
       estado: cola|proceso|pausa|completado
       plataformaId, mecanicoId: ids de config/principal
       vehiculo{patente, patenteN (sin guiones/puntos, mayúsculas), marca, modelo,
@@ -7713,7 +7713,71 @@
     }
 
     .rtadd {
-        align-self: flex-start
+        align-self:flex-start
+    }
+
+    .rx button:not(.rtadd) {
+        border: 0;
+        padding: 2px;
+        flex:none
+    }
+
+    .rx button:disabled {
+        opacity: .25;
+        cursor:default
+    }
+
+    .cfg .li input[data-ch=cren] {
+        flex: 1;
+        min-width: 0;
+        border-radius: 12px;
+        padding:4px 8px
+    }
+
+    .colh3 {
+        margin:10px 0 4px
+    }
+
+    .colh {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        border: 0;
+        border-radius: 12px;
+        padding: 4px 0;
+        text-align: left;
+        font: inherit;
+        font-weight: inherit;
+        color:inherit
+    }
+
+    .colh > span {
+        flex: 1;
+        min-width:0
+    }
+
+    .colc {
+        background: var(--ink);
+        color: #fff;
+        border-radius: 12px;
+        font-size: 11px;
+        line-height: 1;
+        padding: 3px 8px;
+        font-weight:700
+    }
+
+    .colc.due {
+        background:var(--pausa)
+    }
+
+    .colh .chev {
+        flex: none;
+        transition:transform .2s
+    }
+
+    .colh[aria-expanded=true] .chev {
+        transform: rotate(180deg)
     }
 
     .ruta {
@@ -10299,9 +10363,48 @@
 
     .rfw {
         display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap:4px
+    }
+
+    .rfi {
+        display: flex;
+        gap: 6px;
+        justify-content:flex-end
+    }
+
+    .rfi .rfot {
+        width: 30px;
+        height:30px
+    }
+
+    .rfi .rfot .material-symbols-outlined {
+        font-size: 18px
+    }
+
+    .fbar {
+        display: flex;
+        gap: 8px;
+        margin:0 0 10px
+    }
+
+    .fbar button {
+        flex: 1;
+        display: flex;
         align-items: center;
-        justify-content: flex-end;
-        gap: 6px
+        justify-content: center;
+        gap: 6px;
+        border: 1.25px solid var(--line2);
+        border-radius: 12px;
+        padding: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        background:#fff
+    }
+
+    .fbar .material-symbols-outlined {
+        font-size: 20px
     }
 
     .rfot {
@@ -10449,7 +10552,7 @@
         rutaOf = j => j.ruta && j.ruta.length > 1 ? j.ruta : null,
         RT = D => {
             const d = D._done || [],
-                all = [...d, D.plat, ...(D.rutaX || [])].filter((v, i, a) => v && (i == 0 || v != a[i - 1]));
+                all = [...d, D._cur || D.plat, ...(D.rutaX || [])].filter((v, i, a) => v && (i == 0 || v != a[i - 1]));
             return all.length > 1 ? {
                 ruta: all,
                 paso: d.length
@@ -10463,12 +10566,12 @@
             if (!r)
                 return '';
             const p = j.paso || 0;
-            return `<div class="sm ruta">${ic('alt_route')} Ruta: ${r.map((id, i) => i == p ? '<b>' + esc(nm(S.cfg.plataformas, id)) + '</b>' : esc(nm(S.cfg.plataformas, id))).join(' → ')} <small>(estación ${p + 1} de ${r.length})</small></div>`
+            return `<div class="sm ruta">${ic('alt_route')} Ruta: ${r.map((id, i) => i == p ? '<b>' + stepLbl(id) + '</b>' : stepLbl(id)).join(' → ')} <small>(estación ${p + 1} de ${r.length})</small></div>`
         },
         rutaNext = j => {
             const r = rutaOf(j),
                 p = j.paso || 0;
-            return r && p < r.length - 1 ? nm(S.cfg.plataformas, r[p + 1]) : ''
+            return r && p < r.length - 1 ? stepNm(r[p + 1]) : ''
         };
 
     /* ============ 3. UTILIDADES ============ */
@@ -10551,6 +10654,8 @@
         zf: null,
         pf: null,
         cx: {},
+        col: {},
+        ov: null,
         zg: false,
         zid: null,
         zp: null,
@@ -10830,6 +10935,11 @@
     } // D = borrador del formulario "Crear nuevo trabajo"; fb = conexión Firebase
     const get = id => S.jobs.find(j => j.id == id),
         nm = (l, id) => l.find(x => x.id == id)?.nombre || '—';
+    /* v9-4 · una estación de la ruta puede ser una sub-zona (id) o un mecánico ('m:'+id) */
+    const isMecStep = id => String(id || '').startsWith('m:'),
+        stepNm = id => isMecStep(id) ? nm(S.cfg.mecanicos, String(id).slice(2)) : nm(S.cfg.plataformas, id),
+        stepLbl = id => (isMecStep(id) ? ic('engineering') + ' ' : '') + esc(stepNm(id)),
+        colH = (k, d) => S.col[k] === undefined ? d : S.col[k];
     const autor = () => localStorage.lubri_autor || 'sin_asignar';
     const personas = () => [...S.cfg.recepcion, ...S.cfg.mecanicos].filter(x => x.activo); // quienes pueden ingresar órdenes
 
@@ -12751,7 +12861,7 @@
         };
         c.plataformas.forEach(p => p.zonaId = zz[p.nombre]);
         c.mecanicos = L(['Mecánica Uno', 'Mecánica Dos']);
-        c.recepcion = L(['Recepción Uno']);
+        c.recepcion = L(['Administrativo Uno']);
         const V = {
                 'LT·KC·95': ['Toyota', 'Corolla', 'XEi', '1.8 L', 'Bencina', 84200],
                 'ST·WD·87': ['Hyundai', 'Accent', 'GL', '1.6 L', 'Bencina', 61350],
@@ -12797,8 +12907,8 @@
                         plataformaId: id(o.p),
                         mecanicoId: o.me ? id(o.me) : '',
                         ingresadoPor: {
-                            id: id(o.rec || 'Recepción Uno'),
-                            nombre: o.rec || 'Recepción Uno'
+                            id: id(o.rec || 'Administrativo Uno'),
+                            nombre: o.rec || 'Administrativo Uno'
                         },
                         titulo: o.t,
                         vehiculo: {
@@ -12838,7 +12948,7 @@
                             id: uid(),
                             tipo: 'orden',
                             texto: o.n,
-                            autor: o.rec || 'Recepción Uno',
+                            autor: o.rec || 'Administrativo Uno',
                             fechaISO: H(o.h, o.m)
                         }] : [],
                         alertas: [],
@@ -12866,12 +12976,12 @@
             M2 = 'Mecánica Dos',
             M3 = 'Mecánica Tres',
             M4 = 'Mecánica Cuatro',
-            R2 = 'Recepción Dos',
+            R2 = 'Ventas Uno',
             ACE = [['Aceites motor', '5W-30', 4], ['Filtros', 'Aceite']],
             ACD = [['Aceites motor', '5W-40', 6], ['Filtros', 'Aceite']],
             PAS = [['Frenos', 'Pastillas'], ['Líquidos', 'Líquido frenos DOT4']];
         c.mecanicos = L([M1, M2, M3, M4]);
-        c.recepcion = L(['Recepción Uno', R2]);
+        c.recepcion = L(['Administrativo Uno', R2]);
         S.jobs = [
         mk({
             ot: '527',
@@ -13811,12 +13921,15 @@
                 p = j.paso || 0;
             if (!r || p >= r.length - 1)
                 return;
-            const from = nm(S.cfg.plataformas, j.plataformaId),
-                to = nm(S.cfg.plataformas, r[p + 1]);
+            const from = stepNm(r[p] || j.plataformaId),
+                to = stepNm(r[p + 1]);
             t.acumSeg = el(j);
             t.ultimoInicioISO = null;
             j.paso = p + 1;
-            j.plataformaId = r[p + 1];
+            if (isMecStep(r[p + 1]))
+                j.mecanicoId = String(r[p + 1]).slice(2);
+            else
+                j.plataformaId = r[p + 1];
             j.estado = 'cola';
             j.pausa = null;
             j.listo = false;
@@ -14223,12 +14336,12 @@
     }
     /* v0.17 · acc(): bloque plegable de Configuración. Plegado muestra solo título + subtítulo; al tocarlo se expande (S.cx guarda cuáles están abiertos). */
     const acc = (k, t, sub, body) => `<section class="acc ${S.cx[k] ? 'open' : ''}"><button class="acch" data-a="cx" data-k="${k}" aria-expanded="${!!S.cx[k]}"><span><b>${t}</b><small>${sub}</small></span>${ic('expand_more', 'chev')}</button>${S.cx[k] ? `<div class="accb">${body}</div>` : ''}</section>`;
-    const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><span class="${x.activo ? '' : 'mut'}">${esc(x.nombre)}</span><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
+    const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cren" data-k="${k}" data-id="${x.id}" value="${esc(x.nombre)}" aria-label="Nombre" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
     function config() {
         const X = skyTM();
         return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
          <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
-         ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden.')}${lst('recepcion', 'Quién ingresa las órdenes', 'Personal de recepción que registra cada orden.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
+         ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
          ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
          <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
@@ -14659,15 +14772,17 @@
         if (j.modo == 'reparacion' || j.estado == 'completado')
             return '';
         const n = (j.fotos || []).length;
-        return `<button type="button" class="rfot" data-a="rfot" data-id="${j.id}" title="Agregar fotos" aria-label="Agregar fotos">${ic('add_a_photo')}${n ? `<b>${n}</b>` : ''}</button>`
+        return `<div class="rfi"><button type="button" class="rfot" data-a="rfot" data-id="${j.id}" title="Agregar foto" aria-label="Agregar foto">${ic('photo_camera')}${n ? `<b>${n}</b>` : ''}</button><button type="button" class="rfot" data-a="fesq" data-id="${j.id}" title="Esquema del vehículo" aria-label="Esquema del vehículo para fotos completas">${ic('directions_car')}</button><button type="button" class="rfot" data-a="insp" data-id="${j.id}" title="Inspección" aria-label="Inspección">${ic('fact_check')}</button></div>`
     };
-    function fotosSec(x) {
+    const fotoBar = (x, tpl) => `<div class="fbar">${tpl ? '' : `<button type="button" data-a="fesq" data-id="${x}">${ic('directions_car')} Esquema</button>`}<button type="button" data-a="insp" data-id="${x}">${ic('fact_check')} Inspección</button></div>`;
+    function fotosSec(x, force) {
         const isNew = x == 'new',
             j = isNew ? null : get(x);
         if (!isNew && !j)
             return '';
         const L = (isNew ? D.fotos : j.fotos) || [],
             modo = isNew ? D.modo : j.modo,
+            tpl = modo == 'reparacion' || !!force,
             lock = !isNew && j.estado == 'completado',
             by = s => L.find(f => f.slot == s),
             img = m => `<img data-fid="${m.id}" alt="Foto" src="${FT.get(m.id) || m.url || ''}">`,
@@ -14675,14 +14790,25 @@
                 const m = by(s);
                 return m ? `<button type="button" class="fcam ok" data-a="fver" data-id="${m.id}" data-x="${x}" title="${n} · ver" aria-label="${n}: ver foto">${img(m)}<i class="fchk">${ic('check')}</i></button>` : `<button type="button" class="fcam" ${lock ? 'disabled' : ''} data-a="fcam" data-x="${x}" data-s="${s}" title="${n}" aria-label="${n}: ${FSRC() == 'gal' ? 'elegir de la galería' : 'tomar foto'}">${ic(FSRC() == 'gal' ? 'photo_library' : 'photo_camera')}</button>`
             },
-            extra = L.filter(m => !(modo == 'reparacion' && [...FZ, ...FX].some(z => z.k == m.slot))),
+            extra = L.filter(m => !(tpl && [...FZ, ...FX].some(z => z.k == m.slot))),
             free = `<div class="fgrid">${extra.map(m => `<button type="button" class="fth" data-a="fver" data-id="${m.id}" data-x="${x}" aria-label="Ver foto">${img(m)}</button>`).join('')}${lock ? '' : `<button type="button" class="fadd" data-a="fcam" data-x="${x}" data-s="">${ic('add_a_photo')}<small>Foto</small></button><button type="button" class="fadd" data-a="fpick" data-x="${x}">${ic('photo_library')}<small>Galería</small></button>`}</div>`,
-            tot = modo == 'reparacion' ? FZ.length + FX.length : 0,
-            dn = modo == 'reparacion' ? [...FZ, ...FX].filter(z => by(z.k)).length : 0,
+            tot = tpl ? FZ.length + FX.length : 0,
+            dn = tpl ? [...FZ, ...FX].filter(z => by(z.k)).length : 0,
             up = L.filter(m => m.url).length,
             pg = L.filter(m => !m.sv).length;
-        return `<div class="fot ${modo == 'reparacion' ? 'tpl' : ''}" data-fx="${x}">${fsrcSel()}${modo == 'reparacion' ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
+        return `<div class="fot ${tpl ? 'tpl' : ''}" data-fx="${x}">${fotoBar(x, tpl)}${fsrcSel()}${tpl ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
          <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${isNew && L.length - up ? ' · se suben al guardar la orden' : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
+    }
+    /* v9-4 · Esquema e Inspección sobre el formulario «Crear/Editar orden» (la orden aún no existe: usa el borrador D) */
+    function ovModal(o) {
+        if (!o || !S.modal || S.modal.k != 'new' || !D) {
+            S.ov = null;
+            return ''
+        }
+        const who = D.patente ? `${esc(D.patente)} · ${D.ot ? 'OT ' + esc(D.ot) : 'SOT'}` : 'Orden nueva';
+        if (o.k == 'insp')
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div><div class="sm" style="margin-top:8px">Aquí irá la hoja de inspección del vehículo con sus detalles. El espacio queda reservado para cuando esté lista.</div><div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
+        return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">Fotos del vehículo</b><div class="sm">${who}</div>${fotosSec('new', 1)}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
     }
     function fotoVer(id, x) {
         S.fv = {
@@ -14723,10 +14849,13 @@
     /* v4 · flujo de estaciones en el formulario: la primera estación es «Sub-zona»; aquí se agregan las siguientes, en orden */
     function rutaUI() {
         const P = S.cfg.plataformas.filter(p => p.activo),
-            opt = v => `<option value="">Elige sub-zona</option>${P.map(p => `<option value="${p.id}" ${v == p.id ? 'selected' : ''}>${esc(p.nombre)} · ${esc(zn(p.zonaId)?.nombre || '')}</option>`).join('')}`,
+            M = S.cfg.mecanicos.filter(m => m.activo),
+            opt = v => `<option value="">Elige sub-zona o mecánico</option><optgroup label="Sub-zonas">${P.map(p => `<option value="${p.id}" ${v == p.id ? 'selected' : ''}>${esc(p.nombre)} · ${esc(zn(p.zonaId)?.nombre || '')}</option>`).join('')}</optgroup><optgroup label="Mecánicos">${M.map(m => `<option value="m:${m.id}" ${v == 'm:' + m.id ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</optgroup>${v && !P.some(p => p.id == v) && !M.some(m => 'm:' + m.id == v) ? `<option value="${esc(v)}" selected>${esc(stepNm(v))} (inactivo)</option>` : ''}`,
             X = D.rutaX || [],
-            names = [...(D._done || []), D.plat, ...X].filter(Boolean).map(id => esc(nm(S.cfg.plataformas, id)));
-        return `<div class="sm" style="margin-top:8px">Flujo de estaciones (opcional)</div><div class="rutaf">${X.map((v, i) => `<div class="rx"><span class="rxn">${(D._done || []).length + i + 2}</span><select data-f="rtx" data-i="${i}" aria-label="Estación ${(D._done || []).length + i + 2}">${opt(v)}</select><button type="button" data-a="rtdel" data-i="${i}" title="Quitar" aria-label="Quitar estación">${ic('close')}</button></div>`).join('')}<button type="button" class="rtadd" data-a="rtadd">${ic('add')} Agregar sub-zona</button></div>${names.length > 1 ? `<div class="est">Flujo: <b>${names.join(' → ')}</b>. Al terminar cada estación el vehículo pasa a la siguiente y queda en cola.</div>` : '<div class="est">Si el vehículo debe pasar por varias estaciones (por ejemplo Vulca 1 y luego Plataforma 1), agrégalas aquí en orden.</div>'}`
+            cur = D._cur || D.plat,
+            names = [...(D._done || []), cur, ...X].filter(Boolean).map(id => stepLbl(id)),
+            up0 = !D._cur && D.plat && X[0] && !isMecStep(X[0]);
+        return `<div class="sm" style="margin-top:8px">Flujo de estaciones (opcional)</div><div class="rutaf">${X.map((v, i) => `<div class="rx"><span class="rxn">${(D._done || []).length + i + 2}</span><select data-f="rtx" data-i="${i}" aria-label="Estación ${(D._done || []).length + i + 2}">${opt(v)}</select><button type="button" data-a="rtmv" data-i="${i}" data-d="-1" title="Subir" aria-label="Subir estación" ${(i == 0 ? !up0 : false) ? 'disabled' : ''}>${ic('arrow_upward')}</button><button type="button" data-a="rtmv" data-i="${i}" data-d="1" title="Bajar" aria-label="Bajar estación" ${i >= X.length - 1 ? 'disabled' : ''}>${ic('arrow_downward')}</button><button type="button" data-a="rtdel" data-i="${i}" title="Quitar" aria-label="Quitar estación">${ic('close')}</button></div>`).join('')}<button type="button" class="rtadd" data-a="rtadd">${ic('add')} Agregar sub-zona o mecánico</button></div>${names.length > 1 ? `<div class="est">Flujo: <b>${names.join(' → ')}</b>. Al terminar cada estación el vehículo pasa a la siguiente y queda en cola; si la estación es un mecánico, la orden se le reasigna.</div>` : '<div class="est">Si el vehículo debe pasar por varias estaciones (por ejemplo Vulca 1, luego el mecánico Juan y luego Plataforma 1), agrégalas aquí en orden. Puedes mezclar sub-zonas y mecánicos, cambiar el orden con las flechas y quitar las que sobren.</div>'}`
     }
     function formTick() {
         if (!D || D._edit || D._ingEdit || !S.modal || S.modal.k != 'new')
@@ -14821,7 +14950,18 @@
                 return '';
             const r = rutaOf(j),
                 p = j.paso || 0;
-            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('alt_route', 'big t-mid')}<p><b>¿Qué hacemos con esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · estación ${p + 1} de ${r.length}: ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="btns" style="margin-top:14px;flex-wrap:wrap"><button data-a="sigok" data-id="${j.id}">${ic('arrow_forward')} Pasar a ${esc(rutaNext(j))}</button><button data-a="comall" data-id="${j.id}">${ic('check')} Completar la orden</button><button data-a="cerrar">Continuar en proceso</button></div></div></div>`
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('alt_route', 'big t-mid')}<p><b>¿Qué hacemos con esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · estación ${p + 1} de ${r.length}: ${esc(stepNm(r[p] || j.plataformaId))}</div><div class="btns" style="margin-top:14px;flex-wrap:wrap"><button data-a="sigok" data-id="${j.id}">${ic('arrow_forward')} Pasar a ${esc(rutaNext(j))}</button><button data-a="comall" data-id="${j.id}">${ic('check')} Completar la orden</button><button data-a="cerrar">Continuar en proceso</button></div></div></div>`
+        }
+        if (m.k == 'fcg' || m.k == 'fesq' || m.k == 'insp') {
+            const j = get(m.id);
+            if (!j)
+                return '';
+            const who = `${esc(j.vehiculo.patente)} · ${j.ot ? 'OT ' + esc(j.ot) : 'SOT'}`;
+            if (m.k == 'fcg')
+                return `<div class="bd" data-a="cerrar"><div class="box c">${ic('add_a_photo', 'big t-mid')}<p><b>Agregar fotos</b></p><div class="sm">${who}</div><div class="btns" style="margin-top:16px"><button data-a="fcgo" data-v="cam">${ic('photo_camera')} Cámara</button><button data-a="fcgo" data-v="gal">${ic('photo_library')} Galería</button></div><div class="btns" style="margin-top:8px"><button data-a="cerrar">Cancelar</button></div></div></div>`;
+            if (m.k == 'insp')
+                return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div><div class="sm" style="margin-top:8px">Aquí irá la hoja de inspección del vehículo con sus detalles. El espacio queda reservado para cuando esté lista.</div><div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
+            return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">Fotos del vehículo</b><div class="sm">${who}</div>${fotosSec(m.id, 1)}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
         }
         if (m.k == 'cf')
             return cfModal(m);
@@ -15482,7 +15622,7 @@
             ds = document.querySelector('.card.open .dbody')?.scrollTop || 0; // conserva el scroll al redibujar
         const ah = V[S.view](),
             nh = navbar(),
-            mh = modal() + (S.fv ? fotoModal(S.fv) : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
         const fk = (ah !== R.ah || mh !== R.mh) ? focusKey() : null; // v1: si se redibuja con un campo en foco, el foco (y el teclado) se conserva
         if (ah !== R.ah) {
             app.innerHTML = ah;
@@ -16158,6 +16298,7 @@
                 })),
                 rutaX: ru ? ru.slice((j.paso || 0) + 1) : [],
                 _done: ru ? ru.slice(0, j.paso || 0) : [],
+                _cur: ru && isMecStep(ru[j.paso || 0]) ? ru[j.paso || 0] : '',
                 estU: manual ? u : 'min',
                 entD: ent ? ymd(new Date(ent)) : '',
                 entH: ent ? hhmm(ent) : '',
@@ -16265,6 +16406,37 @@
             R.nc = 1;
             render(1)
         },
+        rtmv: d => {
+            collect();
+            const X = D.rutaX = D.rutaX || [],
+                i = +d.i;
+            if (+d.d < 0) {
+                if (i == 0) {
+                    if (D._cur || !D.plat || !X[0] || isMecStep(X[0]))
+                        return;
+                    const q = D.plat;
+                    D.plat = X[0];
+                    X[0] = q
+                } else {
+                    const q = X[i - 1];
+                    X[i - 1] = X[i];
+                    X[i] = q
+                }
+            } else if (i < X.length - 1) {
+                const q = X[i + 1];
+                X[i + 1] = X[i];
+                X[i] = q
+            }
+            R.nc = 1;
+            render(1)
+        },
+        // v9-4: cambiar el orden de la ruta
+        col: d => {
+            S.col[d.k] = !colH(d.k, d.d == '1');
+            render(1)
+        },
+        // v9-4: pliega/expande bloques (recordatorios)
+
         fcam: d => fotoPick(d.x, d.s || '', FSRC() == 'gal' && d.s ? 1 : 0),
         fsrc: d => {
             if (D && S.modal && S.modal.k == 'new')
@@ -16274,7 +16446,48 @@
             } catch (e) {}
             render(1)
         },
-        rfot: d => fotoPick(d.id, '', FSRC() == 'gal' ? 1 : 0),
+        rfot: d => {
+            S.modal = {
+                k: 'fcg',
+                id: d.id
+            };
+            render(1)
+        },
+        fesq: d => {
+            if (d.id == 'new') {
+                collect();
+                S.ov = {
+                    k: 'fesq',
+                    x: 'new'
+                }
+            } else
+                S.modal = {
+                    k: 'fesq',
+                    id: d.id
+                };
+            render(1)
+        },
+        insp: d => {
+            if (d.id == 'new') {
+                collect();
+                S.ov = {
+                    k: 'insp',
+                    x: 'new'
+                }
+            } else
+                S.modal = {
+                    k: 'insp',
+                    id: d.id
+                };
+            render(1)
+        },
+        fcgo: d => {
+            const id = S.modal && S.modal.id;
+            S.modal = null;
+            render(1);
+            if (id)
+                fotoPick(id, '', d.v == 'gal' ? 1 : 0)
+        },
         fpick: d => fotoPick(d.x, '', 1),
         fver: d => fotoVer(d.id, d.x),
         fgal: d => fotoGaleria(d.x),
@@ -16635,6 +16848,8 @@
             if (e.target == b || b.tagName == 'BUTTON') {
                 if (S.fv)
                     S.fv = null;
+                else if (S.ov)
+                    S.ov = null;
                 else if (S.help)
                     S.help = 0;
                 else {
@@ -17435,6 +17650,35 @@
             render(1);
             return
         }
+        if (k == 'cren') {
+            const a = S.cfg[t.dataset.k] || [],
+                x = a.find(y => y.id == t.dataset.id),
+                v = t.value.trim();
+            if (!x)
+                return;
+            if (!v) {
+                t.value = x.nombre;
+                return
+            }
+            if (x.nombre != v) {
+                const old = x.nombre;
+                x.nombre = v;
+                if (t.dataset.k == 'mecanicos' || t.dataset.k == 'recepcion') {
+                    try {
+                        if (localStorage.lubri_autor == old)
+                            localStorage.lubri_autor = v
+                    } catch (e) {}
+                    S.jobs.forEach(j => {
+                        if (j.ingresadoPor && j.ingresadoPor.id == x.id && j.ingresadoPor.nombre != v) {
+                            j.ingresadoPor.nombre = v;
+                            saveJob(j, 1)
+                        }
+                    })
+                }
+                saveCfg()
+            }
+            return
+        } // v9-4: renombrar mecánicos, administrativos/ventas y motivos
         if (k == 'pnom') {
             const p = S.cfg.plataformas.find(x => x.id == t.dataset.id);
             if (p && t.value.trim() && p.nombre != t.value.trim()) {
@@ -17960,7 +18204,7 @@
         skip: 0
     };
     function histSync() {
-        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv);
+        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv || S.ov);
         if (o && !HB.on) {
             try {
                 history.pushState({
@@ -17983,6 +18227,8 @@
         // cierra la capa de más arriba
         if (S.fv)
             S.fv = null;
+        else if (S.ov)
+            S.ov = null;
         else if (S.help)
             S.help = 0;
         else if (S.mrq)
@@ -18456,7 +18702,8 @@
             L = remList();
         if (!L.length && !R3.length)
             return '';
-        return `<div class="dsec"><h2>Recordatorios</h2>${R3.slice(0, 3).map(x => recN(x, 1)).join('')}${L.slice(0, 5).map(x => calRow(x)).join('')}${L.length > 5 ? `<div class="sm">+${L.length - 5} más en el calendario de citas</div>` : ''}</div>`
+        const o = colH('dash', true);
+        return `<div class="dsec"><h2><button type="button" class="colh" data-a="col" data-k="dash" data-d="1" aria-expanded="${o}"><span>Recordatorios</span><b class="colc${R3.length ? ' due' : ''}">${R3.length + L.length}</b>${ic('expand_more', 'chev')}</button></h2>${o ? `${R3.slice(0, 3).map(x => recN(x, 1)).join('')}${L.slice(0, 5).map(x => calRow(x)).join('')}${L.length > 5 ? `<div class="sm">+${L.length - 5} más en el calendario de citas</div>` : ''}` : ''}</div>`
     }
     function vMas() {
         const up = calUp().slice(0, 3);
@@ -18769,8 +19016,12 @@
         return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
     };
     const recSec = j => {
-        const L = (j.recordatorios || []).slice().sort((a, b) => cmpS(a.iso, b.iso));
-        return `<h3>${ic('alarm')} Recordatorios de la orden</h3><div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div>`
+        const L = (j.recordatorios || []).slice().sort((a, b) => cmpS(a.iso, b.iso)),
+            P = L.filter(r => !r.hecho),
+            k = 'rc' + j.id,
+            o = colH(k, false),
+            dueN = P.filter(r => Date.parse(r.iso) <= Date.now()).length;
+        return `<h3 class="colh3"><button type="button" class="colh" data-a="col" data-k="${k}" data-d="0" aria-expanded="${o}">${ic('alarm')}<span>Recordatorios de la orden</span>${P.length ? `<b class="colc${dueN ? ' due' : ''}">${P.length}</b>` : ''}${ic('expand_more', 'chev')}</button></h3>${o ? `<div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div>` : ''}`
     };
     const notCount = () => dueRecs().length + calItems().filter(x => !x.done && Date.parse(x.iso) <= Date.now() && dayDiff(x.iso) >= -30).length;
     const notBtn = () => {
