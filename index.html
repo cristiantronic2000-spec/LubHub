@@ -58,7 +58,7 @@
             } catch (e) {}
         }
         (function t(i) {
-            if (i >= N.length)
+            if (location.protocol == 'file:' || i >= N.length)
                 return;
             var u = b + N[i].replace(/^\./, function(x) {
                     return '.'
@@ -8058,6 +8058,161 @@
 
     .shkb {
         z-index: 80 !important
+    }/* ---- v9-6 ---- */
+    :root {
+        --espera: #7c8ba3
+    }
+
+    .espera {
+        background: var(--espera)
+    }
+
+    .dot.espera::after, .dot.espera::before {
+        background: var(--espera)
+    }
+
+    .z0 .dot.espera::before, .z0 .dot.espera::after, .z0.dot.espera::before, .z0.dot.espera::after {
+        display: none
+    }
+
+    .zbub.espera rect, .zbub.espera polygon {
+        fill: var(--espera)
+    }
+
+    .sala-c.espera {
+        border-color: var(--espera)
+    }
+
+    .sala-c.espera .sala-m small {
+        color: var(--espera)
+    }
+
+    .sala-c.espera .sala-pr i {
+        background: var(--espera)
+    }
+
+    .sala-c.espera .sala-pr i::after {
+        display: none
+    }
+
+    .mec-card.espera {
+        border-color: var(--espera)
+    }
+
+    .mec-card.espera {
+        border-color: var(--espera)
+    }
+
+    .tg.esp {
+        background: #e8edf4;
+        color: #475569;
+        animation:none !important
+    }
+
+    .tg.esp::before, .tg.esp::after {
+        animation: none !important
+    }
+
+    .insp .fgrid {
+        margin-bottom: 4px
+    }
+
+    .chip[data-a=repm] {
+        font: inherit;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap:4px
+    }
+
+    .chip[data-a=repm] .ms, .chip[data-a=repm] i {
+        font-size: 15px
+    }
+
+    .bcb {
+        border: 0;
+        background: transparent;
+        padding: 2px 6px;
+        border-radius: 10px;
+        flex: none;
+        color: inherit;
+        line-height: 1
+    }
+
+    .rr .bcb {
+        margin-left: auto
+    }
+
+    .mec-box .rp li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px
+    }
+
+    .bcbox {
+        background: #fff;
+        border: 1.5px solid var(--line);
+        border-radius: 14px;
+        padding: 10px;
+        margin: 6px 0;
+        text-align:center
+    }
+
+    .bcbox .bcs {
+        width: 100%;
+        height: 74px;
+        display: block
+    }
+
+    .bcv {
+        font: 700 15px ui-monospace, Menlo, monospace;
+        letter-spacing: 1.5px;
+        margin-top: 6px;
+        word-break: break-all;
+        text-align: center
+    }
+
+    .bcfs {
+        position: fixed;
+        inset: 0;
+        z-index: 95;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        cursor: pointer
+    }
+
+    .bcin {
+        width: 100%;
+        max-width: 640px;
+        text-align:center
+    }
+
+    .bcin .bcs {
+        width: 100%;
+        height: 34vh;
+        min-height: 150px;
+        display:block
+    }
+
+    .bcn {
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom:14px
+    }
+
+    .bcfs .bcv {
+        font-size: 24px;
+        margin-top:14px
+    }
+
+    .bch {
+        margin-top: 18px;
+        font-size: 13px;
+        color: #555
     }
     </style>
     <style id="sala46">
@@ -10615,15 +10770,20 @@
         proceso: 'En proceso',
         reparacion: 'En reparación',
         pausa: 'En pausa',
+        espera: 'En espera',
         completado: 'Completado'
     };
+    /* v9-6 · pausa por «Cambio de estación» = EN ESPERA: sigue pausada (el reloj no corre) pero no se muestra como pausa roja ni como atrasada; el tiempo se cuenta solo desde que se inicia */
+    const ESP_ID = 'CAMBIO_ESTACION',
+        esp = j => j.estado == 'pausa' && !!j.pausa && (!!j.pausa.espera || j.pausa.motivo == ESP_ID),
+        pmot = m => !m ? 'Sin motivo' : m == ESP_ID ? 'Cambio de estación' : (nm(S.cfg.motivos, m) == '—' ? m : nm(S.cfg.motivos, m));
     /* ============ v4 · «EN REPARACIÓN» (azul) + FLUJO DE ESTACIONES ============
        j.modo = 'proceso' | 'reparacion'. El estado de ciclo de vida (cola/proceso/pausa/completado) NO cambia: «En reparación» = estado 'proceso' + modo 'reparacion'.
        Paleta: amarillo = en cola · naranja = en proceso · verde = listo · rojo = pausa · azul = en reparación.
        j.ruta = lista ordenada de sub-zonas por las que pasa el vehículo; j.paso = estación actual (0 = la primera). */
     const isRep = j => j.modo == 'reparacion',
-        sc = j => j.estado == 'proceso' && j.modo == 'reparacion' ? 'reparacion' : j.estado,
-        stf = (j, e) => e == 'reparacion' ? sc(j) == 'reparacion' : e == 'proceso' ? (j.estado == 'proceso' && j.modo != 'reparacion') : j.estado == e,
+        sc = j => j.estado == 'proceso' && j.modo == 'reparacion' ? 'reparacion' : esp(j) ? 'espera' : j.estado,
+        stf = (j, e) => e == 'reparacion' ? sc(j) == 'reparacion' : e == 'proceso' ? (j.estado == 'proceso' && j.modo != 'reparacion') : e == 'cola' ? (j.estado == 'cola' || esp(j)) : e == 'pausa' ? (j.estado == 'pausa' && !esp(j)) : j.estado == e,
         fdur = s => {
             const t = Math.max(0, Math.round(s / 60)),
                 d = Math.floor(t / 1440),
@@ -10756,6 +10916,7 @@
         col: {},
         ov: null,
         shk: null,
+        bcv: null,
         zg: false,
         zid: null,
         zp: null,
@@ -10970,7 +11131,7 @@
     }
     const homeBadge = () => {
         const A = S.jobs.filter(j => j.estado != 'completado'),
-            late = A.some(j => j.estado == 'pausa'); /* v0.16: rojo si hay 1+ trabajos en pausa, verde si no */
+            late = A.some(j => j.estado == 'pausa' && !esp(j)); /* v0.16: rojo si hay 1+ trabajos en pausa, verde si no */
         return `<span class="bdg ${late ? 'late' : 'ok'}" title="${late ? 'Hay trabajos en pausa' : 'Sin trabajos en pausa'}">${A.length}</span>`
     };
     function stagger(root) {
@@ -11120,8 +11281,8 @@
         cnt = L => ({
             proceso: L.filter(j => stf(j, 'proceso')).length,
             reparacion: L.filter(j => stf(j, 'reparacion')).length,
-            cola: L.filter(j => j.estado == 'cola').length,
-            pausa: L.filter(j => j.estado == 'pausa').length,
+            cola: L.filter(j => stf(j, 'cola')).length,
+            pausa: L.filter(j => stf(j, 'pausa')).length,
             total: L.length,
             late: L.some(j => j.estado == 'proceso' && estado(j)[1] == 'atraso')
         }),
@@ -12866,8 +13027,7 @@
             pm = {},
             mec = {};
         pau.forEach(e => {
-            const k = nm(S.cfg.motivos, e.detalle),
-                b = k == '—' ? (e.detalle || 'Sin motivo') : k;
+            const b = e.detalle ? pmot(e.detalle) : 'Sin motivo';
             pm[b] = (pm[b] || 0) + 1
         });
         C.forEach(j => {
@@ -12882,7 +13042,7 @@
          <div class="chips kpf">${per.map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="kpp" data-p="${k}">${t}</button>`).join('')}</div>
          <div class="kpm"><svg viewBox="0 0 64 64" class="kpr" role="img" aria-label="Puntualidad"><circle cx="32" cy="32" r="${R0}" fill="none" stroke="#ececec" stroke-width="7"/><circle class="rg" cx="32" cy="32" r="${R0}" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${CI.toFixed(1)}" style="stroke-dashoffset:${off.toFixed(1)}" transform="rotate(-90 32 32)"/><text x="32" y="32" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="700" fill="#111">${pct == null ? '—' : pct + '%'}</text></svg>
          <div class="kpt"><b>Puntualidad</b><span class="sm">${n ? `${okF(C)} de ${n} órdenes terminaron dentro del estimado` : 'Aún no hay órdenes completadas en este periodo'}</span>
-         <div class="kpc"><span class="${act.some(j => j.estado == 'proceso') ? '' : 'z0'}"><i class="dot proceso"></i>${act.filter(j => j.estado == 'proceso').length}</span><span class="${act.some(j => j.estado == 'cola') ? '' : 'z0'}"><i class="dot cola"></i>${act.filter(j => j.estado == 'cola').length}</span><span class="${act.some(j => j.estado == 'pausa') ? '' : 'z0'}"><i class="dot pausa"></i>${act.filter(j => j.estado == 'pausa').length}</span>${late ? `<span class="kpl">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}<span class="sm">ahora</span></div></div></div>
+         <div class="kpc"><span class="${act.some(j => j.estado == 'proceso') ? '' : 'z0'}"><i class="dot proceso"></i>${act.filter(j => j.estado == 'proceso').length}</span><span class="${act.some(j => j.estado == 'cola') ? '' : 'z0'}"><i class="dot cola"></i>${act.filter(j => stf(j, 'cola')).length}</span><span class="${act.some(j => stf(j, 'pausa')) ? '' : 'z0'}"><i class="dot pausa"></i>${act.filter(j => stf(j, 'pausa')).length}</span>${late ? `<span class="kpl">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}<span class="sm">ahora</span></div></div></div>
          <div class="kpg">${tile('task_alt', n, 'Completadas')}${tile('today', S.jobs.filter(j => j.estado == 'completado' && ids.includes(j.plataformaId) && hoy(j.tiempos.completadoISO)).length, 'Hoy')}${tile('timer', n ? av(C, j => j.tiempos.realSeg) + ' min' : '—', 'Real promedio')}${tile('schedule', n ? av(C, j => j.tiempos.estSeg) + ' min' : '—', 'Estimado prom.')}${tile(dv > 0 ? 'trending_up' : 'trending_down', n ? sg(dv) : '—', 'Desviación', !n ? '' : dv > 0 ? 'bad' : 'good')}${tile('percent', n && av(C, j => j.tiempos.estSeg) ? Math.round(av(C, j => j.tiempos.realSeg) / av(C, j => j.tiempos.estSeg) * 100) + '%' : '—', 'Real vs estimado')}${tile('login', ing.length, 'Ingresadas')}${tile('speed', n ? (n / spanD).toFixed(1).replace('.', ',') : '—', 'Completadas por día')}${tile('hourglass_top', wavg == null ? '—' : wavg + ' min', 'Espera en cola')}${tile('pause_circle', pau.length, 'Pausas')}${tile('replay', rea.length, 'Reaperturas', rea.length ? 'bad' : '')}${tile('priority_high', urg, 'Urgentes')}</div>
          ${rows.length ? `<div class="sec">${ic(all ? 'location_on' : 'garage')} ${all ? 'Por zona' : 'Por sub-zona'}</div>${rows.map(([nb, L]) => {const q = pc(L),d = L.length ? av(L, j => j.tiempos.desvSeg) : 0;return `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${L.length} compl.${L.length ? ` · <b class="${d > 0 ? 'kb' : 'kg'}">${sg(d)}</b>` : ''}</span></div><div class="bar2"><i style="width:${q == null ? 0 : q}%;background:${q == null ? '#ddd' : q >= 80 ? 'var(--completado)' : q >= 60 ? 'var(--cola)' : 'var(--pausa)'}"></i></div><div class="sm">${q == null ? 'Sin datos' : q + '% a tiempo'}</div></div>`}).join('')}` : ''}
          ${top.length ? `<div class="sec">${ic('build')} Servicios más hechos</div>${top.map(([nb, k]) => `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${k}</span></div><div class="bar2"><i style="width:${Math.round(k / mx * 100)}%;background:var(--ink)"></i></div></div>`).join('')}` : ''}
@@ -13934,6 +14094,8 @@
     }); // bitácora
     function estado(j) {
         const e = j.tiempos.estSeg;
+        if (esp(j))
+            return ['En espera', 'esp'];
         if (!e || j.estado == 'cola')
             return ['', ''];
         if (j.estado == 'completado')
@@ -13981,10 +14143,13 @@
             t.acumSeg = el(j);
             t.ultimoInicioISO = null;
             j.estado = 'pausa';
+            extra = extra || '';
             j.pausa = {
                 motivo: extra,
                 desdeISO: now()
             };
+            if (extra == ESP_ID)
+                j.pausa.espera = true;
             ev(j, 'pausado', extra)
         }
         if (a == 'completar') {
@@ -14060,7 +14225,7 @@
     const side = j => `<div class="side">${j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'pausa' ? `<button data-a="ini" data-id="${j.id}" title="Reanudar">${ic('replay')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : `<button data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button>`}</div>`;
     const row = j => {
         const [tx, cl] = estado(j);
-        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${rfotB(j)}${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${rfotB(j)}${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -14194,7 +14359,7 @@
             J = x == 'new' ? null : get(x),
             nw = p.g == '__new';
         const on = i => rep ? (x == 'new' ? D.rep : J.repuestos).some(r => r.grupo == i.grupo && r.nombre == i.nombre) : (x == 'new' ? D.svc.includes(i.cod) : J.servicios.some(s => s.cod == i.cod));
-        return `<div class="pkr"><div class="sm">1. Elige un grupo o crea uno nuevo</div><div class="chips">${Gs.map(g => `<button class="chip ${p.g == g ? 'sel' : ''}" data-a="pg" data-g="${esc(g)}">${esc(g)}</button>`).join('')}<button class="chip plus ${nw ? 'sel' : ''}" data-a="pg" data-g="__new" title="Crear un grupo nuevo">${ic('add')} Nuevo grupo</button></div>${p.g ? `<div class="sm" style="margin-top:8px">2. ${nw ? 'Nombra el grupo y crea su primer elemento' : 'Toca para agregar o quitar'}</div>${nw ? '<input id="pk_g" placeholder="Nombre del nuevo grupo" style="width:100%;margin:4px 0">' : `<div class="chips">${L.filter(i => i.grupo == p.g).map(i => `<button class="chip ${on(i) ? 'done' : ''}" data-a="pi" data-x="${x}" data-cod="${esc(i.cod || '')}" data-g="${esc(i.grupo)}" data-n="${esc(i.nombre)}">${on(i) ? ic('check') : ''}${esc(i.nombre)}</button>`).join('')}</div>`}<div class="add"><input id="pk_n" placeholder="${rep ? 'Crear repuesto nuevo' : 'Crear servicio nuevo'}">${rep ? '' : '<input id="pk_m" type="number" min="1" placeholder="min" style="max-width:62px">'}<button data-a="pkadd" data-x="${x}" data-c="${c}" title="Crear y agregar">${ic('add')}</button></div>` : ''}<div style="text-align:right;margin-top:6px"><button data-a="pk" data-x="${x}" data-c="${c}" style="font-size:12px">Listo</button></div></div>`
+        return `<div class="pkr"><div class="sm">1. Elige un grupo o crea uno nuevo</div><div class="chips">${Gs.map(g => `<button class="chip ${p.g == g ? 'sel' : ''}" data-a="pg" data-g="${esc(g)}">${esc(g)}</button>`).join('')}<button class="chip plus ${nw ? 'sel' : ''}" data-a="pg" data-g="__new" title="Crear un grupo nuevo">${ic('add')} Nuevo grupo</button></div>${p.g ? `<div class="sm" style="margin-top:8px">2. ${nw ? 'Nombra el grupo y crea su primer elemento' : 'Toca para agregar o quitar'}</div>${nw ? '<input id="pk_g" placeholder="Nombre del nuevo grupo" style="width:100%;margin:4px 0">' : `<div class="chips">${L.filter(i => i.grupo == p.g).map(i => `<button class="chip ${on(i) ? 'done' : ''}" data-a="pi" data-x="${x}" data-cod="${esc(i.cod || '')}" data-g="${esc(i.grupo)}" data-n="${esc(i.nombre)}">${on(i) ? ic('check') : ''}${esc(i.nombre)}</button>`).join('')}</div>`}<div class="add"><input id="pk_n" placeholder="${rep ? 'Crear repuesto nuevo' : 'Crear servicio nuevo'}">${rep ? '<input id="pk_c" placeholder="Código (opcional)" style="max-width:118px" autocomplete="off">' : '<input id="pk_m" type="number" min="1" placeholder="min" style="max-width:62px">'}<button data-a="pkadd" data-x="${x}" data-c="${c}" title="Crear y agregar">${ic('add')}</button></div>` : ''}<div style="text-align:right;margin-top:6px"><button data-a="pk" data-x="${x}" data-c="${c}" style="font-size:12px">Listo</button></div></div>`
     }
     /* AYUDA CONTEXTUAL: al presionar "?" solo se muestran las funciones de lo que hay en pantalla.
        HELP[clave] = bloque de una pantalla. helpKeys() decide qué bloques mostrar según la vista, el detalle abierto o el formulario.
@@ -14237,12 +14402,12 @@
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
-         <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map(r => `<span class="chip">${esc(r.nombre)} ×${r.cant}</span>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
-         ${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
+         <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map((r, i) => `<button type="button" class="chip" data-a="repm" data-x="${j.id}" data-i="${i}" title="Código del producto y código de barras">${esc(r.nombre)} ×${r.cant}${r.cod ? ' · ' + esc(r.cod) : ''}${r.bc ? ic('barcode_scanner') : ''}</button>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
+         ${sec('Inspección', 'fact_check')}${inspBox(j.id)}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
          <div class="cols"><div><h3>${ic('edit_note')} Notas de la orden</h3>${notas(j, 'orden')}</div><div><h3>${ic('directions_car')} Notas del vehículo</h3>${notas(j, 'vehiculo')}</div></div>
          ${recSec(j)}<div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
          <div><h3>Problemas con la OT</h3><div class="chips" style="flex-wrap:nowrap"><button data-a="alerta" data-id="${j.id}" style="font-size:11px">${ic('fact_check')} Solicitar revisión</button><button data-a="sup" data-id="${j.id}" title="WhatsApp de supervisión">${ic('sms')}</button></div>${j.alertas.filter(a => a.estado == 'abierta').map(a => `<div class="sm al">${ic('warning')} ${esc(a.texto)} <button data-a="alres" data-id="${j.id}" data-i="${a.id}" style="border:0;padding:0" title="Resolver">${ic('done')}</button></div>`).join('')}</div></div>
-         ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
+         ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.tipo == 'pausado' ? (e.detalle ? pmot(e.detalle) : 'sin motivo') : e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
          </div><div class="ft"><button data-a="help" title="Ayuda">${ic('help')}</button><button data-a="log" title="Bitácora">${ic('history')}</button><button data-a="del" data-id="${j.id}" title="Eliminar">${ic('delete')}</button>
          ${j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button>` : `<button data-a="ini" data-id="${j.id}" title="${j.estado == 'pausa' ? 'Reanudar' : 'Iniciar'}">${ic(j.estado == 'pausa' ? 'replay' : 'play_arrow')}</button>`}
          ${j.estado != 'completado' ? `<button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : '<span></span>'}<button data-a="edit" data-id="${j.id}" title="Editar esta orden">${ic('edit')}</button></div></div>`
@@ -14298,8 +14463,8 @@
         if (!RA.length)
             return '';
         const run = RA.filter(j => j.estado == 'proceso'),
-            pau = RA.filter(j => j.estado == 'pausa').length,
-            col = RA.filter(j => j.estado == 'cola').length,
+            pau = RA.filter(j => stf(j, 'pausa')).length,
+            col = RA.filter(j => stf(j, 'cola')).length,
             rem = run.reduce((a, j) => a + Math.max(0, j.tiempos.estSeg - el(j)), 0),
             late = run.filter(j => estado(j)[1] == 'atraso').length,
             open = !!S.rx || flt || RA.some(j => j.id == S.open),
@@ -14864,10 +15029,12 @@
         return `<div class="fsrc" role="radiogroup" aria-label="Cómo agregar las fotos del esquema"><button type="button" role="radio" aria-checked="${!g}" class="${g ? '' : 'on'}" data-a="fsrc" data-v="cam">${ic('photo_camera')} Tomar foto</button><button type="button" role="radio" aria-checked="${g}" class="${g ? 'on' : ''}" data-a="fsrc" data-v="gal">${ic('photo_library')} Galería</button></div>`
     };
     const rfotB = j => {
+        const ni = inspL(j).length,
+            ib = `<button type="button" class="rfot" data-a="insp" data-id="${j.id}" title="Inspección" aria-label="Inspección">${ic('fact_check')}${ni ? `<b>${ni}</b>` : ''}</button>`;
         if (j.modo == 'reparacion' || j.estado == 'completado')
-            return '';
-        const n = (j.fotos || []).length;
-        return `<div class="rfi"><button type="button" class="rfot" data-a="rfot" data-id="${j.id}" title="Agregar foto" aria-label="Agregar foto">${ic('photo_camera')}${n ? `<b>${n}</b>` : ''}</button><button type="button" class="rfot" data-a="fesq" data-id="${j.id}" title="Esquema del vehículo" aria-label="Esquema del vehículo para fotos completas">${ic('directions_car')}</button><button type="button" class="rfot" data-a="insp" data-id="${j.id}" title="Inspección" aria-label="Inspección">${ic('fact_check')}</button></div>`
+            return `<div class="rfi">${ib}</div>`;
+        const n = (j.fotos || []).length - ni;
+        return `<div class="rfi"><button type="button" class="rfot" data-a="rfot" data-id="${j.id}" title="Agregar foto" aria-label="Agregar foto">${ic('photo_camera')}${n ? `<b>${n}</b>` : ''}</button><button type="button" class="rfot" data-a="fesq" data-id="${j.id}" title="Esquema del vehículo" aria-label="Esquema del vehículo para fotos completas">${ic('directions_car')}</button>${ib}</div>`
     };
     const fotoBar = (x, tpl) => `<div class="fbar">${tpl ? '' : `<button type="button" data-a="fesq" data-id="${x}">${ic('directions_car')} Esquema</button>`}<button type="button" data-a="insp" data-id="${x}">${ic('fact_check')} Inspección</button></div>`;
     function fotosSec(x, force) {
@@ -14885,7 +15052,7 @@
                 const m = by(s);
                 return m ? `<button type="button" class="fcam ok" data-a="fver" data-id="${m.id}" data-x="${x}" title="${n} · ver" aria-label="${n}: ver foto">${img(m)}<i class="fchk">${ic('check')}</i></button>` : `<button type="button" class="fcam" ${lock ? 'disabled' : ''} data-a="fcam" data-x="${x}" data-s="${s}" title="${n}" aria-label="${n}: ${FSRC() == 'gal' ? 'elegir de la galería' : 'tomar foto'}">${ic(FSRC() == 'gal' ? 'photo_library' : 'photo_camera')}</button>`
             },
-            extra = L.filter(m => !(tpl && [...FZ, ...FX].some(z => z.k == m.slot))),
+            extra = L.filter(m => !String(m.slot || '').startsWith('insp') && !(tpl && [...FZ, ...FX].some(z => z.k == m.slot))),
             free = `<div class="fgrid">${extra.map(m => `<button type="button" class="fth" data-a="fver" data-id="${m.id}" data-x="${x}" aria-label="Ver foto">${img(m)}</button>`).join('')}${lock ? '' : `<button type="button" class="fadd" data-a="fcam" data-x="${x}" data-s="">${ic('add_a_photo')}<small>Foto</small></button><button type="button" class="fadd" data-a="fpick" data-x="${x}">${ic('photo_library')}<small>Galería</small></button>`}</div>`,
             tot = tpl ? FZ.length + FX.length : 0,
             dn = tpl ? [...FZ, ...FX].filter(z => by(z.k)).length : 0,
@@ -14900,9 +15067,14 @@
             S.ov = null;
             return ''
         }
+        if (o.k == 'rep')
+            return repModal({
+                x: 'new',
+                i: o.i
+            });
         const who = D.patente ? `${esc(D.patente)} · ${D.ot ? 'OT ' + esc(D.ot) : 'SOT'}` : 'Orden nueva';
         if (o.k == 'insp')
-            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div><div class="sm" style="margin-top:8px">Aquí irá la hoja de inspección del vehículo con sus detalles. El espacio queda reservado para cuando esté lista.</div><div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div>${inspBox('new')}<div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
         return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">Fotos del vehículo</b><div class="sm">${who}</div>${fotosSec('new', 1)}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
     }
     function fotoVer(id, x) {
@@ -14939,7 +15111,7 @@
         if (!f)
             return '';
         const lock = m.x != 'new' && (get(m.x) || {}).estado == 'completado';
-        return `<div class="bd" data-a="cerrar"><div class="box c fotov"><img id="fvimg" alt="Foto del vehículo"><div class="sm">${f.slot ? esc(([...FZ, ...FX].find(z => z.k == f.slot) || {}).n || '') : 'Foto libre'} · ${fdt(f.ts)}${f.url ? ' · en Firebase' : ' · solo en este teléfono'}</div><div class="btns" style="margin-top:10px;flex-wrap:wrap">${lock ? '' : `<button data-a="fdel" data-id="${f.id}" data-x="${m.x}">${ic('delete')} Eliminar</button>`}<button data-a="cerrar">Cerrar</button></div></div></div>`
+        return `<div class="bd" data-a="cerrar"><div class="box c fotov"><img id="fvimg" alt="Foto del vehículo"><div class="sm">${String(f.slot || '').startsWith('insp') ? 'Inspección' : f.slot ? esc(([...FZ, ...FX].find(z => z.k == f.slot) || {}).n || '') : 'Foto libre'} · ${fdt(f.ts)}${f.url ? ' · en Firebase' : ' · solo en este teléfono'}</div><div class="btns" style="margin-top:10px;flex-wrap:wrap">${lock ? '' : `<button data-a="fdel" data-id="${f.id}" data-x="${m.x}">${ic('delete')} Eliminar</button>`}<button data-a="cerrar">Cerrar</button></div></div></div>`
     }
     /* v4 · flujo de estaciones en el formulario: la primera estación es «Sub-zona»; aquí se agregan las siguientes, en orden */
     function rutaUI() {
@@ -14981,9 +15153,9 @@
          ${sec('Agregar las órdenes de trabajo', 'build')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${sel('cambiar')}</div>${bar('cambiar')}${pick('new', 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${sel('revisar')}</div>${bar('revisar')}${pick('new', 'revisar')}
-         <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}<input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
+         <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}${r.cod ? ` <small>· ${esc(r.cod)}</small>` : ''}<button type="button" class="bcb" data-a="repm" data-x="new" data-i="${i}" title="Código y código de barras" aria-label="Código y código de barras">${ic('barcode_scanner')}</button><input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
          <div class="cols"><div><h3>${D._edit ? 'Agregar nota a la orden' : 'Notas de la orden'}</h3><textarea data-f="notaO" rows="3" style="width:100%;border-radius:12px" placeholder="Agrega comentarios sobre la orden">${esc(D.notaO || '')}</textarea></div><div><h3>${D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo'}</h3><textarea data-f="notaV" rows="3" style="width:100%;border-radius:12px" placeholder="Estado del vehículo o eventos relevantes">${esc(D.notaV || '')}</textarea></div></div>
-         ${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
+         ${sec('Inspección', 'fact_check')}${inspBox('new')}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
          ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><div><div class="sm">N° de chasis (VIN)</div>${fbi('vin', 'VIN', 'autocapitalize=characters')}</div><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
          ${sec('Tiempos', 'schedule')}<div class="fld tm"><div><label class="sm" for="f_ingreso">Hora de ingreso</label><input id="f_ingreso" type="time" data-f="ingreso" class="${D._ingEdit ? '' : 'sug'}" value="${esc(D._ingEdit ? (D.ingreso || '') : hhmm(now()))}" enterkeyhint="next" aria-describedby="ingh"></div><div><label class="sm" for="f_estMin">Tiempo estimado</label><div class="estw"><input id="f_estMin" type="number" min="0" step="any" inputmode="decimal" data-f="estMin" class="${D._estEdit ? '' : 'sug'}" value="${esc(D._estEdit ? (D.estMin || '') : fmtEst(est, D.estU))}" enterkeyhint="next"><select data-f="estU" aria-label="Unidad del tiempo estimado">${[['min', 'min'], ['h', 'horas'], ['d', 'días']].map(([v, t]) => `<option value="${v}" ${(D.estU || 'min') == v ? 'selected' : ''}>${t}</option>`).join('')}</select></div></div></div>
@@ -15055,15 +15227,20 @@
             if (m.k == 'fcg')
                 return `<div class="bd" data-a="cerrar"><div class="box c">${ic('add_a_photo', 'big t-mid')}<p><b>Agregar fotos</b></p><div class="sm">${who}</div><div class="btns" style="margin-top:16px"><button data-a="fcgo" data-v="cam">${ic('photo_camera')} Cámara</button><button data-a="fcgo" data-v="gal">${ic('photo_library')} Galería</button></div><div class="btns" style="margin-top:8px"><button data-a="cerrar">Cancelar</button></div></div></div>`;
             if (m.k == 'insp')
-                return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div><div class="sm" style="margin-top:8px">Aquí irá la hoja de inspección del vehículo con sus detalles. El espacio queda reservado para cuando esté lista.</div><div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
+                return `<div class="bd" data-a="cerrar"><div class="box c">${ic('fact_check', 'big t-mid')}<p><b>Inspección</b></p><div class="sm">${who}</div>${inspBox(m.id)}<div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
             return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">Fotos del vehículo</b><div class="sm">${who}</div>${fotosSec(m.id, 1)}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
         }
+        if (m.k == 'rep')
+            return repModal({
+                x: m.id,
+                i: m.i
+            });
         if (m.k == 'cf')
             return cfModal(m);
         if (m.k == 'del' || m.k == 'bdel')
             return delModal(m);
         const opts = S.cfg.motivos.filter(x => x.activo).map(x => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('');
-        return `<div class="bd" data-a="cerrar"><div class="box c">${ic('pause', 'big t-mid')}<p><b>Motivo de la pausa</b></p><p><select id="mot">${opts}</select></p><div class="btns"><button data-a="pauok" data-id="${m.id}">Pausar</button><button data-a="cerrar">Volver</button></div></div></div>`
+        return `<div class="bd" data-a="cerrar"><div class="box c">${ic('pause', 'big t-mid')}<p><b>Pausar orden</b></p><p><select id="mot"><option value="">Sin motivo</option><option value="CAMBIO_ESTACION">Cambio de estación (queda «En espera»)</option>${opts}</select></p><div class="sm">El motivo es opcional.</div><div class="btns"><button data-a="pauok" data-id="${m.id}">Pausar</button><button data-a="cerrar">Volver</button></div></div></div>`
     }
     function winScr() {
         return [...document.querySelectorAll('#modal .box')].map(b => b.querySelector(':scope>.bb') || b)
@@ -15105,8 +15282,13 @@
             if (z)
                 localStorage.lubri_mz = z;
             const dd = p.get('datos');
-            if (dd)
+            if (dd) {
                 localStorage.lubri_dm = dd == 'demo' ? '1' : '0';
+                try {
+                    p.delete('datos');
+                    history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : '') + location.hash)
+                } catch (e) {}
+            } // v9-6: el parámetro ?datos= se aplica una vez y se quita de la dirección (antes volvía a imponerse al recargar)
             const k = localStorage.lubri_modo;
             return k == 'mec' || (k == 'sala' && localStorage.lubri_salaon !== '0') ? k : 'admin'
         } catch (e) {
@@ -15506,7 +15688,7 @@
                     r = Math.ceil(Math.max(0, e - t) / 60);
                 return {
                     p,
-                    tx: j.estado == 'pausa' ? 'En pausa' : !e ? '' : r > 0 ? `≈ ${r} min restantes` : 'Finalizando'
+                    tx: esp(j) ? 'En espera' : j.estado == 'pausa' ? 'En pausa' : !e ? '' : r > 0 ? `≈ ${r} min restantes` : 'Finalizando'
                 }
             },
             card = (j, i) => {
@@ -15567,8 +15749,8 @@
                     cf = S.mcf == j.id,
                     ps = j.estado == 'pausa',
                     lt = !!j.listo;
-                const rp = (j.repuestos || []).map(r => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}</small></span></li>`).join('') + SP.map(s => `<li class="${s.estado == 'rec' ? 'rec' : 'pend'}"><span>${s.cant > 1 ? s.cant + ' × ' : ''}${esc(s.nombre)} <small>${s.estado == 'rec' ? 'rechazado' : 'solicitado · esperando aprobación'}</small></span></li>`).join('');
-                return `<div class="mec-row"><div class="mec-card ${sc(j)}${lt ? ' lt' : ''}">${top(j, lt ? 'Listo para retirar' : ps ? 'En pausa' : 'En proceso')}<div class="mec-box">${gs('Revisión', Rv)}${gs('Cambios', Cb)}${gs('Otros trabajos', Ot)}${!all.length ? '<ul><li><span>Sin procesos asignados</span></li></ul>' : ''}${rp ? `<div class="mec-g"><h3>Repuestos</h3><ul class="rp">${rp}</ul></div>` : ''}${n ? `<div class="mec-g"><h3>Indicaciones</h3><p>${esc(n)}</p></div>` : ''}${lt ? `<div class="mec-lt">${ic('notifications_active')}Aviso enviado a administración</div>` : ''}</div></div>
+                const rp = (j.repuestos || []).map((r, ri) => `<li><span>${r.cant > 1 ? r.cant + ' × ' : ''}${esc(r.nombre)} <small>${esc(r.grupo || '')}${r.cod ? ' · ' + esc(r.cod) : ''}</small></span>${r.bc ? `<button type="button" class="bcb" data-a="bcshow" data-x="${j.id}" data-i="${ri}" title="Mostrar código de barras" aria-label="Mostrar código de barras">${ic('barcode_scanner')}</button>` : ''}</li>`).join('') + SP.map(s => `<li class="${s.estado == 'rec' ? 'rec' : 'pend'}"><span>${s.cant > 1 ? s.cant + ' × ' : ''}${esc(s.nombre)} <small>${s.estado == 'rec' ? 'rechazado' : 'solicitado · esperando aprobación'}</small></span></li>`).join('');
+                return `<div class="mec-row"><div class="mec-card ${sc(j)}${lt ? ' lt' : ''}">${top(j, lt ? 'Listo para retirar' : ps ? (esp(j) ? 'En espera' : 'En pausa') : 'En proceso')}<div class="mec-box">${gs('Revisión', Rv)}${gs('Cambios', Cb)}${gs('Otros trabajos', Ot)}${!all.length ? '<ul><li><span>Sin procesos asignados</span></li></ul>' : ''}${rp ? `<div class="mec-g"><h3>Repuestos</h3><ul class="rp">${rp}</ul></div>` : ''}${n ? `<div class="mec-g"><h3>Indicaciones</h3><p>${esc(n)}</p></div>` : ''}${lt ? `<div class="mec-lt">${ic('notifications_active')}Aviso enviado a administración</div>` : ''}</div></div>
                   <div class="mec-side"><div class="mec-r1"><button data-a="dpop" data-id="${j.id}" title="Ver detalle completo">${ic('help')}</button><button data-a="edit" data-id="${j.id}" title="Editar la orden">${ic('edit_note')}</button></div><button class="plus" data-a="mrep" data-id="${j.id}" title="Solicitar repuestos">${ic('add')}</button><button class="${ps ? 'go' : ''}" data-a="${ps ? 'ini' : 'pau'}" data-id="${j.id}" title="${ps ? 'Reanudar' : 'Pausar'}">${ic(ps ? 'play_arrow' : 'pause')}</button><button class="${cf ? 'cf' : 'ok'} ${(rdy(j) || lt) && !cf ? 'rdy' : ''}" data-a="mcom" data-id="${j.id}" title="Avisar que está listo">${cf ? '<span>¿Seguro?</span>' : ic(lt ? 'task_alt' : 'check')}</button></div></div>`
             },
             qd = (j, i) => `<div class="mec-qa">${i ? '' : ic('subdirectory_arrow_right')}</div><div class="mec-q">${top(j, 'En cola')}</div><div class="mec-side"><button class="go" data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button></div>`;
@@ -15717,7 +15899,7 @@
             ds = document.querySelector('.card.open .dbody')?.scrollTop || 0; // conserva el scroll al redibujar
         const ah = V[S.view](),
             nh = navbar(),
-            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.shk ? shkModal() : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.bcv ? bcFull() : '') + (S.shk ? shkModal() : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
         const fk = (ah !== R.ah || mh !== R.mh) ? focusKey() : null; // v1: si se redibuja con un campo en foco, el foco (y el teclado) se conserva
         if (ah !== R.ah) {
             app.innerHTML = ah;
@@ -16253,11 +16435,7 @@
                 collect();
                 if (rep) {
                     const i = D.rep.findIndex(r => r.grupo == d.g && r.nombre == d.n);
-                    i < 0 ? D.rep.push({
-                        grupo: d.g,
-                        nombre: d.n,
-                        cant: 1
-                    }) : D.rep.splice(i, 1)
+                    i < 0 ? D.rep.push(repNew(d.g, d.n)) : D.rep.splice(i, 1)
                 } else
                     D.svc = D.svc.includes(d.cod) ? D.svc.filter(c => c != d.cod) : [...D.svc, d.cod];
                 return render(1)
@@ -16265,11 +16443,7 @@
             const j = get(x);
             if (rep) {
                 const i = j.repuestos.findIndex(r => r.grupo == d.g && r.nombre == d.n);
-                i < 0 ? j.repuestos.push({
-                    grupo: d.g,
-                    nombre: d.n,
-                    cant: 1
-                }) : j.repuestos.splice(i, 1);
+                i < 0 ? j.repuestos.push(repNew(d.g, d.n)) : j.repuestos.splice(i, 1);
                 ev(j, 'repuesto', (i < 0 ? 'agregado ' : 'quitado ') + d.n)
             }
             else {
@@ -16306,11 +16480,17 @@
                 collect();
             let cod = '';
             if (rep) {
-                if (!S.cfg.repuestos.some(r => r.grupo == g && r.nombre == n))
-                    S.cfg.repuestos.push({
+                if (!S.cfg.repuestos.some(r => r.grupo == g && r.nombre == n)) {
+                    const c0 = ($('#pk_c')?.value || '').trim().slice(0, 60);
+                    S.cfg.repuestos.push(c0 ? {
+                        grupo: g,
+                        nombre: n,
+                        cod: c0
+                    } : {
                         grupo: g,
                         nombre: n
                     })
+                }
             }
             else {
                 const m = Math.max(1, +$('#pk_m')?.value || 30);
@@ -16334,11 +16514,7 @@
             if (x == 'new') {
                 if (rep) {
                     if (!D.rep.some(r => r.grupo == g && r.nombre == n))
-                        D.rep.push({
-                            grupo: g,
-                            nombre: n,
-                            cant: 1
-                        })
+                        D.rep.push(repNew(g, n))
                 } else if (!D.svc.includes(cod))
                     D.svc.push(cod)
             }
@@ -16346,11 +16522,7 @@
                 const j = get(x);
                 if (rep) {
                     if (!j.repuestos.some(r => r.grupo == g && r.nombre == n)) {
-                        j.repuestos.push({
-                            grupo: g,
-                            nombre: n,
-                            cant: 1
-                        });
+                        j.repuestos.push(repNew(g, n));
                         ev(j, 'repuesto', 'agregado ' + n)
                     }
                 }
@@ -16634,7 +16806,7 @@
                 return;
             lsFlush();
             localStorage.lubri_dm = DM() ? '0' : '1';
-            location.reload()
+            appReload()
         },
         ping: () => {
             if (fb)
@@ -17065,9 +17237,7 @@
             render(1)
         },
         pauok: d => {
-            const v = $('#mot').value;
-            if (!v)
-                return;
+            const v = $('#mot') ? $('#mot').value : '';
             const h = (S.view == 'home' || S.view == 'mapa') && S.open == d.id;
             S.modal = null;
             mover(d.id, 'pausar', v);
@@ -18307,7 +18477,7 @@
         skip: 0
     };
     function histSync() {
-        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv || S.ov || S.shk);
+        const o = !!(S.modal || S.help || S.open || S.mrq || S.fv || S.ov || S.shk || S.bcv);
         if (o && !HB.on) {
             try {
                 history.pushState({
@@ -18330,6 +18500,10 @@
         // cierra la capa de más arriba
         if (S.shk)
             S.shk = null;
+        else if (S.bcv) {
+            S.bcv = null;
+            bcWake(0)
+        }
         else if (S.fv)
             S.fv = null;
         else if (S.ov)
@@ -19607,6 +19781,473 @@
     });
     setInterval(rqTick, 20000);
     setTimeout(rqTick, 4000);
+
+    /* ============ v9-6 · reinicio al cambiar demo/real · inspección · códigos de barras ============ */
+    function appReload() {
+        // recarga limpia: quita parámetros de la dirección y, si el navegador no recargó, fuerza la navegación
+        try {
+            history.replaceState(null, '', location.pathname)
+        } catch (e) {}
+        try {
+            location.reload()
+        } catch (e) {}
+        setTimeout(() => {
+            try {
+                location.replace(location.pathname + '?r=' + Date.now())
+            } catch (e) {}
+        }, 1200)
+    }
+    /* --- Inspección: imágenes que se pueden agregar en cualquier estado de la orden --- */
+    const inspL = j => ((j && j.fotos) || []).filter(f => String(f.slot || '').startsWith('insp'));
+    function inspPick(x, gal) {
+        if (x == 'new')
+            collect();
+        const i = document.createElement('input');
+        i.type = 'file';
+        i.accept = 'image/*';
+        if (!gal)
+            i.setAttribute('capture', 'environment');
+        i.multiple = !!gal;
+        i.style.display = 'none';
+        document.body.appendChild(i);
+        i.addEventListener('cancel', () => i.remove());
+        i.onchange = async () => {
+            const fs = [...i.files];
+            i.remove();
+            let ok = 0;
+            for (const f of fs) {
+                try {
+                    await fotoAdd(f, x, 'insp_' + uid().slice(-5) + Date.now().toString(36));
+                    ok++
+                } catch (e) {
+                    console.error(e);
+                    toast('warning', 'No se pudo guardar la imagen')
+                }
+            }
+            if (ok) {
+                toast('check', ok > 1 ? ok + ' imágenes de inspección guardadas' : 'Imagen de inspección guardada');
+                render(1)
+            }
+            fotoKick()
+        };
+        i.click()
+    }
+    function inspBox(x) {
+        const isNew = x == 'new',
+            j = isNew ? null : get(x),
+            L = isNew ? ((D && D.fotos) || []) : (j ? j.fotos || [] : []),
+            I = L.filter(f => String(f.slot || '').startsWith('insp'));
+        return `<div class="insp">${I.length ? `<div class="fgrid">${I.map(m => `<button type="button" class="fth" data-a="fver" data-id="${m.id}" data-x="${x}" aria-label="Ver imagen de inspección"><img data-fid="${m.id}" alt="Inspección" src="${FT.get(m.id) || m.url || ''}"></button>`).join('')}</div>` : '<div class="sm">Aún no hay imágenes de inspección.</div>'}<div class="btns" style="margin-top:8px;flex-wrap:wrap"><button type="button" data-a="ifoto" data-x="${x}">${ic('add_a_photo')} Tomar foto</button><button type="button" data-a="igal" data-x="${x}">${ic('photo_library')} Galería</button></div><div class="sm" style="margin-top:6px">Se pueden agregar en cualquier momento, aunque la orden no esté cerrada ni completada.</div></div>`
+    }
+    /* --- Códigos de barras: leer desde una foto, guardar y volver a dibujar para escanearlo con la pistola --- */
+    const BC = {
+        c128: '212222,222122,222221,121223,121322,131222,122213,122312,132212,221213,221312,231212,112232,122132,122231,113222,123122,123221,223211,221132,221231,213212,223112,312131,311222,321122,321221,312212,322112,322211,212123,212321,232121,111323,131123,131321,112313,132113,132311,211313,231113,231311,112133,112331,132131,113123,113321,133121,313121,211331,231131,213113,213311,213131,311123,311321,331121,312113,312311,332111,314111,221411,431111,111224,111422,121124,121421,141122,141221,112214,112412,122114,122411,142112,142211,241211,221114,413111,241112,134111,111242,121142,121241,114212,124112,124211,411212,421112,421211,212141,214121,412121,111143,111341,131141,114113,114311,411113,411311,113141,114131,311141,411131,211412,211214,211232,2331112'.split(','),
+        c39: {
+            "0": "111331311",
+            "1": "311311113",
+            "2": "113311113",
+            "3": "313311111",
+            "4": "111331113",
+            "5": "311331111",
+            "6": "113331111",
+            "7": "111311313",
+            "8": "311311311",
+            "9": "113311311",
+            "A": "311113113",
+            "B": "113113113",
+            "C": "313113111",
+            "D": "111133113",
+            "E": "311133111",
+            "F": "113133111",
+            "G": "111113313",
+            "H": "311113311",
+            "I": "113113311",
+            "J": "111133311",
+            "K": "311111133",
+            "L": "113111133",
+            "M": "313111131",
+            "N": "111131133",
+            "O": "311131131",
+            "P": "113131131",
+            "Q": "111111333",
+            "R": "311111331",
+            "S": "113111331",
+            "T": "111131331",
+            "U": "331111113",
+            "V": "133111113",
+            "W": "333111111",
+            "X": "131131113",
+            "Y": "331131111",
+            "Z": "133131111",
+            "-": "131111313",
+            ".": "331111311",
+            " ": "133111311",
+            "*": "131131311",
+            "$": "131313111",
+            "/": "131311131",
+            "+": "131113131",
+            "%": "111313131"
+        },
+        L: ['0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
+        G: ['0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'],
+        R: ['1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'],
+        P: ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL']
+    };
+    const bcW = s => [...s].map((c, i) => (i % 2 ? '0' : '1').repeat(+c)).join(''),
+        bcOk = d => {
+            const a = d.split('').map(Number),
+                c = a.pop();
+            let s = 0;
+            for (let i = a.length - 1, w = 3; i >= 0; i--, w = w == 3 ? 1 : 3)
+                s += a[i] * w;
+            return (10 - s % 10) % 10 == c
+        };
+    function bcKind(v, f) {
+        f = String(f || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (/^\d{13}$/.test(v) && bcOk(v) && (!f || f == 'ean13'))
+            return 'ean13';
+        if (/^\d{12}$/.test(v) && bcOk(v) && (!f || f == 'upca'))
+            return 'upca';
+        if (/^\d{8}$/.test(v) && bcOk(v) && (!f || f == 'ean8'))
+            return 'ean8';
+        if (f == 'code39' && [...v.toUpperCase()].every(c => BC.c39[c] && c != '*'))
+            return 'code39';
+        return 'code128'
+    }
+    function bcMods(v, k) {
+        if (k == 'upca') {
+            v = '0' + v;
+            k = 'ean13'
+        }
+        if (k == 'ean13') {
+            const d = v.split('').map(Number),
+                P = BC.P[d[0]];
+            let s = '101';
+            for (let i = 1; i < 7; i++)
+                s += BC[P[i - 1]][d[i]];
+            s += '01010';
+            for (let i = 7; i < 13; i++)
+                s += BC.R[d[i]];
+            return s + '101'
+        }
+        if (k == 'ean8') {
+            const d = v.split('').map(Number);
+            let s = '101';
+            for (let i = 0; i < 4; i++)
+                s += BC.L[d[i]];
+            s += '01010';
+            for (let i = 4; i < 8; i++)
+                s += BC.R[d[i]];
+            return s + '101'
+        }
+        if (k == 'code39')
+            return [...('*' + v.toUpperCase() + '*')].map(c => bcW(BC.c39[c])).join('0');
+        const s = [...v].map(c => {
+                const n = c.charCodeAt(0);
+                return n >= 32 && n <= 126 ? c : '?'
+            }).join(''),
+            dg = /^\d+$/.test(s) && s.length >= 4;
+        let codes;
+        if (dg) {
+            const o = s.length % 2;
+            codes = o ? [104, s.charCodeAt(0) - 32, 99] : [105];
+            for (let i = o; i < s.length; i += 2)
+                codes.push(+s.slice(i, i + 2))
+        }
+        else
+            codes = [104, ...[...s].map(c => c.charCodeAt(0) - 32)];
+        let sum = codes[0];
+        for (let i = 1; i < codes.length; i++)
+            sum += codes[i] * i;
+        codes.push(sum % 103, 106);
+        return codes.map(c => bcW(BC.c128[c])).join('')
+    }
+    function bcSvg(v, f, o) {
+        o = o || {};
+        v = String(v);
+        const k = bcKind(v, f),
+            m = bcMods(v, k),
+            q = 10,
+            W = m.length + 2 * q,
+            H = o.h || 80;
+        let r = '',
+            i = 0;
+        while (i < m.length) {
+            if (m[i] == '1') {
+                let j = i;
+                while (m[j] == '1')
+                    j++;
+                r += `<rect x="${q + i}" y="0" width="${j - i}" height="${H}"/>`;
+                i = j
+            } else
+                i++
+        }
+        return `<svg class="bcs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" shape-rendering="crispEdges" role="img" aria-label="Código de barras ${esc(v)}"><rect width="${W}" height="${H}" fill="#fff"/><g fill="#000">${r}</g></svg>`
+    }
+    async function bcPrep(file) {
+        const bmp = await (window.createImageBitmap ? createImageBitmap(file, {
+            imageOrientation: 'from-image'
+        }).catch(() => null) : null) || await new Promise((res, rej) => {
+            const i = new Image(),
+                u = URL.createObjectURL(file);
+            i.onload = () => {
+                res(i);
+                setTimeout(() => URL.revokeObjectURL(u), 0)
+            };
+            i.onerror = rej;
+            i.src = u
+        });
+        const w = bmp.width || bmp.naturalWidth,
+            h = bmp.height || bmp.naturalHeight,
+            s = Math.min(1, 1800 / Math.max(w, h)),
+            c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * s));
+        c.height = Math.max(1, Math.round(h * s));
+        c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+        if (bmp.close)
+            bmp.close();
+        return c
+    }
+    let ZXP;
+    const bcZX = () => ZXP || (ZXP = new Promise((res, rej) => {
+        if (window.ZXing)
+            return res(window.ZXing);
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+        s.onload = () => window.ZXing ? res(window.ZXing) : rej(new Error('zxing'));
+        s.onerror = () => {
+            ZXP = null;
+            rej(new Error('sin red'))
+        };
+        document.head.appendChild(s)
+    }));
+    async function bcDecode(file) {
+        const c = await bcPrep(file);
+        if ('BarcodeDetector' in window) {
+            try {
+                const fm = await BarcodeDetector.getSupportedFormats?.(),
+                    d = new BarcodeDetector(fm && fm.length ? {
+                        formats: fm
+                    } : undefined),
+                    r = await d.detect(c);
+                if (r && r.length && r[0].rawValue)
+                    return {
+                        v: r[0].rawValue,
+                        f: r[0].format
+                    }
+            } catch (e) {
+                console.warn('BarcodeDetector', e)
+            }
+        }
+        try {
+            const Z = await bcZX(),
+                rd = new Z.BrowserMultiFormatReader(new Map([[Z.DecodeHintType.TRY_HARDER, true]])),
+                r = await rd.decodeFromImageUrl(c.toDataURL('image/jpeg', .92)),
+                tx = r.getText();
+            if (tx)
+                return {
+                    v: tx,
+                    f: String(Z.BarcodeFormat[r.getBarcodeFormat()] || '').toLowerCase()
+                }
+        } catch (e) {
+            console.warn('zxing', e)
+        }
+        return null
+    }
+    const repGet = (x, i) => x == 'new' ? ((D && D.rep) || [])[i] : ((get(x) || {}).repuestos || [])[i],
+        repNew = (g, n) => {
+            const c = (S.cfg.repuestos || []).find(r => r.grupo == g && r.nombre == n) || {},
+                o = {
+                    grupo: g,
+                    nombre: n,
+                    cant: 1
+                };
+            if (c.cod)
+                o.cod = c.cod;
+            if (c.bc)
+                o.bc = {
+                    ...c.bc
+                };
+            return o
+        };
+    function repApply(x, i, p) {
+        const it = repGet(x, i);
+        if (!it)
+            return;
+        let c = S.cfg.repuestos.find(r => r.grupo == it.grupo && r.nombre == it.nombre);
+        if (!c) {
+            c = {
+                grupo: it.grupo,
+                nombre: it.nombre
+            };
+            S.cfg.repuestos.push(c)
+        }
+        if ('cod' in p) {
+            if (p.cod) {
+                it.cod = p.cod;
+                c.cod = p.cod
+            } else {
+                delete it.cod;
+                delete c.cod
+            }
+        }
+        if ('bc' in p) {
+            if (p.bc) {
+                it.bc = {
+                    ...p.bc
+                };
+                c.bc = {
+                    ...p.bc
+                }
+            } else {
+                delete it.bc;
+                delete c.bc
+            }
+        }
+        if (x != 'new') {
+            const j = get(x);
+            if (j) {
+                ev(j, 'repuesto', 'código de ' + it.nombre);
+                saveJob(j, 1)
+            }
+        }
+        saveCfg()
+    }
+    function repModal(o) {
+        const x = o.x,
+            i = o.i,
+            it = repGet(x, i);
+        if (!it)
+            return '';
+        const pat = x == 'new' ? (D && D.patente ? esc(D.patente) : 'Orden nueva') : esc(((get(x) || {
+                vehiculo: {}
+            }).vehiculo || {}).patente || ''),
+            bc = it.bc,
+            k = bc ? bcKind(bc.v, bc.f) : '';
+        return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">${esc(it.nombre)}</b><div class="sm">${esc(it.grupo || '')} · ${pat}</div>
+         <label class="sm" for="rp_c" style="display:block;margin-top:10px;text-align:left">Código o nombre del producto</label><input id="rp_c" style="width:100%" placeholder="Código del proveedor, medida, etc." value="${esc(it.cod || '')}" maxlength="60" autocomplete="off">
+         <div class="sm" style="margin-top:12px;text-align:left">Código de barras</div>
+         ${bc ? `<div class="bcbox">${bcSvg(bc.v, bc.f, {h: 70})}<div class="bcv">${esc(bc.v)}</div>${k == 'code128' && /^(ean|upc|code39|code128|)/.test(String(bc.f || '').toLowerCase().replace(/[^a-z0-9]/g, '')) && bc.f && !/code128|code39/.test(String(bc.f).toLowerCase().replace(/[^a-z0-9]/g, '')) ? '<div class="sm">Se dibuja como Code 128 (mismo texto).</div>' : ''}</div><div class="btns" style="flex-wrap:wrap"><button type="button" data-a="bcshow" data-x="${x}" data-i="${i}">${ic('fullscreen')} Mostrar para escanear</button><button type="button" data-a="rpclr" data-x="${x}" data-i="${i}">${ic('delete')} Quitar</button></div>` : '<div class="sm" style="text-align:left">Aún no tiene código de barras.</div>'}
+         <div class="btns" style="flex-wrap:wrap;margin-top:8px"><button type="button" data-a="rpscan" data-x="${x}" data-i="${i}">${ic('photo_camera')} ${bc ? 'Escanear de nuevo' : 'Foto del código de barras'}</button><button type="button" data-a="rpscan" data-g="1" data-x="${x}" data-i="${i}">${ic('photo_library')} Galería</button></div>
+         <input id="rp_b" style="width:100%;margin-top:8px" placeholder="…o escribe el código de barras a mano" maxlength="60" autocomplete="off">
+         <div class="btns" style="margin-top:14px"><button type="button" data-a="rpsave" data-x="${x}" data-i="${i}">Guardar</button><button type="button" data-a="cerrar">Cerrar</button></div></div></div>`
+    }
+    let BCWL = null;
+    async function bcWake(on) {
+        try {
+            if (on) {
+                BCWL = await navigator.wakeLock?.request('screen')
+            } else if (BCWL) {
+                BCWL.release();
+                BCWL = null
+            }
+        } catch (e) {}
+    }
+    const bcFull = () => S.bcv ? `<div class="bcfs" data-a="bcx"><div class="bcin"><div class="bcn">${esc(S.bcv.n || '')}</div>${bcSvg(S.bcv.v, S.bcv.f, {h: 160})}<div class="bcv">${esc(S.bcv.v)}</div><div class="bch">Sube el brillo al máximo y acerca la pistola · toca para cerrar</div></div></div>` : '';
+    Object.assign(A, {
+        ifoto: d => inspPick(d.x, 0),
+        igal: d => inspPick(d.x, 1),
+        repm: d => {
+            if (d.x == 'new') {
+                collect();
+                S.ov = {
+                    k: 'rep',
+                    x: 'new',
+                    i: +d.i
+                }
+            } else
+                S.modal = {
+                    k: 'rep',
+                    id: d.x,
+                    i: +d.i
+                };
+            render(1)
+        },
+        rpsave: d => {
+            const x = d.x,
+                i = +d.i,
+                c = ($('#rp_c')?.value || '').trim().slice(0, 60),
+                b = ($('#rp_b')?.value || '').trim().slice(0, 60),
+                p = {
+                    cod: c
+                };
+            if (b)
+                p.bc = {
+                    v: b,
+                    f: ''
+                };
+            repApply(x, i, p);
+            if (x == 'new')
+                S.ov = null;
+            else
+                S.modal = null;
+            toast('check', 'Repuesto actualizado');
+            render(1)
+        },
+        rpclr: d => {
+            repApply(d.x, +d.i, {
+                bc: null
+            });
+            render(1)
+        },
+        rpscan: d => {
+            const x = d.x,
+                i = +d.i;
+            if (x == 'new')
+                collect();
+            const inp = document.createElement('input');
+            inp.type = 'file';
+            inp.accept = 'image/*';
+            if (!d.g)
+                inp.setAttribute('capture', 'environment');
+            inp.style.display = 'none';
+            document.body.appendChild(inp);
+            inp.addEventListener('cancel', () => inp.remove());
+            inp.onchange = async () => {
+                const f = inp.files[0];
+                inp.remove();
+                if (!f)
+                    return;
+                toast('qr_code_scanner', 'Leyendo código…');
+                let r = null;
+                try {
+                    r = await bcDecode(f)
+                } catch (e) {
+                    console.warn(e)
+                }
+                if (!r || !r.v) {
+                    toast('warning', 'No pude leer el código. Acércate, enfoca bien o escríbelo a mano');
+                    return
+                }
+                repApply(x, i, {
+                    bc: {
+                        v: String(r.v).slice(0, 60),
+                        f: r.f || ''
+                    }
+                });
+                toast('check', 'Código guardado: ' + r.v);
+                render(1)
+            };
+            inp.click()
+        },
+        bcshow: d => {
+            const it = repGet(d.x, +d.i);
+            if (!it || !it.bc)
+                return;
+            S.bcv = {
+                v: it.bc.v,
+                f: it.bc.f,
+                n: it.nombre
+            };
+            bcWake(1);
+            render(1)
+        },
+        bcx: () => {
+            S.bcv = null;
+            bcWake(0);
+            render(1)
+        }
+    });
 
     /* ============ v9-5 · AGITAR 1,5 s → reiniciar táctil y pantalla ============
        Se detecta con el acelerómetro (devicemotion): golpes de agitación seguidos, sin pausas de más de 0,4 s, durante 1,5 s.
