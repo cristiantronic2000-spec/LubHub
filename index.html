@@ -87,6 +87,10 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-14: en Android la ventana «Guardar en la galería» aparece siempre, con dos botones: «Guardar en la galería» (menú de compartir: Fotos o la galería del teléfono) y «Descargar al teléfono» (carpeta Descargas, visible en Galería › Descargas); «Guardar en la galería» abre el menú de compartir del teléfono («Guardar imagen» → Fotos) en vez de solo descargar el archivo; si el navegador exige un toque nuevo tras bajar la foto de la nube, aparece la ventana «Guardar N fotos en la galería» con un botón que abre el menú al instante; si una foto no se puede bajar por código, se muestra para guardarla manteniéndola presionada; solo en computador se descarga el archivo; el botón del visor se llama «Guardar en la galería».
+    CAMBIOS v9-8-13 (paso 2, parcial): (g) fotos: se quitó toda referencia a Firebase Storage (las fotos van solo a Cloudinary; Firebase queda para los datos) y el guardado en la galería tiene plan B: si el teléfono no puede bajar la foto por código, usa el enlace de descarga directa de Cloudinary; (f) íconos con ancho fijo: sin la tipografía de íconos (sin señal o carga lenta) el nombre del ícono ya no se desborda sobre los botones vecinos (la barra inferior dejaba de responder donde se veía el botón); (e) ZONA DE ESPERA (j.zesp): casilla «Dejar en zona de espera» al crear/editar y botón en el detalle de órdenes en cola; el vehículo no ocupa plataforma y se estaciona en 3 plazas azules del mapa (burbuja ESP con su cuenta; E cuenta solo la cola normal); «Pasar a plataforma» lo devuelve a la cola, e iniciar la orden limpia la marca; (d) Configuración › «Opciones del vehículo»: editor con pestañas Cambiar / Revisar / Repuestos y líquidos (agregar, renombrar, mover de grupo, minutos, quitar ítem o grupo con confirmación) que reemplaza al antiguo «Catálogo de servicios»; (c) el código de barras/QR de un repuesto es SOLO de la orden donde se escaneó: el catálogo ya no lo guarda ni lo copia a otras órdenes (los códigos antiguos del catálogo se limpian al tocar el repuesto); (a) sección «Diagnósticos del vehículo» (j.diag) bajo las notas, colapsable, con separación automática en puntos, ver más/menos, editar y eliminar; campo de diagnóstico en el formulario; (b) nuevo orden del detalle: notas orden/vehículo, diagnósticos, recordatorios, contactar, problemas con la OT, bitácora, inspección y, al final, fotos.
+    CAMBIOS v9-8-12 (paso 1, ítems 1-7 del plan): (e) sugerencias de marca, modelo, año y cilindrada con LISTA PROPIA bajo la caja (SGL): se ve igual en iPhone, Android y computador (los datalist no se mostraban en el celular); se filtra al escribir, los modelos dependen de la marca de esa misma orden, elegir marca pasa a Modelo, y la lista no cierra el teclado; (d) botón de buscar patente como rectángulo vertical (26×43, lupa arriba y documento abajo) pegado a la patente en el detalle y en el formulario; el recuadro negro de la OT se achicó (formulario: solo el ancho de 7 caracteres; detalle: más compacto) y la patente conserva su tamaño; (c) citas y recordatorios se pueden EDITAR (lápiz en cada fila: fecha, hora, patente, cliente, teléfono, motivo, nota; al cambiar la hora del recordatorio vuelve a pendiente y el aviso suena de nuevo); (b) táctil y pantalla: el documento nunca queda desplazado (vvFix en cada cambio de tamaño, teclado, scroll y al volver a la app), recuperación automática suave al volver a la app o ante toques cancelados (softUI), agitar para reiniciar ahora pide el permiso de movimiento una sola vez y lo recuerda (lubri_shkperm), con botón «Activar sensor de movimiento» en Configuración; (a) fotos: «Guardar en la galería» y el nuevo botón «Guardar en este dispositivo» del visor bajan la foto desde la nube si no está en el teléfono que la tomó (antes decía «Las fotos no están en este teléfono»); solo se marcan como guardadas las que realmente se obtuvieron.
+    CAMBIOS v9-8-11 (fluidez): (a) Órdenes completas se dibuja de 40 en 40 con «Mostrar más» (antes dibujaba todas y se hacía más lenta cada mes); (b) con una ventana abierta se pausan las animaciones del fondo; (c) los vehículos del mapa solo tocan el DOM cuando algo cambia; (d) el buscador reconstruye la lista una vez por fotograma.
     CAMBIOS v9-8-10: se quitó el botón del catálogo (lupa + auto); ahora las cajas de Marca, Modelo, Año y Cilindrada del bloque Vehículo sugieren opciones del catálogo al escribir o tocar la caja (los modelos dependen de la marca). Se puede escribir otro valor libremente.
     CAMBIOS v9-8-9: el catálogo muestra desde el inicio año, versión, motor, cilindrada, combustible y transmisión (ya no dependen de elegir el año); elegir el año no redibuja la ventana; lista de años validada.
     CAMBIOS v9-8-8: en el catálogo, tras elegir marca y modelo el Año es una lista (si auto-parts-db trae las generaciones del modelo, solo esos años) y al elegir el año aparecen versión, motor, cilindrada (lista o escribir), combustible y transmisión.
@@ -98,7 +102,7 @@
     CAMBIOS v9-8: (a) los banners de la Línea de trabajo ya no llevan los botones de foto, esquema ni inspección (siguen dentro del detalle de la orden) y la patente se ve más grande; (b) la patente se muestra siempre como AA·BB·11 en banners, citas, reaperturas y notificaciones, y el formulario de cita usa la misma patente chilena con formato automático; el botón Guardar cita ya no se puede duplicar con doble toque; (c) agitar para reiniciar el táctil: 1 s en vez de 1,5 s; (d) Vehículo: tras Motor van Cilindrada, Combustible (Bencina/Diésel) y Tipo de transmisión (Mecánico/Automático); (e) los repuestos tienen campo Precio (se ve en el detalle de la orden).
     CAMBIOS v9b (Notificaciones y recordatorios por orden): «Más» tiene una sección Notificaciones (vencidos ahora y programados, con avisos del dispositivo opcionales) y cada orden permite programar recordatorios con fecha y hora (atajos 30 min / 1 h / 3 h / mañana), marcarlos como hechos o posponerlos; al llegar la hora la app avisa y suma al globo de «Más».
     CAMBIOS v9 (Más · calendario de citas · reingresos · pruebas): (a) la pestaña «Configuración» de la barra inferior pasó a «Más» (icono +): ahí están el calendario del mes (indicador VIOLETA = cita, NARANJA = reapertura), las 3 próximas citas/reaperturas, el botón «Ir al calendario de citas» y debajo «Ir a configuración»; (b) calendario de citas: crear cita (fecha, patente, cliente, motivo) y crear reapertura buscando una orden completada por patente u OT (reutiliza la ventana de reabrir con hora personalizada); (c) las órdenes con reingreso agendado muestran el recuadro «Reingreso agendado · fecha» y el Dashboard muestra Recordatorios (atrasadas, hoy y mañana); (d) Configuración: botones «Probar datos de Firebase» y «Probar datos de Cloudinary» con resultado paso a paso.
-    CAMBIOS v4 (Paso 4 · formulario de ingreso + En reparación + fotos + flujo de estaciones): (a) hora de ingreso sugerida en gris que se actualiza sola, tiempo estimado automático editable con unidad min/horas/días y «Restablecer cálculo», entrega prometida con fecha y hora completas, teclados y etiquetas por campo, Enter pasa al siguiente campo; (b) nuevo tipo «En reparación» (azul, trabajos largos con pausas): selector en el formulario, recuadros En proceso / En reparación, bloque colapsable arriba de la línea de trabajo con resumen y destello azul; (c) fotos del vehículo con plantilla (cámara por zona) en En reparación y fotos libres en En proceso: respaldo local en IndexedDB, subida a Firebase Storage y botón para guardar en la galería; (d) flujo de estaciones: un vehículo puede pasar por varias sub-zonas en orden.
+    CAMBIOS v4 (Paso 4 · formulario de ingreso + En reparación + fotos + flujo de estaciones): (a) hora de ingreso sugerida en gris que se actualiza sola, tiempo estimado automático editable con unidad min/horas/días y «Restablecer cálculo», entrega prometida con fecha y hora completas, teclados y etiquetas por campo, Enter pasa al siguiente campo; (b) nuevo tipo «En reparación» (azul, trabajos largos con pausas): selector en el formulario, recuadros En proceso / En reparación, bloque colapsable arriba de la línea de trabajo con resumen y destello azul; (c) fotos del vehículo con plantilla (cámara por zona) en En reparación y fotos libres en En proceso: respaldo local en IndexedDB, subida a Cloudinary y botón para guardar en la galería; (d) flujo de estaciones: un vehículo puede pasar por varias sub-zonas en orden.
     CAMBIOS v3 (Paso 3 · eliminaciones con motivo): eliminar una orden o un aviso de reingreso abre un modal con motivo obligatorio (mínimo 3 caracteres, con mensaje de error) y Cancelar / Confirmar; al confirmar se guarda PRIMERO en el registro persistente lubri_eliminados (localStorage) y recién después se quita de la lista activa; se limpian las referencias (detalle abierto, mapa, alertas, vehículo, cachés); getEliminados() queda lista para la futura vista.
     CAMBIOS v2b (REPITE del Paso 2 · correcciones): (1) textos en rojo: la clase que se agregaba al body con el teclado abierto se llamaba "kb" y chocaba con la regla .kb{color:rojo}; ahora es "vvkb"; (2) con el teclado abierto la ventana ocupa exactamente el área sobre el teclado (el teclado se detecta por el campo en foco, no solo por la altura) y la barra inferior se oculta mientras se escribe; (3) toques desplazados: el cuerpo de la página queda fijo (sin desplazamiento del viewport), se quitó la capa compuesta de la barra inferior, el botón flotante no queda activo bajo una ventana y los avisos superiores ya no capturan toques; con ?dbg=1 aparece un panel de diagnóstico; (4) cajas de tiempos: grillas minmax(0,1fr), campos de hora sin ancho propio y apiladas en pantallas angostas; (5) Probar fondo de la sala: plegable, horas ordenadas con su hora real, sol en arco continuo con etiquetas de salida y puesta, el orbe se desvanece en el horizonte; (6) Modo demo, Modo mecánico, Modo salón y Probar fondo son bloques plegables; Modo salón tiene interruptor y Ir a modo salón no entra si está desactivado; acciones destructivas piden confirmación; (7) rendimiento: formato de hora en caché, hoy() sin Date.toDateString, orden sin localeCompare, varios render() de una misma acción se juntan, escrituras a localStorage agrupadas, filtro anti doble toque, bucle del mapa sin consultas al DOM por fotograma, comprobación de demo máx. 1 vez al día.
     CAMBIOS v2 (Paso 2 · mapa): los vehículos avanzan según el tiempo real aunque el mapa no esté a la vista (la simulación ya no depende de que exista el dibujo en pantalla); al volver a la pestaña o a una vista con mapa se recalcula lo transcurrido (hasta 90 s; si fue más, se ubican directo en su lugar final); al terminar o iniciar un proceso se registra la hora y el estado del vehículo en localStorage (lubri_mapa) y, si se recarga la app con un proceso terminado hace menos de 60 s, el vehículo sigue saliendo.
@@ -855,6 +859,26 @@
         font-weight: 700;
         letter-spacing: 2px;
         padding: 6px 10px
+    }
+
+    #modal .otin {
+        width: calc(7ch + 22px);
+        max-width: 100%;
+        font-size: 18px;
+        letter-spacing: 1px;
+        padding:5px 8px
+    }
+
+    .fld .otw {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start
+    }
+
+    .dtop .badge {
+        padding: 4px 9px;
+        font-size: 14px;
+        letter-spacing: .5px
     }
 
     .fld .otin::placeholder {
@@ -4199,6 +4223,20 @@
 
     .mapw .sl.se {
         fill:#b3b3b3
+    }
+
+    .sl.sr {
+        fill: #9db7e8;
+        stroke:#fff
+    }
+
+    .sl.sr.occ {
+        fill: #fff;
+        fill-opacity:.35
+    }
+
+    .eqr {
+        pointer-events:none
     }
 
     .mapw .sl.occ {
@@ -10770,12 +10808,51 @@
 
     .plkg .plk {
         position: relative;
-        width: 30px;
-        height:30px
+        width: 26px;
+        height: 43px;
+        min-width: 0;
+        padding: 0;
+        border-radius: 9px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap:2px
     }
 
     .plkg .plk .material-symbols-outlined {
-        font-size: 17px
+        font-size:17px
+    }
+
+    .plkg .plk .plkb {
+        position: static;
+        width: auto;
+        height: auto;
+        border: 0;
+        background: none;
+        border-radius: 0;
+        display:flex
+    }
+
+    .plkg .plk .plkb .material-symbols-outlined {
+        font-size:15px !important
+    }
+
+    .plw > .plkg {
+        margin-left:-2px
+    }
+
+    #modal .plw .plkg .plk {
+        height: 35px;
+        width:24px
+    }
+
+    #modal .plw .plkg .plk .material-symbols-outlined {
+        font-size:15px
+    }
+
+    #modal .plw .plkg .plk .plkb .material-symbols-outlined {
+        font-size: 13px !important
     }
 
     .plk .plkb {
@@ -10917,6 +10994,378 @@
         text-align: right;
         word-break: break-word
     }
+
+    body.pz #app *, body.pz #app *::before, body.pz #app *::after, body.pz #nav * {
+        animation-play-state: paused !important
+    }
+
+    .more {
+        display: block;
+        width: 100%;
+        margin: 14px 0;
+        min-height: 48px;
+        font-size: 14px
+    }
+
+    .sgl {
+        position: fixed;
+        z-index: 200;
+        background: #fff;
+        border: 1.5px solid var(--line2, #ddd);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior:contain
+    }
+
+    .sgl button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        border-bottom: 1px solid var(--line, #eee);
+        background: #fff;
+        padding: 13px 14px;
+        font-size: 16px;
+        min-height: 46px;
+        border-radius: 0;
+        color:var(--ink)
+    }
+
+    .sgl button:last-child {
+        border-bottom:0
+    }
+
+    .sgl button:active {
+        background: #f1f3f6
+    }
+
+    .dgs {
+        margin: 12px 0 4px;
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 14px;
+        padding:2px 12px 10px
+    }
+
+    .dgs.open .grph .chev {
+        transform:rotate(180deg)
+    }
+
+    .dgb {
+        display: flex;
+        flex-direction: column;
+        gap:8px
+    }
+
+    .dge {
+        background: rgba(0, 0, 0, .035);
+        border-radius: 12px;
+        padding:8px 10px
+    }
+
+    .dge.ing {
+        outline:2px solid var(--ink)
+    }
+
+    .dgl {
+        margin: 0;
+        padding-left: 22px;
+        font-size: 13px;
+        line-height: 1.4;
+        overflow-wrap:anywhere
+    }
+
+    .dgl li {
+        margin:4px 0
+    }
+
+    .dgl li::marker {
+        font-weight:700
+    }
+
+    .dgm {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        border: 0;
+        background: none;
+        padding: 4px 0 0;
+        font-size: 12px;
+        font-weight: 700;
+        color:var(--ink)
+    }
+
+    .dgm .material-symbols-outlined {
+        font-size:18px
+    }
+
+    .dgf {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-top:4px
+    }
+
+    .dgf small {
+        font-size: 11px;
+        opacity:.7
+    }
+
+    .dgf span {
+        display: flex;
+        gap:2px
+    }
+
+    .dgf button {
+        border: 0;
+        background: none;
+        padding: 6px;
+        min-width: 36px;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content:center
+    }
+
+    .dgf button .material-symbols-outlined {
+        font-size:19px
+    }
+
+    .dgh {
+        font-size: 11px;
+        opacity: .7;
+        min-height: 14px;
+        margin-top:3px
+    }
+
+    .dga textarea {
+        font-size: 14px
+    }
+
+    .opt {
+        display: flex;
+        gap: 6px;
+        margin: 10px 0;
+        flex-wrap:wrap
+    }
+
+    .opt button {
+        flex: 1;
+        min-width: 0;
+        padding: 9px 6px;
+        font-size: 13px;
+        border-radius: 12px;
+        border: 1.5px solid rgba(0, 0, 0, .18);
+        background: #fff;
+        font-weight:600
+    }
+
+    .opt button.on {
+        background: var(--ink);
+        color: #fff;
+        border-color:var(--ink)
+    }
+
+    .opg {
+        margin: 12px 0;
+        border: 1px solid rgba(0, 0, 0, .13);
+        border-radius: 14px;
+        padding:6px 10px 8px
+    }
+
+    .opgh {
+        display: flex;
+        align-items: center;
+        gap:8px
+    }
+
+    .opgh input {
+        flex: 1;
+        min-width: 0;
+        font-weight: 700;
+        font-size: 14px;
+        border: 0;
+        border-bottom: 1.5px dashed rgba(0, 0, 0, .25);
+        border-radius: 0;
+        background: none;
+        padding:8px 2px
+    }
+
+    .opgh small {
+        opacity:.6
+    }
+
+    .opgh button, .opr > button {
+        min-width: 40px;
+        min-height: 40px;
+        border: 0;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content:center
+    }
+
+    .opr {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 2px 4px;
+        padding: 8px 0;
+        border-top:1px solid rgba(0, 0, 0, .08)
+    }
+
+    .opr > input {
+        min-width: 0;
+        font-size: 15px;
+        padding:9px 10px
+    }
+
+    .opr2 {
+        grid-column: 1/3;
+        display: flex;
+        gap: 8px;
+        align-items:center
+    }
+
+    .opr2 select {
+        flex: 1;
+        min-width: 0;
+        font-size: 13px;
+        padding:7px 8px
+    }
+
+    .opm {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size:12px
+    }
+
+    .opm input {
+        width: 62px;
+        font-size: 14px;
+        padding:7px 8px
+    }
+
+    .opa {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top:2px solid rgba(0, 0, 0, .12)
+    }
+
+    .opa input, .opa select {
+        font-size: 15px;
+        padding: 10px 12px
+    }
+
+    .zesp {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 0;
+        padding: 8px 10px;
+        border-radius: 12px;
+        background: #e8f0fe;
+        border: 1.5px solid #4f8df5;
+        color:#12358a
+    }
+
+    .zesp .material-symbols-outlined {
+        font-size:22px
+    }
+
+    .zesp span {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        line-height:1.25
+    }
+
+    .zesp small {
+        font-size: 11px;
+        opacity:.8
+    }
+
+    .zesp button {
+        border: 0;
+        border-radius: 10px;
+        background: #12358a;
+        color: #fff;
+        padding: 9px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        min-height:40px
+    }
+
+    .zesp.off {
+        background: none;
+        border: 1.5px dashed rgba(0, 0, 0, .25);
+        color:inherit
+    }
+
+    .zesp.off button {
+        background: none;
+        color: var(--ink);
+        border: 1.5px solid rgba(0, 0, 0, .25);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:6px
+    }
+
+    .zl .zq, .row .zq {
+        color: #12358a;
+        font-weight:700
+    }
+
+    .dot.zqd {
+        background: #4f8df5 !important;
+        border-color:#4f8df5 !important
+    }
+
+    .zform {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 0 2px;
+        padding: 10px 12px;
+        border: 1.5px solid rgba(0, 0, 0, .18);
+        border-radius: 14px;
+        font-size:13px
+    }
+
+    .zform input {
+        width: 22px;
+        height: 22px;
+        flex:none
+    }
+
+    .zform b {
+        display:block
+    }
+
+    .zform small {
+        display: block;
+        opacity: .7;
+        font-size: 11px
+    }/* v9-8-13: si la tipografía de íconos aún no carga (sin señal), el nombre del ícono NO se escribe como texto largo ni tapa a los botones vecinos */
+
+    .material-symbols-outlined {
+        display: inline-block;
+        width: 1em;
+        min-width: 1em;
+        max-width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        line-height: 1
+    }
     </style>
 </head>
 <body>
@@ -10934,7 +11383,6 @@
         apiKey: "AIzaSyCadeH_Dw_WXxxXY3TgHssfTSDJ5uxzwMY",
         authDomain: "lubhub-bdae3.firebaseapp.com",
         projectId: "lubhub-bdae3",
-        storageBucket: "lubhub-bdae3.firebasestorage.app",
         messagingSenderId: "734364983553",
         appId: "1:734364983553:web:ed21ea0b9eccf248013b00",
         measurementId: "G-WQLZG0JYM4"
@@ -11527,7 +11975,7 @@
         zjobs = zid => S.jobs.filter(j => j.estado != 'completado' && zof(j) == zid),
         zopts = sel => S.cfg.zonas.map(z => `<option value="${z.id}" ${z.id == sel ? 'selected' : ''}>${esc(z.nombre)}</option>`).join(''),
         clamp = (v, a, b) => Math.max(a, Math.min(b, v)),
-        zl = j => `<div class="sm zl">${esc(zn(zof(j))?.nombre || '—')} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}${rutaNext(j) ? ' · luego ' + esc(rutaNext(j)) : ''}</div>`,
+        zl = j => `<div class="sm zl">${j.estado == 'cola' && j.zesp ? '<span class="zq">Zona de espera</span> · revisión previa · ' : ''}${esc(zn(zof(j))?.nombre || '—')} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}${rutaNext(j) ? ' · luego ' + esc(rutaNext(j)) : ''}</div>`,
         pill = (e, n, l) => `<div class="${!n ? 'z0' : ''}"><i class="dot ${e}"></i><span><b>${n}</b><small>${l}</small></span></div>`,
         sumM = c => `<div class="sum">${[['proceso', 'En proceso'], ...(c.reparacion ? [['reparacion', 'En reparación']] : []), ['cola', 'En cola'], ['pausa', 'En pausa']].map(([e, l]) => `<div role="button" tabindex="0" class="${S.mf == e ? 'on' : ''} ${!c[e] ? 'z0' : ''}" data-a="mflt" data-e="${e}"><i class="dot ${e}"></i><span><b>${c[e]}</b><small>${l}</small></span></div>`).join('')}</div>`,
         sum3 = c => `<div class="sum">${pill('proceso', c.proceso, 'En proceso')}${c.reparacion ? pill('reparacion', c.reparacion, 'En reparación') : ''}${pill('cola', c.cola, 'En cola')}${pill('pausa', c.pausa, 'En pausa')}</div>`;
@@ -11724,7 +12172,7 @@
                     gR = (g, Lx) => {
                         let R;
                         const I = [Lx, g[1] + 5]; // v0.37: pista izquierda (LI) para entrar y derecha (LO) para salir en el primer tramo
-                        if (k == 'E')
+                        if (k == 'E' || k == 'R')
                             R = [g, I, [Lx, cy], [cx, cy]];
                         else if (dir == 'H') {
                             if (cx > 37 && cy > E3[0] - 2.8 && cy < E3[1] + 2.8) {
@@ -12444,7 +12892,7 @@
             want = v => {
                 const j = get(v.job);
                 if (!j || j.estado == 'cola')
-                    return 'E';
+                    return j && j.zesp && SLOTS.some(o => o.k == 'R') ? 'R' : 'E';
                 const z = zof(j);
                 return SLOTS.some(o => o.k == z) ? z : 'E'
             },
@@ -12491,7 +12939,7 @@
             },
             claim = (v, snap) => {
                 const k = want(v),
-                    o = acq(v, k, snap) || (k != 'E' ? acq(v, 'E', snap) : null);
+                    o = acq(v, k, snap) || (k != 'E' ? acq(v, 'E', snap) : (SLOTS.some(q => q.k == 'R') && !(get(v.job) || {}).zesp ? acq(v, 'R', snap) : null));
                 if (o)
                     v.slot = o;
                 return o
@@ -12598,7 +13046,7 @@
                 for (let i = 0; i < 8; i++)
                     addSlot('E', 18, 63.5 + i * 5.66, 10.7, 5.66, 'H', 0);
                 for (let i = 0; i < 3; i++)
-                    addSlot('E', 37.8, 91.8 + i * 5.66, 10.5, 5.66, 'H', 0);
+                    addSlot('R', 37.8, 91.8 + i * 5.66, 10.5, 5.66, 'H', 0); // v9-8-13: zona de espera
                 for (const z of Z)
                     layZ(z);
                 return true
@@ -12904,7 +13352,7 @@
             }
             document.querySelectorAll('.sl[data-s]').forEach(r => {
                 const q = TRF.SLOTS[+r.dataset.s];
-                r.classList.toggle('occ', !!(q && q.k == 'E' && q.v && q.v.job && q.v.st == 'park'))
+                r.classList.toggle('occ', !!(q && (q.k == 'E' || q.k == 'R') && q.v && q.v.job && q.v.st == 'park'))
             })
         } // v0.26: plaza E ocupada por un vehículo en cola → blanco 20%
         if (ts - (TRF.t || 0) < 32)
@@ -12930,7 +13378,10 @@
             return
         } // tapado por una ventana: no se dibuja, pero sigue avanzando
         if (!TRF.on()) {
-            E.forEach(e => e.setAttribute('opacity', 0));
+            E.forEach(e => {
+                e._op = null;
+                e.setAttribute('opacity', 0)
+            });
             TRF.last = 0;
             return
         } // animaciones desactivadas en Configuración: no se ven
@@ -12967,9 +13418,17 @@
                     e._c = cc
                 }
             }
-            const p = TRF.pose(v, +e.dataset.h);
-            e.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})`);
-            e.setAttribute('opacity', p.o.toFixed(2));
+            const p = TRF.pose(v, +e.dataset.h),
+                tr = `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${p.a.toFixed(1)})`,
+                op = p.o.toFixed(2);
+            if (e._tr !== tr) {
+                e._tr = tr;
+                e.setAttribute('transform', tr)
+            }
+            if (e._op !== op) {
+                e._op = op;
+                e.setAttribute('opacity', op)
+            }
             {
                 const g = e._vp || (e._vp = e.querySelector('.vp'));
                 if (g) {
@@ -13010,13 +13469,17 @@
                 });
             if (!q.fl)
                 return;
-            const o = x => x ? 1 : 0;
-            q.fl.setAttribute('opacity', o(l.l));
-            q.rl.setAttribute('opacity', o(l.l));
-            q.fr.setAttribute('opacity', o(l.r));
-            q.rr.setAttribute('opacity', o(l.r));
-            q.hb.setAttribute('opacity', l.hb ? .66 : 0);
-            q.bk.forEach(k => k.setAttribute('opacity', o(l.bk)))
+            const o = x => x ? 1 : 0,
+                lk = '' + o(l.l) + o(l.r) + (l.hb ? 1 : 0) + o(l.bk);
+            if (q.lk !== lk) {
+                q.lk = lk;
+                q.fl.setAttribute('opacity', o(l.l));
+                q.rl.setAttribute('opacity', o(l.l));
+                q.fr.setAttribute('opacity', o(l.r));
+                q.rr.setAttribute('opacity', o(l.r));
+                q.hb.setAttribute('opacity', l.hb ? .66 : 0);
+                q.bk.forEach(k => k.setAttribute('opacity', o(l.bk)))
+            }
         });
         if (!TRF.jam.cb)
             TRF.jam.cb = w => {
@@ -13072,8 +13535,8 @@
             const gt = o => `<g class="mz${o} ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}">`;
             ZO.push(gt(' mzo') + `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" style="stroke:${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`);
             return gt('') + `<rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}</g>`
-        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
-        `<g class="eq" role="img" aria-label="Estacionamiento: ${S.jobs.filter(j => j.estado == 'cola').length} en cola"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado == 'cola').length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
+        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : o.k == 'R' ? ' sr' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
+        `<g class="eq" role="img" aria-label="Estacionamiento: ${S.jobs.filter(j => j.estado == 'cola' && !j.zesp).length} en cola"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado == 'cola' && !j.zesp).length}</text></g><g class="eq eqr" role="img" aria-label="Zona de espera: ${S.jobs.filter(j => j.estado == 'cola' && j.zesp).length} vehículos"><rect x="49.8" y="93.4" width="9.6" height="14.4" rx="4.8" fill="#4f8df5"/><text x="54.6" y="97.9" font-size="3" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">ESP</text><text x="54.6" y="103.4" font-size="6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">${S.jobs.filter(j => j.estado == 'cola' && j.zesp).length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
     }
     const leg = () => `<div class="leg">${ZA().map((z, i) => `<button class="zc" data-a="zpop" data-z="${z.id}"><b>${String.fromCharCode(65 + i)}</b>${esc(z.nombre)}<small>${cnt(zjobs(z.id)).total}</small>${cnt(zjobs(z.id)).pausa ? '<span class="zbg" title="Tiene trabajos en pausa">!</span>' : ''}</button>`).join('')}</div>`;
     const zpop = () => {
@@ -14011,10 +14474,8 @@
                 } // long-polling automático si la red bloquea el canal normal (evita "client is offline")
                 fb = {
                     f,
-                    db,
-                    B,
-                    ap
-                }; // B y ap se guardan para cargar Firebase Storage (fotos) cuando haga falta
+                    db
+                }; // Firebase solo se usa para los datos (Firestore); las fotos van a Cloudinary
                 import(B + 'firebase-analytics.js').then(m => m.getAnalytics(ap)).catch(() => {}); // Analytics: opcional, si falla la app sigue igual
                 if (DM())
                     document.body.classList.add('dm');
@@ -14373,6 +14834,7 @@
             if (bl)
                 return hiBlock(bl);
             ev(j, j.estado == 'pausa' ? 'reanudado' : 'iniciado');
+            j.zesp = null;
             j.estado = 'proceso';
             t.ultimoInicioISO = now();
             j.pausa = null
@@ -14473,8 +14935,9 @@
     const sv = j => j.servicios.map(s => s.nombre).join(' y ') || 'Sin servicios';
     const side = j => `<div class="side">${j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'pausa' ? `<button data-a="ini" data-id="${j.id}" title="Reanudar">${ic('replay')}</button><button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : `<button data-a="ini" data-id="${j.id}" title="Iniciar">${ic('play_arrow')}</button>`}</div>`;
     const row = j => {
-        const [tx, cl] = estado(j);
-        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        const [tx, cl] = estado(j),
+            zq = j.estado == 'cola' && !!j.zesp;
+        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}${zq ? ' zqd' : ''}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${zq ? '<b class="zq">En zona de espera</b>' : ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -14505,6 +14968,93 @@
         return `<div class="rea ag">${ic('event_repeat')}<div><b>Reingreso agendado</b> · ${fdt(i)} <span class="rtag ${t.c}">${t.t}</span></div></div>`
     }; // v9
     const reaBox = j => reaBox0(j) + agBox(j) + recBox(j);
+
+    /* v9-8-13 · DIAGNÓSTICOS DEL VEHÍCULO: texto pegado de corrido → lista de puntos (j.diag = [{id,texto,puntos,autor,fechaISO}]) */
+    const DG_MK = /^\s*(?:(?:diagn[oó]stico|punto|falla|problema|hallazgo)\s*(?:n[°º.]?\s*)?\(?\d{1,2}\)?\s*[.):\-–—]?|\(?\d{1,2}[.)]\s+|\(\d{1,2}\)|[-–—•*·▪●◦]\s+)\s*/i;
+    function diagSplit(t) {
+        t = String(t || '').replace(/\r/g, '').replace(/[ \t]+/g, ' ').trim();
+        if (!t)
+            return [];
+        const cl = x => {
+            x = x.replace(DG_MK, '').replace(/^[\s:\-–—.)]+/, '').trim();
+            return x ? x.charAt(0).toUpperCase() + x.slice(1) : ''
+        };
+        const lines = t.split('\n').map(l => l.trim()).filter(Boolean);
+        let out = [];
+        const hasMk = lines.some(l => DG_MK.test(l));
+        if (lines.length > 1) {
+            if (hasMk) {
+                let cur = -1;
+                for (const l of lines) {
+                    if (DG_MK.test(l)) {
+                        out.push(cl(l));
+                        cur = out.length - 1
+                    } else if (cur >= 0)
+                        out[cur] = (out[cur] + ' ' + l).trim();
+                    else {
+                        out.push(cl(l));
+                        cur = out.length - 1
+                    }
+                }
+            }
+            else
+                out = lines.map(cl)
+        }
+        else {
+            // un solo bloque de corrido
+            const re = /(?:^|\s)(?:(?:diagn[oó]stico|punto|falla|problema|hallazgo)\s*(?:n[°º.]?\s*)?)?\(?(\d{1,2})\)?\s*[.):\-–—]\s*/gi,
+                pos = [];
+            let m,
+                exp = 1;
+            while ((m = re.exec(t))) {
+                if (+m[1] === exp) {
+                    pos.push([m.index + (m[0].match(/^\s/) ? 1 : 0), re.lastIndex]);
+                    exp++
+                }
+            }
+            if (pos.length >= 2) {
+                const pre = t.slice(0, pos[0][0]).trim();
+                if (pre)
+                    out.push(cl(pre));
+                pos.forEach((p, i) => out.push(cl(t.slice(p[1], i + 1 < pos.length ? pos[i + 1][0] : t.length))))
+            }
+            else if (t.length > 170) {
+                const parts = t.replace(/([.;])\s+(?=[A-ZÁÉÍÓÚÑ¿¡0-9])/g, '$1\u0001').split('\u0001').map(cl);
+                out = parts.length >= 2 ? parts : [cl(t)]
+            }
+            else
+                out = [cl(t)]
+        }
+        return out.filter(Boolean).slice(0, 80)
+    }
+    const dgNew = t => t && String(t).trim() ? [{
+        id: uid(),
+        texto: String(t).trim(),
+        puntos: diagSplit(t),
+        autor: autor(),
+        fechaISO: now()
+    }] : [];
+    const dgLong = e => (e.puntos || []).length > 5 || String(e.texto || '').length > 420;
+    const diagList = (e, open) => {
+        const P = e.puntos && e.puntos.length ? e.puntos : diagSplit(e.texto),
+            lg = P.length > 5 || String(e.texto || '').length > 420,
+            cut = lg && !open ? 3 : P.length;
+        return `<ol class="dgl">${P.slice(0, cut).map(p => `<li>${esc(p)}</li>`).join('')}</ol>${lg ? `<button class="dgm" data-a="dgx" data-e="${e.id}">${open ? 'Ver menos' : 'Ver ' + (P.length - 3) + ' más'}${ic(open ? 'expand_less' : 'expand_more')}</button>` : ''}`
+    };
+    const diagSec = j => {
+        const L = j.diag || [],
+            lock = j.estado == 'completado',
+            op = !(S.dgc || {})[j.id],
+            ed = S.dgEd && S.dgEd.id == j.id ? S.dgEd : null,
+            dr = ed ? ed.t : ((S.dgd || {})[j.id] || '');
+        const body = `${lock && !L.length ? '<span class="mut">Sin diagnósticos registrados.</span>' : ''}${[...L].reverse().map(e => `<div class="dge ${ed && ed.eid == e.id ? 'ing' : ''}">${diagList(e, !!(S.dge || {})[e.id])}<div class="dgf"><small>${esc(e.autor || '')} · ${hm(e.fechaISO)}${e.editadoISO ? ' · editado' : ''}</small>${lock ? '' : `<span><button data-a="dgedit" data-id="${j.id}" data-e="${e.id}" title="Editar" aria-label="Editar diagnóstico">${ic('edit')}</button><button data-a="dgdel" data-id="${j.id}" data-e="${e.id}" title="Eliminar" aria-label="Eliminar diagnóstico">${ic('delete')}</button></span>`}</div></div>`).join('')}
+         ${lock ? '' : `<div class="dga"><textarea id="dgt_${j.id}" data-dg="${j.id}" rows="3" placeholder="${ed ? 'Corrige el diagnóstico' : 'Pega o escribe el diagnóstico (puedes pegarlo de corrido: se separa solo en puntos)'}" style="width:100%;border-radius:12px">${esc(dr)}</textarea><div class="dgh" id="dgh_${j.id}">${dgHint(dr)}</div><div class="btns" style="margin-top:6px"><button data-a="dgadd" data-id="${j.id}">${ic(ed ? 'check' : 'add')} ${ed ? 'Guardar cambios' : 'Agregar diagnóstico'}</button>${ed ? `<button data-a="dgcan" data-id="${j.id}">Cancelar</button>` : ''}</div></div>`}`;
+        return `<div class="dgs ${op ? 'open' : ''}"><button class="grph" data-a="dgt" data-id="${j.id}" aria-expanded="${op}">${ic('stethoscope')}<b>Diagnósticos del vehículo</b><span class="sm">${L.length ? L.length + (L.length == 1 ? ' registro' : ' registros') : 'Sin registros'}</span>${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb">${body}</div>` : ''}</div>`
+    };
+    const dgHint = t => {
+        const n = diagSplit(t).length;
+        return n ? `Se guardará en ${n} ${n == 1 ? 'punto' : 'puntos'}` : ''
+    };
     const notas = (j, t) => `<div class="nt">${j.notas.filter(n => n.tipo == t).reverse().map(n => `<p>${esc(n.texto)}<br><small>${esc(n.autor)} · ${hm(n.fechaISO)}</small></p>`).join('') || '<span class="mut">Sin comentarios registrados.</span>'}</div>${j.estado == 'completado' ? '' : `<div class="add"><input placeholder="Agregar nota" aria-label="Nota"><button data-a="nota" data-id="${j.id}" data-t="${t}" title="Agregar">${ic('add')}</button></div>`}`;
     /* "+" abre un panel con categorías → al elegir una categoría aparecen sus opciones (como en el prototipo) */
     const plus = (x, c) => `<button class="chip plus" data-a="pk" data-x="${x}" data-c="${c}" title="Agregar">${ic('add')}</button>`;
@@ -14665,17 +15215,163 @@
         const ck = plkCatKey(b);
         return ck ? [...new Set(PLK_CAT[ck])].sort((x, y) => x.localeCompare(y)) : []
     };
-    const plkDL = marca => {
+    const plkDLold = marca => {
         const cy = new Date().getFullYear() + 1,
             o = a => a.map(x => `<option value="${esc(String(x))}">`).join('');
         return `<datalist id="plk_marcas">${o(Object.keys(PLK_CAT).sort((x, y) => x.localeCompare(y)))}</datalist><datalist id="plk_modelos">${o(plkMods(marca))}</datalist><datalist id="plk_cil">${o(PLK_CIL)}</datalist><datalist id="plk_anios">${o(Array.from({length: cy - 1969}, (_, k) => cy - k))}</datalist>`
     }; // v9-8-10: sugerencias del catálogo dentro de las cajas de Marca, Modelo, Año y Cilindrada
+    const plkDL = () => '';
+
+    /* v9-8-12 · SUGERENCIAS PROPIAS bajo la caja (marca, modelo, año, cilindrada). Funciona en iPhone y Android; reemplaza a los datalist. */
+    const SGL = (() => {
+        let box = null,
+            cur = null;
+        const items = (el) => {
+            const t = el.dataset.sg,
+                q = plkNorm(el.value || '');
+            let L = [];
+            if (t == 'marca')
+                L = Object.keys(PLK_CAT).sort((a, b) => a.localeCompare(b));
+            else if (t == 'modelo') {
+                const row = el.closest('#modal,.det,.card') || document,
+                    m = row.querySelector('[data-sg=marca]');
+                L = plkMods(m ? m.value : '')
+            }
+            else if (t == 'anio') {
+                const cy = new Date().getFullYear() + 1;
+                L = Array.from({
+                    length: cy - 1969
+                }, (_, k) => String(cy - k))
+            }
+            else if (t == 'cil')
+                L = PLK_CIL.slice();
+            if (!q)
+                return L.slice(0, t == 'anio' ? 12 : 60);
+            const a = L.filter(x => plkNorm(x).startsWith(q)),
+                b = L.filter(x => !plkNorm(x).startsWith(q) && plkNorm(x).includes(q));
+            return a.concat(b).slice(0, 60)
+        };
+        const place = () => {
+            if (!box || !cur || !document.contains(cur)) {
+                hide();
+                return
+            }
+            const r = cur.getBoundingClientRect(),
+                vv = window.visualViewport,
+                vh = vv ? vv.height : innerHeight,
+                vt = vv ? vv.offsetTop : 0,
+                below = vh - (r.bottom - vt) - 8,
+                above = r.top - vt - 8,
+                up = below < 150 && above > below,
+                h = Math.max(90, Math.min(220, up ? above : below));
+            box.style.left = Math.max(6, r.left) + 'px';
+            box.style.width = Math.min(r.width, innerWidth - 12) + 'px';
+            box.style.maxHeight = h + 'px';
+            if (up) {
+                box.style.top = '';
+                box.style.bottom = (innerHeight - r.top + 2) + 'px'
+            } else {
+                box.style.bottom = '';
+                box.style.top = (r.bottom + 2) + 'px'
+            }
+        };
+        const hide = () => {
+            if (box) {
+                box.remove();
+                box = null
+            }
+            cur = null
+        };
+        const show = el => {
+            if (!el || el.readOnly || el.disabled)
+                return;
+            const L = items(el);
+            if (!L.length || (L.length == 1 && plkNorm(L[0]) == plkNorm(el.value || ''))) {
+                hide();
+                return
+            }
+            cur = el;
+            if (!box) {
+                box = document.createElement('div');
+                box.className = 'sgl';
+                box.setAttribute('role', 'listbox');
+                document.body.appendChild(box);
+                box.addEventListener('pointerdown', e => e.preventDefault()); // tocar la lista no le quita el foco a la caja (el teclado no se cierra)
+                box.addEventListener('click', e => {
+                    const b = e.target.closest('[data-v]');
+                    if (!b || !cur)
+                        return;
+                    const t = cur;
+                    t.value = b.dataset.v;
+                    t.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                    t.dispatchEvent(new Event('change', {
+                        bubbles: true
+                    }));
+                    const t0 = t.dataset.sg;
+                    hide();
+                    if (t0 == 'marca') {
+                        const m = (t.closest('#modal,.det,.card') || document).querySelector('[data-sg=modelo]');
+                        if (m) {
+                            setTimeout(() => {
+                                try {
+                                    m.focus()
+                                } catch (x) {}
+                            }, 30)
+                        }
+                    }
+                })
+            }
+            box.innerHTML = L.map(x => `<button type="button" data-v="${esc(x)}">${esc(x)}</button>`).join('');
+            box.scrollTop = 0;
+            place()
+        };
+        document.addEventListener('focusin', e => {
+            if (e.target.dataset && e.target.dataset.sg)
+                show(e.target);
+            else if (!(box && box.contains(e.target)))
+                hide()
+        });
+        document.addEventListener('input', e => {
+            if (e.target.dataset && e.target.dataset.sg) {
+                cur = e.target;
+                show(e.target)
+            }
+        });
+        document.addEventListener('click', e => {
+            if (e.target.dataset && e.target.dataset.sg && e.target === document.activeElement && !box)
+                show(e.target)
+        }); // volver a tocar una caja que ya tiene foco la reabre
+        document.addEventListener('focusout', e => {
+            if (e.target.dataset && e.target.dataset.sg)
+                setTimeout(() => {
+                    if (!cur || document.activeElement !== cur)
+                        hide()
+                }, 160)
+        });
+        ['scroll', 'resize'].forEach(t => addEventListener(t, () => {
+            if (box)
+                place()
+        }, {
+            passive: true,
+            capture: true
+        }));
+        window.visualViewport?.addEventListener('resize', () => {
+            if (box)
+                place()
+        });
+        return {
+            hide,
+            show
+        }
+    })();
     const plkAt = k => PSH('cat') ? ({
-        marca: ' list=plk_marcas autocomplete=off',
-        modelo: ' list=plk_modelos autocomplete=off',
-        anio: ' list=plk_anios',
-        cil: ' list=plk_cil autocomplete=off'
-    })[k] || '' : '';
+        marca: ' data-sg=marca autocomplete=off autocorrect=off',
+        modelo: ' data-sg=modelo autocomplete=off autocorrect=off',
+        anio: ' data-sg=anio autocomplete=off',
+        cil: ' data-sg=cil autocomplete=off'
+    })[k] || '' : ''; // v9-8-12: lista propia (los datalist no se ven en iPhone)
     const plkBtns = id => {
         if (!PSH('pat'))
             return '';
@@ -15327,11 +16023,11 @@
        Si agregas una función o pantalla, agrégala aquí. */
     const HELP = {
         home: ['Dashboard', [['wb_sunny', 'Saludo según la hora, con fecha y hora en vivo'], ['warehouse', 'Mapa: solo el número de trabajos por zona; el borde blanco parpadea suave si la zona está activa'], ['build', 'Globos: resumen del día (en proceso, en pausa, en cola y completadas hoy); tocar uno abre la Línea de trabajo filtrada; con 0 el punto queda quieto y apagado'], ['add', 'Nuevo trabajo: botón negro bajo "Ver en línea de trabajo'], ['format_list_numbered', 'Trabajos en proceso ahora: tocar uno lo abre; pausar o completar desde los botones de la derecha'], ['garage', 'Talleres activos: acceso directo al detalle de cada zona con procesos, pausas o colas'], ['query_stats', 'Flujo y rendimiento: KPI del taller (puntualidad, tiempos, ingresadas, espera en cola, pausas, reaperturas, por mecánico, motivos de pausa)'], ['autorenew', 'Trabajos más solicitados: tipo, cantidad y recurrencia ("1 cada X") de los trabajos, y vehículos que vuelven'], ['dashboard', 'Barra inferior: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Más (calendario de citas y configuración)']]],
-        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
+        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['hourglass_top', 'Zona de espera (ESP, azul): 3 plazas del estacionamiento para vehículos que hay que revisar antes de pasar a una plataforma; no ocupan plataforma. Si se llenan, el vehículo espera en E'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
-        det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
-        nuevo: ['Crear / editar trabajo', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; elige Ignorar o Copiar datos'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Firebase cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
+        det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['stethoscope', 'Diagnósticos del vehículo: pega o escribe el texto (aunque venga de corrido) y se separa solo en puntos numerados; la sección se pliega y los diagnósticos largos muestran los primeros puntos con «Ver más»; el lápiz edita y el basurero elimina'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
+        nuevo: ['Crear / editar trabajo', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; elige Ignorar o Copiar datos'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['person', 'Cliente y Vehículo se expanden al tocar su título; plegados muestran lo principal'], ['directions_car', 'Patente conocida: rellena cliente y vehículo desde la última visita'], ['add', 'Agregar servicios y repuestos por categoría'], ['tune', 'Más opciones: prioridad, combustible, entrega prometida, VIN, cliente espera'], ['pause', 'Pausar la creación: guarda un borrador'], ['delete', 'Descartar el borrador'], ['build', 'Tipo de trabajo: «En proceso» (naranja) para trabajos cortos o «En reparación» (azul) para trabajos largos con pausas'], ['photo_camera', 'Fotos: en «En reparación» aparece la plantilla con una cámara por zona; cada foto se guarda en el teléfono y se sube a Cloudinary cuando hay conexión'], ['alt_route', 'Flujo de estaciones: «Agregar sub-zona» deja programado el paso del vehículo por varias estaciones'], ['check', 'Guardar el trabajo']]],
         cfg: ['Configuración', [['expand_more', 'Tocar un bloque lo expande o lo pliega; "Quién usa este equipo" y "Conexión y datos" siempre están a la vista. Modo demo, Modo mecánico, Modo salón y Probar fondo de la sala son bloques plegables (cerrados al entrar)'], ['event_repeat', 'Motivos de reapertura: lista de motivos frecuentes al volver una orden completada al taller'], ['visibility', 'Activar u ocultar personas, sub-zonas y motivos'], ['map', 'Zonas y sub-zonas: cada sub-zona pertenece a una zona'], ['science', 'Datos demo / Vaciar todo (solo modo demo)'], ['download', 'Exportar todo a JSON']]]
     };
     function helpKeys() {
@@ -15349,6 +16045,7 @@
     function helpbox() {
         return `<div class="bd" style="z-index:45" data-a="cerrar"><div class="box"><b style="font-size:16px">Ayuda</b>${helpKeys().map(k => {const [t, L] = HELP[k];return `<div class="sec">${t}</div>${L.filter(([i]) => FEATURE_BUSCAR_PATENTE || !['search', 'travel_explore'].includes(i)).map(([i, x]) => `<div class="rr">${ic(i)} ${x}</div>`).join('')}`}).join('')}<div class="btns" style="margin-top:14px"><button data-a="cerrar">Entendido</button></div></div></div>`
     }
+    const zespBox = j => j.estado != 'cola' ? '' : j.zesp ? `<div class="zesp">${ic('hourglass_top')}<span><b>En zona de espera</b><small>Revisión previa · no ocupa ninguna plataforma</small></span><button data-a="zesp1" data-id="${j.id}">Pasar a plataforma</button></div>` : `<div class="zesp off"><button data-a="zesp1" data-id="${j.id}">${ic('hourglass_top')} Dejar en zona de espera</button></div>`;
     const detail = j => {
         const t = j.tiempos,
             [tx, cl] = estado(j),
@@ -15358,17 +16055,18 @@
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
         return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
-         <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
+         <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
          ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + I('veh', 'tipov', 'Tipo de vehículo') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
          <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map((r, i) => `<button type="button" class="chip" data-a="repm" data-x="${j.id}" data-i="${i}" title="Código del producto y código de barras">${esc(r.nombre)} ×${r.cant}${r.cod ? ' · ' + esc(r.cod) : ''}${r.precio ? ' · $' + (+r.precio).toLocaleString('es-CL') : ''}${r.bc ? ic('barcode_scanner') : ''}</button>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
-         ${sec('Inspección', 'fact_check')}${inspBox(j.id)}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
          <div class="cols"><div><h3>${ic('edit_note')} Notas de la orden</h3>${notas(j, 'orden')}</div><div><h3>${ic('directions_car')} Notas del vehículo</h3>${notas(j, 'vehiculo')}</div></div>
+         ${diagSec(j)}
          ${recSec(j)}<div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
          <div><h3>Problemas con la OT</h3><div class="chips" style="flex-wrap:nowrap"><button data-a="alerta" data-id="${j.id}" style="font-size:11px">${ic('fact_check')} Solicitar revisión</button><button data-a="sup" data-id="${j.id}" title="WhatsApp de supervisión">${ic('sms')}</button></div>${j.alertas.filter(a => a.estado == 'abierta').map(a => `<div class="sm al">${ic('warning')} ${esc(a.texto)} <button data-a="alres" data-id="${j.id}" data-i="${a.id}" style="border:0;padding:0" title="Resolver">${ic('done')}</button></div>`).join('')}</div></div>
          ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.tipo == 'pausado' ? (e.detalle ? pmot(e.detalle) : 'sin motivo') : e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
+         ${sec('Inspección', 'fact_check')}${inspBox(j.id)}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec(j.id)}
          </div><div class="ft"><button data-a="help" title="Ayuda">${ic('help')}</button><button data-a="log" title="Bitácora">${ic('history')}</button><button data-a="del" data-id="${j.id}" title="Eliminar">${ic('delete')}</button>
          ${j.estado == 'completado' ? `<button data-a="reab" data-id="${j.id}" title="Reabrir">${ic('replay')}</button>` : j.estado == 'proceso' ? `<button data-a="pau" data-id="${j.id}" title="Pausar">${ic('pause')}</button>` : `<button data-a="ini" data-id="${j.id}" title="${j.estado == 'pausa' ? 'Reanudar' : 'Iniciar'}">${ic(j.estado == 'pausa' ? 'replay' : 'play_arrow')}</button>`}
          ${j.estado != 'completado' ? `<button data-a="com" data-id="${j.id}" class="${rdy(j) ? 'rdy' : ''}" title="Completar">${ic('check')}</button>` : '<span></span>'}<button data-a="edit" data-id="${j.id}" title="Editar esta orden">${ic('edit')}</button></div></div>`
@@ -15381,6 +16079,19 @@
         const R_ = [...new Set((S.cfg.repuestos || []).map(r => r.nombre))];
         return `<div class="bd" style="z-index:50"><div class="box mec-rq"><b class="t">Solicitar repuesto</b><p>${esc(j.vehiculo.patente)} · ${esc(sv(j))}</p><input id="rqn" list="rql" autocomplete="off" placeholder="¿Qué repuesto necesitas?" value="${esc(S.mrq.t || '')}"><datalist id="rql">${R_.map(n => `<option value="${esc(n)}">`).join('')}</datalist><div class="rq-c"><button data-a="mrqm">−</button><b>${S.mrq.n}</b><button data-a="mrqp">+</button></div><div class="btns"><button data-a="mrqx">Cancelar</button><button class="go" data-a="mrqs">Enviar a administración</button></div></div></div>`
     };
+    document.addEventListener('input', e => {
+        const t_ = e.target;
+        if (!t_.dataset || !t_.dataset.dg)
+            return;
+        const id = t_.dataset.dg;
+        if (S.dgEd && S.dgEd.id == id)
+            S.dgEd.t = t_.value;
+        else
+            (S.dgd = S.dgd || {})[id] = t_.value;
+        const h = document.getElementById('dgh_' + id);
+        if (h)
+            h.textContent = dgHint(t_.value)
+    });
     document.addEventListener('input', e => {
         if (e.target.id == 'rqn' && S.mrq)
             S.mrq.t = e.target.value;
@@ -15542,15 +16253,25 @@
     function listaC() {
         const L = S.jobs.filter(j => j.estado == 'completado' && match(j) && (!S.zf || zof(j) == S.zf) && (!S.pf || j.plataformaId == S.pf) && dfOK(j)).sort((a, b) => cmpS(b.tiempos.completadoISO, a.tiempos.completadoISO)),
             it = j => `<div class="item"><div class="card ${S.open == j.id ? 'open' : ''}">${S.open == j.id ? detail(j) : row(j) + doneLine(j) + reaBox(j) + zl(j)}</div></div>`;
+        {
+            const sg = [S.q, S.zf, S.pf, JSON.stringify(S.df), S.zg].join('|');
+            if (S.clsig !== sg) {
+                S.clsig = sg;
+                S.clim = 40
+            }
+        } // v9-8-11: paginado
+        const LIM = S.clim || 40,
+            LV = L.length > LIM ? L.slice(0, LIM).concat(L.slice(LIM).filter(j => S.open == j.id)) : L,
+            mas = L.length > LIM ? `<button type="button" class="more" data-a="clmas">Mostrar más (${L.length - LIM} restantes)</button>` : '';
         if (S.zg && !S.zf && S.cfg.zonas.length > 1) {
             const o = S.cfg.zonas.map(z => {
-                const g = L.filter(j => zof(j) == z.id);
+                const g = LV.filter(j => zof(j) == z.id);
                 return g.length ? `<div class="zh">${ic('location_on')}${esc(z.nombre)}<small>${g.length} completadas</small></div>${g.map(it).join('')}` : ''
             }).join('');
             if (o)
-                return dfInfo(L) + o
+                return dfInfo(L) + o + mas
         }
-        return dfInfo(L) + (L.map(it).join('') || `<div class="empty">${S.q.trim() || S.zf || S.pf || S.df.k ? 'Sin resultados.' : 'Aún no hay órdenes completadas.'}</div>`)
+        return dfInfo(L) + (LV.map(it).join('') + mas || `<div class="empty">${S.q.trim() || S.zf || S.pf || S.df.k ? 'Sin resultados.' : 'Aún no hay órdenes completadas.'}</div>`)
     }
     function completas() {
         return `<div class="top"><button data-a="go" data-v="home">${ic('first_page')}</button><h1>Órdenes completas</h1></div>${srch()}${dfBar()}${zfil()}<div id="lst">${listaC()}</div>`
@@ -15558,13 +16279,43 @@
     /* v0.17 · acc(): bloque plegable de Configuración. Plegado muestra solo título + subtítulo; al tocarlo se expande (S.cx guarda cuáles están abiertos). */
     const acc = (k, t, sub, body) => `<section class="acc ${S.cx[k] ? 'open' : ''}"><button class="acch" data-a="cx" data-k="${k}" aria-expanded="${!!S.cx[k]}"><span><b>${t}</b><small>${sub}</small></span>${ic('expand_more', 'chev')}</button>${S.cx[k] ? `<div class="accb">${body}</div>` : ''}</section>`;
     const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cren" data-k="${k}" data-id="${x.id}" value="${esc(x.nombre)}" aria-label="Nombre" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
+
+    /* v9-8-13 · EDITOR DE OPCIONES (Configuración): Cambiar / Revisar (S.cfg.catalogo) y Repuestos y líquidos (S.cfg.repuestos) */
+    const OPT = [['cambiar', 'Cambiar'], ['revisar', 'Revisar'], ['rep', 'Repuestos y líquidos']];
+    const opCat = () => S.oc || 'cambiar';
+    const opList = () => opCat() == 'rep' ? S.cfg.repuestos.map((r, i) => ({
+        i,
+        g: r.grupo || 'Sin grupo',
+        n: r.nombre,
+        r
+    })) : S.cfg.catalogo.map((r, i) => ({
+        i,
+        g: r.grupo || 'Sin grupo',
+        n: r.nombre,
+        min: r.min,
+        r
+    })).filter(x => x.r.cat == opCat());
+    const opSrc = () => opCat() == 'rep' ? S.cfg.repuestos : S.cfg.catalogo;
+    const opEditor = () => {
+        const c = opCat(),
+            L = opList(),
+            G = [...new Set(L.map(x => x.g))],
+            sv = c != 'rep',
+            nm = OPT.find(o => o[0] == c)[1];
+        return `<div class="note">Lo que agregues o cambies aquí aparece en todas las órdenes nuevas. Las órdenes que ya existen no se modifican.</div>
+         <div class="opt">${OPT.map(([k, t]) => `<button class="${k == c ? 'on' : ''}" data-a="opt" data-v="${k}">${t}</button>`).join('')}</div>
+         ${G.length ? G.map(g => `<div class="opg"><div class="opgh"><input data-ch="opgn" data-g="${esc(g)}" value="${esc(g)}" aria-label="Nombre del grupo" autocomplete="off"><small>${L.filter(x => x.g == g).length}</small><button data-a="opgdel" data-g="${esc(g)}" title="Eliminar grupo" aria-label="Eliminar grupo">${ic('folder_delete')}</button></div>
+          ${L.filter(x => x.g == g).map(x => `<div class="opr"><input data-ch="opn" data-i="${x.i}" value="${esc(x.n)}" aria-label="Nombre" autocomplete="off"><button data-a="opdel" data-i="${x.i}" title="Eliminar" aria-label="Eliminar">${ic('delete')}</button>
+           <div class="opr2"><select data-ch="opgs" data-i="${x.i}" aria-label="Mover a otro grupo">${G.map(h => `<option ${h == x.g ? 'selected' : ''} value="${esc(h)}">${esc(h)}</option>`).join('')}</select>${sv ? `<label class="opm"><input type="number" min="1" inputmode="numeric" data-ch="opm" data-i="${x.i}" value="${x.min || ''}" aria-label="Minutos"><span>min</span></label>` : ''}</div></div>`).join('')}</div>`).join('') : `<div class="mut" style="margin:10px 0">No hay opciones en «${nm}». Agrega la primera abajo.</div>`}
+         <div class="opa"><b>Agregar a «${nm}»</b><input id="op_n" placeholder="${sv ? 'Nombre (ej.: Cambio de aceite)' : 'Nombre (ej.: Filtro de aceite)'}" autocomplete="off"><select id="op_gs" data-ch="opgs2">${G.map(h => `<option value="${esc(h)}">${esc(h)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="op_g" placeholder="Nombre del nuevo grupo" style="display:${G.length ? 'none' : ''}" autocomplete="off">${sv ? '<input id="op_m" type="number" min="1" inputmode="numeric" placeholder="Minutos estándar">' : ''}<button class="w" data-a="opadd">${ic('add')} Agregar</button></div>`
+    };
     function config() {
         const X = skyTM();
         return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
          <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
          ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
-         ${acc('cat', 'Catálogo de servicios', 'Servicios, grupos y minutos estándar', `<div class="note">Minutos = tiempo estándar estimado. El código interno no cambia al renombrar.</div>${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<div class="sm" style="margin-top:8px;font-weight:700">${esc(g)}</div>${S.cfg.catalogo.map((c, i) => c.grupo == g ? `<div class="li"><span>${esc(c.nombre)} <small class="mut">· ${c.cat}</small></span><input type="number" min="1" value="${c.min}" data-ch="min" data-i="${i}" aria-label="Minutos"><button data-a="svdel" data-i="${i}" title="Eliminar">${ic('delete')}</button></div>` : '').join('')}`).join('')}
-         <div class="fld"><input class="w" id="sv_n" placeholder="Nombre del servicio"><select id="sv_gs" data-ch="svgs">${[...new Set(S.cfg.catalogo.map(c => c.grupo))].map(g => `<option>${esc(g)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="sv_g" placeholder="Nombre del nuevo grupo" style="display:none"><select id="sv_c"><option value="cambiar">Categoría: Cambiar</option><option value="revisar">Categoría: Revisar</option></select><input id="sv_m" type="number" min="1" placeholder="Minutos"><button class="w" data-a="svadd">${ic('add')} Agregar servicio</button></div>`)}
+         ${acc('opc', 'Opciones del vehículo', 'Cambiar, Revisar y Repuestos y líquidos · agregar, renombrar, mover y quitar', opEditor())}
+
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
          ${plkSec()}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
          <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
@@ -15814,7 +16565,7 @@
             t: 0
         };
     async function fotoUp() {
-        const put = window.lubFotPut || FOT.put;
+        const put = FOT.put;
         if (FQ.run || !put || navigator.onLine === false)
             return;
         FQ.run = 1;
@@ -15913,70 +16664,202 @@
             FBL.delete(id)
         }
     }
-    async function fotoGaleria(x) {
-        const jid = x == 'new' ? D._jid : x,
-            L = (x == 'new' ? D.fotos : (get(x) || {}).fotos) || [],
-            pend = L.filter(m => !m.sv);
-        if (!pend.length)
-            return toast('check', 'Todas las fotos ya están en la galería');
+    async function fotoBlob(m) {
+        // v9-8-12: la foto se toma del teléfono si está; si no, se baja desde la nube (cualquier dispositivo)
+        let b = FBL.get(m.id);
+        if (!b) {
+            try {
+                const r = await FDB.get(m.id);
+                b = r && r.blob
+            } catch (e) {}
+        }
+        if (!b && m.url) {
+            try {
+                const r = await fetch(m.url, {
+                    mode: 'cors'
+                });
+                if (r.ok)
+                    b = await r.blob()
+            } catch (e) {
+                console.warn('foto: bajada directa falló', e)
+            }
+            if (!b) {
+                try {
+                    const u = m.url.replace('/upload/', '/upload/fl_attachment/'),
+                        r = await fetch(u, {
+                            mode: 'cors'
+                        });
+                    if (r.ok)
+                        b = await r.blob()
+                } catch (e) {}
+            }
+        }
+        return b || null
+    }
+    const fotoLink = (m, pat) => {
+        // plan B sin CORS: enlace de descarga directa de Cloudinary (fl_attachment); el navegador la baja o la abre para guardarla
+        const u = String(m.url || '').replace('/upload/', '/upload/fl_attachment:' + encodeURIComponent((pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id) + '/'),
+            a = document.createElement('a');
+        a.href = u;
+        a.download = (pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id + '.jpg';
+        a.rel = 'noopener';
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        a.remove()
+    };
+    const ANDROID = /Android/i.test(navigator.userAgent || '');
+    const fotoNm = (m, pat) => (pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id + '.jpg';
+    const fotoFiles = (L, pat) => L.map(m => {
+        const b = FBL.get(m.id);
+        return b ? new File([b], fotoNm(m, pat), {
+            type: 'image/jpeg'
+        }) : null
+    }).filter(Boolean);
+    const fotoMark = (x, L) => {
+        L.forEach(m => m.sv = 1);
+        if (x != 'new') {
+            const j = get(x);
+            if (j)
+                saveJob(j, 1)
+        }
+    };
+    /* v9-8-14 · «Guardar en la galería»: abre el menú de compartir del teléfono (en iPhone: «Guardar imagen» → Fotos). Si el navegador exige un toque nuevo
+       (pasa cuando hubo que bajar la foto de la nube), se muestra una ventana con el botón «Guardar en la galería», que abre el menú al instante.
+       Solo en computador (sin menú de compartir) se descarga el archivo. */
+    async function fotoGaleria(x, onlyId) {
+        const L = (x == 'new' ? D.fotos : (get(x) || {}).fotos) || [],
+            sel = onlyId ? L.filter(m => m.id == onlyId) : L.filter(m => !m.sv);
+        if (!sel.length)
+            return toast('check', onlyId ? 'No se encontró la foto' : 'Todas las fotos ya están en la galería');
         const pat = ((x == 'new' ? D.patente : (get(x) || {
             vehiculo: {}
         }).vehiculo.patente) || 'foto').replace(/[^A-Za-z0-9]/g, '');
-        let files = [];
-        for (const m of pend) {
-            let b = FBL.get(m.id);
-            if (!b) {
-                try {
-                    const r = await FDB.get(m.id);
-                    b = r && r.blob
-                } catch (e) {}
-            }
-            if (b)
-                files.push(new File([b], `${pat}_${m.slot || 'extra'}_${m.id}.jpg`, {
-                    type: 'image/jpeg'
-                }))
+        let got = [],
+            noBlob = [],
+            miss = 0;
+        toast('download', 'Preparando ' + (sel.length == 1 ? 'la foto' : sel.length + ' fotos') + '…');
+        for (const m of sel) {
+            const b = await fotoBlob(m);
+            if (b) {
+                FBL.set(m.id, b);
+                got.push(m)
+            } else if (m.url)
+                noBlob.push(m);
+            else
+                miss++
         }
-        if (!files.length)
-            return toast('warning', 'Las fotos no están en este teléfono');
-        const mk = () => {
-            pend.forEach(m => m.sv = 1);
-            if (x != 'new') {
-                const j = get(x);
-                if (j)
-                    saveJob(j, 1)
-            }
-            render(1)
+        if (noBlob.length && navigator.onLine === false) {
+            miss += noBlob.length;
+            noBlob = []
+        }
+        if (!got.length && !noBlob.length)
+            return toast('warning', miss && sel.some(m => m.url) ? 'Sin conexión: no se puede bajar la foto de la nube ahora' : 'Esta foto aún no se subió a la nube y no está en este teléfono');
+        const warn = () => {
+            if (miss)
+                toast('warning', miss + (miss == 1 ? ' foto aún no se sube a la nube' : ' fotos aún no se suben a la nube'))
         };
-        try {
-            if (navigator.canShare && navigator.canShare({
+        const files = fotoFiles(got, pat),
+            can = !!(files.length && navigator.canShare && navigator.canShare({
                 files
-            })) {
+            }));
+        if (can && ANDROID) {
+            S.modal = {
+                k: 'fsv',
+                x,
+                ids: got.map(m => m.id),
+                press: noBlob.map(m => m.id),
+                pat,
+                miss
+            };
+            render(1);
+            return
+        }
+        if (can) {
+            try {
                 await navigator.share({
                     files,
                     title: 'Fotos ' + pat
                 });
-                mk();
-                toast('check', 'Fotos enviadas a la galería');
+                fotoMark(x, got);
+                if (!noBlob.length) {
+                    render(1);
+                    toast('check', got.length == 1 ? 'Foto guardada' : 'Fotos guardadas');
+                    warn();
+                    return
+                }
+            }
+            catch (e) {
+                if (e && e.name == 'AbortError')
+                    return;
+                S.modal = {
+                    k: 'fsv',
+                    x,
+                    ids: got.map(m => m.id),
+                    press: noBlob.map(m => m.id),
+                    pat,
+                    miss
+                };
+                render(1);
                 return
             }
-            throw 0
+            if (noBlob.length) {
+                S.modal = {
+                    k: 'fsv',
+                    x,
+                    ids: [],
+                    press: noBlob.map(m => m.id),
+                    pat,
+                    miss
+                };
+                render(1);
+                return
+            }
         }
-        catch (e) {
-            if (e && e.name == 'AbortError')
-                return;
-            files.forEach(f => {
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(f);
-                a.download = f.name;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                setTimeout(() => URL.revokeObjectURL(a.href), 4000)
-            });
-            mk();
-            toast('check', 'Fotos descargadas en el teléfono')
+        if (!can && noBlob.length && navigator.share) {
+            S.modal = {
+                k: 'fsv',
+                x,
+                ids: [],
+                press: noBlob.map(m => m.id),
+                pat,
+                miss
+            };
+            if (got.length)
+                S.modal.ids = got.map(m => m.id);
+            render(1);
+            return
+        } // teléfono sin compartir archivos: se muestran las fotos para guardarlas con el dedo
+        files.forEach(f => {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(f);
+            a.download = f.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(a.href), 4000)
+        });
+        for (let k = 0; k < noBlob.length; k++) {
+            fotoLink(noBlob[k], pat);
+            got.push(noBlob[k]);
+            if (k < noBlob.length - 1)
+                await new Promise(r => setTimeout(r, 700))
         }
+        fotoMark(x, got);
+        render(1);
+        toast('check', got.length == 1 ? 'Foto descargada' : 'Fotos descargadas');
+        warn()
     }
+    const fsvModal = () => {
+        const m = S.modal,
+            L = (m.x == 'new' ? D && D.fotos : (get(m.x) || {}).fotos) || [],
+            P = (m.press || []).map(id => L.find(f => f.id == id)).filter(f => f && f.url),
+            n = (m.ids || []).length;
+        return `<div class="bd" data-a="cerrar"><div class="box c fsv"><b style="font-size:18px">Guardar en la galería</b>
+         ${n ? `<div class="sm" style="margin-top:6px">${n == 1 ? 'La foto está lista' : n + ' fotos están listas'}. ${ANDROID ? 'Elige <b>Fotos</b> o tu <b>Galería</b> en el menú del teléfono.' : 'Toca el botón y elige <b>Guardar imagen</b> en el menú del teléfono.'}</div><div class="btns" style="margin-top:12px"><button data-a="fsok" style="width:100%;min-height:52px;font-size:16px">${ic('photo_library')} Guardar ${n == 1 ? 'la foto' : n + ' fotos'} en la galería</button></div><div class="btns" style="margin-top:8px"><button data-a="fsdl" style="width:100%;min-height:46px">${ic('download')} Descargar al teléfono</button></div><div class="sm" style="margin-top:6px;opacity:.75">${ANDROID ? '«Descargar» las deja en la carpeta Descargas: se ven en Galería › Descargas.' : '«Descargar» las deja en Archivos › Descargas.'}</div>` : ''}
+         ${P.length ? `<div class="sm" style="margin-top:12px">${n ? 'Estas no se pudieron preparar:' : 'Mantén presionada la foto y elige'} <b>${n ? 'mantén presionada cada una y elige «Guardar en Fotos».' : '«Guardar en Fotos» (o «Descargar imagen»).'}</b></div>${P.map(f => `<img src="${esc(f.url)}" alt="Foto" style="width:100%;border-radius:12px;margin-top:8px;-webkit-touch-callout:default;user-select:auto">`).join('')}` : ''}
+         <div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
+    };
     const FCAR = '<svg class="fcar" viewBox="0 0 100 130" aria-hidden="true"><g stroke="#9aa3ad" stroke-width="1.4" fill="none"><rect x="31" y="14" width="38" height="102" rx="15" fill="#f3f5f8"/><path d="M35 38 Q50 31 65 38 L63 51 Q50 47 37 51Z" fill="#dfe6ee"/><rect x="36" y="54" width="28" height="26" rx="5" fill="#eaeff5"/><path d="M37 83 Q50 87 63 83 L65 95 Q50 101 35 95Z" fill="#dfe6ee"/><rect x="25" y="26" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="69" y="26" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="25" y="86" width="6" height="18" rx="3" fill="#cfd6df"/><rect x="69" y="86" width="6" height="18" rx="3" fill="#cfd6df"/></g></svg>';
     const FSRC = () => {
         try {
@@ -16082,7 +16965,7 @@
         if (!f)
             return '';
         const lock = m.x != 'new' && (get(m.x) || {}).estado == 'completado';
-        return `<div class="bd" data-a="cerrar"><div class="box c fotov"><img id="fvimg" alt="Foto del vehículo"><div class="sm">${String(f.slot || '').startsWith('insp') ? 'Inspección' : f.slot ? esc(([...FZ, ...FX].find(z => z.k == f.slot) || {}).n || '') : 'Foto libre'} · ${fdt(f.ts)}${f.url ? ' · en Firebase' : ' · solo en este teléfono'}</div><div class="btns" style="margin-top:10px;flex-wrap:wrap">${lock ? '' : `<button data-a="fdel" data-id="${f.id}" data-x="${m.x}">${ic('delete')} Eliminar</button>`}<button data-a="cerrar">Cerrar</button></div></div></div>`
+        return `<div class="bd" data-a="cerrar"><div class="box c fotov"><img id="fvimg" alt="Foto del vehículo"><div class="sm">${String(f.slot || '').startsWith('insp') ? 'Inspección' : f.slot ? esc(([...FZ, ...FX].find(z => z.k == f.slot) || {}).n || '') : 'Foto libre'} · ${fdt(f.ts)}${f.url ? ' · en la nube' : ' · subiendo… (solo en este teléfono por ahora)'}</div><div class="btns" style="margin-top:10px;flex-wrap:wrap"><button data-a="fgal" data-id="${f.id}" data-x="${m.x}">${ic('download')} Guardar en la galería</button>${lock ? '' : `<button data-a="fdel" data-id="${f.id}" data-x="${m.x}">${ic('delete')} Eliminar</button>`}<button data-a="cerrar">Cerrar</button></div></div></div>`
     }
     /* v4 · flujo de estaciones en el formulario: la primera estación es «Sub-zona»; aquí se agregan las siguientes, en orden */
     function rutaUI() {
@@ -16119,8 +17002,9 @@
             me = personas().find(p => p.nombre == autor())?.id;
         return `<div class="bd"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic(D._edit ? 'edit' : 'edit_note')}<div><b style="font-size:18px">${D._edit ? 'Editar orden de trabajo' : 'Crear nuevo trabajo'}</b><div class="sm">${D._edit ? 'Modifique los datos, servicios o repuestos de esta orden' : 'Registre un nuevo evento para el flujo de trabajo'}</div></div><div class="sm" style="margin-left:auto;text-align:right">Hora actual<br><b style="font-size:14px;color:var(--ink)">${hm(now())}</b></div><button class="x" data-a="cerrar" title="Cerrar" style="margin-left:6px!important">${ic('close')}</button></div>
          ${sec('Tipo de trabajo', 'build')}<div class="tipo" role="radiogroup" aria-label="Tipo de trabajo"><button type="button" role="radio" aria-checked="${D.modo != 'reparacion'}" class="${D.modo != 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="proceso"><i class="dot proceso"></i><span><b>En proceso</b><small>Trabajo corto del día</small></span></button><button type="button" role="radio" aria-checked="${D.modo == 'reparacion'}" class="${D.modo == 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="reparacion"><i class="dot reparacion"></i><span><b>En reparación</b><small>Largo: 2-3 días o más, con pausas</small></span></button></div>
+         ${!D._edit || D._cola ? `<label class="zform"><input type="checkbox" data-f="zesp" ${D.zesp ? 'checked' : ''}><span><b>${ic('hourglass_top')} Dejar en zona de espera</b><small>Para revisarlo antes de pasar a una plataforma. No ocupa plataforma y se ve en el estacionamiento del mapa.</small></span></label>` : ''}
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
-         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
+         <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div class="otw"><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente', 'autocapitalize=words autocomplete=name')}${f('tel', 'Teléfono o celular', 'type=tel inputmode=tel autocomplete=tel')}`, `${f('rut', 'RUT cliente', 'autocapitalize=characters')}${f('correo', 'Correo', 'type=email inputmode=email autocapitalize=none autocomplete=email')}<div class="w">${f('dir', 'Dirección', 'autocapitalize=sentences')}</div>`, 'fld')}
          ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${PSH('cat') ? plkDL(D.marca) : ''}${f('marca', 'Marca', 'autocapitalize=words' + plkAt('marca'))}${f('modelo', 'Modelo', 'autocapitalize=words' + plkAt('modelo'))}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100' + plkAt('anio'))}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada', plkAt('cil'))}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>${f('vin', 'N° de chasis (VIN)', 'autocapitalize=characters')}${f('nmotor', 'N° de motor', 'autocapitalize=characters')}${f('tipov', 'Tipo de vehículo', 'autocapitalize=words')}<div class="fl w"><label class="sm" for="f_otros">Otros datos del vehículo</label><textarea id="f_otros" data-f="otros" rows="3" style="width:100%;border-radius:12px" placeholder="Otros datos que entrega la búsqueda por patente">${esc(D.otros || '')}</textarea></div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>${rutaUI()}
@@ -16129,6 +17013,7 @@
          <div class="sm">Revisar del vehículo</div><div class="chips">${sel('revisar')}</div>${bar('revisar')}${pick('new', 'revisar')}
          <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}${r.cod ? ` <small>· ${esc(r.cod)}</small>` : ''}${r.precio ? ` <small>· $${(+r.precio).toLocaleString('es-CL')}</small>` : ''}<button type="button" class="bcb" data-a="repm" data-x="new" data-i="${i}" title="Código y código de barras" aria-label="Código y código de barras">${ic('barcode_scanner')}</button><input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
          <div class="cols"><div><h3>${D._edit ? 'Agregar nota a la orden' : 'Notas de la orden'}</h3><textarea data-f="notaO" rows="3" style="width:100%;border-radius:12px" placeholder="Agrega comentarios sobre la orden">${esc(D.notaO || '')}</textarea></div><div><h3>${D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo'}</h3><textarea data-f="notaV" rows="3" style="width:100%;border-radius:12px" placeholder="Estado del vehículo o eventos relevantes">${esc(D.notaV || '')}</textarea></div></div>
+         <div style="margin-top:6px"><h3>${ic('stethoscope')} ${D._edit ? 'Agregar diagnóstico del vehículo' : 'Diagnóstico del vehículo'}</h3><textarea data-f="diag" rows="3" style="width:100%;border-radius:12px" placeholder="Pega o escribe el diagnóstico: se separa solo en puntos">${esc(D.diag || '')}</textarea></div>
          ${sec('Inspección', 'fact_check')}${inspBox('new')}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
          ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
@@ -16147,6 +17032,10 @@
             return create();
         if (m.k == 'cita')
             return citaModal();
+        if (m.k == 'rqe')
+            return rqeModal();
+        if (m.k == 'fsv')
+            return fsvModal();
         if (m.k == 'plkr')
             return plkBox();
         if (m.k == 'rcs')
@@ -16799,7 +17688,7 @@
         render(1);
         return false
     }
-    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
+    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('dgdel') ? ['delete', '¿Eliminar este diagnóstico?', 'Eliminar'] : k.startsWith('opdel') ? ['delete', '¿Quitar esta opción?', 'Quitar'] : k.startsWith('opgdel') ? ['delete', '¿Quitar este grupo?', 'Quitar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
     const cfModal = m => {
         const [i, t, ok] = CFT(m.key || ''),
             sub = String(m.msg || '').replace(/\.?\s*Toca otra vez[^.]*\.?$/i, '').trim();
@@ -16910,6 +17799,7 @@
         } else if (S.view == 'cfg')
             skyPrev();
         document.body.classList.toggle('ovl', !!document.querySelector('#modal .bd:not([style*="pointer-events"]),.item.op,.card.open'));
+        document.body.classList.toggle('pz', !!document.querySelector('#modal .bd:not([style*="pointer-events"])')); /* v9-8-11: pz = ventana abierta → se pausan las animaciones del fondo */
         vvSync();
         histSync()
     }
@@ -17336,6 +18226,15 @@
             vin: (D.vin || '').trim().toUpperCase(),
             nivelComb: D.nivel || ''
         };
+        if (j.estado == 'cola') {
+            if (D.zesp && !j.zesp) {
+                j.zesp = now();
+                ch.push('zona de espera')
+            } else if (!D.zesp && j.zesp) {
+                j.zesp = null;
+                ch.push('pasó a plataforma')
+            }
+        }
         const ne = D._estEdit && +D.estMin > 0 ? Math.round(+D.estMin * 60 * EF[D.estU || 'min']) : sv.reduce((a, x) => a + x.estSeg, 0);
         if (Math.abs(ne - j.tiempos.estSeg) >= 60)
             ch.push('tiempo estimado');
@@ -17381,6 +18280,10 @@
         };
         nn('orden', D.notaO);
         nn('vehiculo', D.notaV);
+        if (D.diag && D.diag.trim()) {
+            (j.diag = j.diag || []).push(...dgNew(D.diag));
+            ch.push('diagnóstico')
+        }
         if (j.estado == 'completado')
             j.tiempos.desvSeg = j.tiempos.realSeg - j.tiempos.estSeg;
         if (ch.length)
@@ -17396,6 +18299,240 @@
         toast('check', 'Orden actualizada')
     }
     const A = {
+        fsdl: () => {
+            const m = S.modal;
+            if (!m || m.k != 'fsv')
+                return;
+            const L = (m.x == 'new' ? D && D.fotos : (get(m.x) || {}).fotos) || [],
+                sel = L.filter(f => (m.ids || []).includes(f.id)),
+                files = fotoFiles(sel, m.pat);
+            if (!files.length) {
+                toast('warning', 'Las fotos ya no están preparadas: toca «Guardar en la galería» otra vez');
+                S.modal = null;
+                render(1);
+                return
+            }
+            files.forEach((f, k) => setTimeout(() => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(f);
+                a.download = f.name;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(a.href), 8000)
+            }, k * 350));
+            fotoMark(m.x, sel);
+            if (!(m.press || []).length)
+                S.modal = null;
+            else
+                m.ids = [];
+            render(1);
+            toast('check', files.length == 1 ? 'Foto descargada · búscala en Descargas' : 'Fotos descargadas · búscalas en Descargas')
+        },
+        fsok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'fsv')
+                return;
+            const L = (m.x == 'new' ? D && D.fotos : (get(m.x) || {}).fotos) || [],
+                sel = L.filter(f => (m.ids || []).includes(f.id)),
+                files = fotoFiles(sel, m.pat);
+            if (!files.length) {
+                toast('warning', 'Las fotos ya no están preparadas: toca «Guardar en la galería» otra vez');
+                S.modal = null;
+                render(1);
+                return
+            }
+            const dl = () => {
+                files.forEach(f => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(f);
+                    a.download = f.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(a.href), 4000)
+                });
+                fotoMark(m.x, sel);
+                S.modal = null;
+                render(1);
+                toast('check', 'Fotos descargadas')
+            };
+            try {
+                navigator.share({
+                    files,
+                    title: 'Fotos ' + m.pat
+                }).then(() => {
+                    fotoMark(m.x, sel);
+                    if (!(m.press || []).length)
+                        S.modal = null;
+                    else
+                        m.ids = [];
+                    render(1);
+                    toast('check', files.length == 1 ? 'Foto guardada' : 'Fotos guardadas')
+                }).catch(e => {
+                    if (e && e.name == 'AbortError')
+                        return;
+                    dl()
+                })
+            } catch (e) {
+                dl()
+            }
+        },
+        zesp1: d => {
+            const j = get(d.id);
+            if (!j || j.estado != 'cola')
+                return;
+            if (j.zesp) {
+                j.zesp = null;
+                ev(j, 'zona de espera', 'pasó a plataforma (cola)');
+                toast('check', 'Pasó a la cola de su plataforma')
+            } else {
+                j.zesp = now();
+                ev(j, 'zona de espera', 'enviada a zona de espera');
+                toast('hourglass_top', 'En zona de espera: no ocupa plataforma')
+            }
+            saveJob(j, 1)
+        },
+        opt: d => {
+            S.oc = d.v;
+            render(1)
+        },
+        opadd: () => {
+            const c = opCat(),
+                n = ($('#op_n')?.value || '').trim();
+            let g = $('#op_gs')?.value;
+            if (g == '__new' || !g)
+                g = ($('#op_g')?.value || '').trim();
+            const m = Math.max(1, +($('#op_m')?.value) || 0);
+            if (!n)
+                return toast('warning', 'Escribe el nombre');
+            if (!g)
+                return toast('warning', 'Elige o escribe el grupo');
+            if (c != 'rep' && !m)
+                return toast('warning', 'Escribe los minutos estándar');
+            const dup = opList().some(x => x.g.toLowerCase() == g.toLowerCase() && String(x.n).toLowerCase() == n.toLowerCase());
+            if (dup)
+                return toast('warning', 'Ya existe «' + n + '» en ese grupo');
+            if (c == 'rep')
+                S.cfg.repuestos.push({
+                    grupo: g,
+                    nombre: n
+                });
+            else {
+                let cod = slug(n);
+                while (cod == 'OTRO' || S.cfg.catalogo.some(y => y.cod == cod))
+                    cod += '_' + uid().slice(-3);
+                S.cfg.catalogo.push({
+                    cod,
+                    nombre: n,
+                    grupo: g,
+                    cat: c,
+                    min: m
+                })
+            }
+            saveCfg();
+            toast('check', 'Agregado: ' + n)
+        },
+        opdel: d => {
+            const x = opSrc()[+d.i];
+            if (!x)
+                return;
+            if (!armOk('opdel' + d.i, 'Se quita «' + x.nombre + '» de las opciones. Las órdenes ya creadas no cambian.'))
+                return;
+            opSrc().splice(+d.i, 1);
+            saveCfg()
+        },
+        opgdel: d => {
+            const G = d.g;
+            if (!armOk('opgdel' + G, 'Se quita el grupo «' + G + '» y todo lo que tiene dentro. Las órdenes ya creadas no cambian.'))
+                return;
+            const c = opCat();
+            if (c == 'rep')
+                S.cfg.repuestos = S.cfg.repuestos.filter(r => (r.grupo || 'Sin grupo') != G);
+            else
+                S.cfg.catalogo = S.cfg.catalogo.filter(r => !(r.cat == c && (r.grupo || 'Sin grupo') == G));
+            saveCfg()
+        },
+
+        dgt: d => {
+            S.dgc = S.dgc || {};
+            S.dgc[d.id] = !S.dgc[d.id];
+            render(1)
+        },
+        dgx: d => {
+            S.dge = S.dge || {};
+            S.dge[d.e] = !S.dge[d.e];
+            render(1)
+        },
+        dgadd: d => {
+            const j = get(d.id),
+                ta = $('#dgt_' + d.id),
+                v = (ta ? ta.value : '').trim();
+            if (!j || !v)
+                return toast('warning', 'Escribe o pega el diagnóstico');
+            const P = diagSplit(v);
+            j.diag = j.diag || [];
+            if (S.dgEd && S.dgEd.id == d.id) {
+                const e = j.diag.find(x => x.id == S.dgEd.eid);
+                if (e) {
+                    e.texto = v;
+                    e.puntos = P;
+                    e.editadoISO = now();
+                    ev(j, 'diagnóstico', 'editado')
+                }
+                S.dgEd = null
+            }
+            else {
+                j.diag.push({
+                    id: uid(),
+                    texto: v,
+                    puntos: P,
+                    autor: autor(),
+                    fechaISO: now()
+                });
+                ev(j, 'diagnóstico', P.length + (P.length == 1 ? ' punto' : ' puntos'))
+            }
+            (S.dgd = S.dgd || {})[d.id] = '';
+            saveJob(j);
+            toast('check', 'Diagnóstico guardado')
+        },
+        dgedit: d => {
+            const j = get(d.id),
+                e = j && (j.diag || []).find(x => x.id == d.e);
+            if (!e)
+                return;
+            S.dgEd = {
+                id: j.id,
+                eid: e.id,
+                t: e.texto
+            };
+            S.dgc = S.dgc || {};
+            S.dgc[j.id] = false;
+            render(1);
+            setTimeout(() => {
+                const t = $('#dgt_' + j.id);
+                if (t) {
+                    t.focus();
+                    t.setSelectionRange(t.value.length, t.value.length)
+                }
+            }, 60)
+        },
+        dgcan: d => {
+            S.dgEd = null;
+            render(1)
+        },
+        dgdel: d => {
+            if (!armOk('dgdel' + d.e, 'Se elimina este diagnóstico de la orden.'))
+                return;
+            const j = get(d.id);
+            if (!j)
+                return;
+            j.diag = (j.diag || []).filter(x => x.id != d.e);
+            if (S.dgEd && S.dgEd.eid == d.e)
+                S.dgEd = null;
+            ev(j, 'diagnóstico', 'eliminado');
+            saveJob(j)
+        },
         pk: d => {
             if (d.x == 'new')
                 collect();
@@ -17592,6 +18729,8 @@
                 nivel: o.nivelComb || '',
                 vin: o.vin || '',
                 espera: !!o.espera,
+                zesp: !!j.zesp,
+                _cola: j.estado == 'cola',
                 ingreso: hhmm(j.tiempos.ingresoISO),
                 estMin: manual ? fmtEst(mins, u) : '',
                 iniD: (() => {
@@ -17761,7 +18900,7 @@
         },
         fpick: d => fotoPick(d.x, '', 1),
         fver: d => fotoVer(d.id, d.x),
-        fgal: d => fotoGaleria(d.x),
+        fgal: d => fotoGaleria(d.x, d.id),
         fdel: d => {
             const L = d.x == 'new' ? D && D.fotos : (get(d.x) || {}).fotos;
             if (!L)
@@ -18113,6 +19252,10 @@
         },
         log: () => {
             S.log = S.log ? 0 : 1;
+            render(1)
+        },
+        clmas: () => {
+            S.clim = (S.clim || 40) + 40;
             render(1)
         },
         cerrar: (d, b, e) => {
@@ -18688,6 +19831,7 @@
                         vin: (D.vin || '').trim().toUpperCase(),
                         nivelComb: D.nivel || ''
                     },
+                    zesp: D.zesp ? now() : null,
                     tiempos: {
                         ingresoISO: ingISO(D._ingEdit ? D.ingreso : ''),
                         estSeg: D._estEdit && +D.estMin > 0 ? Math.round(+D.estMin * 60 * EF[D.estU || 'min']) : sv.reduce((a, s) => a + s.estSeg, 0),
@@ -18699,6 +19843,7 @@
                     },
                     pausa: null,
                     notas: [...n('orden', D.notaO), ...n('vehiculo', D.notaV)],
+                    diag: dgNew(D.diag),
                     alertas: [],
                     eventos: []
                 };
@@ -18920,6 +20065,13 @@
                     delete TAPG[x];
         return false
     }
+    ['touchcancel', 'pointercancel'].forEach(t => document.addEventListener(t, () => {
+        for (const k of Object.keys(TAPG))
+            delete TAPG[k];
+        vvFix()
+    }, {
+        passive: true
+    }));
     document.addEventListener('click', e => {
         const b = e.target.closest('[data-a]');
         if (b) {
@@ -18945,11 +20097,6 @@
     });
     document.addEventListener('input', e => {
         const t = e.target;
-        if (t.dataset && (t.dataset.f == 'marca' || (t.dataset.ch == 'veh' && t.dataset.k == 'marca'))) {
-            const d = document.getElementById('plk_modelos');
-            if (d)
-                d.innerHTML = plkMods(t.value).map(x => `<option value="${esc(x)}">`).join('')
-        }
         if (t.dataset && t.dataset.ch == 'plkdbf' && t.tagName == 'INPUT') {
             const P = S.plkp;
             if (P && P.kind == 'db') {
@@ -19128,6 +20275,73 @@
             }
             return
         }
+
+        if (k == 'opn') {
+            const x = opSrc()[+t.dataset.i];
+            if (x) {
+                const v = t.value.trim();
+                if (!v) {
+                    toast('warning', 'El nombre no puede quedar vacío');
+                    render(1);
+                    return
+                }
+                const g = x.grupo || 'Sin grupo';
+                if (opSrc().some((y, yi) => yi != +t.dataset.i && (y.grupo || 'Sin grupo') == g && (opCat() == 'rep' || y.cat == x.cat) && String(y.nombre).toLowerCase() == v.toLowerCase())) {
+                    toast('warning', 'Ya existe «' + v + '» en ese grupo');
+                    render(1);
+                    return
+                }
+                x.nombre = v;
+                saveCfg()
+            }
+            return
+        }
+        if (k == 'opm') {
+            const x = S.cfg.catalogo[+t.dataset.i];
+            if (x) {
+                x.min = Math.max(1, +t.value || x.min || 1);
+                saveCfg()
+            }
+            return
+        }
+        if (k == 'opgs') {
+            const x = opSrc()[+t.dataset.i];
+            if (x) {
+                if (opSrc().some((y, yi) => yi != +t.dataset.i && (y.grupo || 'Sin grupo') == t.value && (opCat() == 'rep' || y.cat == x.cat) && String(y.nombre).toLowerCase() == String(x.nombre).toLowerCase())) {
+                    toast('warning', 'Ya existe «' + x.nombre + '» en «' + t.value + '»');
+                    render(1);
+                    return
+                }
+                x.grupo = t.value;
+                saveCfg()
+            }
+            return
+        }
+        if (k == 'opgn') {
+            const o = t.dataset.g,
+                v = t.value.trim();
+            if (!v) {
+                render(1);
+                return
+            }
+            if (v != o) {
+                opSrc().forEach(y => {
+                    if ((y.grupo || 'Sin grupo') == o && (opCat() == 'rep' || y.cat == opCat()))
+                        y.grupo = v
+                });
+                saveCfg()
+            }
+            return
+        }
+        if (k == 'opgs2') {
+            const i = $('#op_g');
+            if (i) {
+                i.style.display = t.value == '__new' ? '' : 'none';
+                if (t.value == '__new')
+                    i.focus()
+            }
+            return
+        }
         if (k == 'svgs') {
             const i = $('#sv_g');
             i.style.display = t.value == '__new' ? '' : 'none';
@@ -19269,7 +20483,12 @@
         }
         if (t.id == 'q') {
             S.q = t.value;
-            $('#lst').innerHTML = S.view == 'linea' ? lista() : listaC()
+            cancelAnimationFrame(S._qr);
+            S._qr = requestAnimationFrame(() => {
+                const l = $('#lst');
+                if (l)
+                    l.innerHTML = S.view == 'linea' ? lista() : listaC()
+            })
         }
     });
     document.addEventListener('keydown', e => {
@@ -19523,7 +20742,25 @@
             return () => !!(m && m.matches)
         })(),
         vvLast = {};
+    function vvFix() {
+        // v9-8-12: el documento no debe moverse nunca; si el navegador lo corrió, se vuelve a 0 (evita botones desfasados y pantalla corrida hacia arriba)
+        try {
+            const se = document.scrollingElement || document.documentElement;
+            if (se && (se.scrollTop || se.scrollLeft)) {
+                se.scrollTop = 0;
+                se.scrollLeft = 0
+            }
+            if (window.scrollY || window.scrollX)
+                window.scrollTo(0, 0);
+            const b = document.body;
+            if (b && (b.scrollTop || b.scrollLeft)) {
+                b.scrollTop = 0;
+                b.scrollLeft = 0
+            }
+        } catch (e) {}
+    }
     function vvSync() {
+        vvFix();
         const v = window.visualViewport,
             ed = vvEditing(),
             ih = window.innerHeight,
@@ -19557,6 +20794,7 @@
         cancelAnimationFrame(vvSettle.r);
         const tick = () => {
             vvSync();
+            vvFix();
             const v = window.visualViewport,
                 cur = (v ? v.height + ':' + v.offsetTop : innerHeight) + ':' + innerHeight;
             st = cur === lh ? st + 1 : 0;
@@ -19612,7 +20850,23 @@
         addEventListener('orientationchange', s);
         addEventListener('pageshow', s);
         window.visualViewport?.addEventListener('resize', s);
-        window.visualViewport?.addEventListener('scroll', s); // v1: window. evita error en navegadores sin esta API
+        window.visualViewport?.addEventListener('scroll', () => {
+            s();
+            vvFix()
+        });
+        addEventListener('scroll', () => {
+            vvFix()
+        }, {
+            passive: true
+        });
+        document.addEventListener('scroll', e => {
+            const t = e.target;
+            if (t === document || t === document.documentElement || t === document.body)
+                vvFix()
+        }, {
+            passive: true,
+            capture: true
+        }); // v1: window. evita error en navegadores sin esta API
 
         document.addEventListener('focusin', e => {
             s();
@@ -19631,8 +20885,24 @@
             }, 90)
         });
         document.addEventListener('visibilitychange', () => {
-            if (!document.hidden)
-                s()
+            if (!document.hidden) {
+                vvFix();
+                s();
+                setTimeout(vvFix, 250);
+                setTimeout(() => {
+                    try {
+                        softUI()
+                    } catch (e) {}
+                }, 120)
+            }
+        });
+        addEventListener('pageshow', e => {
+            vvFix();
+            setTimeout(() => {
+                try {
+                    softUI()
+                } catch (x) {}
+            }, 120)
         });
         if (window.ResizeObserver)
             new ResizeObserver(s).observe($('#nav'));
@@ -20152,7 +21422,7 @@
     const calRow = (x, full) => {
         const t = remTag(x.iso),
             cita = x.t == 'cita';
-        return `<div class="crow c-${x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">Atendida</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
+        return `<div class="crow c-${x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">Atendida</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
     };
     function remSec() {
         const R3 = dueRecs(),
@@ -20194,12 +21464,22 @@
     function citaModal() {
         const m = S.modal,
             v = k => esc(m[k] || '');
-        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event')}<div><b style="font-size:18px">Crear cita</b><div class="sm">Queda en el calendario con indicador violeta</div></div></div>
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event')}<div><b style="font-size:18px">${m.edit ? 'Editar cita' : 'Crear cita'}</b><div class="sm">${m.edit ? 'Cambia lo que necesites y guarda' : 'Queda en el calendario con indicador violeta'}</div></div></div>
          <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="cdt" data-ch="cita_dt" value="${v('dt')}" style="width:100%">
          <div class="sec">${ic('directions_car')} Patente</div><div class="plw" style="justify-content:center"><label class="pl f" style="min-width:190px"><small>CHILE</small><input id="cpat" data-ch="cita_pat" value="${esc(fmtPl(m.pat || ''))}" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" inputmode="text"></label></div>
          <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono (opcional)" style="width:100%;margin-top:8px">
          <div class="sec">${ic('edit_note')} Motivo</div><input id="cmot" data-ch="cita_mot" value="${v('mot')}" placeholder="Ej: Cambio de aceite" style="width:100%"><input id="cnota" data-ch="cita_nota" value="${v('nota')}" placeholder="Nota (opcional)" style="width:100%;margin-top:8px">
-         <div class="btns" style="margin-top:16px"><button data-a="citaok">Guardar cita</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+         <div class="btns" style="margin-top:16px"><button data-a="citaok">${m.edit ? 'Guardar cambios' : 'Guardar cita'}</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
+    function rqeModal() {
+        const m = S.modal,
+            j = get(m.id);
+        if (!j)
+            return '';
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('alarm')}<div><b style="font-size:18px">Editar recordatorio</b><div class="sm">${esc(fmtPl(j.vehiculo.patente))}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div></div></div>
+         <div class="sec">${ic('edit_note')} Qué hay que recordar</div><input id="rqet" value="${esc(m.t || '')}" placeholder="¿Qué hay que recordar?" autocomplete="off" style="width:100%">
+         <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="rqed" value="${esc(m.dt || '')}" style="width:100%">
+         <div class="btns" style="margin-top:16px"><button data-a="rqeok">Guardar cambios</button><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
     function rcModal() {
         const m = S.modal,
@@ -20348,22 +21628,55 @@
                 return toast('warning', 'Elige fecha y hora');
             if (!pat && !cli)
                 return toast('warning', 'Escribe la patente o el cliente');
-            (S.cfg.citas = S.cfg.citas || []).push({
-                id: uid(),
-                iso: new Date(dt).toISOString(),
-                pat,
-                cli,
-                tel: g('#ctel'),
-                mot: g('#cmot'),
-                nota: g('#cnota'),
-                creadaISO: now()
-            });
+            const ed = m.edit && (S.cfg.citas || []).find(x => x.id == m.edit);
+            if (ed) {
+                Object.assign(ed, {
+                    iso: new Date(dt).toISOString(),
+                    pat,
+                    cli,
+                    tel: g('#ctel'),
+                    mot: g('#cmot'),
+                    nota: g('#cnota'),
+                    editadaISO: now()
+                });
+                try {
+                    RS.delete(ed.id);
+                    rsSave()
+                } catch (e) {}
+            } // al cambiar la hora el aviso vuelve a sonar
+            else
+                (S.cfg.citas = S.cfg.citas || []).push({
+                    id: uid(),
+                    iso: new Date(dt).toISOString(),
+                    pat,
+                    cli,
+                    tel: g('#ctel'),
+                    mot: g('#cmot'),
+                    nota: g('#cnota'),
+                    creadaISO: now()
+                });
             const q = new Date(dt);
             S.cd2 = dkey(q);
             S.cm = [q.getFullYear(), q.getMonth()];
             S.modal = null;
             saveCfg();
-            toast('event', 'Cita creada')
+            toast('event', ed ? 'Cita actualizada' : 'Cita creada')
+        },
+        cedit: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            S.modal = {
+                k: 'cita',
+                edit: c.id,
+                dt: dtLocal(Date.parse(c.iso)),
+                pat: c.pat || '',
+                cli: c.cli || '',
+                tel: c.tel || '',
+                mot: c.mot || '',
+                nota: c.nota || ''
+            };
+            render(1)
         },
         cdone: d => {
             const c = (S.cfg.citas || []).find(x => x.id == d.id);
@@ -20423,7 +21736,7 @@
             testCLD()
         }
     });
-    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl'].forEach(x => TAPS.add(x));
+    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl', 'rqeok', 'dgadd', 'dgdel', 'fsok', 'fsdl'].forEach(x => TAPS.add(x));
     Object.assign(HELP, {
         mas: ['Más', [['calendar_month', 'Calendario del mes: violeta = cita, naranja = reapertura; tocar un día abre el calendario de citas en esa fecha'], ['event_upcoming', 'Las 3 próximas citas o reaperturas, con etiqueta Hoy / Mañana / Atrasada'], ['event', 'Ir al calendario de citas'], ['settings', 'Ir a configuración']]],
         cal: ['Calendario de citas', [['calendar_month', 'Tocar un día muestra sus citas y reaperturas'], ['add', 'Crear cita: fecha, patente, cliente y motivo (si la patente ya existe, completa el cliente)'], ['replay', 'Crear reapertura: busca una orden completada por patente u OT y elige la fecha y hora de reingreso'], ['check_circle', 'Marcar una cita como atendida o eliminarla'], ['notifications', 'Recordatorios: lo atrasado, de hoy y de mañana aparece en el Dashboard y como globo violeta en «Más»']]]
@@ -20470,7 +21783,7 @@
     const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
     const recRow = (j, r) => {
         const due = !r.hecho && Date.parse(r.iso) <= Date.now();
-        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
     };
     const recSec = j => {
         const L = (j.recordatorios || []).slice().sort((a, b) => cmpS(a.iso, b.iso)),
@@ -20830,6 +22143,54 @@
             ev(j, 'recordatorio', 'programado para ' + ingT(iso) + ' · ' + t);
             saveJob(j);
             toast('alarm', 'Recordatorio programado')
+        },
+        rqedit: d => {
+            const j = get(d.id),
+                r = j && (j.recordatorios || []).find(x => x.id == d.r);
+            if (!r)
+                return;
+            S.modal = {
+                k: 'rqe',
+                id: j.id,
+                r: r.id,
+                t: r.texto,
+                dt: dtLocal(Date.parse(r.iso))
+            };
+            render(1)
+        },
+        rqeok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'rqe')
+                return;
+            const j = get(m.id),
+                r = j && (j.recordatorios || []).find(x => x.id == m.r);
+            if (!r) {
+                S.modal = null;
+                render(1);
+                return
+            }
+            const t = ($('#rqet')?.value || '').trim(),
+                v = $('#rqed')?.value;
+            if (!t)
+                return toast('warning', 'Escribe qué hay que recordar');
+            if (!v)
+                return toast('warning', 'Elige fecha y hora');
+            const iso = new Date(v).toISOString(),
+                ch = iso != r.iso;
+            r.texto = t;
+            r.iso = iso;
+            if (ch) {
+                r.hecho = false;
+                r.hechoISO = null;
+                RS.delete(r.id);
+                rsSave()
+            }
+            r.editadoISO = now();
+            ev(j, 'recordatorio', 'editado · ' + ingT(iso) + ' · ' + t);
+            S.modal = null;
+            saveJob(j, 1);
+            render(1);
+            toast('alarm', 'Recordatorio actualizado')
         },
         rqdone: d => {
             const j = get(d.id),
@@ -21242,14 +22603,10 @@
                 };
             if (c.cod)
                 o.cod = c.cod;
-            if (c.bc)
-                o.bc = {
-                    ...c.bc
-                };
             if (c.precio)
                 o.precio = c.precio;
             return o
-        };
+        } // v9-8-13: el código de barras NO viene del catálogo; es de cada orden;
     function repApply(x, i, p) {
         const it = repGet(x, i);
         if (!it)
@@ -21272,18 +22629,14 @@
             }
         }
         if ('bc' in p) {
-            if (p.bc) {
+            if (p.bc)
                 it.bc = {
                     ...p.bc
                 };
-                c.bc = {
-                    ...p.bc
-                }
-            } else {
+            else
                 delete it.bc;
-                delete c.bc
-            }
-        }
+            delete c.bc
+        } // solo en esta orden (limpia códigos antiguos del catálogo)
         if ('precio' in p) {
             if (p.precio) {
                 it.precio = p.precio;
@@ -21316,7 +22669,7 @@
         return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:18px">${esc(it.nombre)}</b><div class="sm">${esc(it.grupo || '')} · ${pat}</div>
          <label class="sm" for="rp_c" style="display:block;margin-top:10px;text-align:left">Código o nombre del producto</label><input id="rp_c" style="width:100%" placeholder="Código del proveedor, medida, etc." value="${esc(it.cod || '')}" maxlength="60" autocomplete="off">
          <label class="sm" for="rp_p" style="display:block;margin-top:12px;text-align:left">Precio del repuesto (opcional)</label><input id="rp_p" type="text" inputmode="numeric" style="width:100%" placeholder="Ej: 12990" value="${it.precio ? esc(String(it.precio)) : ''}" maxlength="10" autocomplete="off">
-         <div class="sm" style="margin-top:12px;text-align:left">Código de barras</div>
+         <div class="sm" style="margin-top:12px;text-align:left">Código de barras o QR · <b>solo de esta orden</b> (no se guarda en el catálogo)</div>
          ${bc ? `<div id="rp_prev"><div class="bcbox">${bcSvg(bc.v, bc.f, {h: 70})}<div class="bcv">${esc(bc.v)}</div>${k == 'code128' && /^(ean|upc|code39|code128|)/.test(String(bc.f || '').toLowerCase().replace(/[^a-z0-9]/g, '')) && bc.f && !/code128|code39/.test(String(bc.f).toLowerCase().replace(/[^a-z0-9]/g, '')) ? '<div class="sm">Se dibuja como Code 128 (mismo texto).</div>' : ''}</div></div><div class="btns" style="flex-wrap:wrap"><button type="button" data-a="bcshow" data-x="${x}" data-i="${i}">${ic('fullscreen')} Mostrar para escanear</button><button type="button" data-a="rpclr" data-x="${x}" data-i="${i}">${ic('delete')} Quitar</button></div>` : '<div id="rp_prev"><div class="sm" style="text-align:left">Aún no tiene código de barras.</div></div>'}
          <div class="btns" style="flex-wrap:wrap;margin-top:8px"><button type="button" data-a="rpscan" data-x="${x}" data-i="${i}">${ic('photo_camera')} ${bc ? 'Escanear de nuevo' : 'Foto del código de barras'}</button><button type="button" data-a="rpscan" data-g="1" data-x="${x}" data-i="${i}">${ic('photo_library')} Galería</button></div>
          <div class="rpb"><input id="rp_b" placeholder="Código de barras (texto)" maxlength="60" autocomplete="off" value="${esc(bc ? bc.v : '')}"><button type="button" data-a="rpuse" data-x="${x}" data-i="${i}" title="Copiar el código de arriba al código de barras">${ic('content_copy')} Usar código</button></div><div class="sm" style="text-align:left">Los dos campos se pueden editar por separado.</div>
@@ -21535,6 +22888,7 @@
         render(1)
     }
     function shkInit(force) {
+        // v9-8-12: el permiso de movimiento se pide UNA sola vez (con un toque) y se recuerda; si ya se concedió, no vuelve a preguntar
         const DM_ = window.DeviceMotionEvent;
         if (!DM_ || !SHK.on())
             return;
@@ -21544,22 +22898,55 @@
             SHK.added = 1;
             addEventListener('devicemotion', shkMotion, {
                 passive: true
-            })
+            });
+            SHK.st = 'ok'
         };
+        const mem = () => {
+                try {
+                    return localStorage.lubri_shkperm || ''
+                } catch (e) {
+                    return ''
+                }
+            },
+            save = v => {
+                try {
+                    localStorage.lubri_shkperm = v
+                } catch (e) {}
+            };
         if (typeof DM_.requestPermission === 'function') {
+            // iPhone / iPad
             const ask = () => {
                 removeEventListener('click', ask, true);
+                removeEventListener('touchend', ask, true);
                 try {
                     DM_.requestPermission().then(r => {
+                        save(r === 'granted' ? 'ok' : 'no');
                         if (r === 'granted')
-                            add()
+                            add();
+                        else {
+                            SHK.st = 'no';
+                            try {
+                                render(1)
+                            } catch (e) {}
+                        }
                     }).catch(() => {})
                 } catch (e) {}
             };
-            if (force)
+            SHK.ask = ask;
+            if (force) {
                 ask();
-            else
-                addEventListener('click', ask, true)
+                return
+            }
+            if (mem() === 'ok') {
+                add();
+                SHK.st = 'ok';
+                return
+            } // ya concedido antes: se activa sin preguntar de nuevo (si Safari lo olvidó, el primer toque lo vuelve a pedir una vez)
+            if (mem() === 'no') {
+                SHK.st = 'no';
+                return
+            } // lo negaste: no se insiste; se puede activar desde Configuración
+            addEventListener('click', ask, true)
         }
         else
             add()
@@ -21567,6 +22954,25 @@
     function shkGo() {
         S.shk = null;
         resetUI()
+    }
+    function softUI() {
+        // v9-8-12: recuperación suave (sin avisos): libera el filtro de toques, quita capas atascadas y vuelve a medir la pantalla
+        for (const k of Object.keys(TAPG))
+            delete TAPG[k];
+        clearTimeout(R.lp);
+        try {
+            const de = document.documentElement;
+            de.style.touchAction = '';
+            document.body.style.pointerEvents = '';
+            ['modal', 'tst'].forEach(id => {
+                const e = document.getElementById(id);
+                if (e && e.style.pointerEvents)
+                    e.style.pointerEvents = ''
+            })
+        } catch (e) {} // solo QUITA bloqueos; nunca los pone
+        vvFix();
+        vvSync();
+        vvSettle(500)
     }
     function resetUI() {
         // reinicia táctil y redimensionado sin recargar la página
@@ -21587,6 +22993,7 @@
             const ae = document.activeElement;
             if (ae && ae !== b && ae.blur)
                 ae.blur();
+            vvFix();
             try {
                 scrollTo(0, 0)
             } catch (e) {}
@@ -21614,8 +23021,17 @@
         }
     }
     const shkModal = () => S.shk ? `<div class="bd shkb" data-a="shkno"><div class="box c">${ic('touch_app', 'big t-mid')}<p><b>¿Reiniciar táctil y pantalla?</b></p><div class="sm">Detecté que agitaste el teléfono. Esto vuelve a medir la pantalla y destraba los toques, sin cerrar la app ni perder datos.</div><div class="btns" style="margin-top:16px"><button data-a="shkok">${ic('restart_alt')} Reiniciar</button><button data-a="shkno">Cancelar</button></div><div class="sm" style="margin-top:10px">Si no responde, agita otra vez para confirmar.</div></div></div>` : '';
-    const shkSec = () => `<section><b>Táctil y pantalla</b><div class="note">Si la app se pega o se descuadra, agita el teléfono 1 s: aparece una ventana para reiniciar el táctil y el tamaño de pantalla.</div><div class="li"><span>Agitar para reiniciar</span><input type="checkbox" data-ch="shake" ${SHK.on() ? 'checked' : ''}></div><div class="btns"><button data-a="shkman">${ic('restart_alt')} Reiniciar ahora</button></div></section>`;
+    const shkSec = () => `<section><b>Táctil y pantalla</b><div class="note">Si la app se pega o se descuadra, agita el teléfono 1 s: aparece una ventana para reiniciar el táctil y el tamaño de pantalla.</div><div class="li"><span>Agitar para reiniciar</span><input type="checkbox" data-ch="shake" ${SHK.on() ? 'checked' : ''}></div><div class="note" style="margin-top:4px">Sensor de movimiento: <b>${typeof DeviceMotionEvent === 'undefined' ? 'no disponible en este equipo' : SHK.st == 'ok' ? 'activado' : SHK.st == 'no' ? 'permiso negado (activar abajo)' : 'pendiente: toca la pantalla una vez para permitirlo'}</b></div><div class="btns"><button data-a="shkperm">${ic('sensors')} Activar sensor de movimiento</button></div><div class="btns"><button data-a="shkman">${ic('restart_alt')} Reiniciar ahora</button></div></section>`;
     Object.assign(A, {
+        shkperm: () => {
+            try {
+                localStorage.removeItem('lubri_shkperm')
+            } catch (e) {}
+            SHK.added = 0;
+            SHK.st = '';
+            shkInit(true);
+            setTimeout(() => render(1), 1200)
+        },
         shkok: () => shkGo(),
         shkno: (d, b, e) => {
             if (e.target == b || b.tagName == 'BUTTON') {
@@ -21631,6 +23047,27 @@
         }
     });
     shkInit();
+    (() => {
+        if (typeof window.DeviceMotionEvent === 'undefined' || typeof DeviceMotionEvent.requestPermission !== 'function')
+            return;
+        let got = 0;
+        addEventListener('devicemotion', () => {
+            got = 1
+        }, {
+            once: true,
+            passive: true
+        });
+        setTimeout(() => {
+            if (!got && SHK.on() && SHK.ask && (localStorage.lubri_shkperm || '') === 'ok') {
+                SHK.added = 0;
+                const f = () => {
+                    removeEventListener('click', f, true);
+                    SHK.ask && SHK.ask()
+                };
+                addEventListener('click', f, true)
+            }
+        }, 4000)
+    })(); // v9-8-12
     try {
         screen.orientation && screen.orientation.lock && screen.orientation.lock('portrait').catch(() => {})
     } catch (e) {} // solo funciona instalada/pantalla completa; si no, se ignora
