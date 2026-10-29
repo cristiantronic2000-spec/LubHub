@@ -87,6 +87,10 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-16: «Guardar en la galería» ya no marca las fotos como guardadas (antes, si se cancelaba o la copia no terminaba, quedaban como «ya guardadas» y no dejaba intentarlo otra vez): el botón guarda todas las fotos cada vez que se toca y los avisos dicen «descarga iniciada» en vez de afirmar que quedó guardado.
+    CAMBIOS v9-8-15 (c): Notificaciones › Recordatorios: recordatorios generales (sin orden) en S.cfg.recGen, con crear, editar, hecho y eliminar; salen en el calendario, el Dashboard y los avisos; los recordatorios de una orden también salen en el calendario del día y se pueden editar desde ahí y desde Notificaciones.
+    CAMBIOS v9-8-15 (b): se pueden editar las notas de la orden y del vehículo (lápiz en cada nota, también en órdenes cerradas) y los diagnósticos (también en órdenes cerradas); los recordatorios de la orden van en un recuadro colapsable igual al de diagnósticos.
+    CAMBIOS v9-8-15 (a): fotos con nombre PATENTE_día_OT_fecha_quien.jpg (OT solo si ya estaba registrada al sacar la foto; lo que falte se omite); en Android el botón principal es «Descargar al teléfono» (queda en el teléfono) y compartir pasa a segunda opción.
     CAMBIOS v9-8-14: en Android la ventana «Guardar en la galería» aparece siempre, con dos botones: «Guardar en la galería» (menú de compartir: Fotos o la galería del teléfono) y «Descargar al teléfono» (carpeta Descargas, visible en Galería › Descargas); «Guardar en la galería» abre el menú de compartir del teléfono («Guardar imagen» → Fotos) en vez de solo descargar el archivo; si el navegador exige un toque nuevo tras bajar la foto de la nube, aparece la ventana «Guardar N fotos en la galería» con un botón que abre el menú al instante; si una foto no se puede bajar por código, se muestra para guardarla manteniéndola presionada; solo en computador se descarga el archivo; el botón del visor se llama «Guardar en la galería».
     CAMBIOS v9-8-13 (paso 2, parcial): (g) fotos: se quitó toda referencia a Firebase Storage (las fotos van solo a Cloudinary; Firebase queda para los datos) y el guardado en la galería tiene plan B: si el teléfono no puede bajar la foto por código, usa el enlace de descarga directa de Cloudinary; (f) íconos con ancho fijo: sin la tipografía de íconos (sin señal o carga lenta) el nombre del ícono ya no se desborda sobre los botones vecinos (la barra inferior dejaba de responder donde se veía el botón); (e) ZONA DE ESPERA (j.zesp): casilla «Dejar en zona de espera» al crear/editar y botón en el detalle de órdenes en cola; el vehículo no ocupa plataforma y se estaciona en 3 plazas azules del mapa (burbuja ESP con su cuenta; E cuenta solo la cola normal); «Pasar a plataforma» lo devuelve a la cola, e iniciar la orden limpia la marca; (d) Configuración › «Opciones del vehículo»: editor con pestañas Cambiar / Revisar / Repuestos y líquidos (agregar, renombrar, mover de grupo, minutos, quitar ítem o grupo con confirmación) que reemplaza al antiguo «Catálogo de servicios»; (c) el código de barras/QR de un repuesto es SOLO de la orden donde se escaneó: el catálogo ya no lo guarda ni lo copia a otras órdenes (los códigos antiguos del catálogo se limpian al tocar el repuesto); (a) sección «Diagnósticos del vehículo» (j.diag) bajo las notas, colapsable, con separación automática en puntos, ver más/menos, editar y eliminar; campo de diagnóstico en el formulario; (b) nuevo orden del detalle: notas orden/vehículo, diagnósticos, recordatorios, contactar, problemas con la OT, bitácora, inspección y, al final, fotos.
     CAMBIOS v9-8-12 (paso 1, ítems 1-7 del plan): (e) sugerencias de marca, modelo, año y cilindrada con LISTA PROPIA bajo la caja (SGL): se ve igual en iPhone, Android y computador (los datalist no se mostraban en el celular); se filtra al escribir, los modelos dependen de la marca de esa misma orden, elegir marca pasa a Modelo, y la lista no cierra el teclado; (d) botón de buscar patente como rectángulo vertical (26×43, lupa arriba y documento abajo) pegado a la patente en el detalle y en el formulario; el recuadro negro de la OT se achicó (formulario: solo el ancho de 7 caracteres; detalle: más compacto) y la patente conserva su tamaño; (c) citas y recordatorios se pueden EDITAR (lápiz en cada fila: fecha, hora, patente, cliente, teléfono, motivo, nota; al cambiar la hora del recordatorio vuelve a pendiente y el aviso suena de nuevo); (b) táctil y pantalla: el documento nunca queda desplazado (vvFix en cada cambio de tamaño, teclado, scroll y al volver a la app), recuperación automática suave al volver a la app o ante toques cancelados (softUI), agitar para reiniciar ahora pide el permiso de movimiento una sola vez y lo recuerda (lubri_shkperm), con botón «Activar sensor de movimiento» en Configuración; (a) fotos: «Guardar en la galería» y el nuevo botón «Guardar en este dispositivo» del visor bajan la foto desde la nube si no está en el teléfono que la tomó (antes decía «Las fotos no están en este teléfono»); solo se marcan como guardadas las que realmente se obtuvieron.
@@ -11366,6 +11370,25 @@
         white-space: nowrap;
         line-height: 1
     }
+
+    .nt p {
+        position:relative
+    }
+
+    .nted {
+        border: 0;
+        background: none;
+        padding: 0;
+        margin-left: 6px;
+        vertical-align: middle;
+        min-width: 30px;
+        min-height: 30px;
+        opacity:.75
+    }
+
+    .nted .material-symbols-outlined {
+        font-size: 17px
+    }
     </style>
 </head>
 <body>
@@ -15047,15 +15070,15 @@
             op = !(S.dgc || {})[j.id],
             ed = S.dgEd && S.dgEd.id == j.id ? S.dgEd : null,
             dr = ed ? ed.t : ((S.dgd || {})[j.id] || '');
-        const body = `${lock && !L.length ? '<span class="mut">Sin diagnósticos registrados.</span>' : ''}${[...L].reverse().map(e => `<div class="dge ${ed && ed.eid == e.id ? 'ing' : ''}">${diagList(e, !!(S.dge || {})[e.id])}<div class="dgf"><small>${esc(e.autor || '')} · ${hm(e.fechaISO)}${e.editadoISO ? ' · editado' : ''}</small>${lock ? '' : `<span><button data-a="dgedit" data-id="${j.id}" data-e="${e.id}" title="Editar" aria-label="Editar diagnóstico">${ic('edit')}</button><button data-a="dgdel" data-id="${j.id}" data-e="${e.id}" title="Eliminar" aria-label="Eliminar diagnóstico">${ic('delete')}</button></span>`}</div></div>`).join('')}
-         ${lock ? '' : `<div class="dga"><textarea id="dgt_${j.id}" data-dg="${j.id}" rows="3" placeholder="${ed ? 'Corrige el diagnóstico' : 'Pega o escribe el diagnóstico (puedes pegarlo de corrido: se separa solo en puntos)'}" style="width:100%;border-radius:12px">${esc(dr)}</textarea><div class="dgh" id="dgh_${j.id}">${dgHint(dr)}</div><div class="btns" style="margin-top:6px"><button data-a="dgadd" data-id="${j.id}">${ic(ed ? 'check' : 'add')} ${ed ? 'Guardar cambios' : 'Agregar diagnóstico'}</button>${ed ? `<button data-a="dgcan" data-id="${j.id}">Cancelar</button>` : ''}</div></div>`}`;
+        const body = `${lock && !L.length ? '<span class="mut">Sin diagnósticos registrados.</span>' : ''}${[...L].reverse().map(e => `<div class="dge ${ed && ed.eid == e.id ? 'ing' : ''}">${diagList(e, !!(S.dge || {})[e.id])}<div class="dgf"><small>${esc(e.autor || '')} · ${hm(e.fechaISO)}${e.editadoISO ? ' · editado' : ''}</small><span><button data-a="dgedit" data-id="${j.id}" data-e="${e.id}" title="Editar" aria-label="Editar diagnóstico">${ic('edit')}</button>${lock ? '' : `<button data-a="dgdel" data-id="${j.id}" data-e="${e.id}" title="Eliminar" aria-label="Eliminar diagnóstico">${ic('delete')}</button>`}</span></div></div>`).join('')}
+         ${lock && !ed ? '' : `<div class="dga"><textarea id="dgt_${j.id}" data-dg="${j.id}" rows="3" placeholder="${ed ? 'Corrige el diagnóstico' : 'Pega o escribe el diagnóstico (puedes pegarlo de corrido: se separa solo en puntos)'}" style="width:100%;border-radius:12px">${esc(dr)}</textarea><div class="dgh" id="dgh_${j.id}">${dgHint(dr)}</div><div class="btns" style="margin-top:6px"><button data-a="dgadd" data-id="${j.id}">${ic(ed ? 'check' : 'add')} ${ed ? 'Guardar cambios' : 'Agregar diagnóstico'}</button>${ed ? `<button data-a="dgcan" data-id="${j.id}">Cancelar</button>` : ''}</div></div>`}`;
         return `<div class="dgs ${op ? 'open' : ''}"><button class="grph" data-a="dgt" data-id="${j.id}" aria-expanded="${op}">${ic('stethoscope')}<b>Diagnósticos del vehículo</b><span class="sm">${L.length ? L.length + (L.length == 1 ? ' registro' : ' registros') : 'Sin registros'}</span>${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb">${body}</div>` : ''}</div>`
     };
     const dgHint = t => {
         const n = diagSplit(t).length;
         return n ? `Se guardará en ${n} ${n == 1 ? 'punto' : 'puntos'}` : ''
     };
-    const notas = (j, t) => `<div class="nt">${j.notas.filter(n => n.tipo == t).reverse().map(n => `<p>${esc(n.texto)}<br><small>${esc(n.autor)} · ${hm(n.fechaISO)}</small></p>`).join('') || '<span class="mut">Sin comentarios registrados.</span>'}</div>${j.estado == 'completado' ? '' : `<div class="add"><input placeholder="Agregar nota" aria-label="Nota"><button data-a="nota" data-id="${j.id}" data-t="${t}" title="Agregar">${ic('add')}</button></div>`}`;
+    const notas = (j, t) => `<div class="nt">${j.notas.map((n, i) => ({n,i})).filter(x => x.n.tipo == t).reverse().map(({n, i}) => `<p>${esc(n.texto)}<br><small>${esc(n.autor)} · ${hm(n.fechaISO)}${n.editadoISO ? ' · editada' : ''}</small><button class="nted" data-a="nedit" data-id="${j.id}" data-i="${i}" title="Editar nota" aria-label="Editar nota">${ic('edit')}</button></p>`).join('') || '<span class="mut">Sin comentarios registrados.</span>'}</div>${j.estado == 'completado' ? '' : `<div class="add"><input placeholder="Agregar nota" aria-label="Nota"><button data-a="nota" data-id="${j.id}" data-t="${t}" title="Agregar">${ic('add')}</button></div>`}`;
     /* "+" abre un panel con categorías → al elegir una categoría aparecen sus opciones (como en el prototipo) */
     const plus = (x, c) => `<button class="chip plus" data-a="pk" data-x="${x}" data-c="${c}" title="Agregar">${ic('add')}</button>`;
     const sec = (t, i) => `<div class="sec">${ic(i)} ${t}</div>`;
@@ -16467,7 +16490,9 @@
             m = {
                 id,
                 slot: slot || '',
-                ts: now()
+                ts: now(),
+                by: autor(),
+                ot: String(x == 'new' ? (D.ot || '') : ((get(x) || {}).ot || '')).trim()
             };
         await FDB.put({
             id,
@@ -16698,10 +16723,11 @@
     }
     const fotoLink = (m, pat) => {
         // plan B sin CORS: enlace de descarga directa de Cloudinary (fl_attachment); el navegador la baja o la abre para guardarla
-        const u = String(m.url || '').replace('/upload/', '/upload/fl_attachment:' + encodeURIComponent((pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id) + '/'),
+        const nm = fotoNm(m, pat),
+            u = String(m.url || '').replace('/upload/', '/upload/fl_attachment:' + encodeURIComponent(nm.replace(/\.jpg$/, '')) + '/'),
             a = document.createElement('a');
         a.href = u;
-        a.download = (pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id + '.jpg';
+        a.download = nm;
         a.rel = 'noopener';
         a.target = '_blank';
         document.body.appendChild(a);
@@ -16709,29 +16735,40 @@
         a.remove()
     };
     const ANDROID = /Android/i.test(navigator.userAgent || '');
-    const fotoNm = (m, pat) => (pat || 'foto') + '_' + (m.slot || 'extra') + '_' + m.id + '.jpg';
-    const fotoFiles = (L, pat) => L.map(m => {
-        const b = FBL.get(m.id);
-        return b ? new File([b], fotoNm(m, pat), {
-            type: 'image/jpeg'
-        }) : null
-    }).filter(Boolean);
-    const fotoMark = (x, L) => {
-        L.forEach(m => m.sv = 1);
-        if (x != 'new') {
-            const j = get(x);
-            if (j)
-                saveJob(j, 1)
-        }
+    const FDIAS = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'],
+        fSlug = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    /* v9-8-15 · nombre de cada foto: PATENTE_día_OT_fecha_quien.jpg  (la OT solo si ya estaba registrada al sacar la foto; lo que falte se omite) */
+    const fotoNm = (m, pat) => {
+        const d = new Date(m.ts || Date.now()),
+            p2 = n => String(n).padStart(2, '0'),
+            by = m.by && m.by != 'sin_asignar' ? fSlug(m.by) : '';
+        return [pat || 'foto', FDIAS[d.getDay()], m.ot ? 'OT' + fSlug(m.ot) : '', d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + '_' + p2(d.getHours()) + p2(d.getMinutes()) + p2(d.getSeconds()), by].filter(Boolean).join('_') + '.jpg'
     };
+    const fotoFiles = (L, pat) => {
+        const seen = {};
+        return L.map(m => {
+            const b = FBL.get(m.id);
+            if (!b)
+                return null;
+            let n = fotoNm(m, pat);
+            if (seen[n]) {
+                n = n.replace(/\.jpg$/, '-' + (++seen[n]) + '.jpg')
+            } else
+                seen[n] = 1;
+            return new File([b], n, {
+                type: 'image/jpeg'
+            })
+        }).filter(Boolean)
+    };
+    const fotoMark = () => {}; // v9-8-16: ya no se marca «guardada»: el navegador no avisa si la copia terminó; se puede guardar las veces que quieras
     /* v9-8-14 · «Guardar en la galería»: abre el menú de compartir del teléfono (en iPhone: «Guardar imagen» → Fotos). Si el navegador exige un toque nuevo
        (pasa cuando hubo que bajar la foto de la nube), se muestra una ventana con el botón «Guardar en la galería», que abre el menú al instante.
        Solo en computador (sin menú de compartir) se descarga el archivo. */
     async function fotoGaleria(x, onlyId) {
         const L = (x == 'new' ? D.fotos : (get(x) || {}).fotos) || [],
-            sel = onlyId ? L.filter(m => m.id == onlyId) : L.filter(m => !m.sv);
+            sel = onlyId ? L.filter(m => m.id == onlyId) : L.slice();
         if (!sel.length)
-            return toast('check', onlyId ? 'No se encontró la foto' : 'Todas las fotos ya están en la galería');
+            return toast('warning', onlyId ? 'No se encontró la foto' : 'No hay fotos para guardar');
         const pat = ((x == 'new' ? D.patente : (get(x) || {
             vehiculo: {}
         }).vehiculo.patente) || 'foto').replace(/[^A-Za-z0-9]/g, '');
@@ -16784,7 +16821,7 @@
                 fotoMark(x, got);
                 if (!noBlob.length) {
                     render(1);
-                    toast('check', got.length == 1 ? 'Foto guardada' : 'Fotos guardadas');
+                    toast('check', 'Listo. Si no la ves en tu galería, toca «Guardar en la galería» de nuevo');
                     warn();
                     return
                 }
@@ -16845,9 +16882,8 @@
             if (k < noBlob.length - 1)
                 await new Promise(r => setTimeout(r, 700))
         }
-        fotoMark(x, got);
         render(1);
-        toast('check', got.length == 1 ? 'Foto descargada' : 'Fotos descargadas');
+        toast('check', got.length == 1 ? 'Descarga iniciada' : 'Descarga iniciada (' + got.length + ' fotos)');
         warn()
     }
     const fsvModal = () => {
@@ -16856,7 +16892,7 @@
             P = (m.press || []).map(id => L.find(f => f.id == id)).filter(f => f && f.url),
             n = (m.ids || []).length;
         return `<div class="bd" data-a="cerrar"><div class="box c fsv"><b style="font-size:18px">Guardar en la galería</b>
-         ${n ? `<div class="sm" style="margin-top:6px">${n == 1 ? 'La foto está lista' : n + ' fotos están listas'}. ${ANDROID ? 'Elige <b>Fotos</b> o tu <b>Galería</b> en el menú del teléfono.' : 'Toca el botón y elige <b>Guardar imagen</b> en el menú del teléfono.'}</div><div class="btns" style="margin-top:12px"><button data-a="fsok" style="width:100%;min-height:52px;font-size:16px">${ic('photo_library')} Guardar ${n == 1 ? 'la foto' : n + ' fotos'} en la galería</button></div><div class="btns" style="margin-top:8px"><button data-a="fsdl" style="width:100%;min-height:46px">${ic('download')} Descargar al teléfono</button></div><div class="sm" style="margin-top:6px;opacity:.75">${ANDROID ? '«Descargar» las deja en la carpeta Descargas: se ven en Galería › Descargas.' : '«Descargar» las deja en Archivos › Descargas.'}</div>` : ''}
+         ${n ? (ANDROID ? `<div class="sm" style="margin-top:6px">${n == 1 ? 'La foto está lista' : n + ' fotos están listas'}. <b>Descargar</b> las guarda en el teléfono (carpeta Descargas, se ven en Galería › Descargas).</div><div class="btns" style="margin-top:12px"><button data-a="fsdl" style="width:100%;min-height:52px;font-size:16px">${ic('download')} Descargar ${n == 1 ? 'la foto' : n + ' fotos'} al teléfono</button></div><div class="btns" style="margin-top:8px"><button data-a="fsok" style="width:100%;min-height:46px">${ic('share')} Compartir (Drive, otras apps…)</button></div><div class="sm" style="margin-top:6px;opacity:.75">Ojo: compartir a Google Fotos las sube a la nube y no las deja en el teléfono.</div>` : `<div class="sm" style="margin-top:6px">${n == 1 ? 'La foto está lista' : n + ' fotos están listas'}. Toca el botón y elige <b>Guardar imagen</b> en el menú del teléfono.</div><div class="btns" style="margin-top:12px"><button data-a="fsok" style="width:100%;min-height:52px;font-size:16px">${ic('photo_library')} Guardar ${n == 1 ? 'la foto' : n + ' fotos'} en la galería</button></div><div class="btns" style="margin-top:8px"><button data-a="fsdl" style="width:100%;min-height:46px">${ic('download')} Descargar archivo</button></div>`) : ''}
          ${P.length ? `<div class="sm" style="margin-top:12px">${n ? 'Estas no se pudieron preparar:' : 'Mantén presionada la foto y elige'} <b>${n ? 'mantén presionada cada una y elige «Guardar en Fotos».' : '«Guardar en Fotos» (o «Descargar imagen»).'}</b></div>${P.map(f => `<img src="${esc(f.url)}" alt="Foto" style="width:100%;border-radius:12px;margin-top:8px;-webkit-touch-callout:default;user-select:auto">`).join('')}` : ''}
          <div class="btns" style="margin-top:14px"><button data-a="cerrar">Cerrar</button></div></div></div>`
     };
@@ -16908,10 +16944,9 @@
             free = `<div class="fgrid">${extra.map(m => `<button type="button" class="fth" data-a="fver" data-id="${m.id}" data-x="${x}" aria-label="Ver foto">${img(m)}</button>`).join('')}${lock ? '' : `<button type="button" class="fadd" data-a="fcam" data-x="${x}" data-s="">${ic('add_a_photo')}<small>Foto</small></button><button type="button" class="fadd" data-a="fpick" data-x="${x}">${ic('photo_library')}<small>Galería</small></button>`}</div>`,
             tot = tpl ? FZ.length + FX.length : 0,
             dn = tpl ? [...FZ, ...FX].filter(z => by(z.k)).length : 0,
-            up = L.filter(m => m.url).length,
-            pg = L.filter(m => !m.sv).length;
+            up = L.filter(m => m.url).length;
         return `<div class="fot ${tpl ? 'tpl' : ''}" data-fx="${x}">${fotoBar(x, tpl)}${fsrcSel()}${tpl ? `<div class="fprog"><b>${dn}/${tot}</b> zonas fotografiadas<i><u style="width:${Math.round(dn / tot * 100)}%"></u></i></div><div class="ftpl">${FCAR}${FZ.map(z => `<div class="fz" style="left:${z.x}%;top:${z.y}%">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="fex">${FX.map(z => `<div class="fz2">${cam(z.k, z.n)}<small>${z.n}</small></div>`).join('')}</div><div class="sm" style="margin-top:6px">Otras fotos</div>` : ''}${free}
-         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${isNew && L.length - up ? ' · se suben al guardar la orden' : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${pg ? ` (${pg})` : ''}</button>` : ''}</div></div>`
+         <div class="fst">${L.length ? `${L.length} ${L.length == 1 ? 'foto' : 'fotos'} · ${up} en la nube${L.length - up ? ` · ${L.length - up} pendiente${L.length - up > 1 ? 's' : ''} de subir` : ''}${isNew && L.length - up ? ' · se suben al guardar la orden' : ''}${S.fotErr && L.length - up ? ` · Error: ${esc(S.fotErr)}` : ''}` : 'Sin fotos todavía'}${L.length ? `<button type="button" class="lnk" data-a="fgal" data-x="${x}">${ic('download')} Guardar en la galería${L.length > 1 ? ` (${L.length})` : ''}</button>` : ''}</div></div>`
     }
     /* v9-4 · Esquema e Inspección sobre el formulario «Crear/Editar orden» (la orden aún no existe: usa el borrador D) */
     function ovModal(o) {
@@ -17034,6 +17069,10 @@
             return citaModal();
         if (m.k == 'rqe')
             return rqeModal();
+        if (m.k == 'rge')
+            return rgeModal();
+        if (m.k == 'nte')
+            return nteModal();
         if (m.k == 'fsv')
             return fsvModal();
         if (m.k == 'plkr')
@@ -17688,7 +17727,7 @@
         render(1);
         return false
     }
-    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('dgdel') ? ['delete', '¿Eliminar este diagnóstico?', 'Eliminar'] : k.startsWith('opdel') ? ['delete', '¿Quitar esta opción?', 'Quitar'] : k.startsWith('opgdel') ? ['delete', '¿Quitar este grupo?', 'Quitar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
+    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('dgdel') ? ['delete', '¿Eliminar este diagnóstico?', 'Eliminar'] : k.startsWith('rgdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('opdel') ? ['delete', '¿Quitar esta opción?', 'Quitar'] : k.startsWith('opgdel') ? ['delete', '¿Quitar este grupo?', 'Quitar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
     const cfModal = m => {
         const [i, t, ok] = CFT(m.key || ''),
             sub = String(m.msg || '').replace(/\.?\s*Toca otra vez[^.]*\.?$/i, '').trim();
@@ -18299,6 +18338,133 @@
         toast('check', 'Orden actualizada')
     }
     const A = {
+        rgt: () => {
+            S.rgc = !S.rgc;
+            render(1)
+        },
+        rgquick: d => {
+            const i = $('#rg_d');
+            if (i)
+                i.value = dtLocal(qMs(d.m))
+        },
+        rgadd: () => {
+            const t = ($('#rg_t')?.value || '').trim(),
+                v = $('#rg_d')?.value;
+            if (!t)
+                return toast('warning', 'Escribe qué hay que recordar');
+            if (!v)
+                return toast('warning', 'Elige fecha y hora');
+            if (new Date(v).getTime() < Date.now() - 6e4)
+                return toast('warning', 'La hora ya pasó: elige una futura');
+            (S.cfg.recGen = S.cfg.recGen || []).push({
+                id: uid(),
+                iso: new Date(v).toISOString(),
+                texto: t,
+                hecho: false,
+                autor: autor(),
+                creadaISO: now()
+            });
+            saveCfg();
+            toast('alarm', 'Recordatorio programado')
+        },
+        rgedit: d => {
+            const r = (S.cfg.recGen || []).find(x => x.id == d.id);
+            if (!r)
+                return;
+            S.modal = {
+                k: 'rge',
+                r: r.id,
+                t: r.texto,
+                dt: dtLocal(Date.parse(r.iso))
+            };
+            render(1)
+        },
+        rgeok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'rge')
+                return;
+            const r = (S.cfg.recGen || []).find(x => x.id == m.r);
+            if (!r) {
+                S.modal = null;
+                render(1);
+                return
+            }
+            const t = ($('#rge_t')?.value || '').trim(),
+                v = $('#rge_d')?.value;
+            if (!t)
+                return toast('warning', 'Escribe qué hay que recordar');
+            if (!v)
+                return toast('warning', 'Elige fecha y hora');
+            const iso = new Date(v).toISOString();
+            if (iso != r.iso) {
+                r.hecho = false
+            }
+            r.texto = t;
+            r.iso = iso;
+            r.editadoISO = now();
+            S.modal = null;
+            saveCfg();
+            toast('alarm', 'Recordatorio actualizado')
+        },
+        rgdone: d => {
+            const r = (S.cfg.recGen || []).find(x => x.id == d.id);
+            if (!r)
+                return;
+            r.hecho = !r.hecho;
+            saveCfg()
+        },
+        rgdel: d => {
+            if (!armOk('rgdel' + d.id, 'Se elimina este recordatorio.'))
+                return;
+            S.cfg.recGen = (S.cfg.recGen || []).filter(x => x.id != d.id);
+            saveCfg()
+        },
+
+        nedit: d => {
+            const j = get(d.id),
+                n = j && j.notas[+d.i];
+            if (!n)
+                return;
+            S.modal = {
+                k: 'nte',
+                id: j.id,
+                i: +d.i,
+                tipo: n.tipo,
+                t: n.texto
+            };
+            render(1);
+            setTimeout(() => {
+                const t = $('#nte_t');
+                if (t) {
+                    t.focus();
+                    t.setSelectionRange(t.value.length, t.value.length)
+                }
+            }, 80)
+        },
+        neok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'nte')
+                return;
+            const j = get(m.id),
+                n = j && j.notas[m.i],
+                v = ($('#nte_t')?.value || '').trim();
+            if (!n) {
+                S.modal = null;
+                render(1);
+                return
+            }
+            if (!v)
+                return toast('warning', 'La nota no puede quedar vacía');
+            if (v != n.texto) {
+                n.texto = v;
+                n.editadoISO = now();
+                ev(j, 'nota', 'editada (' + (n.tipo == 'orden' ? 'orden' : 'vehículo') + ')')
+            }
+            S.modal = null;
+            saveJob(j, 1);
+            render(1);
+            toast('check', 'Nota actualizada')
+        },
         fsdl: () => {
             const m = S.modal;
             if (!m || m.k != 'fsv')
@@ -18321,13 +18487,10 @@
                 a.remove();
                 setTimeout(() => URL.revokeObjectURL(a.href), 8000)
             }, k * 350));
-            fotoMark(m.x, sel);
             if (!(m.press || []).length)
                 S.modal = null;
-            else
-                m.ids = [];
             render(1);
-            toast('check', files.length == 1 ? 'Foto descargada · búscala en Descargas' : 'Fotos descargadas · búscalas en Descargas')
+            toast('check', files.length == 1 ? 'Descarga iniciada · búscala en Descargas' : 'Descarga iniciada · búscalas en Descargas')
         },
         fsok: () => {
             const m = S.modal;
@@ -18352,23 +18515,19 @@
                     a.remove();
                     setTimeout(() => URL.revokeObjectURL(a.href), 4000)
                 });
-                fotoMark(m.x, sel);
                 S.modal = null;
                 render(1);
-                toast('check', 'Fotos descargadas')
+                toast('check', 'Descarga iniciada')
             };
             try {
                 navigator.share({
                     files,
                     title: 'Fotos ' + m.pat
                 }).then(() => {
-                    fotoMark(m.x, sel);
                     if (!(m.press || []).length)
                         S.modal = null;
-                    else
-                        m.ids = [];
                     render(1);
-                    toast('check', files.length == 1 ? 'Foto guardada' : 'Fotos guardadas')
+                    toast('check', 'Listo. Si no la ves en tu galería, vuelve a intentarlo')
                 }).catch(e => {
                     if (e && e.name == 'AbortError')
                         return;
@@ -21366,6 +21525,15 @@
             nota: c.nota,
             done: !!c.hecha
         }));
+        (S.cfg.recGen || []).forEach(r => A.push({
+            t: 'rg',
+            id: r.id,
+            iso: r.iso,
+            mot: r.texto,
+            done: !!r.hecho,
+            pat: '',
+            cli: ''
+        }));
         S.jobs.forEach(j => {
             const i = reaIso(j);
             if (i)
@@ -21407,7 +21575,15 @@
                     c: 0,
                     r: 0
                 };
-            x.t == 'cita' ? b.c++ : b.r++
+            x.t == 'rea' ? b.r++ : b.c++
+        });
+        allRecs().filter(x => !x.r.hecho).forEach(x => {
+            const k = dkey(x.r.iso),
+                b = by[k] = by[k] || {
+                    c: 0,
+                    r: 0
+                };
+            b.c++
         });
         let h = `<div class="cal"><div class="calh"><button data-a="cmv" data-d="-1" aria-label="Mes anterior">${ic('chevron_left')}</button><b>${MESES[m]} ${y}</b><button data-a="cmv" data-d="1" aria-label="Mes siguiente">${ic('chevron_right')}</button></div><div class="calg">${DSEM.map(d => `<i class="dw">${d}</i>`).join('')}`;
         for (let i = 0; i < off; i++)
@@ -21422,7 +21598,7 @@
     const calRow = (x, full) => {
         const t = remTag(x.iso),
             cita = x.t == 'cita';
-        return `<div class="crow c-${x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">Atendida</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
+        return `<div class="crow c-${x.t == 'rg' ? 'rc' : x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : x.t == 'rg' ? 'Recordatorio' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">' + (x.t == 'rg' ? 'Hecho' : 'Atendida') + '</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : x.t == 'rg' ? `<button data-a="rgedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="rgdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
     };
     function remSec() {
         const R3 = dueRecs(),
@@ -21439,13 +21615,14 @@
     function vCal() {
         const sel = S.cd2 || dkey(new Date()),
             L = calItems().filter(x => dkey(x.iso) == sel),
+            RL = allRecs().filter(x => dkey(x.r.iso) == sel),
             [y, m, d] = sel.split('-').map(Number),
             tt = new Date(y, m - 1, d).toLocaleDateString('es-CL', {
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long'
             });
-        return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Calendario de citas</h1></div>${monthGrid(sel, 'csel')}<div class="cbt"><button data-a="cnew">${ic('add')} Crear cita</button><button data-a="crea">${ic('replay')} Crear reapertura</button></div><h2>${esc(tt.charAt(0).toUpperCase() + tt.slice(1))}</h2>${L.map(x => calRow(x, 1)).join('') || '<div class="mut">Sin citas ni reaperturas este día.</div>'}`
+        return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Calendario de citas</h1></div>${monthGrid(sel, 'csel')}<div class="cbt"><button data-a="cnew">${ic('add')} Crear cita</button><button data-a="crea">${ic('replay')} Crear reapertura</button></div><h2>${esc(tt.charAt(0).toUpperCase() + tt.slice(1))}</h2>${L.map(x => calRow(x, 1)).join('')}${RL.map(x => recN(x, 0)).join('')}${L.length + RL.length ? '' : '<div class="mut">Sin citas, reaperturas ni recordatorios este día.</div>'}`
     }
     const calDef = () => {
         const s = S.cd2 || dkey(new Date()),
@@ -21470,6 +21647,15 @@
          <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono (opcional)" style="width:100%;margin-top:8px">
          <div class="sec">${ic('edit_note')} Motivo</div><input id="cmot" data-ch="cita_mot" value="${v('mot')}" placeholder="Ej: Cambio de aceite" style="width:100%"><input id="cnota" data-ch="cita_nota" value="${v('nota')}" placeholder="Nota (opcional)" style="width:100%;margin-top:8px">
          <div class="btns" style="margin-top:16px"><button data-a="citaok">${m.edit ? 'Guardar cambios' : 'Guardar cita'}</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
+    function nteModal() {
+        const m = S.modal,
+            j = get(m.id);
+        if (!j)
+            return '';
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('edit_note')}<div><b style="font-size:18px">Editar ${m.tipo == 'orden' ? 'nota de la orden' : 'nota del vehículo'}</b><div class="sm">${esc(fmtPl(j.vehiculo.patente))}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div></div></div>
+         <textarea id="nte_t" rows="5" style="width:100%;border-radius:12px;margin-top:12px">${esc(m.t || '')}</textarea>
+         <div class="btns" style="margin-top:14px"><button data-a="neok">Guardar cambios</button><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
     function rqeModal() {
         const m = S.modal,
@@ -21736,7 +21922,7 @@
             testCLD()
         }
     });
-    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl', 'rqeok', 'dgadd', 'dgdel', 'fsok', 'fsdl'].forEach(x => TAPS.add(x));
+    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl', 'rqeok', 'dgadd', 'dgdel', 'fsok', 'fsdl', 'neok', 'rgadd', 'rgeok', 'rgdel'].forEach(x => TAPS.add(x));
     Object.assign(HELP, {
         mas: ['Más', [['calendar_month', 'Calendario del mes: violeta = cita, naranja = reapertura; tocar un día abre el calendario de citas en esa fecha'], ['event_upcoming', 'Las 3 próximas citas o reaperturas, con etiqueta Hoy / Mañana / Atrasada'], ['event', 'Ir al calendario de citas'], ['settings', 'Ir a configuración']]],
         cal: ['Calendario de citas', [['calendar_month', 'Tocar un día muestra sus citas y reaperturas'], ['add', 'Crear cita: fecha, patente, cliente y motivo (si la patente ya existe, completa el cliente)'], ['replay', 'Crear reapertura: busca una orden completada por patente u OT y elige la fecha y hora de reingreso'], ['check_circle', 'Marcar una cita como atendida o eliminarla'], ['notifications', 'Recordatorios: lo atrasado, de hoy y de mañana aparece en el Dashboard y como globo violeta en «Más»']]]
@@ -21780,7 +21966,7 @@
         return `<div class="rea rc ${due ? 'due' : ''}">${ic('alarm')}<div><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}${P.length > 1 ? ` <small>(+${P.length - 1})</small>` : ''}<div class="rm">${esc(r.texto)}</div></div></div>`
     };
     const snzBtns = (j, r) => `<div class="rqs"><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="10">+10 min</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="60">+1 h</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="tm">Mañana 9:00</button></div>`;
-    const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
+    const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
     const recRow = (j, r) => {
         const due = !r.hecho && Date.parse(r.iso) <= Date.now();
         return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
@@ -21791,7 +21977,7 @@
             k = 'rc' + j.id,
             o = colH(k, false),
             dueN = P.filter(r => Date.parse(r.iso) <= Date.now()).length;
-        return `<h3 class="colh3"><button type="button" class="colh" data-a="col" data-k="${k}" data-d="0" aria-expanded="${o}">${ic('alarm')}<span>Recordatorios de la orden</span>${P.length ? `<b class="colc${dueN ? ' due' : ''}">${P.length}</b>` : ''}${ic('expand_more', 'chev')}</button></h3>${o ? `<div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div>` : ''}`
+        return `<div class="dgs ${o ? 'open' : ''}"><button type="button" class="grph" data-a="col" data-k="${k}" data-d="0" aria-expanded="${o}">${ic('alarm')}<b>Recordatorios de la orden</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${o ? `<div class="dgb"><div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div></div>` : ''}</div>`
     };
     const notCount = () => dueRecs().length + calItems().filter(x => !x.done && Date.parse(x.iso) <= Date.now() && dayDiff(x.iso) >= -30).length;
     const notBtn = () => {
@@ -21822,7 +22008,7 @@
         },
         rec: {
             n: 'Recordatorios',
-            d: 'Recordatorios programados dentro de una orden',
+            d: 'Recordatorios de una orden y recordatorios generales',
             i: 'alarm'
         },
         cita: {
@@ -22036,6 +22222,26 @@
         }
     }
     const nRow = x => `<div class="crow c-n c-${x.cat}${x.read ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>${esc(x.t)}</b> · ${fdt(x.ts)}</div><div class="cr2">${esc(x.x)}</div></div><div class="ca">${x.jid && get(x.jid) ? `<button data-a="copen" data-id="${x.jid}" title="Ver orden">${ic('open_in_new')}</button>` : ''}<button data-a="ndel" data-id="${x.id}" title="Borrar" aria-label="Borrar">${ic('delete')}</button></div></div>`;
+
+    /* v9-8-15 · RECORDATORIOS GENERALES (sin orden): S.cfg.recGen=[{id,iso,texto,hecho,autor,creadaISO}] · se crean en Notificaciones › Recordatorios */
+    const rgRow = r => {
+        const due = !r.hecho && Date.parse(r.iso) <= Date.now();
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div></div><div class="ca"><button data-a="rgedit" data-id="${r.id}" title="Editar" aria-label="Editar recordatorio">${ic('edit')}</button><button data-a="rgdone" data-id="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${r.id}" title="Eliminar" aria-label="Eliminar recordatorio">${ic('delete')}</button></div></div>`
+    };
+    const rgBox = () => {
+        const L = (S.cfg.recGen || []).slice().sort((a, b) => cmpS(a.iso, b.iso)),
+            P = L.filter(r => !r.hecho),
+            op = !S.rgc,
+            dueN = P.filter(r => Date.parse(r.iso) <= Date.now()).length;
+        return `<div class="dgs ${op ? 'open' : ''}"><button type="button" class="grph" data-a="rgt" aria-expanded="${op}">${ic('alarm_add')}<b>Recordatorios</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb"><div class="note" style="margin:0">Recordatorios propios, sin orden. Los de una orden se crean dentro de esa orden.</div><div class="rcl">${L.map(rgRow).join('') || '<span class="mut">Aún no tienes recordatorios.</span>'}</div><div class="rcadd"><input id="rg_t" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rgquick" data-m="30">30 min</button><button data-a="rgquick" data-m="60">1 h</button><button data-a="rgquick" data-m="180">3 h</button><button data-a="rgquick" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rg_d" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rgadd">${ic('add')} Programar recordatorio</button></div></div>` : ''}</div>`
+    };
+    function rgeModal() {
+        const m = S.modal;
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('alarm')}<div><b style="font-size:18px">Editar recordatorio</b><div class="sm">Recordatorio general (sin orden)</div></div></div>
+         <div class="sec">${ic('edit_note')} Qué hay que recordar</div><input id="rge_t" value="${esc(m.t || '')}" placeholder="¿Qué hay que recordar?" autocomplete="off" style="width:100%">
+         <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="rge_d" value="${esc(m.dt || '')}" style="width:100%">
+         <div class="btns" style="margin-top:16px"><button data-a="rgeok">Guardar cambios</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
     function vNot() {
         const now = Date.now(),
             dr = dueRecs(),
@@ -22052,9 +22258,10 @@
             }
         }, 2500); // al abrirlas pasan al historial (se ven abajo la próxima vez)
         return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Notificaciones</h1><button class="tcfg" data-a="go" data-v="nset" aria-label="Configurar notificaciones" title="Configurar notificaciones">${ic('tune')}</button></div>
+         ${rgBox()}
          <h2>Ahora${dr.length + dc.length ? ` · ${dr.length + dc.length}` : ''}</h2>${dr.map(x => recN(x, 1)).join('')}${dc.map(x => calRow(x, 1)).join('')}${dr.length + dc.length ? '' : '<div class="mut">No tienes notificaciones pendientes.</div>'}
          ${nu.length ? `<h2>Nuevas · ${nu.length}</h2>${nu.map(nRow).join('')}` : ''}
-         <h2>Programados</h2>${fr.slice(0, 10).map(x => recN(x, 0)).join('')}${fc.map(x => calRow(x, 1)).join('')}${fr.length + fc.length ? '' : '<div class="mut">No hay recordatorios programados. Crea uno desde el detalle de una orden.</div>'}
+         <h2>Programados</h2>${fr.slice(0, 10).map(x => recN(x, 0)).join('')}${fc.map(x => calRow(x, 1)).join('')}${fr.length + fc.length ? '' : '<div class="mut">No hay recordatorios ni citas programados.</div>'}
          <h2>Historial${hi.length ? ` · ${hi.length}` : ''}</h2>${hi.map(nRow).join('') || '<div class="mut">Aquí quedan los avisos que ya abriste. Se borran con el botón de cada uno.</div>'}${hi.length ? `<button class="mopt" data-a="nclr">${ic('delete_sweep')}<span>Borrar todo el historial</span></button>` : ''}`
     }
     function vNset() {
@@ -22084,9 +22291,9 @@
             })),
             D2 = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30).map(x => ({
                 k: 'c' + x.id + x.iso,
-                cat: 'cita',
-                ttl: x.t == 'cita' ? 'Cita' : 'Reapertura',
-                txt: x.pat || x.cli || ''
+                cat: x.t == 'rg' ? 'rec' : 'cita',
+                ttl: x.t == 'cita' ? 'Cita' : x.t == 'rg' ? 'Recordatorio' : 'Reapertura',
+                txt: x.t == 'rg' ? x.mot : (x.pat || x.cli || '')
             })),
             nw = [...D1, ...D2].filter(x => !RS.has(x.k));
         if (nw.length) {
