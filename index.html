@@ -87,6 +87,22 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-32: (1) mapa: el globo se acomoda solo (con o sin zoom, también al mover el mapa): si se corta arriba sale hacia abajo, si se corta abajo sale hacia arriba, y si se corta a los lados se corre sin perder la flecha que apunta al auto; (2) Citas: «Origen de la cita» = Ya nos visitó (con la orden anterior: OT o SOT + fecha) o Agendó por WhatsApp (sin revisión previa), visible como etiqueta en la cita; (3) calendario: punto celeste para recordatorios (junto al violeta y el naranja) y en la leyenda; (4) WhatsApp de citas: el enlace usa api.whatsapp.com y hay una casilla «Incluir emojis» (si en tu equipo aún se ven mal, desmárcala y sale solo con asteriscos).
+    CAMBIOS v9-8-31: (1) mapa con zoom: el globo de acción ahora sale sobre el auto elegido (antes se corría a la derecha y hacia abajo, hacia donde estaría sin zoom); (2) mapa: Mantención baja a la misma altura que Vulcanización (17) y Frenos se alarga (43→49) para que sus 8 plazas salgan cuadradas (se actualiza solo si la zona tiene la medida de fábrica); (3) Recordatorios: arriba una tarjeta aparte «Programar recordatorio» con pestañas General / De una orden (busca por patente); debajo, «Recordatorios generales» y «Recordatorios de órdenes» (plegables) con pendientes, últimos 3 completados y botón al historial de cada uno.
+    CAMBIOS v9-8-30: (1) «En proceso» (Línea de trabajo): la cabecera ahora es blanca con borde naranja y un halo más fuerte que palpita (antes el halo naranja claro se perdía sobre el fondo durazno); (2) Mapa: el número de cada zona ya no tapa vehículos (Mecánica: debajo de las plazas; Frenos y Mantención: fuera de las plazas, puede salirse un poco del plano) y lleva reborde del color de la zona; Mecánica = autos horizontales, 4 frente a 4, cada grupo uno debajo del otro; (3) Zoom del mapa: el pellizco en celular no llegaba (el navegador se quedaba con el gesto), Safari/Mac usa gestos del trackpad, y con zoom la rueda/dos dedos mueven el mapa; (4) Recordatorios generales y de órdenes activas: pendientes + últimos 3 completados, y «Historial» con botón a todo el historial por fecha (solo generales / solo de órdenes); (5) logo de fondo de los banners: se quita en celular (menos de 640 px) y se mantiene en pantallas anchas, también en Órdenes completas.
+    CAMBIOS v9-8-29: (1) logos parejos: se recorta el margen transparente y cada logo toma un tamaño de igual área (Maxus ya no sale chico); (2) el grupo «En proceso» palpita con halo naranja sobre su cabecera (igual que «En reparación») y muestra la misma info: vehículos, tiempo que falta, atrasados, en pausa y en cola; (3) «En cola» sale plegada (se ve con el filtro de cola, abriéndola o en Vista general) y se pliega al abrir «En reparación» o «En proceso»; (4) los banners dentro de los grupos son blancos y solo el fondo del grupo lleva color; (5) Dashboard › Recordatorios: solo los 6 más próximos sin atender de órdenes en proceso, con botón «Ver historial» (se ve por día); (6) mapa: Mecánica 8 plazas frente a frente (4 y 4), Frenos 8 en columna, Mantenimiento 3 en fila, nuevo control «Disposición» en Modificar el mapa; (7) mapa con zoom (pellizco, Ctrl + rueda, botones + y −) y botón «tamaño original».
+    CAMBIOS v9-8-28: (1) detalle de la orden: marca y modelo van en el mismo renglón que la patente y la OT (se acabó el espacio en blanco de arriba) y el logo solo aparece si cabe; si no, queda la marca en texto; (2) grupo «En proceso» de la Línea de trabajo late igual que «En reparación»: borde firme, halo naranja que palpita y punto con halo.
+    CAMBIOS v9-8-27: el logo de fondo de los banners ya no se monta sobre las letras: en pantallas anchas (computador/tablet, desde 640 px) ocupa su propio espacio entre el texto y la patente y el texto se ajusta al espacio que queda; en celular es una marca de agua más tenue pegada al borde derecho.
+    CAMBIOS v9-8-26: Logos más grandes: (1) en los banners de la Línea de trabajo y de «Trabajos en proceso ahora» el logo de la marca va de fondo, grande y muy tenue (opacidad en .row[data-lgb]::before, hoy .13), y se conserva el logo chico junto a marca y modelo; (2) en el detalle de la orden el logo sale grande arriba, con marca y modelo.
+    CAMBIOS v9-8-25: Logos de marcas de vuelta en las filas de la Línea de trabajo y de «Trabajos en proceso ahora»: salen del dataset car-logos-dataset (filippofilip95, vía jsDelivr) y los sirve Cloudinary Fetch (f_auto,q_auto,h_64) desde tu nube axo1zduq; la lista de marcas se descarga una vez y se guarda 14 días en el equipo; si el logo no carga se muestran las iniciales de antes; se quitó el código de asetrix.
+    CAMBIOS v9-8-24: Recordatorios: «De órdenes» pasó a ser el grupo plegable «Recordatorios de órdenes» (debajo de «Recordatorios generales») con el buscador de patente adentro; se quitaron los textos de ayuda bajo el buscador.
+    CAMBIOS v9-8-23: (1) Recordatorios: buscador de patente bajo «De órdenes» con «Crear recordatorio con patente» (elige la orden, escribe, fecha y a quién recordar); los recordatorios creados ahí o dentro de cada orden salen en la misma lista; (2) se quitó el atajo «Ir al calendario de citas» del final de Recordatorios.
+    CAMBIOS v9-8-22: (1) Más ahora tiene Notificaciones, Recordatorios y Configuración; Recordatorios es una sección propia donde se crean y editan (generales y de órdenes) y Notificaciones solo los muestra y manda a Recordatorios para editar; (2) banners de las órdenes con el mismo alto, icono separado del texto y texto centrado; (3) Dashboard: primero «Trabajos en proceso ahora» y después los recordatorios y citas.
+    CAMBIOS v9-8-21: (1) Vista general sin color (borde gris, sin fondo); (2) recordatorios (de orden y generales) y citas con «Recordar a»: Todos, Solo a mí o una persona; el aviso, el globo de Más y el Dashboard solo salen en los equipos asignados a esa persona (Configuración › equipo); (3) tono de aviso para recordatorios y citas, con interruptor y botón «Probar sonido» en Notificaciones › Configurar.
+    CAMBIOS v9-8-20: (1) se quitaron los logos de marcas (queda marca y modelo en texto) y la sección Logos de marcas de Configuración; (2) los grupos de la Línea de trabajo (En proceso naranja, En cola amarillo, En pausa rojo, Vista general verde) usan el mismo diseño de «En reparación» (azul): rectángulo con borde de color, brillo y pulso, con el mismo punto indicador; (3) Calendario de citas: los botones (WhatsApp, reprogramar, no se presentó, editar, eliminar…) aparecen solo al tocar una cita.
+    CAMBIOS v9-8-19: (1) marca y modelo con logo (apilados) en los banners de la Línea de trabajo y de «Trabajos en proceso ahora» del Dashboard; (2) Línea de trabajo en grupos plegables En reparación / En proceso / En cola / En pausa y una «Vista general» (tablero de todo el taller + zonas y sub-zonas); (3) filtros independientes por zona y por mecánico; (4) banner «Mis órdenes asignadas» al principio para quien use el equipo como mecánico (no se ve para administración y ventas); (5) orden por hora de llegada, con los de fecha de entrega primero (la más próxima antes; urgentes siguen primero); (6) estacionamiento del mapa dividido: E = cola (sin entrar), P = pausa (los vehículos en pausa dejan libre la plataforma); (7) Configuración › Zonas estándar del taller: agrega Mecánica 8, Frenos y dirección 8, Mantención (Plataforma 1, 2 y Zona de revisión) y Vulca 2 sin borrar nada.
+    CAMBIOS v9-8-18: marca y modelo del vehículo con logo en cada fila de proceso; los buscadores (Línea de trabajo, Completas, Mapa y Crear reapertura) filtran también por marca y modelo (se pueden combinar, ej.: «toyota hilux»); logos de asetrix.online (111 marcas con logo real; las demás, iniciales) y botón en Configuración › Logos de marcas para guardarlos en Cloudinary y compartirlos entre dispositivos.
+    CAMBIOS v9-8-17: CITAS con RUT del cliente (formato 12.345.678-5, validado) y mensajes de WhatsApp por enlace wa.me: Cita creada, Por vencer, Cerrada (no se presentó) y Reprogramada (se pueden corregir antes de enviar). Botones en cada cita: WhatsApp, Reprogramar (guarda el historial y ofrece el aviso), No se presentó (cierra y ofrece el aviso), Se presentó y Reabrir; al crear o reprogramar una cita se ofrece enviar el WhatsApp.
     CAMBIOS v9-8-16: «Guardar en la galería» ya no marca las fotos como guardadas (antes, si se cancelaba o la copia no terminaba, quedaban como «ya guardadas» y no dejaba intentarlo otra vez): el botón guarda todas las fotos cada vez que se toca y los avisos dicen «descarga iniciada» en vez de afirmar que quedó guardado.
     CAMBIOS v9-8-15 (c): Notificaciones › Recordatorios: recordatorios generales (sin orden) en S.cfg.recGen, con crear, editar, hecho y eliminar; salen en el calendario, el Dashboard y los avisos; los recordatorios de una orden también salen en el calendario del día y se pueden editar desde ahí y desde Notificaciones.
     CAMBIOS v9-8-15 (b): se pueden editar las notas de la orden y del vehículo (lápiz en cada nota, también en órdenes cerradas) y los diagnósticos (también en órdenes cerradas); los recordatorios de la orden van en un recuadro colapsable igual al de diagnósticos.
@@ -4229,12 +4245,12 @@
         fill:#b3b3b3
     }
 
-    .sl.sr {
-        fill: #9db7e8;
+    .sl.sp {
+        fill: #f2a5a8;
         stroke:#fff
     }
 
-    .sl.sr.occ {
+    .sl.sp.occ {
         fill: #fff;
         fill-opacity:.35
     }
@@ -11389,6 +11405,939 @@
     .nted .material-symbols-outlined {
         font-size: 17px
     }
+
+    .cact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top:8px
+    }
+
+    .cact button {
+        border: 1.5px solid rgba(0, 0, 0, .2);
+        background: #fff;
+        border-radius: 18px;
+        padding: 7px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-height:38px
+    }
+
+    .cact button .material-symbols-outlined {
+        font-size:17px
+    }
+
+    .cact button.no {
+        color: #b3261e;
+        border-color:#b3261e
+    }
+
+    .cact button.si {
+        color: #1b6e3a;
+        border-color:#1b6e3a
+    }
+
+    .cwat {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin:12px 0 8px
+    }
+
+    .cwat button {
+        border: 1.5px solid rgba(0, 0, 0, .2);
+        background: #fff;
+        border-radius: 16px;
+        padding: 7px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        min-height:36px
+    }
+
+    .cwat button.on {
+        background: var(--ink);
+        color: #fff;
+        border-color:var(--ink)
+    }
+
+    .cwago {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 12px;
+        min-height: 52px;
+        border-radius: 14px;
+        background: #25d366;
+        color: #fff;
+        font-weight: 800;
+        font-size: 15px;
+        text-decoration: none;
+        padding: 10px 14px;
+        text-align:center
+    }
+
+    .cwago .material-symbols-outlined {
+        font-size: 22px
+    }
+
+    .row .mid > div.vhl {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin:1px 0 5px
+    }
+
+    .vhl .vt {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+        min-width:0
+    }
+
+    .vhl .vt b {
+        font-size: 12px;
+        font-weight: 800;
+        color: #222;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space:nowrap
+    }
+
+    .vhl .vt i {
+        font-style: normal;
+        font-size: 11px;
+        font-weight: 600;
+        color: #555;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space:nowrap
+    }
+
+    .lgm, .lgi {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+        width: 38px;
+        height: 28px;
+        border-radius:6px
+    }
+
+    .lgm {
+        object-fit: contain;
+        padding: 3px;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, .12);
+        box-sizing: content-box;
+        width: 30px;
+        height:20px
+    }
+
+    .lgi {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight:800
+    }
+
+    .row[data-lgb] {
+        position: relative;
+        isolation:isolate
+    }
+
+    .row[data-lgb]::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset: -4px 0 -4px auto;
+        width: 132px;
+        pointer-events: none;
+        background: var(--lgbg) no-repeat right 6px center/contain;
+        opacity:.1
+    }
+
+    @media (min-width: 640px) {
+        .row[data-lgb]::before {
+            position: static;
+            inset: auto;
+            z-index: auto;
+            flex: 0 0 104px;
+            align-self: stretch;
+            order: 1;
+            margin: -6px 0;
+            background: var(--lgbg) no-repeat center/contain;
+            opacity:.2
+        }
+
+        .row[data-lgb] > .rc {
+            order: 2
+        }
+    }/* v9-8-30 · logo de fondo según el ancho: en pantallas anchas ocupa su espacio (Línea de trabajo, Completadas y «en proceso ahora»); en celular (menos de 640 px) se QUITA, porque no cabe sin apretar el texto ni taparse con la patente */
+
+    @media (max-width: 639px) {
+        .row[data-lgb]::before {
+            display: none
+        }
+    }
+
+    .lgbig {
+        width: 64px;
+        height:48px
+    }
+
+    .lgm.lgbig {
+        border-radius: 9px;
+        padding: 4px;
+        width: 54px;
+        height:38px
+    }
+
+    .lgi.lgbig {
+        border-radius: 9px;
+        font-size:17px
+    }
+
+    .dtop .vtop {
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 9px;
+        row-gap: 48px;
+        max-height: 38px;
+        overflow: hidden;
+        margin: 0;
+        min-width:0
+    }
+
+    .dtop .vtop .vt {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 0 1 auto;
+        line-height:1.15
+    }
+
+    .dtop .vtop .lgm {
+        width: 40px;
+        height: 26px;
+        padding: 3px;
+        border-radius:7px
+    }
+
+    .dtop .vtop .lgi {
+        display:none
+    }
+
+    .dtop .vtop .vt b {
+        font-size:16px
+    }
+
+    .dtop .vtop .vt i {
+        font-size:12px
+    }
+
+    .bl {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--bc, #666);
+        color: #fff;
+        flex: none;
+        overflow: hidden;
+        vertical-align:middle
+    }
+
+    .bl b {
+        font-size: 9px;
+        line-height: 1;
+        letter-spacing:0
+    }
+
+    .bl img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #fff;
+        padding: 2px;
+        border-radius:50%
+    }
+
+    .bl.lg {
+        width: 40px;
+        height:40px
+    }
+
+    .bl.lg b {
+        font-size:13px
+    }
+
+    .lgp {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0 2px
+    }
+
+    .gbk {
+        margin: 10px 0;
+        border: 1px solid rgba(0, 0, 0, .14);
+        border-left: 5px solid #8a94a6;
+        border-radius: 16px;
+        padding: 0 10px 8px;
+        background:#fff
+    }
+
+    .gbh {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        border: 0;
+        background: none;
+        padding: 10px 2px;
+        min-height: 52px;
+        text-align:left
+    }
+
+    .gbt {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+        line-height:1.2
+    }
+
+    .gbt b {
+        font-size:16px
+    }
+
+    .gbt small {
+        font-size: 11px;
+        opacity: .7;
+        white-space: normal;
+        font-weight:600
+    }
+
+    .gbn {
+        background: var(--ink);
+        color: #fff;
+        border-radius: 12px;
+        padding: 1px 10px;
+        font-weight: 800;
+        font-size:13px
+    }
+
+    .gbh .chev {
+        transition:transform .2s
+    }
+
+    .gbk.open > .gbh .chev {
+        transform:rotate(180deg)
+    }
+
+    .gb-proceso {
+        border-left-color:#2f6fd0
+    }
+
+    .gb-cola {
+        border-left-color:#f9ab33
+    }
+
+    .gb-pausa {
+        border-left-color:#e5484d
+    }
+
+    .gb-mias {
+        border-left-color: #7c3aed;
+        background:#faf7ff
+    }
+
+    .gb-vista {
+        border-left-color:#3a9a55
+    }
+
+    .gbb {
+        display: flex;
+        flex-direction:column
+    }
+
+    .vgg {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin:2px 0 12px
+    }
+
+    .vgz {
+        border: 1px solid rgba(0, 0, 0, .12);
+        border-radius: 12px;
+        padding:8px
+    }
+
+    .vgh {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 800;
+        font-size: 13px;
+        margin-bottom:6px
+    }
+
+    .vgh small {
+        margin-left: auto;
+        opacity: .7;
+        font-weight:600
+    }
+
+    .vgc {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(98px, 1fr));
+        gap:6px
+    }
+
+    .vgcell {
+        border: 1.5px solid rgba(0, 0, 0, .15);
+        border-radius: 10px;
+        padding: 6px 7px;
+        text-align: left;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 58px;
+        font-size: 11px;
+        min-width:0
+    }
+
+    .vgcell .vgn {
+        font-weight: 700;
+        opacity: .75;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis
+    }
+
+    .vgcell b {
+        font-size: 13px;
+        letter-spacing:.5px
+    }
+
+    .vgcell small {
+        opacity: .75;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis
+    }
+
+    .vgcell.free {
+        background: #f4f6f8;
+        border-style: dashed;
+        color:#777
+    }
+
+    .vgcell.on.proceso {
+        border-color: #2f6fd0;
+        background:#e8f0fe
+    }
+
+    .vgcell.on.reparacion {
+        border-color: #2f6fd0;
+        background:#dbe8ff
+    }
+
+    .vgp {
+        display: flex;
+        gap: 8px;
+        flex-wrap:wrap
+    }
+
+    .vgpc {
+        border: 1.5px solid rgba(0, 0, 0, .18);
+        border-radius: 16px;
+        background: #fff;
+        padding: 7px 11px;
+        font-size: 12px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        min-height:38px
+    }
+
+    .zf.mfl .zc .material-symbols-outlined {
+        font-size: 15px;
+        margin-right: 2px
+    }/* v9-8-20 · grupos de la Línea de trabajo con el mismo diseño que «En reparación»: rectángulo con borde de color, brillo y pulso */
+    .gbk {
+        border: 2px solid var(--gc, #8a94a6);
+        border-radius: 22px;
+        background: var(--gbg, #fff);
+        margin: 8px 0;
+        padding: 0 8px 8px
+    }
+
+    .gbh {
+        padding: 10px 4px;
+        min-height: 56px;
+        border-radius: 20px
+    }
+
+    .gbh .dot {
+        width: 14px;
+        height: 14px
+    }
+
+    .gbt b {
+        font-size: 15px
+    }
+
+    .gb-proceso {
+        --gc: #f26a21;
+        --gbg: #fff6ef;
+        --gg: 242, 106, 33
+    }
+
+    .gb-cola {
+        --gc: #f5c000;
+        --gbg: #fffbea;
+        --gg: 245, 192, 0
+    }
+
+    .gb-pausa {
+        --gc: #e11d1d;
+        --gbg: #fff3f3;
+        --gg: 225, 29, 29
+    }
+
+    .gb-mias {
+        --gc: #7c3aed;
+        --gbg: #faf7ff;
+        --gg: 124, 58, 237
+    }
+
+    .gb-vista {
+        --gc: #b9c0cc;
+        --gbg: transparent
+    }
+
+    .gbk {
+        box-shadow: 0 0 0 0 rgba(var(--gg, 138, 148, 166), .0)
+    }
+
+    .gb-mias {
+        box-shadow: 0 0 8px 0 rgba(var(--gg), .22)
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbpulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(var(--gg), 0);
+                border-color:var(--gc)
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(var(--gg), .28);
+                border-color:rgba(var(--gg), .55)
+            }
+        }
+
+        .gb-proceso, .gb-cola, .gb-pausa {
+            animation: gbpulse 1.4s ease-in-out infinite
+        }
+    }/* v9-8-28 · «En proceso» late igual que «En reparación»: el borde no cambia de color, solo palpita el halo naranja (6 px, 1,4 s) y el punto crece con su halo (1,1 s) */
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbpulseP {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(var(--gg), 0)
+            }
+
+            50% {
+                box-shadow:0 0 0 6px rgba(var(--gg), .28)
+            }
+        }
+
+        @keyframes gbdotP {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow:0 0 0 0 rgba(var(--gg), .65)
+            }
+
+            50% {
+                transform: scale(1.22);
+                box-shadow:0 0 0 var(--sp) rgba(var(--gg), 0)
+            }
+        }
+
+        .gb-proceso {
+            animation:gbpulseP 1.4s ease-in-out infinite
+        }
+
+        .gb-proceso > .gbh .dot {
+            animation:gbdotP 1.1s ease-out infinite
+        }
+
+        .gb-proceso > .gbh .dot::before, .gb-proceso > .gbh .dot::after {
+            animation: none;
+            opacity: 0
+        }
+    }/* v9-8-20 · calendario: los botones de cada cita aparecen solo al tocarla */
+
+    .crow.sel {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 2px rgba(124, 58, 237, .18)
+    }
+
+    .crow.sel .cact {
+        margin-top: 6px
+    }/* v9-8-23 */
+
+    .rqsb {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        margin-top: 8px
+    }/* v9-8-22 · banners de las órdenes: mismo alto, icono separado del texto y texto centrado */
+
+    #app .row {
+        gap: 18px;
+        min-height: 84px;
+        padding-block: 8px;
+        align-items: center
+    }
+
+    #app .row > .dot {
+        margin-inline: 4px 0
+    }
+
+    #app .row .mid {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px
+    }
+
+    #app .row .mid > div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0
+    }
+
+    #app .row .mid .sv {
+        display: block
+    }
+
+    #app .row .rc {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 4px;
+        min-width: 88px;
+        text-align: right
+    }
+
+    #app .item > .card {
+        flex: 1 1 auto;
+        min-width: 0
+    }
+
+    .parab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin:8px 0
+    }
+
+    .parab label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 700;
+        font-size: 13px;
+        white-space:nowrap
+    }
+
+    .parab select {
+        flex: 1;
+        min-width: 0;
+        padding: 8px;
+        border-radius: 10px;
+        border: 1.25px solid var(--line2);
+        font: inherit;
+        background:#fff
+    }
+
+    .rtag.para {
+        background: #ede9fe;
+        color: #5b21b6
+    }/* v9-8-29 · grupos con fondo de color y banners BLANCOS; halo del grupo «En proceso» igual que «En reparación» (sobre la cabecera, donde no se recorta); mapa con zoom; historial de recordatorios */
+    .gb-proceso {
+        --gc: #f26a21;
+        --gbg: #ffe6d1;
+        --gg: 242, 106, 33
+    }
+
+    .gb-cola {
+        --gc: #f5c000;
+        --gbg: #fff1b0;
+        --gg: 245, 192, 0
+    }
+
+    .gb-pausa {
+        --gc: #e11d1d;
+        --gbg: #ffdfdf;
+        --gg: 225, 29, 29
+    }
+
+    .gb-mias {
+        --gc: #7c3aed;
+        --gbg: #efe6ff;
+        --gg: 124, 58, 237
+    }
+
+    .rep {
+        background: #dbe8ff
+    }
+
+    .gbk .card:not(.open), .rep .card:not(.open) {
+        background: #fff
+    }
+
+    .gbh small, .rep-h .rt small {
+        font-weight: 600
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbhP {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(242, 106, 33, 0)
+            }
+
+            50% {
+                box-shadow:0 0 0 6px rgba(242, 106, 33, .34)
+            }
+        }
+
+        .gb-proceso {
+            animation:none !important
+        }
+
+        .gb-proceso > .gbh {
+            animation: gbhP 1.4s ease-in-out infinite
+        }
+    }/* v9-8-30 · el halo de «En proceso» no se veía: naranja suave sobre durazno. Ahora la cabecera lleva fondo blanco, borde naranja y un halo más fuerte (anillo + resplandor) que palpita igual que en «En reparación» */
+
+    .gb-proceso > .gbh {
+        background: #fff;
+        box-shadow: 0 0 0 0 rgba(242, 106, 33, 0), inset 0 0 0 2px rgba(242, 106, 33, .9);
+        position: relative;
+        z-index: 1
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbhQ {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(242, 106, 33, 0), 0 0 0 0 rgba(242, 106, 33, 0), inset 0 0 0 2px rgba(242, 106, 33, .9)
+            }
+
+            50% {
+                box-shadow:0 0 0 6px rgba(242, 106, 33, .45), 0 0 18px 4px rgba(242, 106, 33, .55), inset 0 0 0 2px #f26a21
+            }
+        }
+
+        .gb-proceso > .gbh {
+            animation: gbhQ 1.4s ease-in-out infinite !important
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .gb-proceso > .gbh {
+            box-shadow: 0 0 0 4px rgba(242, 106, 33, .4), inset 0 0 0 2px #f26a21
+        }
+    }
+
+    .mapz {
+        position: relative;
+        transform-origin: 0 0;
+        will-change:transform
+    }
+
+    .mapw.zm {
+        overflow: hidden;
+        touch-action: none;
+        border-radius:12px
+    }
+
+    .mapw:not(.zm) {
+        touch-action:none
+    }
+
+    .mapw svg, .mapw .mapz {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none
+    }
+
+    .mapw .mzb {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        z-index: 5;
+        display: flex;
+        gap:6px
+    }
+
+    .mapw .mzb .mrst {
+        position: static
+    }
+
+    .mapz .zpop, .mapz .zpop.dn {
+        scale: calc(1 / var(--mk, 1));
+        transform-origin: 0 0
+    }/* v9-8-30: el origen es el punto de anclaje (left/top); antes era el centro-abajo de la caja y con zoom el globo se corría a la derecha y hacia abajo, lejos del auto */
+
+    .mapz .zpop::after {
+        left: var(--ax, 50%)
+    }
+
+    .cd u.r {
+        background:#38bdf8
+    }
+
+    .cd.sel u.r {
+        background: #7dd3fc
+    }
+
+    .rtag.vis {
+        background: #ede9fe;
+        color:#5b21b6
+    }
+
+    .rtag.wsp {
+        background: #dcfce7;
+        color: #166534
+    }
+
+    .cwemo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0 0;
+        font-size:14px
+    }
+
+    .cwemo input {
+        width: auto;
+        min-height: 0;
+        margin: 0
+    }
+
+    .rcm {
+        display: flex;
+        gap: 8px;
+        margin:2px 0 10px
+    }
+
+    .rcm button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 44px;
+        border: 1.5px solid rgba(0, 0, 0, .2);
+        border-radius: 22px;
+        background: #fff;
+        font-weight: 700;
+        font-size:14px
+    }
+
+    .rcm button.on {
+        background: #111;
+        color: #fff;
+        border-color:#111
+    }
+
+    .rcnh {
+        cursor: default;
+        pointer-events:none
+    }
+
+    .rcn {
+        margin-bottom: 14px
+    }
+
+    .rqhb {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        margin-top: 8px;
+        min-height: 44px;
+        border: 1.5px solid rgba(0, 0, 0, .2);
+        background: #fff;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 14px
+    }
+
+    .rhn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin:10px 0
+    }
+
+    .rhn input {
+        flex: 1;
+        min-width: 0;
+        font-size: 15px;
+        padding:9px 10px
+    }
+
+    .rhn button {
+        flex: none;
+        border: 1.5px solid rgba(0, 0, 0, .2);
+        background: #fff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .rhd {
+        margin: 16px 0 4px;
+        font-size: 13px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap:8px
+    }
+
+    .rhd small {
+        opacity: .6;
+        font-weight: 600
+    }
     </style>
 </head>
 <body>
@@ -11748,10 +12697,227 @@
             }), 120)
         }
     }; // v0.25: tras editar/pausar/eliminar desde la ventana del Dashboard se pasa a Línea de trabajo
+    /* v9-8-29 · ZOOM DEL MAPA: pellizcar con dos dedos, Ctrl + rueda, botones + y −, arrastrar para mover; el botón de «tamaño original» lo deja como estaba */
+    const mzG = () => S.mz || (S.mz = {
+            k: 1,
+            x: 0,
+            y: 0
+        }),
+        mzSt = () => {
+            const m = mzG();
+            return `transform:translate(${m.x.toFixed(1)}px,${m.y.toFixed(1)}px) scale(${m.k.toFixed(3)});--mk:${m.k.toFixed(3)}`
+        },
+        mzEl = () => {
+            const z = document.querySelector('.mapw>.mapz');
+            return z ? [z.parentElement, z] : null
+        },
+        mzApply = () => {
+            const e = mzEl();
+            if (!e)
+                return;
+            const [w, z] = e,
+                m = mzG(),
+                W = z.offsetWidth,
+                H = z.offsetHeight;
+            m.k = clamp(m.k, 1, 5);
+            m.x = clamp(m.x, W * (1 - m.k), 0);
+            m.y = clamp(m.y, H * (1 - m.k), 0);
+            z.style.transform = `translate(${m.x.toFixed(1)}px,${m.y.toFixed(1)}px) scale(${m.k.toFixed(3)})`;
+            z.style.setProperty('--mk', m.k.toFixed(3));
+            w.classList.toggle('zm', m.k > 1.001);
+            popFit()
+        },
+        mzAt = (k, px, py) => {
+            const m = mzG(),
+                f = clamp(k, 1, 5) / m.k;
+            m.x = px - (px - m.x) * f;
+            m.y = py - (py - m.y) * f;
+            m.k = clamp(k, 1, 5)
+        };
+    {
+        const P = new Map(),
+            G = {
+                d0: 0,
+                k0: 1,
+                mv: 0
+            };
+        document.addEventListener('pointerdown', e => {
+            const w = e.target.closest && e.target.closest('.mapw');
+            if (!w || !w.querySelector(':scope>.mapz') || e.target.closest('.mzb'))
+                return;
+            P.set(e.pointerId, {
+                x: e.clientX,
+                y: e.clientY
+            });
+            G.mv = 0;
+            if (P.size == 2) {
+                const [a, b] = [...P.values()];
+                G.d0 = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+                G.k0 = mzG().k
+            }
+        });
+        document.addEventListener('pointermove', e => {
+            const p = P.get(e.pointerId);
+            if (!p)
+                return;
+            const e2 = mzEl();
+            if (!e2)
+                return;
+            const m = mzG();
+            if (P.size == 2) {
+                p.x = e.clientX;
+                p.y = e.clientY;
+                const [a, b] = [...P.values()],
+                    r = e2[0].getBoundingClientRect();
+                mzAt(G.k0 * Math.hypot(a.x - b.x, a.y - b.y) / G.d0, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+                G.mv = 99;
+                mzApply();
+                return
+            }
+            const dx = e.clientX - p.x,
+                dy = e.clientY - p.y;
+            p.x = e.clientX;
+            p.y = e.clientY;
+            if (m.k > 1.001) {
+                m.x += dx;
+                m.y += dy;
+                G.mv += Math.abs(dx) + Math.abs(dy);
+                mzApply()
+            }
+        });
+        const up = e => {
+            P.delete(e.pointerId);
+            if (P.size == 1) {
+                const q = [...P.values()][0];
+                G.k0 = mzG().k;
+                G.d0 = 0;
+                G.last = q
+            }
+        };
+        document.addEventListener('pointerup', up);
+        document.addEventListener('pointercancel', up);
+        document.addEventListener('click', e => {
+            if (G.mv > 8 && e.target.closest && e.target.closest('.mapw')) {
+                e.stopPropagation();
+                e.preventDefault()
+            }
+            G.mv = 0
+        }, true);
+        document.addEventListener('wheel', e => {
+            const w = e.target.closest && e.target.closest('.mapw'),
+                z = w && w.querySelector(':scope>.mapz');
+            if (!z)
+                return;
+            const m = mzG();
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                const r = w.getBoundingClientRect();
+                mzAt(m.k * Math.exp(-e.deltaY * .0025), e.clientX - r.left, e.clientY - r.top);
+                mzApply();
+                return
+            }
+            if (m.k > 1.001) {
+                e.preventDefault();
+                m.x -= e.deltaX;
+                m.y -= e.deltaY;
+                mzApply()
+            }
+        }, {
+            passive: false
+        }); // v9-8-30: con zoom, la rueda / dos dedos mueven el mapa
+        {
+            let k0 = 1;
+            const gw = e => {
+                const w = e.target.closest && e.target.closest('.mapw');
+                return w && w.querySelector(':scope>.mapz') ? w : null
+            }; // Safari (Mac): el pellizco del trackpad llega como gesture*, no como rueda
+            document.addEventListener('gesturestart', e => {
+                const w = gw(e);
+                if (!w)
+                    return;
+                e.preventDefault();
+                k0 = mzG().k
+            });
+            document.addEventListener('gesturechange', e => {
+                const w = gw(e);
+                if (!w)
+                    return;
+                e.preventDefault();
+                const r = w.getBoundingClientRect();
+                mzAt(k0 * e.scale, (e.clientX ?? r.left + r.width / 2) - r.left, (e.clientY ?? r.top + r.height / 2) - r.top);
+                mzApply()
+            });
+            document.addEventListener('gestureend', e => {
+                if (gw(e))
+                    e.preventDefault()
+            })
+        }
+    }
+    /* v9-8-32 · el globo del mapa elige solo hacia dónde abrirse (arriba/abajo) y se corre a los lados si se corta; la flecha sigue apuntando al punto */
+    function popFit() {
+        const z = document.querySelector('.mapw>.mapz'),
+            p = z && z.querySelector(':scope>.zpop');
+        if (!p)
+            return;
+        const w = z.parentElement,
+            m = mzG(),
+            k = m.k || 1,
+            W = z.offsetWidth,
+            H = z.offsetHeight,
+            vw = w.clientWidth,
+            vh = w.clientHeight,
+            pw = p.offsetWidth,
+            ph = p.offsetHeight;
+        if (!W || !H || !pw)
+            return;
+        if (p.dataset.pd === undefined)
+            p.dataset.pd = p.classList.contains('dn') ? '1' : '0';
+        const ax = m.x + parseFloat(p.style.left) / 100 * W * k,
+            ay = m.y + parseFloat(p.style.top) / 100 * H * k,
+            G = 8,
+            E = 2,
+            ov = dn => {
+                const t = dn ? ay + G : ay - G - ph,
+                    b = t + ph;
+                return Math.max(0, E - t) + Math.max(0, b - (vh - E))
+            },
+            pref = p.dataset.pd == '1';
+        let dn = pref;
+        if (ov(dn) > 0 && ov(!dn) < ov(dn) - 1)
+            dn = !dn;
+        if (p.classList.contains('dn') !== dn)
+            p.classList.toggle('dn', dn);
+        let l = ax - pw / 2,
+            d = 0;
+        if (l < E)
+            d = E - l;
+        else if (l + pw > vw - E)
+            d = (vw - E) - (l + pw);
+        if (pw > vw - 2 * E)
+            d = (vw - pw) / 2 - l;
+        p.style.marginLeft = (d / k).toFixed(2) + 'px';
+        p.style.setProperty('--ax', clamp(pw / 2 - d, 14, pw - 14).toFixed(1) + 'px')
+    }
+    var pfR = 0;
+    try {
+        new MutationObserver(() => {
+            cancelAnimationFrame(pfR);
+            pfR = requestAnimationFrame(popFit)
+        }).observe(document.body || document.documentElement, {
+            childList: true,
+            subtree: true
+        });
+        addEventListener('resize', () => {
+            cancelAnimationFrame(pfR);
+            pfR = requestAnimationFrame(popFit)
+        })
+    } catch (e) {}
     function mMap() {
-        const w = $('.mapw');
-        if (w)
-            w.innerHTML = mapaSvg() + (vpop() || jpop() || zpop())
+        const w = $('.mapw>.mapz') || $('.mapw');
+        if (w) {
+            w.innerHTML = mapaSvg() + (vpop() || jpop() || zpop());
+            popFit()
+        }
     }
     function mUpd() {
         const M = mM();
@@ -11784,10 +12950,215 @@
                 return v
             }
         })(),
-        match = j => {
-            const q = mq();
-            return !q || [j.vehiculo.patente, j.ot, j.cliente.nombre].some(x => nrm(x).includes(q))
-        };
+        match = j => vMatch(j, S.q, mq()); // v9-8-18: también por marca y modelo
+
+    /* v9-8-25 · LOGOS DE MARCAS: car-logos-dataset (filippofilip95) desde jsDelivr, servidos y optimizados por Cloudinary (fetch) · marca y modelo en las filas · búsqueda por marca y modelo */
+    /* v9-8-29 · LOGOS PAREJOS: Cloudinary recorta el margen transparente (e_trim) y al cargar cada logo se le da un tamaño de igual ÁREA (los anchos quedan más bajos y los altos más angostos), así ninguno se ve chico (Maxus, MG) ni enorme */
+    const lgFit = i => {
+        if (!i.naturalWidth || !i.naturalHeight)
+            return;
+        const big = i.classList.contains('lgbig'),
+            dt = !!i.closest('.dtop'),
+            u = dt ? 26 : big ? 42 : 25,
+            mh = dt ? 26 : big ? 44 : 24,
+            mw = dt ? 46 : big ? 72 : 48,
+            ar = Math.max(.4, Math.min(4, i.naturalWidth / i.naturalHeight));
+        let w = u * Math.sqrt(ar),
+            h = u / Math.sqrt(ar);
+        if (w > mw) {
+            w = mw;
+            h = w / ar
+        }
+        if (h > mh) {
+            h = mh;
+            w = h * ar
+        }
+        i.style.width = w.toFixed(1) + 'px';
+        i.style.height = h.toFixed(1) + 'px'
+    };
+    document.addEventListener('load', e => {
+        const i = e.target;
+        if (i && i.tagName == 'IMG' && i.classList && i.classList.contains('lgm'))
+            lgFit(i)
+    }, true); // los eventos «load» no llegan a window, por eso se escucha en document
+    const logoKey = m => String(m || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const brandIni = m => {
+        const w = String(m || '').trim().split(/[\s\-&]+/).filter(Boolean);
+        return (w.length > 1 ? w[0][0] + w[1][0] : String(m || '?').trim().slice(0, 2)).toUpperCase()
+    };
+    const brandCol = m => {
+        let h = 0;
+        for (const c of logoKey(m))
+            h = (h * 31 + c.charCodeAt(0)) >>> 0;
+        return ['#0F766E', '#1D4ED8', '#7C3AED', '#0E7490', '#9D174D', '#B45309', '#155E75', '#0891B2'][h % 8]
+    };
+    const LOGO_CDN = 'https://cdn.jsdelivr.net/gh/filippofilip95/car-logos-dataset@master/',
+        LOGO_ALIAS = {
+            mercedes: 'mercedesbenz',
+            vw: 'volkswagen',
+            chevy: 'chevrolet',
+            kgmobility: 'ssangyong',
+            kgm: 'ssangyong',
+            mgmotor: 'mg',
+            gac: 'gacgroup'
+        },
+        LG = {
+            map: null,
+            bad: new Set(),
+            busy: 0,
+            t: 0
+        }; // LG.map: marca normalizada → ruta del logo (se guarda 14 días en este equipo)
+    const logoPath = m => {
+        const mp = LG.map;
+        if (!mp || !m)
+            return '';
+        const k = logoKey(m),
+            w = logoKey(String(m).trim().split(/[\s\-\/]+/)[0]);
+        return mp[k] || mp[LOGO_ALIAS[k]] || mp[w] || mp[LOGO_ALIAS[w]] || ''
+    };
+    const logoUrl = (p, h) => 'https://res.cloudinary.com/' + CLD.cloud + '/image/fetch/e_trim/f_auto,q_auto,h_' + (h || 64) + ',c_fit/' + LOGO_CDN + p; // Cloudinary clona y optimiza el logo la primera vez; luego sale de su caché
+    async function logoLoad() {
+        if (LG.map || LG.busy || Date.now() - LG.t < 60000)
+            return;
+        LG.busy = 1;
+        LG.t = Date.now();
+        try {
+            const c = JSON.parse(localStorage.getItem('lubri_logomap') || 'null');
+            if (c && c.m && Date.now() - c.t < 12096e5) {
+                LG.map = Object.assign(Object.create(null), c.m);
+                LG.busy = 0;
+                logoPaint();
+                return
+            }
+        } catch (e) {}
+        if (navigator.onLine === false) {
+            LG.busy = 0;
+            return
+        }
+        try {
+            const r = await wt(fetch(LOGO_CDN + 'logos/data.json'), 15000);
+            if (!r.ok)
+                throw new Error('HTTP ' + r.status);
+            const arr = await r.json(),
+                mp = Object.create(null),
+                rel = u => {
+                    const x = String(u || '').match(/car-logos-dataset\/(?:master|main)\/(.+)$/);
+                    return x ? x[1] : ''
+                };
+            for (const it of (Array.isArray(arr) ? arr : [])) {
+                if (!it || !it.slug)
+                    continue;
+                const im = it.image || {},
+                    p = rel(im.thumb || im.optimized || im.original) || 'logos/thumb/' + it.slug + '.png';
+                for (const k of [logoKey(it.name), logoKey(it.slug)])
+                    if (k && !mp[k])
+                        mp[k] = p
+            }
+            if (Object.keys(mp).length) {
+                LG.map = mp;
+                try {
+                    localStorage.setItem('lubri_logomap', JSON.stringify({
+                        t: Date.now(),
+                        m: mp
+                    }))
+                } catch (e) {}
+                logoPaint()
+            }
+        } catch (e) {}
+        LG.busy = 0
+    }
+    const lgIni = (m, b) => `<span class="lgi${b ? ' lgbig' : ''}" data-m="${esc(m)}" style="background:${brandCol(m)}">${esc(brandIni(m))}</span>`;
+    const brandBadge = (m, b) => {
+        if (!m)
+            return '';
+        if (!LG.map)
+            logoLoad();
+        const p = logoPath(m);
+        return p && !LG.bad.has(p) ? `<img class="lgm${b ? ' lgbig' : ''}" src="${logoUrl(p, b ? 128 : 64)}" alt="${esc(m)}" decoding="async" data-p="${esc(p)}" data-m="${esc(m)}">` : lgIni(m, b)
+    };
+    function logoPaint() {
+        try {
+            document.querySelectorAll('img.lgm').forEach(i => {
+                if (i.complete && i.naturalWidth && !i.style.width)
+                    lgFit(i)
+            });
+            document.querySelectorAll('.lgi[data-m]').forEach(e => {
+                const p = logoPath(e.dataset.m);
+                if (!p || LG.bad.has(p))
+                    return;
+                const b = e.classList.contains('lgbig'),
+                    i = document.createElement('img');
+                i.className = 'lgm' + (b ? ' lgbig' : '');
+                i.src = logoUrl(p, b ? 128 : 64);
+                i.alt = e.dataset.m;
+                i.decoding = 'async';
+                i.dataset.p = p;
+                i.dataset.m = e.dataset.m;
+                e.replaceWith(i)
+            });
+            document.querySelectorAll('[data-lgm]:not([data-lgb])').forEach(e => {
+                const p = logoPath(e.dataset.lgm);
+                if (p && !LG.bad.has(p)) {
+                    e.setAttribute('data-lgb', '');
+                    e.style.setProperty('--lgbg', "url('" + logoUrl(p, 160) + "')")
+                }
+            })
+        } catch (e) {}
+    } // al llegar la lista, cambia las iniciales por el logo y pone el logo de fondo en los banners, sin volver a dibujar la pantalla
+    addEventListener('error', e => {
+        const i = e.target;
+        if (!i || i.tagName != 'IMG' || !i.classList.contains('lgm'))
+            return;
+        if (!i.dataset.f) {
+            i.dataset.f = 1;
+            i.src = LOGO_CDN + i.dataset.p;
+            return
+        } // 1.º: si Cloudinary no responde, prueba directo desde jsDelivr; 2.º: iniciales
+        LG.bad.add(i.dataset.p);
+        const s = document.createElement('span');
+        s.className = 'lgi' + (i.classList.contains('lgbig') ? ' lgbig' : '');
+        s.dataset.m = i.dataset.m;
+        s.style.background = brandCol(i.dataset.m);
+        s.textContent = brandIni(i.dataset.m);
+        i.replaceWith(s)
+    }, true);
+    const vehLine = j => {
+        const v = j.vehiculo || {},
+            b = v.marca || v.modelo || '';
+        if (!b)
+            return '';
+        return `<div class="vhl">${v.marca ? brandBadge(v.marca) : ''}<span class="vt"><b>${esc(b)}</b>${v.marca && v.modelo ? `<i>${esc(v.modelo)}</i>` : ''}</span></div>`
+    };
+    const lgBg = j => {
+        const m = (j.vehiculo || {}).marca;
+        if (!m)
+            return '';
+        if (!LG.map)
+            logoLoad();
+        const p = logoPath(m);
+        return ` data-lgm="${esc(m)}"` + (p && !LG.bad.has(p) ? ` data-lgb style="--lgbg:url('${logoUrl(p, 160)}')"` : '')
+    }; // atributos del banner: logo grande de fondo, muy tenue
+    const vehTop = j => {
+        const v = j.vehiculo || {},
+            b = v.marca || v.modelo || '';
+        if (!b)
+            return '';
+        return `<div class="vhl vtop"><span class="vt"><b>${esc(b)}</b>${v.marca && v.modelo ? `<i>${esc(v.modelo)}</i>` : ''}</span>${v.marca ? brandBadge(v.marca, 1) : ''}</div>`
+    }; // detalle de la orden: marca y modelo siempre; el logo va a la izquierda solo si cabe en el renglón (si no, el CSS lo oculta)
+    const vFields = j => {
+        const v = j.vehiculo || {};
+        return [v.patente, j.ot, j.cliente && j.cliente.nombre, v.marca, v.modelo, [v.marca, v.modelo].join(' '), [v.marca, v.modelo, v.anio].join(' ')]
+    };
+    const vMatch = (j, raw, q) => {
+        if (!q)
+            return true;
+        const F = vFields(j).map(nrm);
+        if (F.some(x => x.includes(q)))
+            return true;
+        const T = String(raw || '').split(/\s+/).map(nrm).filter(Boolean);
+        return T.length > 1 && T.every(t => F.some(x => x.includes(t)))
+    };
+
     /* v0.18 · DASHBOARD (pantalla principal) y barra inferior */
     const DIA = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'],
         MES = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
@@ -11815,11 +13186,11 @@
             P = A.filter(j => j.estado == 'proceso').sort((a, b) => cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)),
             Zs = ZA().filter(z => zjobs(z.id).length),
             gl = (e, n, i) => `<div class="gl ${!n ? 'z0' : ''}" role="button" tabindex="0" data-a="dflt" data-e="${e}" title="${e == 'completado' ? 'Completadas hoy' : ESTADO[e]}"><b>${n}</b><i class="dot ${e}"></i>${ic(i, 'g-' + e)}</div>`,
-            prow = j => `<div class="item"><div class="card"><div class="row prw" data-a="dpop" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${sc(j)}"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div><div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
+            prow = j => `<div class="item"><div class="card"><div class="row prw"${lgBg(j)} data-a="dpop" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${sc(j)}"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div>${vehLine(j)}<div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
         return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
          <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          ${fb && !DM() && !S.jobs.length ? `<div class="empty">Aún no hay órdenes reales en la base.<br><button data-a="modo" style="margin-top:8px">${ic('science')} Usar datos DEMO</button></div>` : ''}
-         ${remSec()}<div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>
+         <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>${remSec()}
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
          <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="dsec"><h2>Trabajos más solicitados</h2>${kpiTop()}</div>
@@ -11831,7 +13202,9 @@
         const T = [['home', 'dashboard', 'Dashboard'], ['linea', 'format_list_numbered', 'Línea de trabajo'], ['mapa', 'warehouse', 'Mapa de procesos'], ['comp', 'assignment_turned_in', 'Órdenes completas'], MODO == 'mec' ? ['cfg', 'settings', 'Configuración'] : ['mas', 'add', 'Más']],
             cur = ({
                 zona: 'linea',
+                rhist: 'home',
                 cal: 'mas',
+                rec: 'mas',
                 not: 'mas',
                 nset: 'mas',
                 cfg: MODO == 'mec' ? 'cfg' : 'mas'
@@ -11912,6 +13285,32 @@
         colH = (k, d) => S.col[k] === undefined ? d : S.col[k];
     const autor = () => localStorage.lubri_autor || 'sin_asignar';
     const personas = () => [...S.cfg.recepcion, ...S.cfg.mecanicos].filter(x => x.activo); // quienes pueden ingresar órdenes
+    /* v9-8-21 · DESTINATARIO de recordatorios y citas: para = 'todos' (o vacío) | id de la persona. Cada equipo se identifica por la persona asignada en Configuración (lubri_autor). */
+    const meId = () => {
+        const p = personas().find(x => x.nombre == autor());
+        return p ? p.id : ''
+    };
+    const paraOk = x => {
+        const p = x && x.para;
+        return !p || p == 'todos' || p == meId()
+    };
+    const paraNom = id => {
+        const p = [...S.cfg.recepcion, ...S.cfg.mecanicos].find(x => x.id == id);
+        return p ? p.nombre : ''
+    };
+    const paraTag = x => {
+        const p = x && x.para;
+        if (!p || p == 'todos')
+            return '';
+        return `<span class="rtag para">${p == meId() ? 'Solo para ti' : 'Para: ' + esc(paraNom(p) || 'otra persona')}</span>`
+    };
+    const paraSel = (id, val, ch) => {
+        const me = meId(),
+            P = personas(),
+            v = val || 'todos',
+            ex = v != 'todos' && !P.some(p => p.id == v) ? paraNom(v) : '';
+        return `<div class="parab"><label for="${id}">${ic('notifications_active')} Recordar a</label><select id="${id}"${ch ? ` data-ch="${ch}"` : ''}><option value="todos"${v == 'todos' ? ' selected' : ''}>Todos</option>${me ? `<option value="${esc(me)}"${v == me ? ' selected' : ''}>Solo a mí</option>` : '<option value="" disabled>Solo a mí (elige tu nombre en Configuración)</option>'}${P.filter(p => p.id != me).map(p => `<option value="${esc(p.id)}"${v == p.id ? ' selected' : ''}>${esc(p.nombre)}</option>`).join('')}${ex ? `<option value="${esc(v)}" selected>${esc(ex)}</option>` : ''}</select></div>`
+    };
 
     /* ============ MAPA DE PROCESOS · ZONAS Y SUB-ZONAS ============ */
     // El plano usa coordenadas 0-100 (ancho) x 0-84 (alto). Cada zona es un rectángulo; sus sub-zonas son las plataformas con zonaId.
@@ -11927,7 +13326,8 @@
         y: 45,
         w: 24,
         h: 36,
-        pl: 4
+        pl: 8,
+        lay: 'duo'
     }, {
         id: 'Z2',
         nombre: 'Zona 2',
@@ -11935,17 +13335,19 @@
         x: 65,
         y: 81,
         w: 13,
-        h: 43,
-        pl: 4
+        h: 49,
+        pl: 8,
+        lay: 'col'
     }, {
         id: 'Z3',
         nombre: 'Zona 3',
         activo: true,
         x: 32,
-        y: 124,
+        y: 130,
         w: 33,
-        h: 23,
-        pl: 2
+        h: 17,
+        pl: 3,
+        lay: 'row'
     }, {
         id: 'Z4',
         nombre: 'Zona 4',
@@ -11960,9 +13362,9 @@
         const c = S.cfg;
         if (!Array.isArray(c.zonas) || !c.zonas.length) {
             c.zonas = defZonas();
-            c.mapaV = 2
+            c.mapaV = 4
         }
-        else if (c.mapaV !== 2) {
+        else if (!c.mapaV || c.mapaV < 2) {
             const o = [[56, 10, 22, 20], [66, 30, 12, 24], [38, 54, 28, 20], [14, 60, 24, 14]]; // plano de la v0.7 sin tocar → se cambia por el del boceto (conserva ids y nombres)
             if (c.zonas.length == 4 && c.zonas.every((z, k) => z.x == o[k][0] && z.y == o[k][1] && z.w == o[k][2] && z.h == o[k][3]))
                 c.zonas = defZonas().map((z, k) => ({
@@ -11972,6 +13374,39 @@
                     activo: c.zonas[k].activo
                 }));
             c.mapaV = 2
+        }
+        if ((c.mapaV || 0) < 3) {
+            /* v9-8-29: Mecánica = 8 plazas frente a frente (4 y 4), Frenos = 8 en columna, Mantenimiento = 3 en fila (la 3.ª hacia la izquierda). Se reconoce por el nombre de la zona (o por ser Zona 1/2/3 sin tocar) y solo si la zona no tiene ya una disposición elegida */
+            const nf = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(),
+                D0 = defZonas(),
+                done = {};
+            c.zonas.forEach((z, k) => {
+                const n = nf(z.nombre);
+                let r = /mecan/.test(n) ? 'duo' : /fren/.test(n) ? 'col' : /manten/.test(n) ? 'row' : '';
+                if (!r && /^zona \d$/.test(n)) {
+                    const d = D0[k];
+                    if (d && z.x == d.x && z.y == d.y && z.w == d.w && z.h == d.h)
+                        r = ['duo', 'col', 'row'][k] || ''
+                }
+                if (r && !z.lay && !done[r]) {
+                    done[r] = 1;
+                    z.lay = r;
+                    z.pl = r == 'row' ? 3 : 8
+                }
+            });
+            c.mapaV = 3
+        }
+        if ((c.mapaV || 0) < 4) {
+            /* v9-8-30: Mantención baja a la misma altura que Vulcanización (17) y Frenos se alarga hacia abajo (43→49) para que sus 8 plazas salgan cuadradas. Solo si la zona sigue con la medida de fábrica */
+            c.zonas.forEach(z => {
+                if (z.x == 65 && z.y == 81 && z.w == 13 && z.h == 43)
+                    z.h = 49;
+                else if (z.x == 32 && z.y == 124 && z.w == 33 && z.h == 23) {
+                    z.y = 130;
+                    z.h = 17
+                }
+            });
+            c.mapaV = 4
         }
         c.zonas.forEach((z, k) => {
             if (z.pl == null)
@@ -12189,13 +13624,13 @@
                 return o
             },
             // quita puntos alineados y retrocesos
-            addSlot = (k, x, y, w, h, dir, zy) => {
+            addSlot = (k, x, y, w, h, dir, zy, ay) => {
                 const cx = x + w / 2,
                     cy = y + h / 2,
                     gR = (g, Lx) => {
                         let R;
                         const I = [Lx, g[1] + 5]; // v0.37: pista izquierda (LI) para entrar y derecha (LO) para salir en el primer tramo
-                        if (k == 'E' || k == 'R')
+                        if (k == 'E' || k == 'P')
                             R = [g, I, [Lx, cy], [cx, cy]];
                         else if (dir == 'H') {
                             if (cx > 37 && cy > E3[0] - 2.8 && cy < E3[1] + 2.8) {
@@ -12205,7 +13640,7 @@
                                 R = [g, I, [Lx, cy], [cx, cy]]
                         }
                         else {
-                            const Yc = Math.min((109 + zy) / 2, zy - 4);
+                            const Yc = ay != null ? ay : Math.min((109 + zy) / 2, zy - 4);
                             R = [g, I, [Lx, Yc], [cx, Yc], [cx, cy]]
                         }
                         if (R[2][1] < g[1] + 6)
@@ -12263,6 +13698,51 @@
                 if (!n)
                     return;
                 const r = clamp(Math.min(z.w, z.h) / 2 - .8, 1.6, 3.8);
+                if (z.lay == 'col') {
+                    const sw = clamp(z.w - 2.6, 5, 10.4),
+                        sh = Math.min(5.8, (z.h - 1.6) / n),
+                        x0 = z.x + (z.w - sw) / 2,
+                        y0 = z.y + (z.h - n * sh) / 2; // v9-8-29: una columna de plazas hacia abajo
+                    for (let i = 0; i < n; i++)
+                        addSlot(z.id, x0, y0 + i * sh, sw, sh, 'H', z.y);
+                    lay[z.id] = {
+                        cx: z.x + z.w + r + .5,
+                        cy: z.y + z.h / 2
+                    };
+                    return
+                }
+                if (z.lay == 'duo') {
+                    const a = Math.ceil(n / 2),
+                        b = n - a,
+                        m = Math.max(a, b),
+                        gp = Math.min(2, Math.max(.6, z.w - 2.4 - 20.8)),
+                        sw = Math.min(10.4, (z.w - 1.2 - gp) / 2),
+                        sh = Math.min(5.8, (z.h - 2 * r - 3.4) / m),
+                        x1 = z.x + (z.w - 2 * sw - gp) / 2,
+                        y0 = z.y + .8; // v9-8-30: autos de lado (horizontales): 4 frente a 4, cada grupo en columna (uno debajo del otro); el número de la zona va DEBAJO del bloque para no tapar autos
+                    for (let i = 0; i < a; i++)
+                        addSlot(z.id, x1, y0 + i * sh, sw, sh, 'H', z.y);
+                    for (let i = 0; i < b; i++)
+                        addSlot(z.id, x1 + sw + gp, y0 + i * sh, sw, sh, 'H', z.y);
+                    lay[z.id] = {
+                        cx: z.x + z.w / 2,
+                        cy: Math.min(z.y + z.h - r - .4, y0 + m * sh + r + 1.6)
+                    };
+                    return
+                }
+                if (z.lay == 'row') {
+                    const sw = clamp((z.w - 4) / n, 5.9, 9),
+                        sh = Math.min(10.4, z.h - 1.6),
+                        x0 = Math.max(z.x + .8, z.x + z.w - 2 - n * sw),
+                        y0 = z.y + (z.h - sh) / 2; // v9-8-29: plazas en fila horizontal, pegadas a la derecha (la tercera queda hacia la izquierda)
+                    for (let i = 0; i < n; i++)
+                        addSlot(z.id, x0 + i * sw, y0, sw, sh, 'V', z.y);
+                    lay[z.id] = {
+                        cx: x0 - z.x >= 2 * r + 1.2 ? (z.x + x0) / 2 : z.x + z.w / 2,
+                        cy: x0 - z.x >= 2 * r + 1.2 ? z.y + z.h / 2 : z.y - r - .6
+                    };
+                    return
+                }
                 if (z.h >= z.w) {
                     const sw = 10.4,
                         sh = 5.8,
@@ -12275,7 +13755,7 @@
                             addSlot(z.id, x0, y0 + k * sh, sw, sh, 'H', z.y)
                     }
                     lay[z.id] = {
-                        cx: z.w >= x0 - z.x + sw + 2 * r + 1.6 ? x0 + sw + r + .8 : z.x + z.w / 2,
+                        cx: z.w >= x0 - z.x + sw + 2 * r + 1.6 ? x0 + sw + r + .8 : z.x + z.w + r + .5,
                         cy: z.y + z.h / 2
                     }
                 }
@@ -12914,11 +14394,14 @@
             }),
             want = v => {
                 const j = get(v.job);
-                if (!j || j.estado == 'cola')
-                    return j && j.zesp && SLOTS.some(o => o.k == 'R') ? 'R' : 'E';
+                if (!j || j.estado == 'cola' || esp(j))
+                    return 'E';
                 const z = zof(j);
+                if (j.estado == 'pausa' && SLOTS.some(o => o.k == 'P'))
+                    return 'P';
                 return SLOTS.some(o => o.k == z) ? z : 'E'
             },
+            // v9-8-19: cola (E) y pausa (P) esperan fuera de la plataforma
             free = (k, v) => SLOTS.find(o => o.k == k && !o.o && (!o.rsv || o.rsv === v)),
             own = (v, o) => {
                 o.o = 1;
@@ -12962,7 +14445,12 @@
             },
             claim = (v, snap) => {
                 const k = want(v),
-                    o = acq(v, k, snap) || (k != 'E' ? acq(v, 'E', snap) : (SLOTS.some(q => q.k == 'R') && !(get(v.job) || {}).zesp ? acq(v, 'R', snap) : null));
+                    zk = () => {
+                        const j = get(v.job),
+                            z = j && zof(j);
+                        return SLOTS.some(q => q.k == z) ? z : 'E'
+                    },
+                    o = acq(v, k, snap) || (k == 'P' ? acq(v, zk(), snap) : k != 'E' ? acq(v, 'E', snap) : (SLOTS.some(q => q.k == 'P') ? acq(v, 'P', snap) : null));
                 if (o)
                     v.slot = o;
                 return o
@@ -13048,7 +14536,7 @@
             // reinicia el mapa: los reales vuelven a su plaza, los de fondo reaparecen
             rebuild = () => {
                 const Z = rebuildCfg(),
-                    sg = JSON.stringify(Z.map(z => [z.id, z.x, z.y, z.w, z.h, z.pl]));
+                    sg = JSON.stringify(Z.map(z => [z.id, z.x, z.y, z.w, z.h, z.pl, z.lay]));
                 if (sg === sig && SLOTS.length)
                     return false;
                 sig = sg;
@@ -13069,7 +14557,7 @@
                 for (let i = 0; i < 8; i++)
                     addSlot('E', 18, 63.5 + i * 5.66, 10.7, 5.66, 'H', 0);
                 for (let i = 0; i < 3; i++)
-                    addSlot('R', 37.8, 91.8 + i * 5.66, 10.5, 5.66, 'H', 0); // v9-8-13: zona de espera
+                    addSlot('P', 37.8, 91.8 + i * 5.66, 10.5, 5.66, 'H', 0); // v9-8-19: zona de espera de vehículos en pausa
                 for (const z of Z)
                     layZ(z);
                 return true
@@ -13375,7 +14863,7 @@
             }
             document.querySelectorAll('.sl[data-s]').forEach(r => {
                 const q = TRF.SLOTS[+r.dataset.s];
-                r.classList.toggle('occ', !!(q && (q.k == 'E' || q.k == 'R') && q.v && q.v.job && q.v.st == 'park'))
+                r.classList.toggle('occ', !!(q && (q.k == 'E' || q.k == 'P') && q.v && q.v.job && q.v.st == 'park'))
             })
         } // v0.26: plaza E ocupada por un vehículo en cola → blanco 20%
         if (ts - (TRF.t || 0) < 32)
@@ -13547,7 +15035,7 @@
             vh = dash ? clamp(Math.max(147.5, ...Z.map(z => z.y + z.h)) + .6, 90, MH) : MH;
         const hj = !ed && !dash && S.mj ? get(S.mj) : null,
             hz = hj && hj.estado != 'completado' ? zof(hj) : null; // ed = modo edición (tocar elige la zona en vez de abrir el popup; ahí sí se ven los nombres)
-        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon class="st" points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect class="st" x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="124" width="13" height="23" fill="#9a9a9a"/><polygon points="18,63.5 28.4,58.6 28.4,45.4 43.6,41.4 43.6,108.8 18,108.8" fill="#b3b3b3"/><line x1="${TRF.GX}" y1="${TRF.GY + 3}" x2="${TRF.GX}" y2="62" stroke="#fff" stroke-width=".35" stroke-dasharray="1.6 1.2" opacity=".85"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>` +
+        return `<svg viewBox="0 0 ${MW} ${vh}" role="img" aria-label="Plano del taller"><polygon class="st" points="0,35 100,7.3 100,23.4 0,51.6" fill="#e6e6e6"/><rect class="st" x="80" y="0" width="11.4" height="${vh}" fill="#e6e6e6"/><polygon points="13,49.5 78,32.3 78,147 6,147 6,125.5 13,125.5" fill="#cbcbcb"/><rect x="65" y="130" width="13" height="17" fill="#9a9a9a"/><polygon points="18,63.5 28.4,58.6 28.4,45.4 43.6,41.4 43.6,108.8 18,108.8" fill="#b3b3b3"/><line x1="${TRF.GX}" y1="${TRF.GY + 3}" x2="${TRF.GX}" y2="62" stroke="#fff" stroke-width=".35" stroke-dasharray="1.6 1.2" opacity=".85"/><path d="M13,49.5 L${TRF.GX - 7.6},${(49.5 - .2646 * (TRF.GX - 7.6 - 13)).toFixed(2)} M${TRF.GX + 7.6},${(49.5 - .2646 * (TRF.GX + 7.6 - 13)).toFixed(2)} L78,32.3" stroke="#6b6b6b" stroke-width="1" fill="none" stroke-linecap="butt"/>` +
         Z.map(z => {
             const c = cnt(zjobs(z.id)),
                 r = clamp(Math.min(z.w, z.h) / 2 - .8, 1.6, 3.8),
@@ -13556,10 +15044,10 @@
                 cy = ly.cy ?? z.y + z.h / 2;
             const nb = !ed && !dash && S.mf ? c[S.mf] : 0;
             const gt = o => `<g class="mz${o} ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}">`;
-            ZO.push(gt(' mzo') + `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${!ed && c.total ? `<circle class="zring" style="stroke:${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`);
+            ZO.push(gt(' mzo') + `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" stroke-width=".6"/>${!ed && c.total ? `<circle class="zring" style="stroke:${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`);
             return gt('') + `<rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}</g>`
-        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : o.k == 'R' ? ' sr' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
-        `<g class="eq" role="img" aria-label="Estacionamiento: ${S.jobs.filter(j => j.estado == 'cola' && !j.zesp).length} en cola"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado == 'cola' && !j.zesp).length}</text></g><g class="eq eqr" role="img" aria-label="Zona de espera: ${S.jobs.filter(j => j.estado == 'cola' && j.zesp).length} vehículos"><rect x="49.8" y="93.4" width="9.6" height="14.4" rx="4.8" fill="#4f8df5"/><text x="54.6" y="97.9" font-size="3" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">ESP</text><text x="54.6" y="103.4" font-size="6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">${S.jobs.filter(j => j.estado == 'cola' && j.zesp).length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
+        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : o.k == 'P' ? ' sp' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
+        `<g class="eq" role="img" aria-label="Zona de espera de cola: ${S.jobs.filter(j => j.estado != 'completado' && (j.estado == 'cola' || esp(j))).length} vehículos"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado != 'completado' && (j.estado == 'cola' || esp(j))).length}</text></g><g class="eq eqr" role="img" aria-label="Zona de espera de pausa: ${S.jobs.filter(j => j.estado == 'pausa' && !esp(j)).length} vehículos"><rect x="49.8" y="93.4" width="9.6" height="14.4" rx="4.8" fill="#e5484d"/><text x="54.6" y="98.4" font-size="5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">P</text><text x="54.6" y="104" font-size="6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">${S.jobs.filter(j => j.estado == 'pausa' && !esp(j)).length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
     }
     const leg = () => `<div class="leg">${ZA().map((z, i) => `<button class="zc" data-a="zpop" data-z="${z.id}"><b>${String.fromCharCode(65 + i)}</b>${esc(z.nombre)}<small>${cnt(zjobs(z.id)).total}</small>${cnt(zjobs(z.id)).pausa ? '<span class="zbg" title="Tiene trabajos en pausa">!</span>' : ''}</button>`).join('')}</div>`;
     const zpop = () => {
@@ -13568,16 +15056,16 @@
             return '';
         const c = cnt(zjobs(z.id)),
             dn = z.y < MH * .2 || S.mfl; // popup de la zona: arriba del rectángulo (o abajo si queda cerca del borde)
-        return `<div class="zpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 22, 78)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%"><b>${esc(z.nombre)}</b>${[['proceso', 'En proceso'], ...(c.reparacion ? [['reparacion', 'En reparación']] : []), ['cola', 'En cola'], ['pausa', 'En pausa']].map(([e, t]) => `<div class="zp ${!c[e] ? 'z0' : ''}"><i class="dot ${e}"></i><b>${c[e]}</b><small>${t}</small></div>`).join('')}<button class="zgo" data-a="go" data-v="zona" data-z="${z.id}" title="Abrir ${esc(z.nombre)}">${ic('arrow_circle_right')}</button></div>`
+        return `<div class="zpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 0, 100)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%"><b>${esc(z.nombre)}</b>${[['proceso', 'En proceso'], ...(c.reparacion ? [['reparacion', 'En reparación']] : []), ['cola', 'En cola'], ['pausa', 'En pausa']].map(([e, t]) => `<div class="zp ${!c[e] ? 'z0' : ''}"><i class="dot ${e}"></i><b>${c[e]}</b><small>${t}</small></div>`).join('')}<button class="zgo" data-a="go" data-v="zona" data-z="${z.id}" title="Abrir ${esc(z.nombre)}">${ic('arrow_circle_right')}</button></div>`
     };
     /* v0.20 · buscador del Mapa de procesos: patente, OT o cliente → burbuja del mapa con el proceso y botón para verlo */
     const mmatch = j => {
             const n = x => String(x || '').toUpperCase().replace(/[^A-Z0-9Ñ]/g, ''),
                 q = n(S.ms);
-            return !!q && (S.mc ? [j.cliente.nombre] : [j.vehiculo.patente, j.ot]).some(x => n(x).includes(q))
+            return !!q && (S.mc ? [j.cliente.nombre].some(x => n(x).includes(q)) : vMatch(j, S.ms, q))
         },
         mM = () => S.ms.trim() ? S.jobs.filter(j => j.estado != 'completado' && mmatch(j)) : [],
-        msrch = () => `<div class="srch">${ic('search')}<input id="mq" type="text" enterkeyhint="search" autocomplete="off" placeholder="${S.mc ? 'Buscar cliente' : 'Buscar patente u OT'}" value="${esc(S.ms)}"><button class="mcb ${S.mc ? 'on' : ''}" data-a="mcl" title="${S.mc ? 'Buscando por cliente (tocar para volver a patente/OT)' : 'Buscar por cliente'}" aria-pressed="${!!S.mc}">${ic('person')}</button><button data-a="mqclr" title="Limpiar">${ic('close')}</button></div><div id="mres">${mres()}</div>`,
+        msrch = () => `<div class="srch">${ic('search')}<input id="mq" type="text" enterkeyhint="search" autocomplete="off" placeholder="${S.mc ? 'Buscar cliente' : 'Buscar patente, OT, marca o modelo'}" value="${esc(S.ms)}"><button class="mcb ${S.mc ? 'on' : ''}" data-a="mcl" title="${S.mc ? 'Buscando por cliente (tocar para volver a patente/OT)' : 'Buscar por cliente'}" aria-pressed="${!!S.mc}">${ic('person')}</button><button data-a="mqclr" title="Limpiar">${ic('close')}</button></div><div id="mres">${mres()}</div>`,
         mres = () => {
             if (!S.ms.trim())
                 return '';
@@ -13603,7 +15091,7 @@
             if (!z || z.activo === false)
                 return '';
             const dn = z.y < MH * .2 || S.mfl;
-            return `<div class="zpop jpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 26, 74)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%">${jcard(j, z)}</div>`
+            return `<div class="zpop jpop ${dn ? 'dn' : ''}" data-a="nop" style="left:${clamp(z.x + z.w / 2, 0, 100)}%;top:${((dn ? z.y + z.h : z.y) / MH * 100).toFixed(1)}%">${jcard(j, z)}</div>`
         },
         vpop = () => {
             const id = S.vp || S.mj,
@@ -13619,7 +15107,7 @@
             };
             const dn = p.y < MH * .2,
                 hl = S.hl == j.id; // v0.26: burbuja de un vehículo (sigue su posición)
-            return `<div class="zpop jpop vpop ${dn ? 'dn' : ''} ${hl ? 'hl' : ''}" data-a="nop" style="left:${clamp(p.x / MW * 100, 22, 78).toFixed(1)}%;top:${(p.y / MH * 100).toFixed(1)}%">${jcard(j, zn(zof(j)) || {nombre: '—'})}</div>`
+            return `<div class="zpop jpop vpop ${dn ? 'dn' : ''} ${hl ? 'hl' : ''}" data-a="nop" style="left:${clamp(p.x / MW * 100, 0, 100).toFixed(1)}%;top:${(p.y / MH * 100).toFixed(1)}%">${jcard(j, zn(zof(j)) || {nombre: '—'})}</div>`
         };
     function blinkSt() {
         const q = () => document.querySelectorAll('.st');
@@ -13633,7 +15121,7 @@
     } // v0.36: las calles parpadean al reiniciar el mapa
     function vMapa() {
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Mapa de procesos</h1></div>
-         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw" data-a="zpop" data-z=""><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button>${mapaSvg()}${vpop() || jpop() || zpop()}</div><div class="msw">${msrch()}</div></div></div>
+         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw${mzG().k > 1.001 ? ' zm' : ''}" data-a="zpop" data-z=""><div class="mzb"><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button><button class="mrst" data-a="mzoom" data-d="0" title="Volver al tamaño original" aria-label="Volver al tamaño original">${ic('fit_screen')}</button><button class="mrst" data-a="mzoom" data-d="1" title="Acercar" aria-label="Acercar">${ic('add')}</button><button class="mrst" data-a="mzoom" data-d="-1" title="Alejar" aria-label="Alejar">${ic('remove')}</button></div><div class="mapz" style="${mzSt()}">${mapaSvg()}${vpop() || jpop() || zpop()}</div></div><div class="msw">${msrch()}</div></div></div>
          <h3 class="ctr">Resumen de trabajos totales <span class="mut" style="font-weight:400">· toca para ver en el mapa</span></h3>${sumM(cnt(S.jobs.filter(j => j.estado != 'completado')))}
          ${leg()}${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="sum g2" style="margin-top:14px"><div role="button" tabindex="0" data-a="go" data-v="comp">${ic('history')}<span><small>Revisar<br>históricos</small></span></div><div role="button" tabindex="0" data-a="kpi">${ic('query_stats')}<span><small>Revisar<br>KPI</small></span></div></div>
@@ -13677,7 +15165,16 @@
         const c = id => S.jobs.filter(j => j.estado == 'completado' && j.plataformaId == id).length;
         return `<div class="zf pf" role="group" aria-label="Filtrar por sub-zona"><span class="sm">Sub-zona</span><button class="zc ${S.pf ? '' : 'sel'}" data-a="pf" data-p="">Todas</button>${ps.map(p => `<button class="zc ${S.pf == p.id ? 'sel' : ''} ${p.activo ? '' : 'mut'}" data-a="pf" data-p="${p.id}">${esc(p.nombre)}<small>${c(p.id)}</small></button>`).join('')}</div>`
     };
-    const zfil = () => MODO == 'mec' ? '' : zfil0() + pfil(); // fila de zonas + (si corresponde) fila de sub-zonas
+    const mfil = () => {
+        if (S.view != 'linea')
+            return '';
+        const M = S.cfg.mecanicos.filter(m => m.activo);
+        if (!M.length)
+            return '';
+        const c = id => S.jobs.filter(j => j.estado != 'completado' && j.mecanicoId == id).length;
+        return `<div class="zf mfl" role="group" aria-label="Filtrar por mecánico"><span class="sm">Mecánico</span><button class="zc ${S.mecf ? '' : 'sel'}" data-a="mecf" data-m="">Todos</button>${M.map(m => `<button class="zc ${S.mecf == m.id ? 'sel' : ''}" data-a="mecf" data-m="${m.id}">${ic('engineering')}${esc(m.nombre)}<small>${c(m.id)}</small></button>`).join('')}</div>`
+    };
+    const zfil = () => MODO == 'mec' ? '' : zfil0() + mfil() + pfil(); // fila de zonas + (si corresponde) fila de sub-zonas
     function subz() {
         const z = zn(S.modal.id),
             ps = S.cfg.plataformas.filter(p => p.zonaId == z.id);
@@ -13696,6 +15193,7 @@
          <div class="zpad"><span class="sm">Mover</span>${st('arrow_back', 'Izquierda', 'zmv', 'data-dx="-2" data-dy="0"')}${st('arrow_upward', 'Arriba', 'zmv', 'data-dx="0" data-dy="-2"')}${st('arrow_downward', 'Abajo', 'zmv', 'data-dx="0" data-dy="2"')}${st('arrow_forward', 'Derecha', 'zmv', 'data-dx="2" data-dy="0"')}</div>
          <div class="zpad"><span class="sm">Ancho</span>${st('remove', 'Más angosta', 'zrs', 'data-dw="-2"')}${st('add', 'Más ancha', 'zrs', 'data-dw="2"')}<span class="sm" style="margin-left:8px">Alto</span>${st('remove', 'Más baja', 'zrs', 'data-dh="-2"')}${st('add', 'Más alta', 'zrs', 'data-dh="2"')}</div>
          <div class="zpad"><span class="sm">Plazas</span>${st('remove', 'Menos plazas', 'zpl', 'data-d="-1"')}<b>${s.pl ?? 0}</b>${st('add', 'Más plazas', 'zpl', 'data-d="1"')}</div>
+         <div class="zpad"><span class="sm">Disposición</span>${st('swap_horiz', 'Cambiar la disposición de las plazas', 'zlay', '')}<b style="font-size:12px">${({'': 'Automática',row: 'Fila horizontal',col: 'Columna hacia abajo',duo: 'Frente a frente'})[s.lay || '']}</b></div>
          <div class="zpad"><span class="sm" style="flex:1">${S.cfg.plataformas.filter(p => p.zonaId == s.id).length} sub-zonas</span>${st(s.activo === false ? 'visibility_off' : 'visibility', 'Mostrar u ocultar en el mapa', 'zact', '')}${st('delete', 'Eliminar zona', 'zdel', '')}</div></div>
          <div class="add"><input id="zn_new" placeholder="Nueva zona"><button data-a="zadd" title="Agregar zona">${ic('add')}</button></div><div class="btns" style="margin-top:12px"><button data-a="cerrar">Listo</button></div></div></div>`
     }
@@ -13812,6 +15310,44 @@
         const h = kpiRaw(zid);
         return inl ? h.replace('<div class="bd" data-a="cerrar"><div class="box kpb">', '<div class="kpb kpin">').replace('<div class="btns" style="margin-top:18px"><button data-a="cerrar">Cerrar</button></div></div></div>', '</div>') : h
     }; // inl = dentro del Dashboard
+
+    /* v9-8-19 · ZONAS ESTÁNDAR: Mecánica 8 · Frenos y dirección 8 · Mantención (Plataforma 1, 2 y Zona de revisión) · Vulca 2 */
+    const ZST = [{
+        n: 'Mecánica',
+        al: ['mecanica'],
+        ps: Array.from({
+            length: 8
+        }, (_, i) => 'Mecánica ' + (i + 1))
+    }, {
+        n: 'Frenos y dirección',
+        al: ['frenosydireccion', 'frenosydirecion', 'frenos'],
+        ps: Array.from({
+            length: 8
+        }, (_, i) => 'Estación ' + (i + 1))
+    }, {
+        n: 'Mantención',
+        al: ['mantencion', 'mantenimiento'],
+        ps: ['Plataforma 1', 'Plataforma 2', 'Zona de revisión']
+    }, {
+        n: 'Vulca',
+        al: ['vulca', 'vulcanizacion', 'vulcanizado'],
+        ps: ['Vulca 1', 'Vulca 2']
+    }];
+    const zKey = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const zstPlan = () => ZST.map(z => {
+        const ex = S.cfg.zonas.find(x => z.al.includes(zKey(x.nombre))),
+            have = ex ? S.cfg.plataformas.filter(p => p.zonaId == ex.id).map(p => zKey(p.nombre)) : [];
+        return {
+            z,
+            ex,
+            falta: z.ps.filter(n => !have.includes(zKey(n)))
+        }
+    });
+    const zstSec = () => {
+        const P = zstPlan(),
+            ok = P.every(p => p.ex && !p.falta.length && (p.ex.pl || 0) >= Math.min(p.z.ps.length, 12));
+        return acc('zst', 'Zonas estándar del taller', 'Mecánica 8 · Frenos y dirección 8 · Mantención 3 · Vulca 2', `<div class="note">Agrega las zonas y sub-zonas que falten: Mecánica (Mecánica 1 a 8), Frenos y dirección (Estación 1 a 8), Mantención (Plataforma 1, Plataforma 2 y Zona de revisión) y Vulca (Vulca 1 y 2), y ajusta las plazas del mapa. No borra ni renombra nada. Si las plazas no caben dentro de una zona, agranda la zona en «Modificar el mapa de taller».</div>${P.map(p => `<div class="li"><span>${esc(p.z.n)}</span><b>${p.ex ? (p.falta.length ? 'faltan ' + p.falta.length + ' sub-zonas' : 'completa') : 'no existe'}</b></div>`).join('')}<div class="btns"><button data-a="zstok" ${ok ? 'disabled' : ''}>${ic('construction')} ${ok ? 'Todo al día' : 'Aplicar zonas estándar'}</button></div>`)
+    };
     const lstP = () => `${acc('plat', 'Zonas y sub-zonas', 'Sub-zonas de cada zona y mapa del taller', `<div class="note">Cada sub-zona (puesto de trabajo o plataforma) pertenece a una zona del mapa del taller. Si cambias su nombre, se actualiza en toda la app.</div><div style="margin:8px 0"><button class="wide" data-a="mapaed">${ic('map')} Modificar el mapa de taller</button></div>${S.cfg.plataformas.map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="pnom" data-id="${x.id}" value="${esc(x.nombre)}" aria-label="Nombre"><select data-ch="pzona" data-id="${x.id}" aria-label="Zona">${zopts(x.zonaId)}</select><button data-a="cact" data-k="plataformas" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="plataformas" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_plataformas" placeholder="Nueva sub-zona"><select id="z_plataformas" aria-label="Zona">${zopts()}</select><button data-a="cadd" data-k="plataformas" title="Agregar">${ic('add')}</button></div>`)}`;
 
     /* ============ 4. CAPA DE DATOS (Firebase o modo demo) ============ */
@@ -14960,7 +16496,7 @@
     const row = j => {
         const [tx, cl] = estado(j),
             zq = j.estado == 'cola' && !!j.zesp;
-        return `<div class="row" data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}${zq ? ' zqd' : ''}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${zq ? '<b class="zq">En zona de espera</b>' : ESTADO[sc(j)]}</span></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        return `<div class="row"${lgBg(j)} data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}${zq ? ' zqd' : ''}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${zq ? '<b class="zq">En zona de espera</b>' : ESTADO[sc(j)]}</span></div>${vehLine(j)}<div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -16046,7 +17582,7 @@
        Si agregas una función o pantalla, agrégala aquí. */
     const HELP = {
         home: ['Dashboard', [['wb_sunny', 'Saludo según la hora, con fecha y hora en vivo'], ['warehouse', 'Mapa: solo el número de trabajos por zona; el borde blanco parpadea suave si la zona está activa'], ['build', 'Globos: resumen del día (en proceso, en pausa, en cola y completadas hoy); tocar uno abre la Línea de trabajo filtrada; con 0 el punto queda quieto y apagado'], ['add', 'Nuevo trabajo: botón negro bajo "Ver en línea de trabajo'], ['format_list_numbered', 'Trabajos en proceso ahora: tocar uno lo abre; pausar o completar desde los botones de la derecha'], ['garage', 'Talleres activos: acceso directo al detalle de cada zona con procesos, pausas o colas'], ['query_stats', 'Flujo y rendimiento: KPI del taller (puntualidad, tiempos, ingresadas, espera en cola, pausas, reaperturas, por mecánico, motivos de pausa)'], ['autorenew', 'Trabajos más solicitados: tipo, cantidad y recurrencia ("1 cada X") de los trabajos, y vehículos que vuelven'], ['dashboard', 'Barra inferior: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Más (calendario de citas y configuración)']]],
-        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['hourglass_top', 'Zona de espera (ESP, azul): 3 plazas del estacionamiento para vehículos que hay que revisar antes de pasar a una plataforma; no ocupan plataforma. Si se llenan, el vehículo espera en E'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
+        mapa: ['Mapa de procesos', [['search', 'Buscador por patente, OT o cliente: la burbuja del mapa muestra el proceso encontrado y su botón lo abre'], ['touch_app', 'Tocar una zona: muestra cuántos trabajos hay por estado'], ['local_parking', 'Estacionamiento E: los vehículos en cola esperan en sus plazas (se marcan en blanco) y pasan a la plaza de su zona al iniciar; al completar salen del taller'], ['pause_circle', 'Estacionamiento dividido: E (amarillo) = vehículos en cola, sin entrar a una plataforma (incluye los dejados en «zona de espera» para revisión); P (rojo) = vehículos en pausa: salen de la plataforma y la dejan libre hasta reanudar'], ['directions_car', 'Tocar un vehículo (en cola o en proceso) abre su burbuja con patente, OT, cliente y zona'], ['arrow_circle_right', 'Entrar a la zona y ver sus órdenes'], ['filter_alt', 'Pastillas de resumen: pintan en el mapa dónde hay trabajos en proceso, cola o pausa'], ['priority_high', '"!" en la zona: tiene trabajos en pausa'], ['trip_origin', 'Borde blanco que parpadea en el número de la zona: tiene trabajos activos; sin parpadeo = 0'], ['circle', 'Punto rojo de pausa: parpadea si hay pausas; apagado y quieto cuando hay 0'], ['history', 'Revisar históricos'], ['query_stats', 'Revisar KPI: puntualidad, tiempos y servicios más hechos (Hoy, 7 días, 30 días, Todo)'], ['map', 'Modificar el mapa: mover, cambiar tamaño, ocultar o crear zonas'], ['directions_car', 'Autos y camiones circulan por las calles (se pueden quitar en Configuración → animaciones); algunos entran al taller desde ambos sentidos y vuelven a salir; los de la calle secundaria doblan hacia la principal']]],
         linea: ['Línea de trabajo y zonas', [['filter_alt', 'Tocar un resumen filtra por estado; tocar "Limpiar filtro" lo quita'], ['search', 'Buscar por patente, OT o cliente'], ['play_arrow', 'Iniciar una orden en cola (una sola en proceso por sub-zona)'], ['pause', 'Pausar (pide motivo)'], ['replay', 'Reanudar una orden en pausa o reabrir una completada'], ['check', 'Completar: pasa a Órdenes completas (se ilumina cuando todos los servicios están hechos)'], ['add', 'Nuevo trabajo (botón negro abajo a la derecha)'], ['schedule', 'Etiquetas de tiempo: A tiempo, Por vencer (últimos 20 min antes del vencimiento, configurable) y Atrasado']]],
         comp: ['Órdenes completas', [['search', 'Buscar por patente, OT o cliente'], ['calendar_month', 'Filtros de fecha: Hoy, Ayer, Semana pasada (lunes a domingo anterior) o Fechas… para un día o un rango'], ['location_on', 'Filtrar por zona o agrupar las órdenes por zona'], ['subdirectory_arrow_right', 'Al elegir una zona aparece una segunda fila para filtrar por sub-zona'], ['replay', 'Volver la orden al taller: pide confirmar, elegir la hora de ingreso (original, nueva desde ahora o una fecha y hora personalizada que la deja programada en cola) y el motivo de una lista de frecuentes'], ['schedule', 'Etiqueta A tiempo / Atrasado: indica si se terminó dentro del estimado (sin animación)'], ['edit', 'Abrir una orden y tocar Editar para corregirla o agregar datos']]],
         det: ['Detalle de la orden', [['search', 'Lupa junto a la patente: consulta la patente y muestra los datos encontrados; tú eliges Ignorar o Copiar datos (vehículo y cliente)'], ['directions_car', 'En Vehículo, las cajas de Marca, Modelo, Año y Cilindrada sugieren opciones del catálogo mientras escribes'], ['stethoscope', 'Diagnósticos del vehículo: pega o escribe el texto (aunque venga de corrido) y se separa solo en puntos numerados; la sección se pliega y los diagnósticos largos muestran los primeros puntos con «Ver más»; el lápiz edita y el basurero elimina'], ['person', 'Cliente (RUT, dirección, correo) y Vehículo (versión, motor, color, cilindrada, revisión técnica): toca el título para ver más'], ['edit', 'Editar esta misma orden (datos, servicios y repuestos)'], ['add', 'Abrir categorías para agregar servicios o repuestos'], ['edit_note', 'Notas de la orden y del vehículo (el recuadro crece para mostrarlas completas)'], ['replay', 'Orden reactivada: si la orden fue reabierta, el recuadro con fecha y motivo siempre queda visible'], ['call', 'Llamar o escribir por WhatsApp al cliente'], ['fact_check', 'Solicitar revisión: genera una imagen de la orden para compartir'], ['sms', 'WhatsApp de supervisión (al lado de Solicitar revisión)'], ['history', 'Ver la bitácora de eventos'], ['delete', 'Eliminar la orden (pide un motivo de al menos 3 caracteres y guarda un respaldo en el registro de eliminados)'], ['close', 'Cerrar el detalle']]],
@@ -16076,7 +17612,7 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span>${vehTop(j)}<div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
          ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + I('veh', 'tipov', 'Tipo de vehículo') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
@@ -16104,6 +17640,24 @@
     };
     document.addEventListener('input', e => {
         const t_ = e.target;
+        if (t_.id == 'crut') {
+            const v = rutFmt(t_.value);
+            if (v != t_.value)
+                t_.value = v;
+            return
+        }
+        if (t_.id == 'cwa_t') {
+            const m = S.modal;
+            if (m && m.k == 'cwa') {
+                m.txt = t_.value;
+                m.tplT = m.tpl || (((S.cfg.citas || []).find(x => x.id == m.id) || {}).iso ? waAuto((S.cfg.citas || []).find(x => x.id == m.id)) : '');
+                const c = (S.cfg.citas || []).find(x => x.id == m.id),
+                    a = document.getElementById('cwa_go');
+                if (a && c)
+                    a.href = waLink(c, t_.value)
+            }
+            return
+        }
         if (!t_.dataset || !t_.dataset.dg)
             return;
         const id = t_.dataset.dg;
@@ -16144,7 +17698,9 @@
     const lstB = j => j.listo && j.estado != 'completado' ? `<div class="lst-b">${ic('inventory_2')}<b>Listo para entregar</b><button data-a="com" data-id="${j.id}">Completar</button></div>` : '';
     const solBox = j => (j.solicitudes || []).filter(s => s.estado == 'pend').map(s => `<div class="sol">${ic('build')}<span><b>Repuesto solicitado:</b> ${s.cant > 1 ? s.cant + ' × ' : ''}${esc(s.nombre)}</span><button data-a="sapr" data-id="${j.id}" data-s="${s.id}">Aprobar y sumar</button><button class="no" data-a="srec" data-id="${j.id}" data-s="${s.id}">Rechazar</button></div>`).join('');
     const card = (j, x) => {
-        const o = S.open == j.id;
+        const o = S.open == j.id && !(S._shown && S._shown.has(j.id));
+        if (o && S._shown)
+            S._shown.add(j.id);
         return `<div class="item ${j.estado == 'cola' ? 'sub' : ''} ${typeof x == 'string' ? x : ''} ${o ? 'op' : ''} ${j.listo && j.estado != 'completado' ? 'lst' : ''}" data-pl="${j.plataformaId}">${j.estado == 'cola' ? ic('subdirectory_arrow_right', 'arr') : ''}<div class="card ${o ? 'open' : ''} ${S.hl == j.id && !o ? 'hl' : ''}">${o ? detail(j) : row(j) + doneLine(j) + reaBox(j) + lstB(j) + solBox(j)}</div>${o ? '' : side(j)}</div>`
     };
     const doneLine = j => j.estado == 'completado' ? `<div class="sm">Real ${fdur(j.tiempos.realSeg)} · Estimado ${fdur(j.tiempos.estSeg)} · ${j.tiempos.desvSeg > 0 ? '+' : ''}${Math.round(j.tiempos.desvSeg / 60)} min</div>` : '';
@@ -16152,6 +17708,29 @@
         proceso: 0,
         pausa: 1,
         cola: 2
+    };
+    /* v9-8-19 · ORDEN: urgentes primero, luego los que tienen fecha de entrega (la más próxima primero) y el resto por hora de llegada */
+    const entMs = j => {
+        const e = j.opciones && j.opciones.entregaISO,
+            t = e ? Date.parse(e) : NaN;
+        return isNaN(t) ? null : t
+    };
+    const cmpJ = (a, b) => {
+        const ua = a.prioridad == 'urgente',
+            ub = b.prioridad == 'urgente';
+        if (ua != ub)
+            return ub ? 1 : -1;
+        const ea = entMs(a),
+            eb = entMs(b);
+        if (ea != null || eb != null) {
+            if (ea == null)
+                return 1;
+            if (eb == null)
+                return -1;
+            if (ea != eb)
+                return ea - eb
+        }
+        return cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)
     };
     /* v4 · bloque «En reparación» de la línea de trabajo: arriba, colapsado por defecto, con resumen y destello azul */
     function repBloque(RA, flt) {
@@ -16166,15 +17745,86 @@
             parts = [run.length ? `${run.length} ${run.length == 1 ? 'vehículo' : 'vehículos'}` : '', run.length ? `faltan ${fdur(rem)}` : '', late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean);
         return `<div class="rep ${run.length ? 'blink' : ''} ${open ? 'open' : ''}"><button class="rep-h" data-a="repx" aria-expanded="${open}"><i class="dot reparacion"></i><span class="rt"><b>En reparación</b><small>${parts.join(' · ') || 'Sin vehículos en reparación'}</small></span>${ic(open ? 'expand_less' : 'expand_more')}</button>${open ? `<div class="rep-b">${[...RA].sort((a, b) => cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)).map(j => card(j)).join('')}</div>` : ''}</div>`
     }
+
+    /* v9-8-19 · GRUPOS PLEGABLES de la Línea de trabajo, VISTA GENERAL y «MIS ÓRDENES ASIGNADAS» */
+    const gcolLoad = () => {
+        try {
+            return Object.assign({
+                vista: true,
+                cola: true
+            }, JSON.parse(localStorage.lubri_gcol || '{}'))
+        } catch (e) {
+            return {
+                vista: true,
+                cola: true
+            }
+        }
+    }; // v9-8-29: «En cola» sale plegada (se ve con el filtro de cola, abriéndola o en Vista general)
+    const gSub = (k, L) => {
+        const nv = n => n + ' ' + (n == 1 ? 'vehículo' : 'vehículos');
+        if (k == 'proceso') {
+            const rem = L.reduce((a, j) => a + Math.max(0, j.tiempos.estSeg - el(j)), 0),
+                late = L.filter(j => estado(j)[1] == 'atraso').length,
+                O = S.jobs.filter(j => j.estado != 'completado' && !isRep(j)),
+                pau = O.filter(j => stf(j, 'pausa')).length,
+                col = O.filter(j => stf(j, 'cola')).length;
+            return [nv(L.length), `faltan ${fdur(rem)}`, late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean).join(' · ')
+        }
+        if (k == 'cola') {
+            const t = Math.min(...L.map(j => Date.parse(j.tiempos.ingresoISO))),
+                w = Date.now() - t;
+            return nv(L.length) + (isFinite(t) && w > 6e4 ? ' · el más antiguo espera ' + fdur(w / 1000) : '')
+        }
+        if (k == 'pausa')
+            return nv(L.length);
+        return ''
+    };
+    const miMec = () => MODO == 'sala' ? null : S.cfg.mecanicos.find(m => m.activo && m.nombre == autor()) || null;
+    const misOrd = (j, me) => j.mecanicoId == me.id || (Array.isArray(j.ruta) && j.ruta.some(x => x === 'm:' + me.id));
+    const gHead = (k, icn, t, sub, n, op) => `<button type="button" class="gbh" data-a="gtg" data-k="${k}" aria-expanded="${op}">${icn.startsWith('dot:') ? `<i class="dot ${icn.slice(4)}"></i>` : ic(icn)}<span class="gbt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ''}</span>${n != null ? `<span class="gbn">${n}</span>` : ''}${ic('expand_more', 'chev')}</button>`;
+    const gBlock = (k, t, icn, L, flt) => {
+        if (!L.length)
+            return '';
+        S.gcol = S.gcol || gcolLoad();
+        const op = !S.gcol[k] || flt || (S.open && L.some(j => j.id == S.open));
+        return `<div class="gbk gb-${k} ${op ? 'open' : ''}">${gHead(k, icn, t, gSub(k, L), L.length, op)}${op ? `<div class="gbb">${L.map(j => card(j)).join('')}</div>` : ''}</div>`
+    };
+    const miBloque = me => {
+        S.gcol = S.gcol || gcolLoad();
+        const L = S.jobs.filter(j => j.estado != 'completado' && misOrd(j, me) && match(j)).sort(cmpJ),
+            op = !S.gcol.mias || (S.open && L.some(j => j.id == S.open));
+        return `<div class="gbk gb-mias ${op ? 'open' : ''}">${gHead('mias', 'assignment_ind', 'Mis órdenes asignadas', esc(me.nombre), L.length, op)}${op ? `<div class="gbb">${L.map(j => card(j)).join('') || '<div class="mut" style="padding:6px 2px">No tienes órdenes asignadas por ahora.</div>'}</div>` : ''}</div>`
+    };
+    const vgGrid = (Zs, ps) => {
+        const act = S.jobs.filter(j => j.estado != 'completado'),
+            cola = act.filter(j => stf(j, 'cola')).length,
+            pau = act.filter(j => stf(j, 'pausa')).length;
+        return `<div class="vgg">${Zs.map(z => {const pz = ps.filter(p => p.zonaId == z.id);if (!pz.length)return '';const oc = pz.filter(p => act.some(j => j.plataformaId == p.id && j.estado == 'proceso')).length;return `<div class="vgz"><div class="vgh">${ic('location_on')}${esc(z.nombre)}<small>${oc}/${pz.length} ocupadas</small></div><div class="vgc">${pz.map(p => {const j = act.find(x => x.plataformaId == p.id && x.estado == 'proceso');return j ? `<button type="button" class="vgcell on ${sc(j)}" data-a="vgo" data-id="${j.id}"><span class="vgn">${esc(p.nombre)}</span><b>${esc(fmtPl(j.vehiculo.patente))}</b><small>${esc([j.vehiculo.marca, j.vehiculo.modelo].filter(Boolean).join(' ') || '—')}</small></button>` : `<div class="vgcell free"><span class="vgn">${esc(p.nombre)}</span><small>Libre</small></div>`}).join('')}</div></div>`}).join('')}
+         <div class="vgp"><button type="button" class="vgpc" data-a="flt" data-e="cola"><i class="dot cola"></i><b>${cola}</b> en cola (E)</button><button type="button" class="vgpc" data-a="flt" data-e="pausa"><i class="dot pausa"></i><b>${pau}</b> en pausa (P)</button></div></div>`
+    };
+    const vgBlock = (outF, A, C, zid) => {
+        S.gcol = S.gcol || gcolLoad();
+        const Zs = ZA().filter(z => !zid || z.id == zid),
+            ps = S.cfg.plataformas.filter(p => p.activo),
+            force = S.f == 'completado' || !!(S.open && get(S.open) && !S._shown.has(S.open) && (A.some(j => j.id == S.open) || C.some(j => j.id == S.open))),
+            op = !S.gcol.vista || force,
+            sum = Zs.map(z => {
+                const pz = ps.filter(p => p.zonaId == z.id),
+                    oc = pz.filter(p => S.jobs.some(j => j.plataformaId == p.id && j.estado == 'proceso')).length;
+                return pz.length ? esc(z.nombre) + ' ' + oc + '/' + pz.length : ''
+            }).filter(Boolean).join(' · ');
+        return `<div class="gbk gb-vista ${op ? 'open' : ''}">${gHead('vista', 'dashboard', 'Vista general', sum, null, op)}${op ? `<div class="gbb">${vgGrid(Zs, ps)}${outF()}</div>` : ''}</div>`
+    };
     function lista() {
         // lo que cambia al buscar o filtrar (texto, estado y zona)
         const zid = S.view == 'zona' ? S.zid : S.zf,
-            flt = !!S.q.trim() || !!S.f,
+            flt = !!S.q.trim() || !!S.f || !!S.mecf,
             Z = j => !zid || zof(j) == zid,
-            A0 = S.jobs.filter(j => j.estado != 'completado' && match(j) && Z(j) && (!S.f || stf(j, S.f))),
+            MF = j => !S.mecf || j.mecanicoId == S.mecf,
+            A0 = S.jobs.filter(j => j.estado != 'completado' && match(j) && Z(j) && MF(j) && (!S.f || stf(j, S.f))),
             A = A0.filter(j => !isRep(j)),
             RA = A0.filter(isRep),
-            C = S.jobs.filter(j => j.estado == 'completado' && hoy(j.tiempos.completadoISO) && match(j) && Z(j) && (!S.f || S.f == 'completado')),
+            C = S.jobs.filter(j => j.estado == 'completado' && hoy(j.tiempos.completadoISO) && match(j) && Z(j) && MF(j) && (!S.f || S.f == 'completado')),
             cdb = p => {
                 const cd = C.filter(j => j.plataformaId == p.id).sort((a, b) => cmpS(b.tiempos.completadoISO, a.tiempos.completadoISO));
                 if (!cd.length)
@@ -16187,7 +17837,7 @@
             return `<div class="empty">Aún no hay zonas ni sub-zonas.<br><button data-a="go" data-v="cfg" style="margin-top:8px">${ic('settings')} Crear en Configuración</button></div>`;
         const P = S.cfg.plataformas.filter(p => p.activo && (!zid || p.zonaId == zid)),
             sec = p => {
-                const L = A.filter(j => j.plataformaId == p.id).sort((a, b) => rank[a.estado] - rank[b.estado] || (b.prioridad == 'urgente') - (a.prioridad == 'urgente') || cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)),
+                const L = A.filter(j => j.plataformaId == p.id).sort((a, b) => rank[a.estado] - rank[b.estado] || cmpJ(a, b)),
                     hc = C.some(j => j.plataformaId == p.id);
                 if (flt && !L.length && !hc)
                     return '';
@@ -16195,15 +17845,32 @@
             },
             grp = S.view == 'linea' && !zid && S.cfg.zonas.length > 1,
             // sin filtro: las plataformas se agrupan bajo su zona
-            out = grp ? S.cfg.zonas.map(z => {
+            outF = () => grp ? S.cfg.zonas.map(z => {
                 const h = P.filter(p => p.zonaId == z.id).map(sec).join('');
                 return h ? `<div class="zh">${ic('location_on')}${esc(z.nombre)}<small>${zjobs(z.id).length} ${zjobs(z.id).length == 1 ? 'activo' : 'activos'}</small></div>${h}` : ''
             }).join('') : P.map(sec).join('');
-        return repBloque(RA, flt) + out || `<div class="empty">${!P.length && zid ? 'Esta zona aún no tiene sub-zonas.' : 'Sin resultados.'}</div>`
+        if (S.view != 'linea')
+            return repBloque(RA, flt) + outF() || `<div class="empty">${!P.length && zid ? 'Esta zona aún no tiene sub-zonas.' : 'Sin resultados.'}</div>`;
+        S._shown = new Set();
+        let html = '';
+        try {
+            // el orden de estas líneas es el orden en pantalla (así el detalle abierto se dibuja solo una vez, en el primer bloque)
+            const me = miMec();
+            if (me)
+                html += miBloque(me);
+            html += repBloque(RA, flt);
+            html += gBlock('proceso', 'En proceso', 'dot:proceso', A.filter(j => stf(j, 'proceso')).sort(cmpJ), flt);
+            html += gBlock('cola', 'En cola', 'dot:cola', A.filter(j => stf(j, 'cola')).sort(cmpJ), flt);
+            html += gBlock('pausa', 'En pausa', 'dot:pausa', A.filter(j => stf(j, 'pausa')).sort(cmpJ), flt);
+            html += vgBlock(outF, A, C, zid)
+        } finally {
+            S._shown = null
+        }
+        return html || `<div class="empty">${!P.length && zid ? 'Esta zona aún no tiene sub-zonas.' : 'Sin resultados.'}</div>`
     }
-    const srch = () => `<div class="srch">${ic('search')}<input id="q" type="text" enterkeyhint="search" autocomplete="off" placeholder="Buscar patente, OT o cliente" value="${esc(S.q)}"><button data-a="qclr" title="Limpiar">${ic('close')}</button></div>`;
+    const srch = () => `<div class="srch">${ic('search')}<input id="q" type="text" enterkeyhint="search" autocomplete="off" placeholder="Buscar patente, OT, cliente, marca o modelo" value="${esc(S.q)}"><button data-a="qclr" title="Limpiar">${ic('close')}</button></div>`;
     function linea() {
-        const Z = j => !S.zf || zof(j) == S.zf,
+        const Z = j => (!S.zf || zof(j) == S.zf) && (!S.mecf || j.mecanicoId == S.mecf),
             A = S.jobs.filter(j => j.estado != 'completado' && Z(j)),
             C = S.jobs.filter(j => j.estado == 'completado' && hoy(j.tiempos.completadoISO) && Z(j)),
             n = e => e == 'completado' ? C.length : A.filter(j => stf(j, e)).length,
@@ -16335,10 +18002,11 @@
     function config() {
         const X = skyTM();
         return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
-         <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
+         <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos. Si eliges a un mecánico, en la Línea de trabajo verás su banner «Mis órdenes asignadas» al principio; administración y ventas no lo ven.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
          ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
          ${acc('opc', 'Opciones del vehículo', 'Cambiar, Revisar y Repuestos y líquidos · agregar, renombrar, mover y quitar', opEditor())}
 
+         ${zstSec()}
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
          ${plkSec()}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
          <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
@@ -17037,7 +18705,7 @@
             me = personas().find(p => p.nombre == autor())?.id;
         return `<div class="bd"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic(D._edit ? 'edit' : 'edit_note')}<div><b style="font-size:18px">${D._edit ? 'Editar orden de trabajo' : 'Crear nuevo trabajo'}</b><div class="sm">${D._edit ? 'Modifique los datos, servicios o repuestos de esta orden' : 'Registre un nuevo evento para el flujo de trabajo'}</div></div><div class="sm" style="margin-left:auto;text-align:right">Hora actual<br><b style="font-size:14px;color:var(--ink)">${hm(now())}</b></div><button class="x" data-a="cerrar" title="Cerrar" style="margin-left:6px!important">${ic('close')}</button></div>
          ${sec('Tipo de trabajo', 'build')}<div class="tipo" role="radiogroup" aria-label="Tipo de trabajo"><button type="button" role="radio" aria-checked="${D.modo != 'reparacion'}" class="${D.modo != 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="proceso"><i class="dot proceso"></i><span><b>En proceso</b><small>Trabajo corto del día</small></span></button><button type="button" role="radio" aria-checked="${D.modo == 'reparacion'}" class="${D.modo == 'reparacion' ? 'on' : ''}" data-a="tipo" data-v="reparacion"><i class="dot reparacion"></i><span><b>En reparación</b><small>Largo: 2-3 días o más, con pausas</small></span></button></div>
-         ${!D._edit || D._cola ? `<label class="zform"><input type="checkbox" data-f="zesp" ${D.zesp ? 'checked' : ''}><span><b>${ic('hourglass_top')} Dejar en zona de espera</b><small>Para revisarlo antes de pasar a una plataforma. No ocupa plataforma y se ve en el estacionamiento del mapa.</small></span></label>` : ''}
+         ${!D._edit || D._cola ? `<label class="zform"><input type="checkbox" data-f="zesp" ${D.zesp ? 'checked' : ''}><span><b>${ic('hourglass_top')} Dejar en zona de espera</b><small>Para revisarlo antes de pasar a una plataforma. No ocupa plataforma y espera en la zona de cola (E) del estacionamiento.</small></span></label>` : ''}
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
          <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div class="otw"><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente', 'autocapitalize=words autocomplete=name')}${f('tel', 'Teléfono o celular', 'type=tel inputmode=tel autocomplete=tel')}`, `${f('rut', 'RUT cliente', 'autocapitalize=characters')}${f('correo', 'Correo', 'type=email inputmode=email autocapitalize=none autocomplete=email')}<div class="w">${f('dir', 'Dirección', 'autocapitalize=sentences')}</div>`, 'fld')}
@@ -17069,6 +18737,10 @@
             return citaModal();
         if (m.k == 'rqe')
             return rqeModal();
+        if (m.k == 'cwa')
+            return cwaModal();
+        if (m.k == 'creag')
+            return creagModal();
         if (m.k == 'rge')
             return rgeModal();
         if (m.k == 'nte')
@@ -17254,6 +18926,48 @@
     }
     ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(e => addEventListener(e, () => {
         if (MODO == 'sala' && sndOn())
+            acx()
+    }, {
+        passive: true
+    }));
+    /* v9-8-21 · TONO de aviso para recordatorios y citas (por equipo; se enciende/apaga en Notificaciones › Configurar) */
+    const nsndOn = () => {
+        try {
+            return localStorage.lubri_nsnd !== '0'
+        } catch (e) {
+            return true
+        }
+    };
+    function nTone(force) {
+        if (!force && (MODO == 'sala' || !nsndOn()))
+            return;
+        const n = Date.now();
+        if (!force && nTone.l && n - nTone.l < 2500)
+            return;
+        nTone.l = n;
+        const c = acx();
+        if (!c)
+            return;
+        try {
+            const t0 = c.currentTime + .05;
+            [0, 1.15].forEach(r => [[784, 0], [1046.5, .17], [1318.5, .34], [1046.5, .6]].forEach(([f, d]) => {
+                const o = c.createOscillator(),
+                    g = c.createGain(),
+                    t = t0 + r + d;
+                o.type = 'triangle';
+                o.frequency.value = f;
+                g.gain.setValueAtTime(0, t);
+                g.gain.linearRampToValueAtTime(.45, t + .02);
+                g.gain.exponentialRampToValueAtTime(.001, t + .5);
+                o.connect(g);
+                g.connect(c.destination);
+                o.start(t);
+                o.stop(t + .55)
+            }))
+        } catch (e) {}
+    }
+    ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(e => addEventListener(e, () => {
+        if (nsndOn())
             acx()
     }, {
         passive: true
@@ -17727,7 +19441,7 @@
         render(1);
         return false
     }
-    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('dgdel') ? ['delete', '¿Eliminar este diagnóstico?', 'Eliminar'] : k.startsWith('rgdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('opdel') ? ['delete', '¿Quitar esta opción?', 'Quitar'] : k.startsWith('opgdel') ? ['delete', '¿Quitar este grupo?', 'Quitar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
+    const CFT = k => k.startsWith('cdel2') ? ['delete', '¿Eliminar esta cita?', 'Eliminar'] : k.startsWith('rqdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('dgdel') ? ['delete', '¿Eliminar este diagnóstico?', 'Eliminar'] : k.startsWith('rgdel') ? ['delete', '¿Eliminar este recordatorio?', 'Eliminar'] : k.startsWith('cperd') ? ['person_off', '¿Cerrar la cita: no se presentó?', 'Cerrar cita'] : k.startsWith('zstok') ? ['construction', '¿Aplicar zonas estándar?', 'Aplicar'] : k.startsWith('opdel') ? ['delete', '¿Quitar esta opción?', 'Quitar'] : k.startsWith('opgdel') ? ['delete', '¿Quitar este grupo?', 'Quitar'] : k == 'modo' ? ['swap_horiz', '¿Cambiar el tipo de datos?', 'Cambiar'] : k == 'vac' ? ['delete_sweep', '¿Vaciar los datos de prueba?', 'Vaciar'] : k == 'rst' ? ['restart_alt', '¿Restaurar el catálogo base?', 'Restaurar'] : ['help', '¿Confirmar?', 'Confirmar'];
     const cfModal = m => {
         const [i, t, ok] = CFT(m.key || ''),
             sub = String(m.msg || '').replace(/\.?\s*Toca otra vez[^.]*\.?$/i, '').trim();
@@ -17792,6 +19506,8 @@
                 cfg: MODO == 'mec' ? vMecSet : config,
                 mas: vMas,
                 cal: vCal,
+                rec: vRec,
+                rhist: vRHist,
                 not: vNot,
                 nset: vNset,
                 mec: vMec,
@@ -18338,6 +20054,192 @@
         toast('check', 'Orden actualizada')
     }
     const A = {
+        gtg: d => {
+            S.gcol = S.gcol || gcolLoad();
+            S.gcol[d.k] = !S.gcol[d.k];
+            if (d.k == 'proceso' && !S.gcol.proceso)
+                S.gcol.cola = true; /* al abrir «En proceso» la cola se pliega */
+            try {
+                localStorage.lubri_gcol = JSON.stringify(S.gcol)
+            } catch (e) {}
+            render(1)
+        },
+        mecf: d => {
+            S.mecf = d.m || '';
+            render(1)
+        },
+        vgo: d => {
+            S.open = S.open == d.id ? null : d.id;
+            render(1);
+            if (S.open)
+                setTimeout(() => {
+                    const e = document.querySelector('.card.open');
+                    if (e)
+                        e.scrollIntoView({
+                            block: 'start',
+                            behavior: 'smooth'
+                        })
+                }, 120)
+        },
+        zstok: () => {
+            if (!armOk('zstok', 'Se agregan las zonas y sub-zonas que falten y se ajustan las plazas. No se borra ni se renombra nada.'))
+                return;
+            let nz = 0,
+                np = 0;
+            zstPlan().forEach(p => {
+                let z = p.ex;
+                if (!z) {
+                    const n = S.cfg.zonas.length;
+                    z = {
+                        id: 'Z' + uid(),
+                        nombre: p.z.n,
+                        activo: true,
+                        x: clamp(8 + (n * 7) % 55, 0, MW - 22),
+                        y: clamp(10 + (n * 17) % 110, 0, MH - 18),
+                        w: 22,
+                        h: 18,
+                        pl: 0
+                    };
+                    S.cfg.zonas.push(z);
+                    nz++
+                }
+                z.pl = Math.max(z.pl || 0, Math.min(p.z.ps.length, 12));
+                p.falta.forEach(nm => {
+                    S.cfg.plataformas.push({
+                        id: uid(),
+                        nombre: nm,
+                        activo: true,
+                        zonaId: z.id
+                    });
+                    np++
+                })
+            });
+            saveCfg();
+            toast('construction', nz || np ? `Listo: ${nz} zona(s) y ${np} sub-zona(s) agregadas` : 'Plazas ajustadas')
+        },
+
+        cwa: d => {
+            S.modal = {
+                k: 'cwa',
+                id: d.id,
+                tpl: d.t || ''
+            };
+            render(1)
+        },
+        cwat: d => {
+            const m = S.modal;
+            if (!m || m.k != 'cwa')
+                return;
+            m.tpl = d.t;
+            m.txt = null;
+            render(1)
+        },
+        wasent: () => {
+            const m = S.modal;
+            if (m && m.k == 'cwa') {
+                const c = (S.cfg.citas || []).find(x => x.id == m.id);
+                if (c) {
+                    c.waISO = now();
+                    c.waTpl = m.tpl || waAuto(c);
+                    try {
+                        saveCfg()
+                    } catch (e) {}
+                }
+            }
+        },
+        crep: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            S.modal = {
+                k: 'creag',
+                id: c.id,
+                dt: dtLocal(Math.max(Date.parse(c.iso) + 864e5, Date.now() + 36e5))
+            };
+            render(1)
+        },
+        creagok: () => {
+            const m = S.modal;
+            if (!m || m.k != 'creag')
+                return;
+            const c = (S.cfg.citas || []).find(x => x.id == m.id),
+                v = $('#creag_d')?.value;
+            if (!c)
+                return;
+            if (!v)
+                return toast('warning', 'Elige la nueva fecha y hora');
+            const ni = new Date(v).toISOString();
+            if (ni == c.iso)
+                return toast('warning', 'Elige una fecha u hora distinta');
+            (c.hist = c.hist || []).push({
+                de: c.iso,
+                a: ni,
+                ISO: now()
+            });
+            c.iso = ni;
+            c.reag = (c.reag || 0) + 1;
+            c.estado = '';
+            c.hecha = false;
+            c.editadaISO = now();
+            try {
+                RS.delete(c.id);
+                rsSave()
+            } catch (e) {}
+            const q = new Date(ni);
+            S.cd2 = dkey(q);
+            S.cm = [q.getFullYear(), q.getMonth()];
+            S.modal = {
+                k: 'cwa',
+                id: c.id,
+                tpl: 'reag',
+                nuevo: 1
+            };
+            saveCfg();
+            toast('event_repeat', 'Cita reprogramada')
+        },
+        cperd: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            if (!armOk('cperd' + d.id, 'Se cierra la cita de ' + (c.cli || fmtPl(c.pat || '') || 'este cliente') + ' porque no se presentó.'))
+                return;
+            c.estado = 'perdida';
+            c.hecha = true;
+            c.cerradaISO = now();
+            S.modal = {
+                k: 'cwa',
+                id: c.id,
+                tpl: 'perd',
+                nuevo: 1
+            };
+            saveCfg();
+            toast('person_off', 'Cita cerrada: no se presentó')
+        },
+        cpres: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            c.estado = 'presento';
+            c.hecha = true;
+            c.cerradaISO = now();
+            saveCfg();
+            toast('how_to_reg', 'Cita cerrada: se presentó')
+        },
+        creab: d => {
+            const c = (S.cfg.citas || []).find(x => x.id == d.id);
+            if (!c)
+                return;
+            c.estado = '';
+            c.hecha = false;
+            c.cerradaISO = null;
+            try {
+                RS.delete(c.id);
+                rsSave()
+            } catch (e) {}
+            saveCfg();
+            toast('undo', 'Cita reabierta')
+        },
+
         rgt: () => {
             S.rgc = !S.rgc;
             render(1)
@@ -18360,6 +20262,7 @@
                 id: uid(),
                 iso: new Date(v).toISOString(),
                 texto: t,
+                para: $('#rg_p')?.value || 'todos',
                 hecho: false,
                 autor: autor(),
                 creadaISO: now()
@@ -18375,6 +20278,7 @@
                 k: 'rge',
                 r: r.id,
                 t: r.texto,
+                para: r.para || 'todos',
                 dt: dtLocal(Date.parse(r.iso))
             };
             render(1)
@@ -18399,6 +20303,7 @@
             if (iso != r.iso) {
                 r.hecho = false
             }
+            r.para = $('#rge_p')?.value || 'todos';
             r.texto = t;
             r.iso = iso;
             r.editadoISO = now();
@@ -19076,6 +20981,13 @@
         },
         repx: () => {
             S.rx = !S.rx;
+            if (S.rx) {
+                S.gcol = S.gcol || gcolLoad();
+                S.gcol.cola = true;
+                try {
+                    localStorage.lubri_gcol = JSON.stringify(S.gcol)
+                } catch (e) {}
+            }
             render(1)
         },
         sigok: d => {
@@ -19174,6 +21086,12 @@
         zpl: d => {
             const z = zn(d.z);
             z.pl = clamp((z.pl ?? 0) + +d.d, 0, 12);
+            saveCfg()
+        },
+        zlay: d => {
+            const z = zn(d.z),
+                O = ['', 'row', 'col', 'duo'];
+            z.lay = O[(O.indexOf(z.lay || '') + 1) % O.length];
             saveCfg()
         },
         zpop: d => {
@@ -19382,6 +21300,7 @@
             S.q = '';
             S.f = null;
             S.mf = null;
+            S.mecf = '';
             S.zp = null;
             S.modal = null;
             S.zf = (d.v == 'linea' || d.v == 'comp') ? (d.z || null) : null;
@@ -20335,6 +22254,13 @@
                 return;
             m[k.slice(5)] = t.value;
             if (k == 'cita_pat') {
+                {
+                    const w_ = $('#corgw');
+                    if (w_) {
+                        m.ojob = '';
+                        w_.innerHTML = orgSel(m)
+                    }
+                }
                 const n = pN(t.value),
                     j = n && S.jobs.filter(x => pN(x.vehiculo.patente) == n).sort((a, b) => cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO))[0];
                 if (j) {
@@ -20345,6 +22271,10 @@
                     }
                     if (f && !f.value) {
                         f.value = m.tel = j.cliente?.telefono || ''
+                    }
+                    const r = $('#crut');
+                    if (r && !r.value && j.cliente?.rut) {
+                        r.value = m.rut = rutFmt(j.cliente.rut)
                     }
                 }
             }
@@ -21517,17 +23447,24 @@
         (S.cfg.citas || []).forEach(c => A.push({
             t: 'cita',
             id: c.id,
+            para: c.para,
             iso: c.iso,
             pat: c.pat,
             cli: c.cli,
+            rut: c.rut,
             tel: c.tel,
             mot: c.mot,
             nota: c.nota,
-            done: !!c.hecha
+            estado: c.estado || '',
+            reag: c.reag || 0,
+            org: c.org || '',
+            ojob: c.ojob || '',
+            done: !!c.hecha || c.estado == 'perdida'
         }));
         (S.cfg.recGen || []).forEach(r => A.push({
             t: 'rg',
             id: r.id,
+            para: r.para,
             iso: r.iso,
             mot: r.texto,
             done: !!r.hecho,
@@ -21553,7 +23490,7 @@
     }
     const calUp = () => calItems().filter(x => !x.done && dayDiff(x.iso) >= 0);
     const remList = () => calItems().filter(x => {
-        if (x.done)
+        if (x.done || !paraOk(x))
             return false;
         const d = dayDiff(x.iso);
         return d <= 1 && d >= -30
@@ -21573,17 +23510,19 @@
             const k = dkey(x.iso),
                 b = by[k] = by[k] || {
                     c: 0,
-                    r: 0
+                    r: 0,
+                    q: 0
                 };
-            x.t == 'rea' ? b.r++ : b.c++
+            x.t == 'rea' ? b.r++ : x.t == 'rg' ? (!x.done && b.q++) : b.c++
         });
         allRecs().filter(x => !x.r.hecho).forEach(x => {
             const k = dkey(x.r.iso),
                 b = by[k] = by[k] || {
                     c: 0,
-                    r: 0
+                    r: 0,
+                    q: 0
                 };
-            b.c++
+            b.q++
         });
         let h = `<div class="cal"><div class="calh"><button data-a="cmv" data-d="-1" aria-label="Mes anterior">${ic('chevron_left')}</button><b>${MESES[m]} ${y}</b><button data-a="cmv" data-d="1" aria-label="Mes siguiente">${ic('chevron_right')}</button></div><div class="calg">${DSEM.map(d => `<i class="dw">${d}</i>`).join('')}`;
         for (let i = 0; i < off; i++)
@@ -21591,26 +23530,106 @@
         for (let d = 1; d <= dim; d++) {
             const k = y + '-' + p2(m + 1) + '-' + p2(d),
                 b = by[k];
-            h += `<button class="cd ${k == td ? 'td' : ''} ${k == sel ? 'sel' : ''}" data-a="${act}" data-k="${k}" aria-label="${d} de ${MESES[m]}"><span>${d}</span><em>${b && b.c ? '<u class="v"></u>' : ''}${b && b.r ? '<u class="o"></u>' : ''}</em></button>`
+            h += `<button class="cd ${k == td ? 'td' : ''} ${k == sel ? 'sel' : ''}" data-a="${act}" data-k="${k}" aria-label="${d} de ${MESES[m]}"><span>${d}</span><em>${b && b.c ? '<u class="v"></u>' : ''}${b && b.r ? '<u class="o"></u>' : ''}${b && b.q ? '<u class="r"></u>' : ''}</em></button>`
         }
-        return h + '</div></div><div class="cleg"><span><u style="background:#7c3aed"></u>Cita</span><span><u style="background:var(--proceso)"></u>Reapertura</span></div>'
+        return h + '</div></div><div class="cleg"><span><u style="background:#7c3aed"></u>Cita</span><span><u style="background:var(--proceso)"></u>Reapertura</span><span><u style="background:#38bdf8"></u>Recordatorio</span></div>'
     }
     const calRow = (x, full) => {
         const t = remTag(x.iso),
-            cita = x.t == 'cita';
-        return `<div class="crow c-${x.t == 'rg' ? 'rc' : x.t}${x.done ? ' dn' : ''}" ${full ? '' : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : x.t == 'rg' ? 'Recordatorio' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag">' + (x.t == 'rg' ? 'Hecho' : 'Atendida') + '</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}</div><div class="cr2">${esc([x.cli, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div></div>${x.pat ? plate(x.pat, 's') : ''}${full ? `<div class="ca">${cita ? `<button data-a="cedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="cdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar atendida'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : x.t == 'rg' ? `<button data-a="rgedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="rgdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : ''}</div>`
+            cita = x.t == 'cita',
+            op = !!full && S.cx == x.id;
+        return `<div class="crow c-${x.t == 'rg' ? 'rc' : x.t}${x.done ? ' dn' : ''}${op ? ' sel' : ''}" ${full ? `data-a="ctog" data-id="${x.id}"` : x.t == 'rg' ? `data-a="go" data-v="rec"` : `data-a="cday" data-k="${dkey(x.iso)}"`}><i class="cb"></i><div class="cm"><div class="cr1"><b>${cita ? 'Cita' : x.t == 'rg' ? 'Recordatorio' : 'Reapertura'}</b> · ${full ? hm(x.iso) : fdt(x.iso)} ${x.done ? '<span class="rtag' + (x.estado == 'perdida' ? ' late' : '') + '">' + (cita ? citaTag(x) || 'Se presentó' : x.t == 'rg' ? 'Hecho' : 'Atendida') + '</span>' : `<span class="rtag ${t.c}">${t.t}</span>`}${paraTag(x)}${cita && x.reag ? `<span class="rtag">Reprogramada${x.reag > 1 ? ' ×' + x.reag : ''}</span>` : ''}${cita ? orgTag(x) : ''}</div><div class="cr2">${esc([x.cli, x.rut, x.ot ? 'OT ' + x.ot : '', x.tel].filter(Boolean).join(' · '))}${x.mot ? `<div class="rm">${esc(x.mot)}</div>` : ''}${x.nota ? `<div class="rm">${esc(x.nota)}</div>` : ''}</div>${cita && op ? `<div class="cact"><button data-a="cwa" data-id="${x.id}">${ic('chat')} WhatsApp</button>${x.done ? `<button data-a="crep" data-id="${x.id}">${ic('event_repeat')} Reprogramar</button><button data-a="creab" data-id="${x.id}">${ic('undo')} Reabrir</button>` : `<button data-a="crep" data-id="${x.id}">${ic('event_repeat')} Reprogramar</button><button data-a="cperd" data-id="${x.id}" class="no">${ic('person_off')} No se presentó</button><button data-a="cpres" data-id="${x.id}" class="si">${ic('how_to_reg')} Se presentó</button>`}</div>` : ''}</div>${x.pat ? plate(x.pat, 's') : ''}${op ? `<div class="ca">${cita ? `<button data-a="cedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="cdel2" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : x.t == 'rg' ? `<button data-a="rgedit" data-id="${x.id}" title="Editar">${ic('edit')}</button><button data-a="rgdone" data-id="${x.id}" title="${x.done ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(x.done ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${x.id}" title="Eliminar">${ic('delete')}</button>` : `<button data-a="copen" data-id="${x.id}" title="Ver orden">${ic('open_in_new')}</button>`}</div>` : cita && !x.done ? `<div class="ca"><button data-a="cwa" data-id="${x.id}" title="Enviar WhatsApp" aria-label="Enviar WhatsApp">${ic('chat')}</button></div>` : ''}</div>`
     };
+    /* v9-8-29 · Dashboard: solo recordatorios SIN atender de órdenes EN PROCESO (máx. 6) + botón «Ver historial» (por día) */
+    const rqProc = () => allRecs().filter(x => !x.r.hecho && paraOk(x.r) && x.j.estado == 'proceso').sort((a, b) => cmpS(a.r.iso, b.r.iso));
     function remSec() {
-        const R3 = dueRecs(),
-            L = remList();
-        if (!L.length && !R3.length)
+        const P = rqProc();
+        if (!P.length && !allRecs().length && !(S.cfg.recGen || []).length)
             return '';
-        const o = colH('dash', true);
-        return `<div class="dsec"><h2><button type="button" class="colh" data-a="col" data-k="dash" data-d="1" aria-expanded="${o}"><span>Recordatorios</span><b class="colc${R3.length ? ' due' : ''}">${R3.length + L.length}</b>${ic('expand_more', 'chev')}</button></h2>${o ? `${R3.slice(0, 3).map(x => recN(x, 1)).join('')}${L.slice(0, 5).map(x => calRow(x)).join('')}${L.length > 5 ? `<div class="sm">+${L.length - 5} más en el calendario de citas</div>` : ''}` : ''}</div>`
+        const o = colH('dash', true),
+            dueN = P.filter(x => Date.parse(x.r.iso) <= Date.now()).length;
+        return `<div class="dsec"><h2><button type="button" class="colh" data-a="col" data-k="dash" data-d="1" aria-expanded="${o}"><span>Recordatorios</span><b class="colc${dueN ? ' due' : ''}">${P.length}</b>${ic('expand_more', 'chev')}</button></h2>${o ? `${P.slice(0, 6).map(x => recN(x, Date.parse(x.r.iso) <= Date.now())).join('') || '<div class="mut">Sin recordatorios pendientes en procesos en curso.</div>'}${P.length > 6 ? `<div class="sm">+${P.length - 6} más sin atender (están en el historial)</div>` : ''}<button type="button" class="rqhb" data-a="rhopen">${ic('history')} Ver historial</button>` : ''}</div>`
     }
+    const rhRow = x => {
+        const r = x.r,
+            j = x.j;
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${hm(r.iso)} ${recTag(r)} ${paraTag(r)}</div><div class="cr2">${esc(r.texto)}${j ? `${j.ot ? ' · OT ' + esc(j.ot) : ''} · ${esc(ESTADO[sc(j)] || '')}` : ' · General'}</div></div>${j ? plate(j.vehiculo.patente, 's') : ''}<div class="ca">${j ? `<button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button>` : `<button data-a="rgdone" data-id="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button>`}</div></div>`
+    };
+    function vRHist() {
+        const sc = S.rhs || '',
+            all = [...(sc == 'gen' ? [] : allRecs().filter(x => paraOk(x.r)).map(x => ({
+                j: x.j,
+                r: x.r
+            }))), ...(sc == 'ord' ? [] : (S.cfg.recGen || []).filter(paraOk).map(r => ({
+                j: null,
+                r
+            })))].sort((a, b) => cmpS(b.r.iso, a.r.iso)),
+            by = {};
+        all.forEach(x => {
+            const k = dkey(x.r.iso);
+            (by[k] = by[k] || []).push(x)
+        });
+        const hoyK = dkey(new Date()),
+            ayerK = dkey(addD(new Date(), -1)),
+            sel = S.rhd || '',
+            keys = Object.keys(by).sort().reverse(),
+            show = sel ? (by[sel] ? [sel] : []) : keys,
+            tt = k => {
+                const [y, m, d] = k.split('-').map(Number),
+                    t = new Date(y, m - 1, d).toLocaleDateString('es-CL', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long'
+                    });
+                return t.charAt(0).toUpperCase() + t.slice(1)
+            };
+        return `<div class="top"><button data-a="go" data-v="${sc ? 'rec' : 'home'}" aria-label="Volver">${ic('first_page')}</button><h1>Historial${sc == 'gen' ? ' · generales' : sc == 'ord' ? ' · de órdenes' : ' de recordatorios'}</h1></div>
+         <div class="rhn"><button data-a="rhstep" data-d="-1" aria-label="Día anterior">${ic('chevron_left')}</button><input type="date" data-ch="rhd" value="${esc(sel)}" aria-label="Elegir día"><button data-a="rhstep" data-d="1" aria-label="Día siguiente">${ic('chevron_right')}</button></div>
+         <div class="zf"><button class="zc ${sel == '' ? 'sel' : ''}" data-a="rhday" data-k="">Todos los días</button><button class="zc ${sel == hoyK ? 'sel' : ''}" data-a="rhday" data-k="${hoyK}">Hoy</button><button class="zc ${sel == ayerK ? 'sel' : ''}" data-a="rhday" data-k="${ayerK}">Ayer</button></div>
+         ${show.map(k => `<div class="rhd">${esc(tt(k))}<small>${by[k].length} ${by[k].length == 1 ? 'recordatorio' : 'recordatorios'} · ${by[k].filter(x => !x.r.hecho).length} sin atender</small></div>${by[k].map(rhRow).join('')}`).join('') || `<div class="mut" style="margin-top:14px">${sel ? 'No hay recordatorios este día.' : 'Aún no hay recordatorios.'}</div>`}`
+    }
+    Object.assign(A, {
+        mzoom: d => {
+            const e = mzEl();
+            if (!e)
+                return;
+            const m = mzG();
+            if (d.d == '0') {
+                m.k = 1;
+                m.x = 0;
+                m.y = 0
+            } else
+                mzAt(m.k * (+d.d > 0 ? 1.4 : 1 / 1.4), e[1].offsetWidth / 2, e[1].offsetHeight / 2);
+            mzApply()
+        },
+        rhopen: d => {
+            S.rhd = '';
+            S.rhs = (d && d.s) || '';
+            A.go({
+                v: 'rhist'
+            })
+        },
+        rhday: d => {
+            S.rhd = d.k || '';
+            render(1)
+        },
+        rhstep: d => {
+            const b = S.rhd || dkey(new Date()),
+                [y, m, dd] = b.split('-').map(Number);
+            S.rhd = dkey(new Date(y, m - 1, dd + +d.d));
+            render(1)
+        }
+    });
+    document.addEventListener('change', e => {
+        const t = e.target;
+        if (t && t.dataset && t.dataset.ch == 'rhd') {
+            S.rhd = t.value || '';
+            render(1)
+        }
+    });
     function vMas() {
         const up = calUp().slice(0, 3);
-        return `<div class="top"><h1>Más</h1></div><div class="mas">${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button></div><div class="verb">v0.49 beta</div></div>`
+        return `<div class="top"><h1>Más</h1></div><div class="mas">${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button></div><div class="verb">v0.49 beta</div></div>`
     }
     function vCal() {
         const sel = S.cd2 || dkey(new Date()),
@@ -21638,15 +23657,156 @@
         }
         return dtLocal(t.getTime())
     };
+
+    /* v9-8-17 · CITAS: RUT del cliente + mensajes de WhatsApp (wa.me) + reprogramar / no se presentó / se presentó */
+    const rutClean = t => String(t || '').replace(/[^0-9kK]/g, '').toUpperCase().slice(0, 9);
+    const rutFmt = t => {
+        const c = rutClean(t);
+        if (c.length < 2)
+            return c;
+        const b = c.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return b + '-' + c.slice(-1)
+    };
+    const rutOk = t => {
+        const c = rutClean(t);
+        if (c.length < 2)
+            return false;
+        const b = c.slice(0, -1);
+        if (!/^\d+$/.test(b))
+            return false;
+        let sm = 0,
+            m = 2;
+        for (let i = b.length - 1; i >= 0; i--) {
+            sm += +b[i] * m;
+            m = m == 7 ? 2 : m + 1
+        }
+        const r = 11 - sm % 11,
+            dv = r == 11 ? '0' : r == 10 ? 'K' : String(r);
+        return dv == c.slice(-1)
+    };
+    const waNum = t => {
+        const d = String(t || '').replace(/\D/g, '');
+        if (d.length == 11 && d.startsWith('56'))
+            return d;
+        if (d.length == 9 && d[0] == '9')
+            return '56' + d;
+        if (d.length == 8)
+            return '569' + d;
+        return ''
+    };
+    const waTel = t => {
+        const n = waNum(t);
+        return n ? '+56 9 ' + n.slice(3, 7) + ' ' + n.slice(7) : String(t || '').trim()
+    };
+    const WA_DIA = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        WA_MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const waFecha = iso => {
+        const d = new Date(iso),
+            p = n => String(n).padStart(2, '0');
+        return `${WA_DIA[d.getDay()]} ${d.getDate()} de ${WA_MES[d.getMonth()]} de ${d.getFullYear()} a las ${p(d.getHours())}:${p(d.getMinutes())}`
+    };
+    const waPat = p => String(fmtPl(p || '')).replace(/·/g, '-');
+    const WA_T = [['crea', 'Cita creada'], ['venc', 'Por vencer'], ['perd', 'Cerrada (no se presentó)'], ['reag', 'Reprogramada']];
+    const waMsg = (k, c) => {
+        const P = waPat(c.pat),
+            V = 'tu vehículo' + (P ? ' ' + P : ''),
+            F = waFecha(c.iso),
+            CT = [c.cli, c.tel ? waTel(c.tel) : ''].filter(Boolean).join(' · '),
+            MO = c.mot ? `ℹ️ Motivo: ${c.mot}` : '';
+        const blk = a => a.filter(x => x !== null && x !== undefined && x !== '').join('\n\n');
+        if (k == 'venc')
+            return blk([`⏰⚠️ *La cita para ${V} está por vencer*`, `Cita: *${F}*`, CT, MO, `*Avisamos para no perder la hora*, de lo contrario deberás solicitar una nueva cita.`]);
+        if (k == 'perd')
+            return blk([`⏰❌ *La cita para ${V} fue cerrada*`, `Debido a que no te presentaste ni reprogramaste esta cita, deberás volver a solicitar una nueva hora para tu vehículo.`, CT, [P ? `🚘 Patente: ${P}` : '', MO].filter(Boolean).join('\n'), `*Envía “Volver a solicitar cita”* para que te ayudemos a programar una nueva hora.`]);
+        if (k == 'reag')
+            return blk([`⏰✅ *Reprogramaste una cita para ${V}*`, `Cita: *${F}*`, CT, MO, `*Envía “Cambiar mi cita”* para que te ayudemos a buscar una nueva hora.`]);
+        return blk([`⏰✅ *Hemos creado una cita para ${V}*`, `Cita: *${F}*`, CT, MO])
+    };
+    const waAuto = c => c.estado == 'perdida' ? 'perd' : c.estado == 'presento' ? 'crea' : (c.reag && !c.estado && Date.parse(c.iso) > Date.now() + 864e5) ? 'reag' : Date.parse(c.iso) < Date.now() + 864e5 ? 'venc' : 'crea';
+    const waLink = (c, txt) => {
+        const n = waNum(c.tel);
+        return n ? `https://api.whatsapp.com/send?phone=${n}&text=${encodeURIComponent(txt)}` : ''
+    };
+    const waEmo = () => {
+        try {
+            return localStorage.getItem('lubri_waemo') != '0'
+        } catch (e) {
+            return true
+        }
+    };
+    const waNoEmo = t => String(t).replace(/[\u{1F000}-\u{1FFFF}\u{2190}-\u{2BFF}\u{2139}\u{FE0F}\u{200D}]/gu, '').replace(/^[ \t]+/gm, '').replace(/[ \t]+$/gm, '');
+    const waOut = t => waEmo() ? t : waNoEmo(t);
+    document.addEventListener('change', e => {
+        const t = e.target;
+        if (t && t.id == 'cwa_e') {
+            try {
+                localStorage.setItem('lubri_waemo', t.checked ? '1' : '0')
+            } catch (x) {}
+            const m = S.modal;
+            if (m && m.k == 'cwa') {
+                m.txt = null;
+                render(1)
+            }
+        }
+    });
+    const jobLbl = j => (j.ot ? 'OT ' + j.ot : 'SOT') + ' · ' + fdt(j.tiempos.ingresoISO) + ' · ' + (ESTADO[sc(j)] || '');
+    const orgTag = x => {
+        if (x.org == 'wsp')
+            return '<span class="rtag wsp">Por WhatsApp</span>';
+        if (x.org == 'visita') {
+            const j = x.ojob && get(x.ojob);
+            return '<span class="rtag vis">' + (j ? esc(j.ot ? 'Visitó · OT ' + j.ot : 'Visitó · SOT') : 'Ya visitó') + '</span>'
+        }
+        return ''
+    };
+    const orgSel = m => {
+        if (m.org == 'wsp')
+            return '<div class="sm" style="margin:-4px 0 6px">Agendó solo por WhatsApp: no se le ha hecho una revisión antes.</div>';
+        if (m.org != 'visita')
+            return '';
+        const n = pN(m.pat),
+            L = n ? S.jobs.filter(j => pN(j.vehiculo.patente) == n).sort((a, b) => cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO)) : [];
+        return L.length ? `<select id="cojob" data-ch="cita_ojob" style="width:100%;margin-bottom:6px"><option value="">Orden anterior (elegir)</option>${L.map(j => `<option value="${j.id}"${m.ojob == j.id ? ' selected' : ''}>${esc(jobLbl(j))}</option>`).join('')}</select>` : `<div class="sm" style="margin:-4px 0 6px">${n ? 'No hay órdenes con esa patente.' : 'Escribe la patente para elegir la orden anterior.'}</div>`
+    };
+    const citaTag = x => x.estado == 'perdida' ? 'No se presentó' : (x.estado == 'presento' || x.done) ? 'Se presentó' : '';
     function citaModal() {
         const m = S.modal,
             v = k => esc(m[k] || '');
         return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event')}<div><b style="font-size:18px">${m.edit ? 'Editar cita' : 'Crear cita'}</b><div class="sm">${m.edit ? 'Cambia lo que necesites y guarda' : 'Queda en el calendario con indicador violeta'}</div></div></div>
          <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="cdt" data-ch="cita_dt" value="${v('dt')}" style="width:100%">
          <div class="sec">${ic('directions_car')} Patente</div><div class="plw" style="justify-content:center"><label class="pl f" style="min-width:190px"><small>CHILE</small><input id="cpat" data-ch="cita_pat" value="${esc(fmtPl(m.pat || ''))}" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" inputmode="text"></label></div>
-         <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono (opcional)" style="width:100%;margin-top:8px">
+         <div class="sec">${ic('person')} Cliente</div><input id="ccli" data-ch="cita_cli" value="${v('cli')}" placeholder="Nombre" style="width:100%"><input id="crut" data-ch="cita_rut" value="${esc(rutFmt(m.rut || ''))}" placeholder="RUT del cliente (ej.: 12.345.678-5)" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" style="width:100%;margin-top:8px"><input id="ctel" type="tel" data-ch="cita_tel" value="${v('tel')}" placeholder="Teléfono para WhatsApp (+56 9 XXXX XXXX)" style="width:100%;margin-top:8px">
+         <div class="sec">${ic('history')} Origen de la cita</div><div class="rcm"><button type="button" class="${m.org == 'visita' ? 'on' : ''}" data-a="corg" data-v="visita">${ic('how_to_reg')} Ya nos visitó</button><button type="button" class="${m.org == 'wsp' ? 'on' : ''}" data-a="corg" data-v="wsp">${ic('chat')} Agendó por WhatsApp</button></div><div id="corgw">${orgSel(m)}</div>
          <div class="sec">${ic('edit_note')} Motivo</div><input id="cmot" data-ch="cita_mot" value="${v('mot')}" placeholder="Ej: Cambio de aceite" style="width:100%"><input id="cnota" data-ch="cita_nota" value="${v('nota')}" placeholder="Nota (opcional)" style="width:100%;margin-top:8px">
+         ${paraSel('cpara', m.para, 'cita_para')}
          <div class="btns" style="margin-top:16px"><button data-a="citaok">${m.edit ? 'Guardar cambios' : 'Guardar cita'}</button><button data-a="cerrar">Cancelar</button></div></div></div>`
+    }
+
+
+    function cwaModal() {
+        const m = S.modal,
+            c = (S.cfg.citas || []).find(x => x.id == m.id);
+        if (!c)
+            return '';
+        const tpl = m.tpl || waAuto(c),
+            num = waNum(c.tel),
+            txt = m.txt != null && m.txt !== undefined && m.tplT == tpl ? m.txt : waOut(waMsg(tpl, c)),
+            href = waLink(c, txt);
+        return `<div class="bd" data-a="cerrar"><div class="box cwa"><div style="display:flex;gap:10px;align-items:center">${ic('chat')}<div><b style="font-size:18px">${m.nuevo ? 'Cita creada · avisar al cliente' : 'WhatsApp al cliente'}</b><div class="sm">${esc(c.cli || 'Sin nombre')} · ${num ? esc(waTel(c.tel)) : '<b style="color:#b3261e">sin teléfono válido</b>'}${c.rut ? ' · ' + esc(c.rut) : ''}</div></div></div>
+         <div class="cwat">${WA_T.map(([k, n]) => `<button type="button" class="${k == tpl ? 'on' : ''}" data-a="cwat" data-t="${k}">${n}</button>`).join('')}</div>
+         <textarea id="cwa_t" rows="11" spellcheck="false" style="width:100%;border-radius:12px;font-size:14px;line-height:1.35">${esc(txt)}</textarea>
+         <label class="cwemo"><input type="checkbox" id="cwa_e" ${waEmo() ? 'checked' : ''}> Incluir emojis</label><div class="sm" style="margin:4px 0 0;opacity:.75">Puedes corregir el texto antes de enviarlo.</div>
+         ${num ? `<a id="cwa_go" class="cwago" data-a="wasent" href="${esc(href)}" target="_blank" rel="noopener">${ic('send')} Enviar por WhatsApp a ${esc(waTel(c.tel))}</a>` : `<div class="note" style="margin-top:10px">Falta un teléfono válido para WhatsApp (formato +56 9 XXXX XXXX). Toca «Editar cita» para agregarlo.</div><div class="btns" style="margin-top:8px"><button data-a="cedit" data-id="${c.id}">${ic('edit')} Editar cita</button></div>`}
+         <div class="btns" style="margin-top:10px"><button data-a="cerrar">${m.nuevo ? 'Ahora no' : 'Cerrar'}</button></div></div></div>`
+    }
+    function creagModal() {
+        const m = S.modal,
+            c = (S.cfg.citas || []).find(x => x.id == m.id);
+        if (!c)
+            return '';
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('event_repeat')}<div><b style="font-size:18px">Reprogramar cita</b><div class="sm">${esc(c.cli || '')} ${esc(fmtPl(c.pat || ''))}<br>Hora actual: ${esc(waFecha(c.iso))}</div></div></div>
+         <div class="sec">${ic('schedule')} Nueva fecha y hora</div><input type="datetime-local" id="creag_d" value="${esc(m.dt || '')}" style="width:100%">
+         <div class="btns" style="margin-top:16px"><button data-a="creagok">Reprogramar y avisar</button><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
     function nteModal() {
         const m = S.modal,
@@ -21665,6 +23825,7 @@
         return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('alarm')}<div><b style="font-size:18px">Editar recordatorio</b><div class="sm">${esc(fmtPl(j.vehiculo.patente))}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div></div></div>
          <div class="sec">${ic('edit_note')} Qué hay que recordar</div><input id="rqet" value="${esc(m.t || '')}" placeholder="¿Qué hay que recordar?" autocomplete="off" style="width:100%">
          <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="rqed" value="${esc(m.dt || '')}" style="width:100%">
+         ${paraSel('rqep', m.para)}
          <div class="btns" style="margin-top:16px"><button data-a="rqeok">Guardar cambios</button><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
     function rcModal() {
@@ -21673,9 +23834,9 @@
             n = pN(q);
         let R2 = [];
         if (m.go && n)
-            R2 = S.jobs.filter(j => pN(j.vehiculo.patente).includes(n) || String(j.ot || '').trim().toLowerCase() == q.toLowerCase()).sort((a, b) => (a.estado == 'completado' ? 0 : 1) - (b.estado == 'completado' ? 0 : 1) || cmpS(b.tiempos.completadoISO || '', a.tiempos.completadoISO || '')).slice(0, 6);
-        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('replay')}<div><b style="font-size:18px">Crear reapertura</b><div class="sm">Busca la orden completada por patente u OT</div></div></div>
-         <div class="add" style="margin-top:10px"><input id="rcq" data-ch="rc_q" value="${esc(m.q || '')}" placeholder="Patente u orden de trabajo" autocapitalize="characters" autocomplete="off"><button data-a="rcbuscar" title="Buscar">${ic('search')}</button></div>
+            R2 = S.jobs.filter(j => pN(j.vehiculo.patente).includes(n) || String(j.ot || '').trim().toLowerCase() == q.toLowerCase() || vMatch(j, q, nrm(q))).sort((a, b) => (a.estado == 'completado' ? 0 : 1) - (b.estado == 'completado' ? 0 : 1) || cmpS(b.tiempos.completadoISO || '', a.tiempos.completadoISO || '')).slice(0, 6);
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('replay')}<div><b style="font-size:18px">Crear reapertura</b><div class="sm">Busca la orden completada por patente, OT, marca o modelo</div></div></div>
+         <div class="add" style="margin-top:10px"><input id="rcq" data-ch="rc_q" value="${esc(m.q || '')}" placeholder="Patente, OT, marca o modelo" autocapitalize="characters" autocomplete="off"><button data-a="rcbuscar" title="Buscar">${ic('search')}</button></div>
          ${m.go ? (R2.length ? R2.map(j => {const ok = j.estado == 'completado';return `<div class="crow" style="cursor:default"><div class="cm"><div class="cr1"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span> ${ok ? 'Completada ' + fdt(j.tiempos.completadoISO || j.tiempos.ingresoISO) : '<span class="rtag">Aún no completada</span>'}</div><div class="cr2">${esc((j.cliente || {}).nombre || '')}${j.titulo ? ' · ' + esc(j.titulo) : ''}</div></div>${plate(j.vehiculo.patente, 's')}${ok ? `<button data-a="rcpick" data-id="${j.id}" title="Elegir" style="border:0">${ic('chevron_right')}</button>` : ''}</div>`}).join('') : `<div class="mut" style="margin-top:10px">No encontré órdenes con «${esc(q)}».</div>`) : ''}
          <div class="btns" style="margin-top:16px"><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
@@ -21793,6 +23954,11 @@
         },
         csel: d => {
             S.cd2 = d.k;
+            S.cx = null;
+            render(1)
+        },
+        ctog: d => {
+            S.cx = S.cx == d.id ? null : d.id;
             render(1)
         },
         cnew: () => {
@@ -21802,6 +23968,20 @@
             };
             render(1)
         },
+        corg: d => {
+            const m = S.modal;
+            if (!m || m.k != 'cita')
+                return;
+            ['dt', 'pat', 'cli', 'rut', 'tel', 'mot', 'nota', 'para'].forEach(k => {
+                const e = $('#c' + k);
+                if (e)
+                    m[k] = e.value
+            });
+            m.org = m.org == d.v ? '' : d.v;
+            if (m.org != 'visita')
+                m.ojob = '';
+            render(1)
+        },
         citaok: () => {
             const m = S.modal;
             if (!m || m.k != 'cita')
@@ -21809,20 +23989,27 @@
             const g = i => ($(i)?.value || '').trim(),
                 dt = g('#cdt'),
                 pat = fmtPl(g('#cpat').toUpperCase()),
-                cli = g('#ccli');
+                cli = g('#ccli'),
+                rut = g('#crut') ? rutFmt(g('#crut')) : '';
             if (!dt)
                 return toast('warning', 'Elige fecha y hora');
             if (!pat && !cli)
                 return toast('warning', 'Escribe la patente o el cliente');
+            if (rut && !rutOk(rut))
+                return toast('warning', 'El RUT no es válido: revisa el dígito verificador');
             const ed = m.edit && (S.cfg.citas || []).find(x => x.id == m.edit);
             if (ed) {
                 Object.assign(ed, {
                     iso: new Date(dt).toISOString(),
                     pat,
                     cli,
+                    rut,
                     tel: g('#ctel'),
                     mot: g('#cmot'),
                     nota: g('#cnota'),
+                    para: g('#cpara') || 'todos',
+                    org: m.org || '',
+                    ojob: m.org == 'visita' ? ($('#cojob')?.value || m.ojob || '') : '',
                     editadaISO: now()
                 });
                 try {
@@ -21836,15 +24023,25 @@
                     iso: new Date(dt).toISOString(),
                     pat,
                     cli,
+                    rut,
                     tel: g('#ctel'),
                     mot: g('#cmot'),
                     nota: g('#cnota'),
+                    para: g('#cpara') || 'todos',
+                    org: m.org || '',
+                    ojob: m.org == 'visita' ? ($('#cojob')?.value || m.ojob || '') : '',
                     creadaISO: now()
                 });
-            const q = new Date(dt);
+            const q = new Date(dt),
+                nid = ed ? null : S.cfg.citas[S.cfg.citas.length - 1].id;
             S.cd2 = dkey(q);
             S.cm = [q.getFullYear(), q.getMonth()];
-            S.modal = null;
+            S.modal = nid ? {
+                k: 'cwa',
+                id: nid,
+                tpl: 'crea',
+                nuevo: 1
+            } : null;
             saveCfg();
             toast('event', ed ? 'Cita actualizada' : 'Cita creada')
         },
@@ -21858,9 +24055,13 @@
                 dt: dtLocal(Date.parse(c.iso)),
                 pat: c.pat || '',
                 cli: c.cli || '',
+                rut: c.rut || '',
                 tel: c.tel || '',
                 mot: c.mot || '',
-                nota: c.nota || ''
+                nota: c.nota || '',
+                para: c.para || 'todos',
+                org: c.org || '',
+                ojob: c.ojob || ''
             };
             render(1)
         },
@@ -21922,14 +24123,15 @@
             testCLD()
         }
     });
-    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl', 'rqeok', 'dgadd', 'dgdel', 'fsok', 'fsdl', 'neok', 'rgadd', 'rgeok', 'rgdel'].forEach(x => TAPS.add(x));
+    ['citaok', 'rcpick', 'cdone', 'cdel2', 'tfb', 'tcl', 'rqeok', 'dgadd', 'dgdel', 'fsok', 'fsdl', 'neok', 'rgadd', 'rgeok', 'rgdel', 'creagok', 'cperd', 'cpres'].forEach(x => TAPS.add(x));
     Object.assign(HELP, {
-        mas: ['Más', [['calendar_month', 'Calendario del mes: violeta = cita, naranja = reapertura; tocar un día abre el calendario de citas en esa fecha'], ['event_upcoming', 'Las 3 próximas citas o reaperturas, con etiqueta Hoy / Mañana / Atrasada'], ['event', 'Ir al calendario de citas'], ['settings', 'Ir a configuración']]],
+        mas: ['Más', [['calendar_month', 'Calendario del mes: violeta = cita, naranja = reapertura, celeste = recordatorio; tocar un día abre el calendario de citas en esa fecha'], ['event_upcoming', 'Las 3 próximas citas o reaperturas, con etiqueta Hoy / Mañana / Atrasada'], ['event', 'Ir al calendario de citas'], ['settings', 'Ir a configuración']]],
         cal: ['Calendario de citas', [['calendar_month', 'Tocar un día muestra sus citas y reaperturas'], ['add', 'Crear cita: fecha, patente, cliente y motivo (si la patente ya existe, completa el cliente)'], ['replay', 'Crear reapertura: busca una orden completada por patente u OT y elige la fecha y hora de reingreso'], ['check_circle', 'Marcar una cita como atendida o eliminarla'], ['notifications', 'Recordatorios: lo atrasado, de hoy y de mañana aparece en el Dashboard y como globo violeta en «Más»']]]
     });
     HELP.det[1].push(['alarm', 'Recordatorios de la orden: escribe qué recordar, elige 30 min / 1 h / 3 h / mañana o una fecha y hora, y toca «Programar recordatorio»']);
     HELP.cfg[1].push(['cloud_sync', 'Pruebas de conexión: «Probar datos de Firebase» (escribe, lee y cuenta datos) y «Probar datos de Cloudinary» (sube una imagen de 1×1 px)']);
 
+    HELP.cal[1].push(['notifications_active', 'Recordar a: al crear una cita o un recordatorio elige Todos, Solo a mí o una persona; solo suena y avisa en los equipos asignados a esa persona']);
     /* ============ v9b · RECORDATORIOS DE ORDEN + NOTIFICACIONES ============ */
     const RS = (() => {
             try {
@@ -21947,8 +24149,8 @@
         j,
         r
     })));
-    const dueRecs = () => allRecs().filter(x => !x.r.hecho && Date.parse(x.r.iso) <= Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
-    const nextRecs = () => allRecs().filter(x => !x.r.hecho && Date.parse(x.r.iso) > Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
+    const dueRecs = () => allRecs().filter(x => !x.r.hecho && paraOk(x.r) && Date.parse(x.r.iso) <= Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
+    const nextRecs = () => allRecs().filter(x => !x.r.hecho && paraOk(x.r) && Date.parse(x.r.iso) > Date.now()).sort((a, b) => cmpS(a.r.iso, b.r.iso));
     const recTag = r => {
         if (r.hecho)
             return '<span class="rtag">Hecho</span>';
@@ -21966,10 +24168,10 @@
         return `<div class="rea rc ${due ? 'due' : ''}">${ic('alarm')}<div><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}${P.length > 1 ? ` <small>(+${P.length - 1})</small>` : ''}<div class="rm">${esc(r.texto)}</div></div></div>`
     };
     const snzBtns = (j, r) => `<div class="rqs"><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="10">+10 min</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="60">+1 h</button><button data-a="rqsnz" data-id="${j.id}" data-r="${r.id}" data-m="tm">Mañana 9:00</button></div>`;
-    const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
+    const recN = ({j, r}, due) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>Recordatorio</b> · ${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div>${due && !r.hecho ? snzBtns(j, r) : ''}</div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="go" data-v="rec" title="Editar en Recordatorios" aria-label="Editar en Recordatorios">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="Marcar hecho">${ic('check_circle')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
     const recRow = (j, r) => {
         const due = !r.hecho && Date.parse(r.iso) <= Date.now();
-        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)} ${paraTag(r)}</div><div class="cr2">${esc(r.texto)}</div>${due ? snzBtns(j, r) : ''}</div><div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar">${ic('delete')}</button></div></div>`
     };
     const recSec = j => {
         const L = (j.recordatorios || []).slice().sort((a, b) => cmpS(a.iso, b.iso)),
@@ -21977,9 +24179,13 @@
             k = 'rc' + j.id,
             o = colH(k, false),
             dueN = P.filter(r => Date.parse(r.iso) <= Date.now()).length;
-        return `<div class="dgs ${o ? 'open' : ''}"><button type="button" class="grph" data-a="col" data-k="${k}" data-d="0" aria-expanded="${o}">${ic('alarm')}<b>Recordatorios de la orden</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${o ? `<div class="dgb"><div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div></div>` : ''}</div>`
+        return `<div class="dgs ${o ? 'open' : ''}"><button type="button" class="grph" data-a="col" data-k="${k}" data-d="0" aria-expanded="${o}">${ic('alarm')}<b>Recordatorios de la orden</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${o ? `<div class="dgb"><div class="rcl">${L.map(r => recRow(j, r)).join('') || '<span class="mut">Sin recordatorios programados.</span>'}</div><div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}">${paraSel('rqp_' + j.id)}<button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div></div>` : ''}</div>`
     };
-    const notCount = () => dueRecs().length + calItems().filter(x => !x.done && Date.parse(x.iso) <= Date.now() && dayDiff(x.iso) >= -30).length;
+    const notCount = () => dueRecs().length + calItems().filter(x => !x.done && paraOk(x) && Date.parse(x.iso) <= Date.now() && dayDiff(x.iso) >= -30).length;
+    const recBtn = () => {
+        const n = allRecs().filter(x => !x.r.hecho && paraOk(x.r)).length + (S.cfg.recGen || []).filter(r => !r.hecho && paraOk(r)).length;
+        return `<button class="mopt" data-a="go" data-v="rec">${ic('alarm')}<span>Recordatorios</span>${n ? `<span class="nb">${n}</span>` : ''}${ic('chevron_right')}</button>`
+    };
     const notBtn = () => {
         const n = notCount();
         return `<button class="mopt" data-a="go" data-v="not">${ic('notifications')}<span>Notificaciones</span>${n ? `<span class="nb">${n}</span>` : ''}${ic('chevron_right')}</button>`
@@ -22101,6 +24307,8 @@
         if (!NP.app[cat])
             return;
         nlog(cat, t, x, o.jid);
+        if (cat == 'rec' || cat == 'cita')
+            nTone();
         bnr({
             k: cat,
             ic: NCAT[cat].i,
@@ -22226,28 +24434,118 @@
     /* v9-8-15 · RECORDATORIOS GENERALES (sin orden): S.cfg.recGen=[{id,iso,texto,hecho,autor,creadaISO}] · se crean en Notificaciones › Recordatorios */
     const rgRow = r => {
         const due = !r.hecho && Date.parse(r.iso) <= Date.now();
-        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)}</div><div class="cr2">${esc(r.texto)}</div></div><div class="ca"><button data-a="rgedit" data-id="${r.id}" title="Editar" aria-label="Editar recordatorio">${ic('edit')}</button><button data-a="rgdone" data-id="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${r.id}" title="Eliminar" aria-label="Eliminar recordatorio">${ic('delete')}</button></div></div>`
+        return `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1">${fdt(r.iso)} ${recTag(r)} ${paraTag(r)}</div><div class="cr2">${esc(r.texto)}</div></div><div class="ca"><button data-a="rgedit" data-id="${r.id}" title="Editar" aria-label="Editar recordatorio">${ic('edit')}</button><button data-a="rgdone" data-id="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rgdel" data-id="${r.id}" title="Eliminar" aria-label="Eliminar recordatorio">${ic('delete')}</button></div></div>`
     };
+    const hDone = a => a.slice().sort((x, y) => Date.parse(y.hechoISO || y.iso) - Date.parse(x.hechoISO || x.iso)).slice(0, 3),
+        rhBtn = (sc, n) => `<h2>Historial</h2><button type="button" class="rqhb" data-a="rhopen" data-s="${sc}">${ic('history')} Ver todo el historial${n ? ` (${n})` : ''}</button>`; // v9-8-30: pendientes + últimos 3 hechos; el resto en «Historial»
     const rgBox = () => {
         const L = (S.cfg.recGen || []).slice().sort((a, b) => cmpS(a.iso, b.iso)),
             P = L.filter(r => !r.hecho),
+            H = hDone(L.filter(r => r.hecho)),
+            nH = L.filter(r => r.hecho).length,
             op = !S.rgc,
             dueN = P.filter(r => Date.parse(r.iso) <= Date.now()).length;
-        return `<div class="dgs ${op ? 'open' : ''}"><button type="button" class="grph" data-a="rgt" aria-expanded="${op}">${ic('alarm_add')}<b>Recordatorios</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb"><div class="note" style="margin:0">Recordatorios propios, sin orden. Los de una orden se crean dentro de esa orden.</div><div class="rcl">${L.map(rgRow).join('') || '<span class="mut">Aún no tienes recordatorios.</span>'}</div><div class="rcadd"><input id="rg_t" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rgquick" data-m="30">30 min</button><button data-a="rgquick" data-m="60">1 h</button><button data-a="rgquick" data-m="180">3 h</button><button data-a="rgquick" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rg_d" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}"><button data-a="rgadd">${ic('add')} Programar recordatorio</button></div></div>` : ''}</div>`
+        return `<div class="dgs ${op ? 'open' : ''}"><button type="button" class="grph" data-a="rgt" aria-expanded="${op}">${ic('alarm_add')}<b>Recordatorios generales</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb"><div class="rcl">${P.map(rgRow).join('') || `<span class="mut">${L.length ? 'No tienes recordatorios pendientes.' : 'Aún no tienes recordatorios.'}</span>`}${H.length ? `<h2>Últimos completados</h2>${H.map(rgRow).join('')}` : ''}</div>${L.length ? rhBtn('gen', nH) : ''}</div>` : ''}</div>`
     };
     function rgeModal() {
         const m = S.modal;
         return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('alarm')}<div><b style="font-size:18px">Editar recordatorio</b><div class="sm">Recordatorio general (sin orden)</div></div></div>
          <div class="sec">${ic('edit_note')} Qué hay que recordar</div><input id="rge_t" value="${esc(m.t || '')}" placeholder="¿Qué hay que recordar?" autocomplete="off" style="width:100%">
          <div class="sec">${ic('schedule')} Fecha y hora</div><input type="datetime-local" id="rge_d" value="${esc(m.dt || '')}" style="width:100%">
+         ${paraSel('rge_p', m.para)}
          <div class="btns" style="margin-top:16px"><button data-a="rgeok">Guardar cambios</button><button data-a="cerrar">Cancelar</button></div></div></div>`
     }
+    /* v9-8-22 · RECORDATORIOS: sección propia (Más › Recordatorios). Aquí se crean y editan; Notificaciones solo los muestra */
+    const rqsRes = () => {
+        const q = String(S.rqs || '').trim(),
+            n = pN(q);
+        if (!q)
+            return '';
+        const R = S.jobs.filter(j => (n && pN(j.vehiculo.patente).includes(n)) || String(j.ot || '').trim().toLowerCase() == q.toLowerCase() || vMatch(j, q, nrm(q))).sort((a, b) => cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO)).slice(0, 5);
+        if (!R.length)
+            return '<div class="mut" style="margin:8px 2px">No hay órdenes con esa patente.</div>';
+        return R.map(j => {
+            const o = S.rqj == j.id,
+                v = j.vehiculo || {};
+            return `<div class="crow c-rc${o ? ' sel' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>${j.ot ? 'OT ' + esc(j.ot) : 'Sin OT'}</b> · ${esc(ESTADO[sc(j)] || '')} · ${fdt(j.tiempos.ingresoISO)}</div><div class="cr2">${esc([v.marca, v.modelo, j.cliente && j.cliente.nombre].filter(Boolean).join(' · ') || '—')}</div>
+              ${o ? `<div class="rcadd"><input id="rqt_${j.id}" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rqquick" data-id="${j.id}" data-m="30">30 min</button><button data-a="rqquick" data-id="${j.id}" data-m="60">1 h</button><button data-a="rqquick" data-id="${j.id}" data-m="180">3 h</button><button data-a="rqquick" data-id="${j.id}" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rqd_${j.id}" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}">${paraSel('rqp_' + j.id)}<button data-a="rqadd" data-id="${j.id}">${ic('add')} Programar recordatorio</button></div>` : `<button class="rqsb" data-a="rqsel" data-id="${j.id}">${ic('alarm_add')} Crear recordatorio con patente</button>`}</div>${plate(v.patente, 's')}</div>`
+        }).join('')
+    };
+    document.addEventListener('input', e => {
+        const t = e.target;
+        if (t && t.id == 'rqs_q') {
+            S.rqs = t.value;
+            S.rqj = null;
+            const r = $('#rqs_res');
+            if (r)
+                r.innerHTML = rqsRes()
+        }
+    });
+    Object.assign(A, {
+        rqsel: d => {
+            S.rqj = S.rqj == d.id ? null : d.id;
+            render(1)
+        },
+        rqsclr: () => {
+            S.rqs = '';
+            S.rqj = null;
+            render(1);
+            $('#rqs_q')?.focus()
+        }
+    });
+    {
+        const _a = A.rqadd;
+        A.rqadd = d => {
+            const j = get(d.id),
+                n0 = j ? (j.recordatorios || []).length : 0;
+            _a(d);
+            const j2 = get(d.id);
+            if (j2 && (j2.recordatorios || []).length > n0 && S.rqj == d.id) {
+                S.rqj = null;
+                S.rqs = '';
+                render(1)
+            }
+        }
+    }
+    const recX = ({j, r}) => `<div class="crow c-rc${r.hecho ? ' dn' : ''}"><i class="cb"></i><div class="cm"><div class="cr1"><b>${fdt(r.iso)}</b> ${recTag(r)} ${paraTag(r)}</div><div class="cr2">${esc(r.texto)}${j.ot ? ' · OT ' + esc(j.ot) : ''}</div></div>${plate(j.vehiculo.patente, 's')}<div class="ca"><button data-a="rqedit" data-id="${j.id}" data-r="${r.id}" title="Editar" aria-label="Editar">${ic('edit')}</button><button data-a="rqdone" data-id="${j.id}" data-r="${r.id}" title="${r.hecho ? 'Marcar pendiente' : 'Marcar hecho'}">${ic(r.hecho ? 'undo' : 'check_circle')}</button><button data-a="rqdel" data-id="${j.id}" data-r="${r.id}" title="Eliminar" aria-label="Eliminar">${ic('delete')}</button><button data-a="copen" data-id="${j.id}" title="Ver orden">${ic('open_in_new')}</button></div></div>`;
+    function ordBox() {
+        const A0 = allRecs(),
+            L = A0.filter(x => x.j.estado != 'completado').sort((a, b) => cmpS(a.r.iso, b.r.iso)),
+            P = L.filter(x => !x.r.hecho),
+            H = L.filter(x => x.r.hecho).sort((a, b) => Date.parse(b.r.hechoISO || b.r.iso) - Date.parse(a.r.hechoISO || a.r.iso)).slice(0, 3),
+            nH = A0.length - P.length - H.length,
+            op = !S.roc,
+            dueN = P.filter(x => Date.parse(x.r.iso) <= Date.now()).length;
+        return `<div class="dgs ${op ? 'open' : ''}"><button type="button" class="grph" data-a="rot" aria-expanded="${op}">${ic('directions_car')}<b>Recordatorios de órdenes</b><span class="sm">${P.length ? P.length + (P.length == 1 ? ' pendiente' : ' pendientes') : 'Sin pendientes'}</span>${dueN ? `<b class="colc due">${dueN}</b>` : ''}${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb">${P.map(recX).join('') || '<div class="mut" style="margin-top:8px">No hay recordatorios pendientes en órdenes activas.</div>'}${H.length ? `<h2>Últimos completados</h2>${H.map(recX).join('')}` : ''}${A0.length ? rhBtn('ord', nH) : ''}</div>` : ''}</div>`
+    }
+    const rgForm = () => `<div class="rcadd"><input id="rg_t" placeholder="¿Qué hay que recordar?" autocomplete="off"><div class="rcq"><button data-a="rgquick" data-m="30">30 min</button><button data-a="rgquick" data-m="60">1 h</button><button data-a="rgquick" data-m="180">3 h</button><button data-a="rgquick" data-m="tm">Mañana 9:00</button></div><input type="datetime-local" id="rg_d" value="${dtLocal(Math.ceil((Date.now() + 36e5) / 9e5) * 9e5)}">${paraSel('rg_p')}<button data-a="rgadd">${ic('add')} Programar recordatorio</button></div>`;
+    /* v9-8-30 · «Programar recordatorio» va aparte de las listas: arriba se crea (General o De una orden con patente) y debajo se ven los pendientes, los últimos 3 hechos y el historial de cada tipo */
+    const rcNew = () => {
+        const m = S.rcm == 'ord' ? 'ord' : 'gen';
+        return `<div class="dgs open rcn"><div class="grph rcnh">${ic('add_alarm')}<b>Programar recordatorio</b></div><div class="dgb"><div class="rcm" role="tablist"><button type="button" role="tab" aria-selected="${m == 'gen'}" class="${m == 'gen' ? 'on' : ''}" data-a="rcm" data-m="gen">${ic('alarm_add')} General</button><button type="button" role="tab" aria-selected="${m == 'ord'}" class="${m == 'ord' ? 'on' : ''}" data-a="rcm" data-m="ord">${ic('directions_car')} De una orden</button></div>${m == 'gen' ? `<div class="note" style="margin:0 0 6px">Recordatorio propio, sin orden.</div>${rgForm()}` : `<div class="note" style="margin:0 0 6px">Busca la patente, elige la orden y programa el recordatorio.</div><div class="srch" style="margin-top:0">${ic('search')}<input id="rqs_q" type="text" autocomplete="off" autocapitalize="characters" enterkeyhint="search" placeholder="Buscar patente" value="${esc(S.rqs || '')}"><button data-a="rqsclr" title="Limpiar" aria-label="Limpiar">${ic('close')}</button></div><div id="rqs_res">${rqsRes()}</div>`}</div></div>`
+    };
+    Object.assign(A, {
+        rcm: d => {
+            S.rcm = d.m == 'ord' ? 'ord' : 'gen';
+            render(1)
+        }
+    });
+    function vRec() {
+        return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Recordatorios</h1></div>${rcNew()}${rgBox()}${ordBox()}`
+    }
+    Object.assign(A, {
+        rot: () => {
+            S.roc = !S.roc;
+            render(1)
+        }
+    });
+    HELP.rec = ['Recordatorios', [['alarm_add', 'Recordatorios generales (sin orden): elige Todos, Solo a mí o una persona'], ['search', 'Buscar por patente: elige la orden y toca «Crear recordatorio con patente»'], ['edit', 'Editar, marcar hecho o eliminar cualquier recordatorio, también los de las órdenes'], ['notifications', 'Notificaciones solo los muestra cuando llegan; para cambiarlos se viene aquí']]];
     function vNot() {
         const now = Date.now(),
             dr = dueRecs(),
-            dc = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30),
+            dc = calItems().filter(x => !x.done && paraOk(x) && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30),
             fr = nextRecs(),
-            fc = calItems().filter(x => !x.done && Date.parse(x.iso) > now && dayDiff(x.iso) <= 1),
+            fc = calItems().filter(x => !x.done && paraOk(x) && Date.parse(x.iso) > now && dayDiff(x.iso) <= 1),
             nu = NL.filter(x => !x.read),
             hi = NL.filter(x => x.read);
         clearTimeout(R.nrt);
@@ -22258,10 +24556,10 @@
             }
         }, 2500); // al abrirlas pasan al historial (se ven abajo la próxima vez)
         return `<div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>Notificaciones</h1><button class="tcfg" data-a="go" data-v="nset" aria-label="Configurar notificaciones" title="Configurar notificaciones">${ic('tune')}</button></div>
-         ${rgBox()}
-         <h2>Ahora${dr.length + dc.length ? ` · ${dr.length + dc.length}` : ''}</h2>${dr.map(x => recN(x, 1)).join('')}${dc.map(x => calRow(x, 1)).join('')}${dr.length + dc.length ? '' : '<div class="mut">No tienes notificaciones pendientes.</div>'}
+         <button class="mopt" data-a="go" data-v="rec">${ic('alarm')}<span>Crear o editar recordatorios</span>${ic('chevron_right')}</button>
+         <h2>Ahora${dr.length + dc.length ? ` · ${dr.length + dc.length}` : ''}</h2>${dr.map(x => recN(x, 1)).join('')}${dc.map(x => calRow(x)).join('')}${dr.length + dc.length ? '' : '<div class="mut">No tienes notificaciones pendientes.</div>'}
          ${nu.length ? `<h2>Nuevas · ${nu.length}</h2>${nu.map(nRow).join('')}` : ''}
-         <h2>Programados</h2>${fr.slice(0, 10).map(x => recN(x, 0)).join('')}${fc.map(x => calRow(x, 1)).join('')}${fr.length + fc.length ? '' : '<div class="mut">No hay recordatorios ni citas programados.</div>'}
+         <h2>Programados</h2>${fr.slice(0, 10).map(x => recN(x, 0)).join('')}${fc.map(x => calRow(x)).join('')}${fr.length + fc.length ? '' : '<div class="mut">No hay recordatorios ni citas programados.</div>'}
          <h2>Historial${hi.length ? ` · ${hi.length}` : ''}</h2>${hi.map(nRow).join('') || '<div class="mut">Aquí quedan los avisos que ya abriste. Se borran con el botón de cada uno.</div>'}${hi.length ? `<button class="mopt" data-a="nclr">${ic('delete_sweep')}<span>Borrar todo el historial</span></button>` : ''}`
     }
     function vNset() {
@@ -22273,6 +24571,7 @@
         return `<div class="top"><button data-a="go" data-v="not" aria-label="Volver">${ic('first_page')}</button><h1>Configurar notificaciones</h1></div>
          <div class="nsec"><b>Dentro de la aplicación</b><div class="note">Banners que bajan desde arriba mientras usas la app. Se guardan en el historial de Notificaciones.</div>${Object.keys(NCAT).map(k => sw('app', k)).join('')}</div>
          <div class="nsec"><b>Al dispositivo (push)</b><div class="note">Notificación normal del teléfono o computador.</div>${pm}${Object.keys(NCAT).filter(k => k != 'msg').map(k => sw('push', k)).join('')}</div>
+         <div class="nsec"><b>Sonido</b><div class="note">Suena un tono en este equipo cuando llega un recordatorio o una cita (con la app abierta). Lo asignado a otra persona no suena aquí.</div><label class="swt nsw"><input type="checkbox" data-ch="nsnd" ${nsndOn() ? 'checked' : ''}><i></i><span>Sonar al llegar un aviso<small>Recordatorios y citas</small></span></label><button class="mopt" data-a="ntest">${ic('volume_up')}<span>Probar sonido</span></button></div>
          <div class="nsec"><b>Horario del local</b><div class="note">${hoy} Avisa ${S.cfg.cierreMin || 30} min antes del cierre y a la hora de cierre.</div><button class="mopt" data-a="nhor">${ic('schedule')}<span>Editar horario del local</span>${ic('chevron_right')}</button></div>`
     }
     function rqTick() {
@@ -22289,7 +24588,7 @@
                 txt: fmtPl(x.j.vehiculo.patente) + ': ' + x.r.texto,
                 jid: x.j.id
             })),
-            D2 = calItems().filter(x => !x.done && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30).map(x => ({
+            D2 = calItems().filter(x => !x.done && paraOk(x) && Date.parse(x.iso) <= now && dayDiff(x.iso) >= -30).map(x => ({
                 k: 'c' + x.id + x.iso,
                 cat: x.t == 'rg' ? 'rec' : 'cita',
                 ttl: x.t == 'cita' ? 'Cita' : x.t == 'rg' ? 'Recordatorio' : 'Reapertura',
@@ -22322,6 +24621,10 @@
         return Date.now() + +m * 6e4
     };
     Object.assign(A, {
+        ntest: () => {
+            nTone(1);
+            toast('notifications', 'Así suena el aviso')
+        },
         rqquick: d => {
             const i = $('#rqd_' + d.id);
             if (i)
@@ -22344,6 +24647,7 @@
                 id: uid(),
                 iso,
                 texto: t,
+                para: $('#rqp_' + d.id)?.value || 'todos',
                 autor: autor(),
                 creadaISO: now()
             });
@@ -22361,6 +24665,7 @@
                 id: j.id,
                 r: r.id,
                 t: r.texto,
+                para: r.para || 'todos',
                 dt: dtLocal(Date.parse(r.iso))
             };
             render(1)
@@ -22386,6 +24691,7 @@
                 ch = iso != r.iso;
             r.texto = t;
             r.iso = iso;
+            r.para = $('#rqep')?.value || 'todos';
             if (ch) {
                 r.hecho = false;
                 r.hechoISO = null;
@@ -22482,6 +24788,15 @@
             k = t.dataset && t.dataset.ch;
         if (!k)
             return;
+        if (k == 'nsnd') {
+            try {
+                localStorage.lubri_nsnd = t.checked ? '1' : '0'
+            } catch (x) {}
+            if (t.checked)
+                nTone(1);
+            render(1);
+            return
+        }
         if (k == 'nsw') {
             const s2 = t.dataset.s,
                 c = t.dataset.k;
