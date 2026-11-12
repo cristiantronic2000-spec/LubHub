@@ -87,6 +87,15 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-43: (1) ingreso con USUARIO y contraseña (sin pedir correo); (2) el programador crea usuarios dentro de la app: usuario, contraseña, rol, teléfono y persona ya existente a la que se enlaza; al crearlo sale su QR; (3) Más: banner arriba del calendario con nombre, teléfono y rol de quien usa la app (el teléfono se puede editar).
+    CAMBIOS v9-8-42: (1) cada usuario de inicio de sesión se puede vincular a una persona ya creada (Mecánicos o Administrativos): la app usa esa persona para el saludo, las órdenes asignadas y los recordatorios personales, sin tener que borrar ni recrear nada; (2) el QR de ingreso se genera eligiendo al usuario ya vinculado.
+    CAMBIOS v9-8-41: (1) Configuración: tarjeta «Mi usuario» con nombre, correo, rol y cerrar sesión; (2) la cuenta del programador (DEV_EMAIL) queda activa automáticamente como Programador y Administración al entrar por primera vez, sin crear su documento a mano.
+    CAMBIOS v9-8-40: (1) inicio de sesión con Firebase Authentication (correo y contraseña, o QR de ingreso) activable con AUTH_ON; (2) roles Programador, Administración, Ventas, Mecánico y Sala, con tabla de permisos editable por el programador (KPIs, configuración general, configuración técnica); (3) los recordatorios personales siguen a la persona que inició sesión; (4) QR de ingreso generable desde Usuarios y permisos.
+    CAMBIOS v9-8-39: (1) KPIs: el encabezado fijo ya no deja ver el fondo por arriba; (2) KPIs: nueva pestaña «Personal» con el resumen completo por mecánico (órdenes asignadas, tiempos, puntualidad) que se abre al tocarlo; (3) saludo corregido: «Hola Cristian,» y abajo «buenas noches»; (4) Dashboard: las 6 marcas principales; (5) grúa: ícono y casilla «Llegó en grúa»; al marcarla aparece «Se debe cobrar»; (6) nueva orden y edición: se pueden agregar varias notas y varios diagnósticos por separado, y cada diagnóstico puede llevar título.
+    CAMBIOS v9-8-38: (1) Dashboard: saludo en dos líneas, «Hola, Cristian,» arriba y «buenas noches» abajo; (2) banners: la hora de ingreso se muestra como «+HH:MM» y, si hay fecha estimada, «+HH:MM / Est. dd/mm HH:MM» (sin hora si el estimado no la tiene), en una sola línea bajo la patente.
+    CAMBIOS v9-8-35: KPIs: las 4 pestañas (Resumen, Trabajos, Vehículos y marcas, Gráficos) quedan fijas arriba como 4 recuadros; el filtro de periodo es uno solo para todas las pestañas y tiene «Rango» con Desde / Hasta para elegir fechas.
+    CAMBIOS v9-8-34: (1) Más › KPIs (entre Recordatorios y Configuración) con 4 pestañas: Resumen (indicadores nuevos + los KPI de siempre), Trabajos (más solicitados + más realizados y tipos), Vehículos y marcas (marcas, modelos y vehículos más recurrentes) y Gráficos (ingresadas vs completadas 14 días, día de la semana, hora, marcas, zonas, tiempo real vs estimado); (2) banner: la hora de ingreso lleva «+» en vez de «In:» y el logo de fondo tiene tamaño mínimo.
+    CAMBIOS v9-8-33: (1) banner de cada orden: arriba OT + estado y el punto a la derecha; en medio el logo con marca y modelo debajo (izquierda) y la patente con espera/atraso e ingreso debajo (derecha); abajo el texto del trabajo completo (ya no se corta); (2) «En proceso» con su color (no blanco), mismo tamaño que «En reparación», y el brillo rodea todo el banner, también abierto; (3) «Mis órdenes asignadas» y «Vista general» muestran resumen (vehículos, proceso, reparación, pausa, cola) como «En reparación»; (4) WhatsApp de citas sin emojis (solo asteriscos).
     CAMBIOS v9-8-32: (1) mapa: el globo se acomoda solo (con o sin zoom, también al mover el mapa): si se corta arriba sale hacia abajo, si se corta abajo sale hacia arriba, y si se corta a los lados se corre sin perder la flecha que apunta al auto; (2) Citas: «Origen de la cita» = Ya nos visitó (con la orden anterior: OT o SOT + fecha) o Agendó por WhatsApp (sin revisión previa), visible como etiqueta en la cita; (3) calendario: punto celeste para recordatorios (junto al violeta y el naranja) y en la leyenda; (4) WhatsApp de citas: el enlace usa api.whatsapp.com y hay una casilla «Incluir emojis» (si en tu equipo aún se ven mal, desmárcala y sale solo con asteriscos).
     CAMBIOS v9-8-31: (1) mapa con zoom: el globo de acción ahora sale sobre el auto elegido (antes se corría a la derecha y hacia abajo, hacia donde estaría sin zoom); (2) mapa: Mantención baja a la misma altura que Vulcanización (17) y Frenos se alarga (43→49) para que sus 8 plazas salgan cuadradas (se actualiza solo si la zona tiene la medida de fábrica); (3) Recordatorios: arriba una tarjeta aparte «Programar recordatorio» con pestañas General / De una orden (busca por patente); debajo, «Recordatorios generales» y «Recordatorios de órdenes» (plegables) con pendientes, últimos 3 completados y botón al historial de cada uno.
     CAMBIOS v9-8-30: (1) «En proceso» (Línea de trabajo): la cabecera ahora es blanca con borde naranja y un halo más fuerte que palpita (antes el halo naranja claro se perdía sobre el fondo durazno); (2) Mapa: el número de cada zona ya no tapa vehículos (Mecánica: debajo de las plazas; Frenos y Mantención: fuera de las plazas, puede salirse un poco del plano) y lleva reborde del color de la zona; Mecánica = autos horizontales, 4 frente a 4, cada grupo uno debajo del otro; (3) Zoom del mapa: el pellizco en celular no llegaba (el navegador se quedaba con el gesto), Safari/Mac usa gestos del trackpad, y con zoom la rueda/dos dedos mueven el mapa; (4) Recordatorios generales y de órdenes activas: pendientes + últimos 3 completados, y «Historial» con botón a todo el historial por fecha (solo generales / solo de órdenes); (5) logo de fondo de los banners: se quita en celular (menos de 640 px) y se mantiene en pantallas anchas, también en Órdenes completas.
@@ -12337,6 +12346,1062 @@
     .rhd small {
         opacity: .6;
         font-weight: 600
+    }/* v9-8-33 · banner de orden: arriba OT + estado + punto (derecha); en medio logo/marca/modelo a la izquierda y patente, espera/tag e ingreso a la derecha; abajo el texto completo */
+    .row.rn {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 6px !important;
+        min-height: 0 !important;
+        padding-block: 4px !important
+    }
+
+    .row.rn::before {
+        display: none !important
+    }
+
+    .rn1 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0
+    }
+
+    .rn1 .otb {
+        margin: 0 !important;
+        flex: none
+    }
+
+    .rn-st {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.15;
+        min-width: 0;
+        overflow-wrap: anywhere
+    }
+
+    .rn1 .dot {
+        margin: 0 4px 0 auto !important;
+        flex: none
+    }
+
+    .rn2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 0
+    }
+
+    .rn-v {
+        flex: 1 1 auto;
+        min-width: 0
+    }
+
+    .rn-v .vhl {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+        margin: 0 !important
+    }
+
+    .rn-v .vhl .vt {
+        min-width: 0;
+        max-width: 100%
+    }
+
+    .rn-v .vhl .vt b, .rn-v .vhl .vt i {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        overflow-wrap: anywhere
+    }
+
+    .rn-v .vhl .vt b {
+        font-size:13px
+    }
+
+    .rn-v .vhl .vt i {
+        font-size: 12px
+    }
+
+    .row.rn > .rn2 > .rc {
+        flex: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+        min-width: 0;
+        text-align: right
+    }
+
+    .row.rn .rc .rt {
+        margin: 0
+    }
+
+    .row.rn .sv {
+        display: block !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        -webkit-line-clamp: unset !important;
+        line-height: 1.3;
+        font-size: 14px;
+        color: #222;
+        overflow-wrap: anywhere
+    }/* v9-8-33 · grupos: mismo tamaño de cabecera; el brillo rodea TODO el banner (cerrado o abierto) y «En proceso» va con su color, no blanco */
+
+    .gbh, .rep-h {
+        min-height: 64px;
+        padding: 10px 12px;
+        align-items: center
+    }
+
+    .gbk {
+        padding:0 0 8px
+    }
+
+    .gbk > .gbb {
+        padding: 0 8px
+    }
+
+    .gb-proceso > .gbh {
+        background: transparent !important;
+        box-shadow: none !important;
+        animation: none !important
+    }
+
+    .rep.blink .rep-h {
+        animation: none !important
+    }
+
+    .gbk, .rep {
+        margin: 10px 6px
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbfullO {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(242, 106, 33, 0), 0 0 0 0 rgba(242, 106, 33, 0)
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(242, 106, 33, .4), 0 0 18px 4px rgba(242, 106, 33, .5)
+            }
+        }
+
+        @keyframes gbfullB {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(31, 111, 235, 0), 0 0 0 0 rgba(31, 111, 235, 0)
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(31, 111, 235, .38), 0 0 18px 4px rgba(31, 111, 235, .45)
+            }
+        }
+
+        .gb-proceso {
+            animation: gbfullO 1.4s ease-in-out infinite !important
+        }
+
+        .rep.blink {
+            animation: gbfullB 1.4s ease-in-out infinite
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .gb-proceso {
+            box-shadow:0 0 0 4px rgba(242, 106, 33, .4)
+        }
+
+        .rep.blink {
+            box-shadow: 0 0 0 4px rgba(31, 111, 235, .4)
+        }
+    }/* v9-8-33b · OT siempre dentro de la pantalla (puede pasar a otra línea), punto palpitante en la esquina superior derecha, logo tenue visible detrás del contenido */
+    .row.rn {
+        position: relative !important;
+        isolation: isolate
+    }
+
+    .row.rn > .rn1 {
+        flex-wrap: wrap;
+        padding-right: 30px;
+        row-gap: 2px;
+        max-width: 100%
+    }
+
+    .row.rn .otb {
+        white-space: nowrap;
+        max-width: 100%;
+        font-size: clamp(14px, 4.6vw, 17px)
+    }
+
+    .row.rn > .rn1 > .dot {
+        position: absolute !important;
+        top: 6px;
+        right: 6px;
+        margin: 0 !important
+    }
+
+    .row.rn::before {
+        display: block !important;
+        position: absolute !important;
+        inset: 26px 0 30px 0 !important;
+        width: auto !important;
+        height: auto !important;
+        flex: none !important;
+        order: 0 !important;
+        margin: 0 !important;
+        z-index: -1 !important;
+        pointer-events: none;
+        background: var(--lgbg) no-repeat 58% 50%/auto 78% !important;
+        opacity: .17 !important
+    }
+
+    .row.rn .pl.s {
+        max-width: 100%
+    }
+
+    .row.rn .pl.s b {
+        font-size: clamp(15px, 5vw, 19px) !important;
+        letter-spacing: 1px !important
+    }/* subtítulos de grupo: máx. 2 líneas para que todas las cabeceras queden del mismo alto */
+
+    .gbt small, .rep-h .rt small {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden
+    }/* v9-8-33c · logo de fondo discreto, centrado y el doble de opaco; el Dashboard usa el mismo banner que la Línea de trabajo */
+    .row.rn::before {
+        inset: auto !important;
+        top: 50% !important;
+        left: 50% !important;
+        width: 92px !important;
+        height: 58px !important;
+        transform: translate(-50%, -38%) !important;
+        background: var(--lgbg) no-repeat center/contain !important;
+        opacity: .34 !important
+    }
+
+    .rn-z {
+        font-size: 12px;
+        font-weight: 600;
+        opacity: .7
+    }/* v9-8-33d · logo de fondo: va DENTRO del renglón del medio, centrado en el espacio libre entre marca/modelo y la patente; si el espacio es poco se achica solo y no pasa por encima del texto; en pantallas anchas tiene más espacio y se ve más grande */
+    .row.rn::before {
+        display: none !important
+    }
+
+    .row.rn .rn-v {
+        display: flex;
+        align-items: center;
+        min-width: 0
+    }
+
+    .row.rn .rn-v .vhl {
+        flex: 0 1 auto;
+        max-width: 62%
+    }
+
+    .row.rn .rn-v::after {
+        content: '';
+        flex: 1 1 0;
+        min-width: 0;
+        align-self: stretch;
+        min-height: 48px;
+        margin: 0 4px;
+        background: var(--lgbg) no-repeat center/contain;
+        opacity: .22;
+        pointer-events: none
+    }
+
+    @media (min-width: 640px) {
+        .row.rn .rn-v::after {
+            min-height: 64px;
+            opacity: .2
+        }
+    }/* v9-8-33e · logo de fondo un poco más pequeño (sigue centrado en el espacio libre) */
+    .row.rn .rn-v::after {
+        align-self: center !important;
+        height: 42px;
+        min-height: 0 !important
+    }
+
+    @media (min-width: 640px) {
+        .row.rn .rn-v::after {
+            height: 54px;
+            min-height: 0 !important
+        }
+    }/* v9-8-33f · el logo no desaparece (ancho mínimo) y queda de tamaño intermedio */
+    .row.rn .rn-v::after {
+        min-width: 54px !important;
+        height: 56px !important;
+        flex: 1 1 54px !important
+    }
+
+    .row.rn .rn-v .vhl {
+        max-width: calc(100% - 58px) !important
+    }
+
+    @media (min-width: 640px) {
+        .row.rn .rn-v::after {
+            height: 66px !important;
+            min-width: 70px !important
+        }
+    }/* v9-8-34 · pantalla KPIs (Más) */
+    .kpx {
+        padding-bottom:90px
+    }
+
+    .ktabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding: 2px 0 8px;
+        scrollbar-width:none
+    }
+
+    .ktabs::-webkit-scrollbar {
+        display:none
+    }
+
+    .ktabs .chip {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space:nowrap
+    }
+
+    .ktabs .material-symbols-outlined {
+        font-size: 18px
+    }
+
+    .kcard {
+        border: 1.5px solid var(--line);
+        border-radius: 20px;
+        padding: 12px 12px 10px;
+        margin: 12px 0;
+        background:#fff
+    }
+
+    .kct {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom:8px
+    }
+
+    .kct .material-symbols-outlined {
+        font-size: 19px
+    }
+
+    .kpx .kpg .kp b {
+        font-size: 17px;
+        overflow-wrap: anywhere
+    }/* v9-8-35 · pestañas de KPIs fijas en 4 recuadros y selector de rango de fechas */
+    .kstk .ktabs {
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        overflow: visible !important;
+        padding: 4px 0 8px
+    }
+
+    .kstk .ktabs .chip {
+        flex-direction: column;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 8px 2px;
+        min-height: 62px;
+        border-radius: 16px;
+        font-size: 10.5px;
+        line-height: 1.12;
+        text-align: center;
+        white-space: normal;
+        min-width: 0
+    }
+
+    .kstk .ktabs .material-symbols-outlined {
+        font-size: 22px
+    }
+
+    .krg {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin:8px 0 4px
+    }
+
+    .krg label {
+        flex: 1;
+        min-width: 140px;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        gap:3px
+    }
+
+    .krg input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 9px 10px;
+        border-radius: 12px;
+        border: 1.5px solid var(--line);
+        font: inherit;
+        background: #fff
+    }/* v9-8-36 · las 3 marcas más recurrentes con su logo */
+    .k3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin:8px 0
+    }
+
+    .k3 > div {
+        position: relative;
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        padding: 12px 4px 10px;
+        text-align: center;
+        background: #fff;
+        min-width:0
+    }
+
+    .k3 .k3n {
+        position: absolute;
+        top: 6px;
+        left: 9px;
+        font-weight: 800;
+        font-size: 13px;
+        color:var(--mut)
+    }
+
+    .k3 .k3l {
+        display: flex;
+        justify-content: center;
+        margin:2px 0 6px
+    }
+
+    .k3 b {
+        display: block;
+        font-size: 14px;
+        overflow-wrap:anywhere
+    }
+
+    .k3 small {
+        display: block;
+        font-size: 11px;
+        color: var(--mut);
+        margin-top: 2px
+    }
+
+    .kcard .lgm, .kcard .lgi {
+        width: 22px;
+        height: 16px
+    }
+    </style>
+    <style id="wide936">
+    .gx {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top:6px
+    }
+
+    .gx h3 {
+        margin:6px 0 4px
+    }
+
+    .jxb {
+        margin: 12px 0;
+        padding: 10px 12px;
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        background:#fff
+    }
+
+    .jxb.hot {
+        border-color: #f59e0b;
+        background:#fffbeb
+    }
+
+    .jxb h3 {
+        margin: 0 0 6px;
+        display: flex;
+        align-items: center;
+        gap:6px
+    }
+
+    .parab .pchs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin:4px 0
+    }
+
+    .parab .chip {
+        padding: 4px 12px
+    }
+
+    .ie {
+        white-space: nowrap;
+        text-align: right;
+        line-height: 1.2;
+        font-size: 11px;
+        letter-spacing:-.1px
+    }
+
+    .ie span {
+        white-space: nowrap
+    }
+
+    .dot.listo {
+        background: #1f6feb !important;
+        border-color: #1f6feb !important;
+        animation:none !important
+    }
+
+    .dot.listo::before, .dot.listo::after {
+        display:none
+    }
+
+    .g-listo {
+        color:#1f6feb
+    }
+
+    .gb-listo {
+        border-left-color: #1f6feb;
+        --gc: #1f6feb;
+        --gbg: #eef4ff;
+        --gg: 31, 111, 235
+    }
+
+    .hiask {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        margin: 0 0 14px;
+        padding: 9px 12px;
+        border: 1.5px dashed var(--line);
+        border-radius: 16px;
+        background: #fff;
+        text-align: left;
+        font-weight: 700;
+        font-size:13px
+    }
+
+    .hiask span {
+        flex: 1;
+        min-width:0
+    }
+
+    .hiask small {
+        display: block;
+        font-weight: 400;
+        color: var(--mut);
+        font-size: 11.5px
+    }
+
+    .mib {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        padding: 10px 12px;
+        margin: 0 0 12px;
+        background:#fff
+    }
+
+    .mibt {
+        flex: 1;
+        min-width:0
+    }
+
+    .mibt b {
+        display: block;
+        font-size:16px
+    }
+
+    .mibt small {
+        color: var(--mut);
+        display:block
+    }
+
+    .mibp {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top:4px
+    }
+
+    .mibp .material-symbols-outlined {
+        font-size: 18px;
+        color:var(--mut)
+    }
+
+    .mibp input {
+        border: 0;
+        border-bottom: 1px dashed var(--line);
+        border-radius: 0;
+        padding: 2px 0;
+        flex: 1;
+        min-width: 0;
+        font-size: 14px;
+        background: none
+    }
+
+    .lgv {
+        max-width: 340px;
+        margin: 12vh auto 0;
+        text-align:center
+    }
+
+    .lgv h1 {
+        margin:0 0 14px
+    }
+
+    .lgv input {
+        width: 100%;
+        margin: 6px 0;
+        border-radius:12px
+    }
+
+    .pmt {
+        border-collapse: collapse;
+        width: 100%;
+        font-size:12px
+    }
+
+    .pmt th, .pmt td {
+        padding: 6px 4px;
+        border-bottom: 1px solid var(--line2);
+        text-align:center
+    }
+
+    .pmt td:first-child, .pmt th:first-child {
+        text-align:left
+    }
+
+    .pmt input {
+        width: 20px;
+        height: 20px
+    }/* v9-8-39 · grúa, notas múltiples, diagnóstico con título y pestaña Personal */
+
+    .gkr {
+        display: flex;
+        gap: 8px;
+        margin:10px 0 4px
+    }
+
+    .gk {
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        border: 1.5px solid var(--line);
+        border-radius: 16px;
+        background: #fff;
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 13px;
+        text-align: left;
+        cursor:pointer
+    }
+
+    .gk .gki {
+        width: 30px;
+        height: 30px;
+        flex:none
+    }
+
+    .gk .gkt {
+        flex: 1;
+        min-width: 0;
+        line-height:1.15
+    }
+
+    .gk .gkc {
+        width: 22px;
+        height: 22px;
+        flex: none;
+        border: 2px solid var(--line);
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-style:normal
+    }
+
+    .gk .gkc .material-symbols-outlined {
+        font-size: 17px;
+        opacity:0
+    }
+
+    .gk.on {
+        border-color: var(--ink);
+        background:#f4f4f4
+    }
+
+    .gk.on .gkc {
+        background: var(--ink);
+        border-color:var(--ink)
+    }
+
+    .gk.on .gkc .material-symbols-outlined {
+        opacity:1
+    }
+
+    .gkr.two .gk {
+        padding:8px
+    }
+
+    .gkr.two .gk .gki {
+        width: 26px;
+        height:26px
+    }
+
+    .gk.cob {
+        animation:gkin .22s ease
+    }
+
+    @keyframes gkin {
+        from {
+            opacity: 0;
+            transform:translateX(12px)
+        }
+
+        to {
+            opacity: 1;
+            transform: none
+        }
+    }
+
+    .fnt {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, .035);
+        border-radius: 12px;
+        padding: 7px 10px;
+        margin: 0 0 6px;
+        font-size: 13px;
+        line-height: 1.35;
+        overflow-wrap:anywhere
+    }
+
+    .fnt b {
+        display:block
+    }
+
+    .fnt button {
+        border: 0;
+        background: none;
+        padding: 0 2px;
+        flex: none;
+        color:var(--mut)
+    }
+
+    .fadd {
+        display: flex;
+        gap: 6px;
+        align-items:flex-start
+    }
+
+    .fadd textarea {
+        flex: 1;
+        min-width:0
+    }
+
+    .fadd > button {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid var(--line);
+        background: #fff;
+        color:var(--ink)
+    }
+
+    .fdg input, .dga input {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom:6px
+    }
+
+    .dgti {
+        font-weight: 800;
+        font-size: 13px;
+        margin: 0 0 4px
+    }
+
+    .pcd {
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        margin: 8px 0;
+        background: #fff;
+        overflow:hidden
+    }
+
+    .pch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 12px;
+        border: 0;
+        background: none;
+        text-align: left;
+        color:var(--ink)
+    }
+
+    .pav {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        flex:none
+    }
+
+    .pch .pn {
+        flex: 1;
+        min-width:0
+    }
+
+    .pch .pn b {
+        display: block;
+        font-size:15px
+    }
+
+    .pch .pn small {
+        color: var(--mut);
+        font-size:11.5px
+    }
+
+    .pcd.open .pch .chev {
+        transform:rotate(180deg)
+    }
+
+    .pcb {
+        padding: 2px 12px 12px;
+        border-top:1px solid var(--line2)
+    }
+
+    .pco {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 0;
+        border-bottom: 1px dashed var(--line2);
+        font-size:12.5px
+    }
+
+    .pco:last-child {
+        border:0
+    }
+
+    .pco .pcs {
+        margin-left: auto;
+        text-align: right;
+        color: var(--mut);
+        white-space: nowrap
+    }
+
+    #app:has(.kstk) {
+        padding-top:0 !important
+    }
+
+    .kstk {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: #fff;
+        margin: 0 0 8px;
+        padding: max(16px, env(safe-area-inset-top, 0px)) 0 4px;
+        border-bottom: 1px solid var(--line2);
+        box-shadow:0 -3px 0 #fff
+    }
+
+    .kstk .top {
+        margin-bottom:6px
+    }
+
+    .kstk .kpf {
+        margin: 0
+    }
+
+    .tvs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        margin-top:4px
+    }
+
+    .tv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 8px 2px 6px;
+        border: 1.5px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 600;
+        min-width:0
+    }
+
+    .tv svg {
+        width: 36px;
+        height:36px
+    }
+
+    .tv.on {
+        border-color: var(--ink);
+        background: var(--ink);
+        color:#fff
+    }
+
+    .tv:disabled {
+        opacity: .5
+    }
+
+    .card.open .dtop {
+        min-height:98px
+    }
+
+    .card.open .dtop .kb {
+        position: absolute;
+        right: 15px;
+        top: 58px;
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        padding: 0;
+        border: 1.25px solid var(--line);
+        border-radius: 50%;
+        background: #fff;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: .55;
+        z-index:3
+    }
+
+    .card.open .dtop .kb.set {
+        opacity: 1;
+        background: var(--ink);
+        border-color: var(--ink);
+        color:#fff
+    }
+
+    .kb .material-symbols-outlined {
+        font-size: 17px
+    }
+
+    .mtop > .mzb {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        padding: 0 0 6px;
+        background: #fff;
+        position: relative;
+        z-index:6
+    }
+
+    .mtop > .mzb .mrst {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff;
+        border: 1.25px solid var(--line);
+        box-shadow:none
+    }
+
+    .mtop > .mzb .mrst .material-symbols-outlined {
+        font-size:20px
+    }
+
+    .mtop > .mzb .mrst:active {
+        transform: scale(.92)
+    }/* v9-8-36 · pantallas anchas (computador y tablet) */
+
+    @media (min-width: 900px) {
+        :root {
+            --colw:880px
+        }
+
+        #nav {
+            max-width:calc(var(--colw) + 24px)
+        }
+
+        .dsec:has( > .item) {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 12px 16px;
+            align-items:start
+        }
+
+        .dsec > h2, .dsec > .mut {
+            grid-column:1/-1
+        }
+
+        .dsec > .item {
+            margin:0
+        }
+
+        .kpg {
+            grid-template-columns:repeat(3, minmax(0, 1fr))
+        }
+
+        .k3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+    }
+
+    @media (min-width: 1280px) {
+        :root {
+            --colw:1120px
+        }
+
+        .dg {
+            font-size: 38px
+        }
+    }
+
+    @media (min-width: 1700px) {
+        :root {
+            --colw: 1360px
+        }
     }
     </style>
 </head>
@@ -12351,6 +13416,11 @@
     <div id="fbst" role="status"></div>
     <script type="module">
     /* ============ 1. CONFIGURACIÓN (pega aquí tu config de Firebase) ============ */
+    /* v9-8-40 · INICIO DE SESIÓN: déjalo en false hasta crear los usuarios en Firebase y publicar las reglas (ver firestore.rules). Con false la app funciona como antes. */
+    const AUTH_ON = true;
+    let FA = null;
+    const DEV_USUARIO = 'cristian',
+        DEV_NOMBRE = 'Cristian Alvarado'; // usuario del programador: esa cuenta entra siempre como Programador (créala primero en Firebase Authentication con el correo cristian@lubhub.app)
     const FIREBASE_CONFIG = {
         apiKey: "AIzaSyCadeH_Dw_WXxxXY3TgHssfTSDJ5uxzwMY",
         authDomain: "lubhub-bdae3.firebaseapp.com",
@@ -12418,6 +13488,7 @@
         reparacion: 'En reparación',
         pausa: 'En pausa',
         espera: 'En espera',
+        listo: 'Listos para entregar',
         completado: 'Completado'
     };
     /* v9-6 · pausa por «Cambio de estación» = EN ESPERA: sigue pausada (el reloj no corre) pero no se muestra como pausa roja ni como atrasada; el tiempo se cuenta solo desde que se inicia */
@@ -12430,7 +13501,7 @@
        j.ruta = lista ordenada de sub-zonas por las que pasa el vehículo; j.paso = estación actual (0 = la primera). */
     const isRep = j => j.modo == 'reparacion',
         sc = j => j.estado == 'proceso' && j.modo == 'reparacion' ? 'reparacion' : esp(j) ? 'espera' : j.estado,
-        stf = (j, e) => e == 'reparacion' ? sc(j) == 'reparacion' : e == 'proceso' ? (j.estado == 'proceso' && j.modo != 'reparacion') : e == 'cola' ? (j.estado == 'cola' || esp(j)) : e == 'pausa' ? (j.estado == 'pausa' && !esp(j)) : j.estado == e,
+        stf = (j, e) => e == 'listo' ? isListo(j) : (isListo(j) && e != 'completado') ? false : e == 'reparacion' ? sc(j) == 'reparacion' : e == 'proceso' ? (j.estado == 'proceso' && j.modo != 'reparacion') : e == 'cola' ? (j.estado == 'cola' || esp(j)) : e == 'pausa' ? (j.estado == 'pausa' && !esp(j)) : j.estado == e,
         fdur = s => {
             const t = Math.max(0, Math.round(s / 60)),
                 d = Math.floor(t / 1440),
@@ -12935,6 +14006,19 @@
                 R[k] = null
         }, ms)
     }; // marca temporal para animar el elemento que acaba de cambiar
+    const isListo = j => !!j.listo && j.estado != 'completado'; // v9-8-38: vehículo listo para entregar (aún no entregado)
+    const fEst = j => {
+        const o = j.opciones || {},
+            e = o.entregaISO,
+            t = e ? Date.parse(e) : NaN;
+        if (isNaN(t))
+            return '';
+        return hoy(e) ? (o.entSH ? 'hoy' : hm(e)) : dmf(e) + (o.entSH ? '' : ' ' + hm(e))
+    };
+    const ingEst = j => {
+        const e = fEst(j);
+        return `<div class="sm ie"><span>+<b>${ingT(j.tiempos.ingresoISO)}</b></span>${e ? `<span> / Est. <b>${e}</b></span>` : ''}</div>`
+    };
     const rdy = j => j.estado != 'completado' && j.servicios.length > 0 && j.servicios.every(s => s.hecho); // todos los servicios hechos → falta completar
     const dur = m => m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + m % 60 + ' min',
         wait = iso => Date.parse(iso) > Date.now() + 60000 ? 'Programada ' + ingT(iso) : 'Espera ' + dur(Math.max(0, Math.floor((Date.now() - Date.parse(iso)) / 60000)));
@@ -13162,10 +14246,7 @@
     /* v0.18 · DASHBOARD (pantalla principal) y barra inferior */
     const DIA = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'],
         MES = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
-    const greetH = () => {
-        const [a, b] = greet().split(' ');
-        return a + '<br>' + b
-    };
+    const greetH = () => greet();
     const greet = () => {
         const h = new Date().getHours();
         return h >= 5 && h < 12 ? 'buenos días' : h >= 12 && h < 20 ? 'buenas tardes' : 'buenas noches'
@@ -13183,17 +14264,17 @@
         const A = S.jobs.filter(j => j.estado != 'completado'),
             c = cnt(A),
             done = S.jobs.filter(j => j.estado == 'completado' && hoy(j.tiempos.completadoISO)).length,
-            P = A.filter(j => j.estado == 'proceso').sort((a, b) => cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)),
+            PL = A.filter(isListo).sort((a, b) => cmpS(b.listoISO || '', a.listoISO || '')),
+            P = A.filter(j => j.estado == 'proceso' && !isListo(j)).sort((a, b) => cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)),
             Zs = ZA().filter(z => zjobs(z.id).length),
             gl = (e, n, i) => `<div class="gl ${!n ? 'z0' : ''}" role="button" tabindex="0" data-a="dflt" data-e="${e}" title="${e == 'completado' ? 'Completadas hoy' : ESTADO[e]}"><b>${n}</b><i class="dot ${e}"></i>${ic(i, 'g-' + e)}</div>`,
-            prow = j => `<div class="item"><div class="card"><div class="row prw"${lgBg(j)} data-a="dpop" data-id="${j.id}"><div class="po"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><i class="dot ${sc(j)}"></i></div><div class="mid"><div class="pz">${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm pzz">${esc(zn(zof(j))?.nombre || '—')}</div>${vehLine(j)}<div class="sv">${esc(j.titulo || sv(j))}</div></div><div class="rc">${plate(j.vehiculo.patente, 's')}<div class="sm">In: <b>${ingT(j.tiempos.ingresoISO)}</b></div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}</div></div></div>${side(j)}</div>`;
-        return `<div class="dh"><h1 class="dg">Hola, <span data-greet data-g="${greet()}">${greetH()}</span>.</h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>
-         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
+            prow = j => `<div class="item"><div class="card"><div class="row rn"${lgBg(j)} data-a="dpop" data-id="${j.id}"><div class="rn1"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span class="rn-st">${esc(nm(S.cfg.plataformas, j.plataformaId))}<small class="rn-z"> · ${esc(zn(zof(j))?.nombre || '—')}</small></span><i class="dot ${sc(j)}"></i></div><div class="rn2"><div class="rn-v">${vehLine(j)}</div><div class="rc"><div class="rfw">${plate(j.vehiculo.patente, 's')}</div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}${ingEst(j)}</div></div><div class="sv">${esc(j.titulo || sv(j))}</div></div></div>${side(j)}</div>`;
+        return `<div class="dh"><h1 class="dg">Hola${hiName() ? ' ' + hiName() : ''},<br><span data-greet data-g="${greet()}">${greetH()}</span></h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>${hiAsk()}
+         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion || c.listo ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${c.listo ? gl('listo', c.listo, 'inventory_2') : ''}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          ${fb && !DM() && !S.jobs.length ? `<div class="empty">Aún no hay órdenes reales en la base.<br><button data-a="modo" style="margin-top:8px">${ic('science')} Usar datos DEMO</button></div>` : ''}
-         <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>${remSec()}
+         <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>${PL.length ? `<div class="dsec"><h2>Vehículos para entregar</h2>${PL.map(prow).join('')}</div>` : ''}${remSec()}
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
-         <div class="dsec"><h2>Flujo y rendimiento</h2>${kpi(null, 1)}</div>${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
-         <div class="dsec"><h2>Trabajos más solicitados</h2>${kpiTop()}</div>
+         ${can('kpis') ? `<div class="dsec"><h2>KPIs</h2>${dashKpi()}</div>` : ''}${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="sm" style="text-align:center;margin-top:18px">v0.21</div>`
     }
     function navbar() {
@@ -13205,6 +14286,7 @@
                 rhist: 'home',
                 cal: 'mas',
                 rec: 'mas',
+                kpis: 'mas',
                 not: 'mas',
                 nset: 'mas',
                 cfg: MODO == 'mec' ? 'cfg' : 'mas'
@@ -13283,34 +14365,79 @@
         stepNm = id => isMecStep(id) ? nm(S.cfg.mecanicos, String(id).slice(2)) : nm(S.cfg.plataformas, id),
         stepLbl = id => (isMecStep(id) ? ic('engineering') + ' ' : '') + esc(stepNm(id)),
         colH = (k, d) => S.col[k] === undefined ? d : S.col[k];
-    const autor = () => localStorage.lubri_autor || 'sin_asignar';
+    const autor = () => {
+        if (AUTH_ON && S.me && S.me.personaId) {
+            const p = [...(S.cfg.recepcion || []), ...(S.cfg.mecanicos || [])].find(x => x.id == S.me.personaId);
+            if (p && p.nombre)
+                return p.nombre
+        }
+        return localStorage.lubri_autor || 'sin_asignar'
+    };
     const personas = () => [...S.cfg.recepcion, ...S.cfg.mecanicos].filter(x => x.activo); // quienes pueden ingresar órdenes
     /* v9-8-21 · DESTINATARIO de recordatorios y citas: para = 'todos' (o vacío) | id de la persona. Cada equipo se identifica por la persona asignada en Configuración (lubri_autor). */
     const meId = () => {
         const p = personas().find(x => x.nombre == autor());
         return p ? p.id : ''
     };
+    const paraL = p => !p || p == 'todos' ? [] : String(p).split(',').filter(Boolean); // v9-8-39: para = 'todos' o ids separados por coma (varias personas)
     const paraOk = x => {
-        const p = x && x.para;
-        return !p || p == 'todos' || p == meId()
+        const L = paraL(x && x.para);
+        return !L.length || L.includes(meId())
     };
     const paraNom = id => {
         const p = [...S.cfg.recepcion, ...S.cfg.mecanicos].find(x => x.id == id);
         return p ? p.nombre : ''
     };
     const paraTag = x => {
-        const p = x && x.para;
-        if (!p || p == 'todos')
+        const L = paraL(x && x.para);
+        if (!L.length)
             return '';
-        return `<span class="rtag para">${p == meId() ? 'Solo para ti' : 'Para: ' + esc(paraNom(p) || 'otra persona')}</span>`
+        const me = meId();
+        return `<span class="rtag para">${L.length == 1 && L[0] == me ? 'Solo para ti' : 'Para: ' + esc(L.map(i => i == me ? 'tú' : paraNom(i) || 'otra persona').join(', '))}</span>`
     };
     const paraSel = (id, val, ch) => {
         const me = meId(),
             P = personas(),
             v = val || 'todos',
-            ex = v != 'todos' && !P.some(p => p.id == v) ? paraNom(v) : '';
-        return `<div class="parab"><label for="${id}">${ic('notifications_active')} Recordar a</label><select id="${id}"${ch ? ` data-ch="${ch}"` : ''}><option value="todos"${v == 'todos' ? ' selected' : ''}>Todos</option>${me ? `<option value="${esc(me)}"${v == me ? ' selected' : ''}>Solo a mí</option>` : '<option value="" disabled>Solo a mí (elige tu nombre en Configuración)</option>'}${P.filter(p => p.id != me).map(p => `<option value="${esc(p.id)}"${v == p.id ? ' selected' : ''}>${esc(p.nombre)}</option>`).join('')}${ex ? `<option value="${esc(v)}" selected>${esc(ex)}</option>` : ''}</select></div>`
+            S0 = new Set(paraL(v)),
+            ids = new Set(P.map(p => p.id)),
+            ex = [...S0].filter(i => !ids.has(i)).map(i => ({
+                id: i,
+                nombre: paraNom(i) || 'otra persona'
+            })),
+            all = [...(me ? P.filter(p => p.id == me) : []), ...P.filter(p => p.id != me), ...ex],
+            cv = v == 'todos' || !S0.size ? 'todos' : [...S0].join(',');
+        return `<div class="parab" data-me="${esc(me)}"><div class="sm" style="font-weight:700">${ic('notifications_active')} Recordar a</div><input type="hidden" id="${id}"${ch ? ` data-ch="${ch}"` : ''} value="${esc(cv)}"><div class="chips pchs"><button type="button" class="chip pch${cv == 'todos' ? ' sel' : ''}" data-k="todos">Todos</button>${me ? `<button type="button" class="chip pch${cv == me ? ' sel' : ''}" data-k="yo">Solo a mí</button>` : `<button type="button" class="chip pch" disabled title="Elige tu nombre en Configuración">Solo a mí</button>`}</div><div class="sm" style="margin:4px 0 2px">o elige a quién (puedes marcar varias personas):</div><div class="chips pchs">${all.map(p => `<button type="button" class="chip pch${S0.has(p.id) ? ' sel' : ''}" data-k="p" data-id="${esc(p.id)}">${esc(p.nombre)}${p.id == me ? ' (yo)' : ''}</button>`).join('')}</div></div>`
     };
+    document.addEventListener('click', e => {
+        const b = e.target.closest && e.target.closest('.parab .pch');
+        if (!b || b.disabled)
+            return;
+        const w = b.closest('.parab'),
+            inp = w.querySelector('input[type=hidden]'),
+            me = w.dataset.me;
+        let st = new Set(inp.value == 'todos' || !inp.value ? [] : inp.value.split(',')),
+            k = b.dataset.k;
+        if (k == 'todos')
+            st = new Set();
+        else if (k == 'yo')
+            st = new Set([me]);
+        else {
+            if (st.has(b.dataset.id))
+                st.delete(b.dataset.id);
+            else
+                st.add(b.dataset.id)
+        }
+        inp.value = st.size ? [...st].join(',') : 'todos';
+        const v = inp.value;
+        w.querySelectorAll('.pch').forEach(x => {
+            const kk = x.dataset.k;
+            x.classList.toggle('sel', kk == 'todos' ? v == 'todos' : kk == 'yo' ? v == me : st.has(x.dataset.id))
+        });
+        inp.dispatchEvent(new Event('change', {
+            bubbles: true
+        }))
+    });
 
     /* ============ MAPA DE PROCESOS · ZONAS Y SUB-ZONAS ============ */
     // El plano usa coordenadas 0-100 (ancho) x 0-84 (alto). Cada zona es un rectángulo; sus sub-zonas son las plataformas con zonaId.
@@ -13427,6 +14554,7 @@
             reparacion: L.filter(j => stf(j, 'reparacion')).length,
             cola: L.filter(j => stf(j, 'cola')).length,
             pausa: L.filter(j => stf(j, 'pausa')).length,
+            listo: L.filter(j => stf(j, 'listo')).length,
             total: L.length,
             late: L.some(j => j.estado == 'proceso' && estado(j)[1] == 'atraso')
         }),
@@ -13435,7 +14563,7 @@
         clamp = (v, a, b) => Math.max(a, Math.min(b, v)),
         zl = j => `<div class="sm zl">${j.estado == 'cola' && j.zesp ? '<span class="zq">Zona de espera</span> · revisión previa · ' : ''}${esc(zn(zof(j))?.nombre || '—')} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}${rutaNext(j) ? ' · luego ' + esc(rutaNext(j)) : ''}</div>`,
         pill = (e, n, l) => `<div class="${!n ? 'z0' : ''}"><i class="dot ${e}"></i><span><b>${n}</b><small>${l}</small></span></div>`,
-        sumM = c => `<div class="sum">${[['proceso', 'En proceso'], ...(c.reparacion ? [['reparacion', 'En reparación']] : []), ['cola', 'En cola'], ['pausa', 'En pausa']].map(([e, l]) => `<div role="button" tabindex="0" class="${S.mf == e ? 'on' : ''} ${!c[e] ? 'z0' : ''}" data-a="mflt" data-e="${e}"><i class="dot ${e}"></i><span><b>${c[e]}</b><small>${l}</small></span></div>`).join('')}</div>`,
+        sumM = c => `<div class="sum">${[['proceso', 'En proceso'], ...(c.reparacion ? [['reparacion', 'En reparación']] : []), ['cola', 'En cola'], ['pausa', 'En pausa'], ...(c.listo ? [['listo', 'Listos para entregar']] : [])].map(([e, l]) => `<div role="button" tabindex="0" class="${S.mf == e ? 'on' : ''} ${!c[e] ? 'z0' : ''}" data-a="mflt" data-e="${e}"><i class="dot ${e}"></i><span><b>${c[e]}</b><small>${l}</small></span></div>`).join('')}</div>`,
         sum3 = c => `<div class="sum">${pill('proceso', c.proceso, 'En proceso')}${c.reparacion ? pill('reparacion', c.reparacion, 'En reparación') : ''}${pill('cola', c.cola, 'En cola')}${pill('pausa', c.pausa, 'En pausa')}</div>`;
     const zbang = (cx, cy, r) => {
             const rb = Math.max(1.25, r * .55),
@@ -15121,7 +16249,7 @@
     } // v0.36: las calles parpadean al reiniciar el mapa
     function vMapa() {
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Mapa de procesos</h1></div>
-         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mapw${mzG().k > 1.001 ? ' zm' : ''}" data-a="zpop" data-z=""><div class="mzb"><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button><button class="mrst" data-a="mzoom" data-d="0" title="Volver al tamaño original" aria-label="Volver al tamaño original">${ic('fit_screen')}</button><button class="mrst" data-a="mzoom" data-d="1" title="Acercar" aria-label="Acercar">${ic('add')}</button><button class="mrst" data-a="mzoom" data-d="-1" title="Alejar" aria-label="Alejar">${ic('remove')}</button></div><div class="mapz" style="${mzSt()}">${mapaSvg()}${vpop() || jpop() || zpop()}</div></div><div class="msw">${msrch()}</div></div></div>
+         <div class="mslot" id="mslot"><div class="mtop" id="mtop"><div class="mzb"><button class="mrst" data-a="mreset" title="Reiniciar mapa" aria-label="Reiniciar mapa">${ic('restart_alt')}</button><button class="mrst" data-a="mzoom" data-d="0" title="Volver al tamaño original" aria-label="Volver al tamaño original">${ic('fit_screen')}</button><button class="mrst" data-a="mzoom" data-d="1" title="Acercar" aria-label="Acercar">${ic('add')}</button><button class="mrst" data-a="mzoom" data-d="-1" title="Alejar" aria-label="Alejar">${ic('remove')}</button><button class="mrst mhk" data-a="hkm" title="${hkOn() ? 'Silenciar bocinas' : 'Activar bocinas'}" aria-label="${hkOn() ? 'Silenciar bocinas' : 'Activar bocinas'}">${ic(hkOn() ? 'volume_up' : 'volume_off')}</button></div><div class="mapw${mzG().k > 1.001 ? ' zm' : ''}" data-a="zpop" data-z=""><div class="mapz" style="${mzSt()}">${mapaSvg()}${vpop() || jpop() || zpop()}</div></div><div class="msw">${msrch()}</div></div></div>
          <h3 class="ctr">Resumen de trabajos totales <span class="mut" style="font-weight:400">· toca para ver en el mapa</span></h3>${sumM(cnt(S.jobs.filter(j => j.estado != 'completado')))}
          ${leg()}${(() => {const o = S.open && get(S.open);return o ? card(o) : ''})()}
          <div class="sum g2" style="margin-top:14px"><div role="button" tabindex="0" data-a="go" data-v="comp">${ic('history')}<span><small>Revisar<br>históricos</small></span></div><div role="button" tabindex="0" data-a="kpi">${ic('query_stats')}<span><small>Revisar<br>KPI</small></span></div></div>
@@ -15197,18 +16325,42 @@
          <div class="zpad"><span class="sm" style="flex:1">${S.cfg.plataformas.filter(p => p.zonaId == s.id).length} sub-zonas</span>${st(s.activo === false ? 'visibility_off' : 'visibility', 'Mostrar u ocultar en el mapa', 'zact', '')}${st('delete', 'Eliminar zona', 'zdel', '')}</div></div>
          <div class="add"><input id="zn_new" placeholder="Nueva zona"><button data-a="zadd" title="Agregar zona">${ic('add')}</button></div><div class="btns" style="margin-top:12px"><button data-a="cerrar">Listo</button></div></div></div>`
     }
+    /* v9-8-35 · periodo con RANGO de fechas (S.kd1 / S.kd2) compartido por todos los KPI */
+    const kInP = (P, iso) => {
+        if (!iso)
+            return false;
+        if (P == 'todo')
+            return true;
+        if (P == 'hoy')
+            return hoy(iso);
+        const t = Date.parse(iso);
+        if (P == 'rango') {
+            const a = S.kd1 ? new Date(S.kd1 + 'T00:00:00').getTime() : -Infinity,
+                b = S.kd2 ? new Date(S.kd2 + 'T23:59:59').getTime() : Infinity;
+            return t >= a && t <= b
+        }
+        return t >= Date.now() - ({
+            '7': 7,
+            '30': 30
+        }[P] || 30) * 864e5
+    };
+    const kSpanR = () => {
+        const a = S.kd1 ? new Date(S.kd1 + 'T00:00:00').getTime() : Date.now() - 864e5,
+            b = S.kd2 ? Math.min(Date.now(), new Date(S.kd2 + 'T23:59:59').getTime()) : Date.now();
+        return Math.max(1, Math.ceil((b - a) / 864e5))
+    };
     function kpiRaw(zid) {
         // KPI del taller completo (una fila por zona) o de una zona (una fila por plataforma); con periodo, anillo de puntualidad y servicios más hechos
         const all = !zid,
             z = all ? null : zn(zid),
             ps = S.cfg.plataformas.filter(p => all || p.zonaId == z.id),
             ids = ps.map(p => p.id),
-            P = S.kpp || 'todo',
+            P = window.KSH ? (S.tpp || '30') : (S.kpp || 'todo'),
             dias = {
                 '7': 7,
                 '30': 30
             },
-            inP = j => P == 'todo' || (P == 'hoy' ? hoy(j.tiempos.completadoISO) : Date.parse(j.tiempos.completadoISO) >= Date.now() - dias[P] * 864e5),
+            inP = j => kInP(P, j.tiempos.completadoISO),
             C = S.jobs.filter(j => j.estado == 'completado' && ids.includes(j.plataformaId) && inP(j)),
             act = S.jobs.filter(j => j.estado != 'completado' && ids.includes(j.plataformaId)),
             n = C.length,
@@ -15233,7 +16385,7 @@
         const top = Object.entries(sv).sort((a, b) => b[1] - a[1]).slice(0, 3),
             mx = top.length ? top[0][1] : 1,
             per = [['hoy', 'Hoy'], ['7', '7 días'], ['30', '30 días'], ['todo', 'Todo']];
-        const inT = iso => P == 'todo' || (P == 'hoy' ? hoy(iso) : Date.parse(iso) >= Date.now() - dias[P] * 864e5),
+        const inT = iso => kInP(P, iso),
             JJ = S.jobs.filter(j => ids.includes(j.plataformaId)),
             evs = t => JJ.flatMap(j => (j.eventos || []).filter(e => e.tipo == t && inT(e.fechaISO))),
             ing = JJ.filter(j => inT(j.tiempos.ingresoISO)),
@@ -15245,7 +16397,7 @@
             }).filter(x => x != null && x >= 0),
             wavg = wl.length ? Math.round(wl.reduce((a, b) => a + b, 0) / wl.length) : null,
             urg = ing.filter(j => j.prioridad == 'urgente').length,
-            spanD = P == 'hoy' ? 1 : P == 'todo' ? Math.max(1, Math.ceil((Date.now() - Math.min(Date.now(), ...C.map(j => Date.parse(j.tiempos.completadoISO)))) / 864e5)) : dias[P],
+            spanD = P == 'hoy' ? 1 : P == 'todo' ? Math.max(1, Math.ceil((Date.now() - Math.min(Date.now(), ...C.map(j => Date.parse(j.tiempos.completadoISO)))) / 864e5)) : P == 'rango' ? kSpanR() : dias[P],
             pm = {},
             mec = {};
         pau.forEach(e => {
@@ -15261,29 +16413,30 @@
             pmx = pmT.length ? pmT[0][1] : 1,
             mecR = Object.entries(mec).sort((a, b) => b[1].length - a[1].length);
         return `<div class="bd" data-a="cerrar"><div class="box kpb"><div class="kph">${ic('query_stats')}<div><b style="font-size:18px">KPI · ${all ? 'Taller completo' : esc(z.nombre)}</b><div class="sm">Órdenes completadas${all ? ' en todo el taller' : ' en esta zona'}</div></div></div>
-         <div class="chips kpf">${per.map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="kpp" data-p="${k}">${t}</button>`).join('')}</div>
+         ${window.KSH ? '' : `<div class="chips kpf">${per.map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="kpp" data-p="${k}">${t}</button>`).join('')}</div>`}
          <div class="kpm"><svg viewBox="0 0 64 64" class="kpr" role="img" aria-label="Puntualidad"><circle cx="32" cy="32" r="${R0}" fill="none" stroke="#ececec" stroke-width="7"/><circle class="rg" cx="32" cy="32" r="${R0}" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${CI.toFixed(1)}" style="stroke-dashoffset:${off.toFixed(1)}" transform="rotate(-90 32 32)"/><text x="32" y="32" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="700" fill="#111">${pct == null ? '—' : pct + '%'}</text></svg>
          <div class="kpt"><b>Puntualidad</b><span class="sm">${n ? `${okF(C)} de ${n} órdenes terminaron dentro del estimado` : 'Aún no hay órdenes completadas en este periodo'}</span>
          <div class="kpc"><span class="${act.some(j => j.estado == 'proceso') ? '' : 'z0'}"><i class="dot proceso"></i>${act.filter(j => j.estado == 'proceso').length}</span><span class="${act.some(j => j.estado == 'cola') ? '' : 'z0'}"><i class="dot cola"></i>${act.filter(j => stf(j, 'cola')).length}</span><span class="${act.some(j => stf(j, 'pausa')) ? '' : 'z0'}"><i class="dot pausa"></i>${act.filter(j => stf(j, 'pausa')).length}</span>${late ? `<span class="kpl">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}<span class="sm">ahora</span></div></div></div>
          <div class="kpg">${tile('task_alt', n, 'Completadas')}${tile('today', S.jobs.filter(j => j.estado == 'completado' && ids.includes(j.plataformaId) && hoy(j.tiempos.completadoISO)).length, 'Hoy')}${tile('timer', n ? av(C, j => j.tiempos.realSeg) + ' min' : '—', 'Real promedio')}${tile('schedule', n ? av(C, j => j.tiempos.estSeg) + ' min' : '—', 'Estimado prom.')}${tile(dv > 0 ? 'trending_up' : 'trending_down', n ? sg(dv) : '—', 'Desviación', !n ? '' : dv > 0 ? 'bad' : 'good')}${tile('percent', n && av(C, j => j.tiempos.estSeg) ? Math.round(av(C, j => j.tiempos.realSeg) / av(C, j => j.tiempos.estSeg) * 100) + '%' : '—', 'Real vs estimado')}${tile('login', ing.length, 'Ingresadas')}${tile('speed', n ? (n / spanD).toFixed(1).replace('.', ',') : '—', 'Completadas por día')}${tile('hourglass_top', wavg == null ? '—' : wavg + ' min', 'Espera en cola')}${tile('pause_circle', pau.length, 'Pausas')}${tile('replay', rea.length, 'Reaperturas', rea.length ? 'bad' : '')}${tile('priority_high', urg, 'Urgentes')}</div>
          ${rows.length ? `<div class="sec">${ic(all ? 'location_on' : 'garage')} ${all ? 'Por zona' : 'Por sub-zona'}</div>${rows.map(([nb, L]) => {const q = pc(L),d = L.length ? av(L, j => j.tiempos.desvSeg) : 0;return `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${L.length} compl.${L.length ? ` · <b class="${d > 0 ? 'kb' : 'kg'}">${sg(d)}</b>` : ''}</span></div><div class="bar2"><i style="width:${q == null ? 0 : q}%;background:${q == null ? '#ddd' : q >= 80 ? 'var(--completado)' : q >= 60 ? 'var(--cola)' : 'var(--pausa)'}"></i></div><div class="sm">${q == null ? 'Sin datos' : q + '% a tiempo'}</div></div>`}).join('')}` : ''}
          ${top.length ? `<div class="sec">${ic('build')} Servicios más hechos</div>${top.map(([nb, k]) => `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${k}</span></div><div class="bar2"><i style="width:${Math.round(k / mx * 100)}%;background:var(--ink)"></i></div></div>`).join('')}` : ''}
-         ${mecR.length ? `<div class="sec">${ic('engineering')} Por mecánico</div>${mecR.map(([nb, L]) => {const q = pc(L),d = av(L, j => j.tiempos.desvSeg);return `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${L.length} compl. · <b class="${d > 0 ? 'kb' : 'kg'}">${sg(d)}</b></span></div><div class="bar2"><i style="width:${q}%;background:${q >= 80 ? 'var(--completado)' : q >= 60 ? 'var(--cola)' : 'var(--pausa)'}"></i></div><div class="sm">${q}% a tiempo · real prom. ${av(L, j => j.tiempos.realSeg)} min</div></div>`}).join('')}` : ''}
+         ${mecR.length && !window.KSH ? `<div class="sec">${ic('engineering')} Por mecánico</div>${mecR.map(([nb, L]) => {const q = pc(L),d = av(L, j => j.tiempos.desvSeg);return `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${L.length} compl. · <b class="${d > 0 ? 'kb' : 'kg'}">${sg(d)}</b></span></div><div class="bar2"><i style="width:${q}%;background:${q >= 80 ? 'var(--completado)' : q >= 60 ? 'var(--cola)' : 'var(--pausa)'}"></i></div><div class="sm">${q}% a tiempo · real prom. ${av(L, j => j.tiempos.realSeg)} min</div></div>`}).join('')}` : ''}
          ${pmT.length ? `<div class="sec">${ic('pause_circle')} Motivos de pausa</div>${pmT.map(([nb, k]) => `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut">${k}</span></div><div class="bar2"><i style="width:${Math.round(k / pmx * 100)}%;background:var(--pausa)"></i></div></div>`).join('')}` : ''}
          <div class="btns" style="margin-top:18px"><button data-a="cerrar">Cerrar</button></div></div></div>`
     }
 
     /* v0.19 · KPI de trabajos más solicitados: tipo (grupo) y servicio, cantidad de órdenes y recurrencia ("1 cada X"); más vehículos que vuelven */
     function kpiTop() {
-        const P = S.tpp || '30',
+        const P0 = S.tpp || '30',
+            P = (P0 == 'rango' && !window.KSH) ? '30' : P0,
             dias = {
                 '7': 7,
                 '30': 30
             },
             t0 = new Date().setHours(0, 0, 0, 0),
-            inT = iso => P == 'todo' || (P == 'hoy' ? hoy(iso) : Date.parse(iso) >= Date.now() - dias[P] * 864e5),
+            inT = iso => kInP(P, iso),
             J = S.jobs.filter(j => inT(j.tiempos.ingresoISO)),
-            span = P == 'hoy' ? Math.max(1 / 24, (Date.now() - t0) / 864e5) : P == 'todo' ? Math.max(1, (Date.now() - Math.min(Date.now(), ...S.jobs.map(j => Date.parse(j.tiempos.ingresoISO)))) / 864e5) : dias[P],
+            span = P == 'hoy' ? Math.max(1 / 24, (Date.now() - t0) / 864e5) : P == 'todo' ? Math.max(1, (Date.now() - Math.min(Date.now(), ...S.jobs.map(j => Date.parse(j.tiempos.ingresoISO)))) / 864e5) : P == 'rango' ? kSpanR() : dias[P],
             ev = n => {
                 const d = span / n;
                 return d >= 1 ? '1 cada ' + (Math.round(d * 10) / 10).toString().replace('.', ',') + ' días' : '1 cada ' + Math.max(1, Math.round(d * 24)) + ' h'
@@ -15294,16 +16447,16 @@
                 return Object.entries(m).sort((a, b) => b[1] - a[1])
             },
             row = ([nb, k], mx) => `<div class="kr"><div class="t"><span>${esc(nb)}</span><span class="mut"><b>${k}</b> ${k == 1 ? 'orden' : 'órdenes'} · ${Math.round(k / J.length * 100)}%</span></div><div class="bar2"><i style="width:${Math.round(k / mx * 100)}%;background:var(--ink)"></i></div><div class="sm">${ic('autorenew')} Recurrencia: ${ev(k)}</div></div>`,
-            G = by(s => s.grupo || 'Otros'),
-            V = by(s => s.nombre).slice(0, 8),
+            G = by(s => s.grupo || 'Otros').slice(0, window.KDASH ? 4 : 99),
+            V = by(s => s.nombre).slice(0, window.KDASH ? 6 : 8),
             veh = {};
         J.forEach(j => {
             const k = j.vehiculo.patenteN || j.vehiculo.patente;
             (veh[k] = veh[k] || []).push(j)
         });
         const VR = Object.values(veh).filter(L => L.length > 1).sort((a, b) => b.length - a.length).slice(0, 5);
-        return `<div class="kpin"><div class="chips kpf">${[['hoy', 'Hoy'], ['7', '7 días'], ['30', '30 días'], ['todo', 'Todo']].map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="tpp" data-p="${k}">${t}</button>`).join('')}</div>
-         ${J.length ? `<div class="sm">${J.length} ${J.length == 1 ? 'orden ingresada' : 'órdenes ingresadas'} en el periodo</div><div class="sec">${ic('category')} Por tipo de trabajo</div>${G.map(r => row(r, G[0][1])).join('')}<div class="sec">${ic('build')} Servicios más pedidos</div>${V.map(r => row(r, V[0][1])).join('')}${VR.length ? `<div class="sec">${ic('directions_car')} Vehículos recurrentes</div>${VR.map(L => `<div class="kr"><div class="t"><span>${plate(L[0].vehiculo.patente, 's')}</span><span class="mut"><b>${L.length}</b> visitas · última ${fdt(L.map(j => j.tiempos.ingresoISO).sort().pop())}</span></div></div>`).join('')}` : ''}` : '<div class="mut" style="margin-top:8px">Sin órdenes ingresadas en este periodo.</div>'}</div>`
+        return `<div class="kpin">${window.KSH ? '' : `<div class="chips kpf">${[['hoy', 'Hoy'], ['7', '7 días'], ['30', '30 días'], ['todo', 'Todo']].map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="tpp" data-p="${k}">${t}</button>`).join('')}</div>`}
+         ${J.length ? `<div class="sm">${J.length} ${J.length == 1 ? 'orden ingresada' : 'órdenes ingresadas'} en el periodo</div><div class="sec">${ic('category')} Por tipo de trabajo</div>${G.map(r => row(r, G[0][1])).join('')}<div class="sec">${ic('build')} Servicios más pedidos</div>${V.map(r => row(r, V[0][1])).join('')}${VR.length && !window.KDASH ? `<div class="sec">${ic('directions_car')} Vehículos recurrentes</div>${VR.map(L => `<div class="kr"><div class="t"><span>${plate(L[0].vehiculo.patente, 's')}</span><span class="mut"><b>${L.length}</b> visitas · última ${fdt(L.map(j => j.tiempos.ingresoISO).sort().pop())}</span></div></div>`).join('')}` : ''}` : '<div class="mut" style="margin-top:8px">Sin órdenes ingresadas en este periodo.</div>'}</div>`
     }
 
     const kpi = (zid, inl) => {
@@ -16014,6 +17167,8 @@
                         B = 'https://www.gstatic.com/firebasejs/' + v + '/';
                         a = await import(B + 'firebase-app.js');
                         f = await import(B + 'firebase-firestore.js');
+                        if (AUTH_ON)
+                            FA = await import(B + 'firebase-auth.js');
                         break
                     } catch (e) {
                         console.warn('SDK ' + v + ' no cargó', e);
@@ -16022,6 +17177,7 @@
                 }
                 if (!a)
                     throw new Error('No se pudo cargar el SDK de Firebase (revisa internet o bloqueadores)');
+                window.FAPP = a;
                 const ap = a.initializeApp(FIREBASE_CONFIG);
                 let db;
                 try {
@@ -16070,37 +17226,48 @@
                             fbStat('Sin conexión estable con Firebase', 'err', g.t)
                     }
                 };
-                if (DM() || !localStorage.lubri_demochk || Date.now() - (+localStorage.lubri_demochk) > 864e5) {
-                    try {
-                        localStorage.lubri_demochk = Date.now()
-                    } catch (e) {}
-                    ensureDemo()
-                } // v2b: la comprobación de la demo en Firebase se hace como máximo 1 vez al día (o si se usa la demo)
-                f.onSnapshot(f.collection(db, COL()), s => {
-                    S.fbBad = 0;
-                    S.fbWait = 0;
-                    S.jobs = s.docs.map(d => d.data());
-                    R.snT = Date.now();
-                    pruneRefs();
-                    renderLater(MODO == 'admin' || S.mrq ? 0 : 1)
-                }, fbErr); // tiempo real
-                f.onSnapshot(f.doc(db, CFGC(), 'principal'), d => {
-                    if (d.exists())
-                        S.cfg = {
-                            ...defCfg(),
-                            ...d.data()
-                        };
-                    pruneRefs();
-                    renderLater(MODO == 'admin' || S.mrq ? 0 : 1)
-                }, fbErr);
+                window.fbGo = () => {
+                    if (window.fbGo.d)
+                        return;
+                    window.fbGo.d = 1;
+                    if (DM() || !localStorage.lubri_demochk || Date.now() - (+localStorage.lubri_demochk) > 864e5) {
+                        try {
+                            localStorage.lubri_demochk = Date.now()
+                        } catch (e) {}
+                        ensureDemo()
+                    } // v2b: la comprobación de la demo en Firebase se hace como máximo 1 vez al día (o si se usa la demo)
+                    f.onSnapshot(f.collection(db, COL()), s => {
+                        S.fbBad = 0;
+                        S.fbWait = 0;
+                        S.jobs = s.docs.map(d => d.data());
+                        R.snT = Date.now();
+                        pruneRefs();
+                        renderLater(MODO == 'admin' || S.mrq ? 0 : 1)
+                    }, fbErr); // tiempo real
+                    f.onSnapshot(f.doc(db, CFGC(), 'principal'), d => {
+                        if (d.exists())
+                            S.cfg = {
+                                ...defCfg(),
+                                ...d.data()
+                            };
+                        pruneRefs();
+                        renderLater(MODO == 'admin' || S.mrq ? 0 : 1)
+                    }, fbErr)
+                };
+                if (AUTH_ON)
+                    authInit(ap);
+                else
+                    fbGo();
                 return
             }
             catch (e) {
                 console.error('Firebase falló, uso modo demo', e);
+                S.authBypass = 1;
                 S.fbErr = String(e && e.message || e);
                 document.body.classList.add('nofb')
             }
         }
+        S.authBypass = 1;
         if (!localStorage.lubri_ok)
             seed(); // primera vez en demo: datos del prototipo
         else {
@@ -16496,7 +17663,7 @@
     const row = j => {
         const [tx, cl] = estado(j),
             zq = j.estado == 'cola' && !!j.zesp;
-        return `<div class="row"${lgBg(j)} data-a="tog" data-id="${j.id}"><i class="dot ${sc(j)}${zq ? ' zqd' : ''}"></i><div class="mid"><div><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span>${zq ? '<b class="zq">En zona de espera</b>' : ESTADO[sc(j)]}</span></div>${vehLine(j)}<div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div><div class="rc">${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}<div class="rfw">${plate(j.vehiculo.patente, 's')}</div><div class="sm">In: ${ingT(j.tiempos.ingresoISO)}</div></div></div>`
+        return `<div class="row rn"${lgBg(j)} data-a="tog" data-id="${j.id}"><div class="rn1"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span class="rn-st">${zq ? '<b class="zq">En zona de espera</b>' : ESTADO[sc(j)]}</span><i class="dot ${sc(j)}${zq ? ' zqd' : ''}"></i></div><div class="rn2"><div class="rn-v">${vehLine(j)}</div><div class="rc"><div class="rfw">${plate(j.vehiculo.patente, 's')}</div>${j.estado == 'cola' ? `<small class="est rt" data-w="${j.tiempos.ingresoISO}">${wait(j.tiempos.ingresoISO)}</small>` : (tx ? `<span class="tg rt ${cl}${j.estado == 'completado' ? ' st' : ''}">${tx}</span>` : '')}${ingEst(j)}</div></div><div class="sv">${esc(j.estado == 'pausa' && j.pausa && j.pausa.motivo ? pmot(j.pausa.motivo) : j.titulo || sv(j))}</div></div>`
     };
     const fdt = iso => new Date(iso).toLocaleDateString('es-CL', {
         day: '2-digit',
@@ -16586,9 +17753,12 @@
         }
         return out.filter(Boolean).slice(0, 80)
     }
-    const dgNew = t => t && String(t).trim() ? [{
+    const dgNew = (t, ti) => t && String(t).trim() ? [{
         id: uid(),
         texto: String(t).trim(),
+        ...(ti && String(ti).trim() ? {
+            titulo: String(ti).trim().slice(0, 60)
+        } : {}),
         puntos: diagSplit(t),
         autor: autor(),
         fechaISO: now()
@@ -16598,16 +17768,21 @@
         const P = e.puntos && e.puntos.length ? e.puntos : diagSplit(e.texto),
             lg = P.length > 5 || String(e.texto || '').length > 420,
             cut = lg && !open ? 3 : P.length;
-        return `<ol class="dgl">${P.slice(0, cut).map(p => `<li>${esc(p)}</li>`).join('')}</ol>${lg ? `<button class="dgm" data-a="dgx" data-e="${e.id}">${open ? 'Ver menos' : 'Ver ' + (P.length - 3) + ' más'}${ic(open ? 'expand_less' : 'expand_more')}</button>` : ''}`
+        return `${e.titulo ? `<div class="dgti">${esc(e.titulo)}</div>` : ''}<ol class="dgl">${P.slice(0, cut).map(p => `<li>${esc(p)}</li>`).join('')}</ol>${lg ? `<button class="dgm" data-a="dgx" data-e="${e.id}">${open ? 'Ver menos' : 'Ver ' + (P.length - 3) + ' más'}${ic(open ? 'expand_less' : 'expand_more')}</button>` : ''}`
+    };
+    const jxBox = j => {
+        const so = (f) => `<select data-ch="jx" data-k="${f}" data-id="${j.id}" style="width:100%"><option value="">—</option><option value="si"${j[f] == 'si' ? ' selected' : ''}>Sí</option><option value="no"${j[f] == 'no' ? ' selected' : ''}>No</option></select>`;
+        return `<div class="jxb${j.indic ? ' hot' : ''}"><h3>${ic('warning')} Alertas e indicaciones</h3><textarea data-ch="jx" data-k="indic" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px" placeholder="Ej: tiene corta corriente (se activa así), la ventana no sube si se baja, la maleta tiene mal la chapa…">${esc(j.indic || '')}</textarea>${gruaRow(j.grua, j.gruaCob, 'jxg', `data-id="${j.id}" data-k="grua"`, 'jxg', `data-id="${j.id}" data-k="gruaCob"`)}</div>`
     };
     const diagSec = j => {
         const L = j.diag || [],
             lock = j.estado == 'completado',
             op = !(S.dgc || {})[j.id],
             ed = S.dgEd && S.dgEd.id == j.id ? S.dgEd : null,
-            dr = ed ? ed.t : ((S.dgd || {})[j.id] || '');
+            dr = ed ? ed.t : ((S.dgd || {})[j.id] || ''),
+            drt = ed ? (ed.ti || '') : ((S.dgtd || {})[j.id] || '');
         const body = `${lock && !L.length ? '<span class="mut">Sin diagnósticos registrados.</span>' : ''}${[...L].reverse().map(e => `<div class="dge ${ed && ed.eid == e.id ? 'ing' : ''}">${diagList(e, !!(S.dge || {})[e.id])}<div class="dgf"><small>${esc(e.autor || '')} · ${hm(e.fechaISO)}${e.editadoISO ? ' · editado' : ''}</small><span><button data-a="dgedit" data-id="${j.id}" data-e="${e.id}" title="Editar" aria-label="Editar diagnóstico">${ic('edit')}</button>${lock ? '' : `<button data-a="dgdel" data-id="${j.id}" data-e="${e.id}" title="Eliminar" aria-label="Eliminar diagnóstico">${ic('delete')}</button>`}</span></div></div>`).join('')}
-         ${lock && !ed ? '' : `<div class="dga"><textarea id="dgt_${j.id}" data-dg="${j.id}" rows="3" placeholder="${ed ? 'Corrige el diagnóstico' : 'Pega o escribe el diagnóstico (puedes pegarlo de corrido: se separa solo en puntos)'}" style="width:100%;border-radius:12px">${esc(dr)}</textarea><div class="dgh" id="dgh_${j.id}">${dgHint(dr)}</div><div class="btns" style="margin-top:6px"><button data-a="dgadd" data-id="${j.id}">${ic(ed ? 'check' : 'add')} ${ed ? 'Guardar cambios' : 'Agregar diagnóstico'}</button>${ed ? `<button data-a="dgcan" data-id="${j.id}">Cancelar</button>` : ''}</div></div>`}`;
+         ${lock && !ed ? '' : `<div class="dga"><input id="dgti_${j.id}" data-dgt="${j.id}" placeholder="Título (opcional): ej. Motor, Frenos…" maxlength="60" autocomplete="off" value="${esc(drt)}"><textarea id="dgt_${j.id}" data-dg="${j.id}" rows="3" placeholder="${ed ? 'Corrige el diagnóstico' : 'Pega o escribe el diagnóstico (puedes pegarlo de corrido: se separa solo en puntos)'}" style="width:100%;border-radius:12px">${esc(dr)}</textarea><div class="dgh" id="dgh_${j.id}">${dgHint(dr)}</div><div class="btns" style="margin-top:6px"><button data-a="dgadd" data-id="${j.id}">${ic(ed ? 'check' : 'add')} ${ed ? 'Guardar cambios' : 'Agregar diagnóstico'}</button>${ed ? `<button data-a="dgcan" data-id="${j.id}">Cancelar</button>` : ''}</div></div>`}`;
         return `<div class="dgs ${op ? 'open' : ''}"><button class="grph" data-a="dgt" data-id="${j.id}" aria-expanded="${op}">${ic('stethoscope')}<b>Diagnósticos del vehículo</b><span class="sm">${L.length ? L.length + (L.length == 1 ? ' registro' : ' registros') : 'Sin registros'}</span>${ic('expand_more', 'chev')}</button>${op ? `<div class="dgb">${body}</div>` : ''}</div>`
     };
     const dgHint = t => {
@@ -17612,16 +18787,16 @@
             mp = j.pausa ? (nm(S.cfg.motivos, j.pausa.motivo) == '—' ? j.pausa.motivo : nm(S.cfg.motivos, j.pausa.motivo)) : '';
         const lock = j.estado == 'completado',
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
-        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span>${vehTop(j)}<div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button></div></div><div class="dbody">
+        return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span>${vehTop(j)}<div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button><button class="kb${j.llave ? ' set' : ''}" data-a="llv" data-id="${j.id}" title="${j.llave ? 'Llave: ' + esc(j.llave.donde) : 'Indicar dónde está la llave'}" aria-label="Ubicación de la llave">${ic('key')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
          <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
-         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"'), I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + I('veh', 'tipov', 'Tipo de vehículo') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
+         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"') + `<div style="grid-column:1/-1"><label>Tipo de vehículo</label>${tvSel(j.vehiculo.tipov, 'tvjob', 'data-id="' + j.id + '"' + (lock ? ' disabled' : ''))}</div>`, I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
          <div class="sm">Repuestos y líquidos</div><div class="chips">${j.repuestos.map((r, i) => `<button type="button" class="chip" data-a="repm" data-x="${j.id}" data-i="${i}" title="Código del producto y código de barras">${esc(r.nombre)} ×${r.cant}${r.cod ? ' · ' + esc(r.cod) : ''}${r.precio ? ' · $' + (+r.precio).toLocaleString('es-CL') : ''}${r.bc ? ic('barcode_scanner') : ''}</button>`).join('')}${lock ? '' : plus(j.id, 'rep')}</div>${pick(j.id, 'rep')}
          <div class="cols"><div><h3>${ic('edit_note')} Notas de la orden</h3>${notas(j, 'orden')}</div><div><h3>${ic('directions_car')} Notas del vehículo</h3>${notas(j, 'vehiculo')}</div></div>
-         ${diagSec(j)}
+         ${diagSec(j)}${jxBox(j)}
          ${recSec(j)}<div class="cols"><div><h3>Contactar al cliente</h3><div class="chips"><a href="tel:${tel}"><button title="Llamar">${ic('call')}</button></a><a href="https://wa.me/${tel}" target="_blank"><button title="WhatsApp">${ic('chat')}</button></a></div></div>
          <div><h3>Problemas con la OT</h3><div class="chips" style="flex-wrap:nowrap"><button data-a="alerta" data-id="${j.id}" style="font-size:11px">${ic('fact_check')} Solicitar revisión</button><button data-a="sup" data-id="${j.id}" title="WhatsApp de supervisión">${ic('sms')}</button></div>${j.alertas.filter(a => a.estado == 'abierta').map(a => `<div class="sm al">${ic('warning')} ${esc(a.texto)} <button data-a="alres" data-id="${j.id}" data-i="${a.id}" style="border:0;padding:0" title="Resolver">${ic('done')}</button></div>`).join('')}</div></div>
          ${S.log ? `<h3>Bitácora</h3><div class="nt" style="max-height:140px">${[...j.eventos].reverse().map(e => `<p>${hm(e.fechaISO)} · <b>${e.tipo}</b> ${esc(e.tipo == 'pausado' ? (e.detalle ? pmot(e.detalle) : 'sin motivo') : e.detalle)} <small>${esc(e.autor)}</small></p>`).join('')}</div>` : ''}
@@ -17742,7 +18917,7 @@
             rem = run.reduce((a, j) => a + Math.max(0, j.tiempos.estSeg - el(j)), 0),
             late = run.filter(j => estado(j)[1] == 'atraso').length,
             open = !!S.rx || flt || RA.some(j => j.id == S.open),
-            parts = [run.length ? `${run.length} ${run.length == 1 ? 'vehículo' : 'vehículos'}` : '', run.length ? `faltan ${fdur(rem)}` : '', late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean);
+            parts = [run.length ? `${run.length} ${run.length == 1 ? 'vehículo' : 'vehículos'}` : '', run.length && rem >= 60 ? `faltan ${fdur(rem)}` : '', late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean);
         return `<div class="rep ${run.length ? 'blink' : ''} ${open ? 'open' : ''}"><button class="rep-h" data-a="repx" aria-expanded="${open}"><i class="dot reparacion"></i><span class="rt"><b>En reparación</b><small>${parts.join(' · ') || 'Sin vehículos en reparación'}</small></span>${ic(open ? 'expand_less' : 'expand_more')}</button>${open ? `<div class="rep-b">${[...RA].sort((a, b) => cmpS(a.tiempos.ingresoISO, b.tiempos.ingresoISO)).map(j => card(j)).join('')}</div>` : ''}</div>`
     }
 
@@ -17768,7 +18943,7 @@
                 O = S.jobs.filter(j => j.estado != 'completado' && !isRep(j)),
                 pau = O.filter(j => stf(j, 'pausa')).length,
                 col = O.filter(j => stf(j, 'cola')).length;
-            return [nv(L.length), `faltan ${fdur(rem)}`, late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean).join(' · ')
+            return [nv(L.length), rem >= 60 ? `faltan ${fdur(rem)}` : '', late ? `${late} atrasado${late > 1 ? 's' : ''}` : '', pau ? `${pau} en pausa` : '', col ? `${col} en cola` : ''].filter(Boolean).join(' · ')
         }
         if (k == 'cola') {
             const t = Math.min(...L.map(j => Date.parse(j.tiempos.ingresoISO))),
@@ -17779,6 +18954,14 @@
             return nv(L.length);
         return ''
     };
+    const gStats = L => {
+        const rp = L.filter(j => isRep(j) && j.estado == 'proceso').length,
+            pr = L.filter(j => j.estado == 'proceso' && !isRep(j)).length,
+            pa = L.filter(j => stf(j, 'pausa')).length,
+            co = L.filter(j => stf(j, 'cola')).length,
+            la = L.filter(j => j.estado == 'proceso' && estado(j)[1] == 'atraso').length;
+        return [L.length + (L.length == 1 ? ' vehículo' : ' vehículos'), pr ? pr + ' en proceso' : '', rp ? rp + ' en reparación' : '', la ? la + (la == 1 ? ' atrasado' : ' atrasados') : '', pa ? pa + ' en pausa' : '', co ? co + ' en cola' : ''].filter(Boolean).join(' · ')
+    }; // v9-8-33: resumen para Mis órdenes y Vista general
     const miMec = () => MODO == 'sala' ? null : S.cfg.mecanicos.find(m => m.activo && m.nombre == autor()) || null;
     const misOrd = (j, me) => j.mecanicoId == me.id || (Array.isArray(j.ruta) && j.ruta.some(x => x === 'm:' + me.id));
     const gHead = (k, icn, t, sub, n, op) => `<button type="button" class="gbh" data-a="gtg" data-k="${k}" aria-expanded="${op}">${icn.startsWith('dot:') ? `<i class="dot ${icn.slice(4)}"></i>` : ic(icn)}<span class="gbt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ''}</span>${n != null ? `<span class="gbn">${n}</span>` : ''}${ic('expand_more', 'chev')}</button>`;
@@ -17793,7 +18976,7 @@
         S.gcol = S.gcol || gcolLoad();
         const L = S.jobs.filter(j => j.estado != 'completado' && misOrd(j, me) && match(j)).sort(cmpJ),
             op = !S.gcol.mias || (S.open && L.some(j => j.id == S.open));
-        return `<div class="gbk gb-mias ${op ? 'open' : ''}">${gHead('mias', 'assignment_ind', 'Mis órdenes asignadas', esc(me.nombre), L.length, op)}${op ? `<div class="gbb">${L.map(j => card(j)).join('') || '<div class="mut" style="padding:6px 2px">No tienes órdenes asignadas por ahora.</div>'}</div>` : ''}</div>`
+        return `<div class="gbk gb-mias ${op ? 'open' : ''}">${gHead('mias', 'assignment_ind', 'Mis órdenes asignadas', esc(me.nombre) + (L.length ? ' · ' + gStats(L) : ' · sin órdenes por ahora'), L.length, op)}${op ? `<div class="gbb">${L.map(j => card(j)).join('') || '<div class="mut" style="padding:6px 2px">No tienes órdenes asignadas por ahora.</div>'}</div>` : ''}</div>`
     };
     const vgGrid = (Zs, ps) => {
         const act = S.jobs.filter(j => j.estado != 'completado'),
@@ -17813,7 +18996,7 @@
                     oc = pz.filter(p => S.jobs.some(j => j.plataformaId == p.id && j.estado == 'proceso')).length;
                 return pz.length ? esc(z.nombre) + ' ' + oc + '/' + pz.length : ''
             }).filter(Boolean).join(' · ');
-        return `<div class="gbk gb-vista ${op ? 'open' : ''}">${gHead('vista', 'dashboard', 'Vista general', sum, null, op)}${op ? `<div class="gbb">${vgGrid(Zs, ps)}${outF()}</div>` : ''}</div>`
+        return `<div class="gbk gb-vista ${op ? 'open' : ''}">${gHead('vista', 'dashboard', 'Vista general', (() => {const A = S.jobs.filter(j => j.estado != 'completado'),tp = Zs.reduce((a, z) => a + ps.filter(p => p.zonaId == z.id).length, 0),oc = Zs.reduce((a, z) => a + ps.filter(p => p.zonaId == z.id && S.jobs.some(j => j.plataformaId == p.id && j.estado == 'proceso')).length, 0);return (tp ? 'Plazas ' + oc + '/' + tp + ' · ' : '') + gStats(A)})(), null, op)}${op ? `<div class="gbb">${vgGrid(Zs, ps)}${outF()}</div>` : ''}</div>`
     };
     function lista() {
         // lo que cambia al buscar o filtrar (texto, estado y zona)
@@ -17862,6 +19045,7 @@
             html += gBlock('proceso', 'En proceso', 'dot:proceso', A.filter(j => stf(j, 'proceso')).sort(cmpJ), flt);
             html += gBlock('cola', 'En cola', 'dot:cola', A.filter(j => stf(j, 'cola')).sort(cmpJ), flt);
             html += gBlock('pausa', 'En pausa', 'dot:pausa', A.filter(j => stf(j, 'pausa')).sort(cmpJ), flt);
+            html += gBlock('listo', 'Vehículos para entregar', 'dot:listo', A.filter(j => stf(j, 'listo')).sort(cmpJ), flt);
             html += vgBlock(outF, A, C, zid)
         } finally {
             S._shown = null
@@ -17876,7 +19060,7 @@
             n = e => e == 'completado' ? C.length : A.filter(j => stf(j, e)).length,
             bx = e => `<div class="${S.f == e ? 'on' : ''} ${!n(e) ? 'z0' : ''}" data-a="flt" data-e="${e}" role="button" tabindex="0"><i class="dot ${e}"></i><span><b>${n(e)}</b><small>${e == 'completado' ? 'Completadas' : ESTADO[e]}</small></span></div>`;
         return `<div class="top"><button data-a="go" data-v="home" title="Inicio">${ic('first_page')}</button><h1>Línea de trabajo</h1></div>
-         <h3 style="text-align:center;font-size:13px">Resumen de trabajos actuales <span class="mut" style="font-weight:400">· toca para filtrar</span></h3><div class="sum g2">${['proceso', 'reparacion'].map(bx).join('')}</div><div class="sum g3r">${['cola', 'pausa', 'completado'].map(bx).join('')}</div>
+         <h3 style="text-align:center;font-size:13px">Resumen de trabajos actuales <span class="mut" style="font-weight:400">· toca para filtrar</span></h3><div class="sum g2">${['proceso', 'reparacion'].map(bx).join('')}</div><div class="sum g2">${['cola', 'pausa'].map(bx).join('')}</div><div class="sum g2">${['listo', 'completado'].map(bx).join('')}</div>
          ${srch()}${zfil()}<div id="lst">${lista()}</div>
          <div class="fabw"><button class="fab" data-a="new">${ic('add')} Nuevo trabajo</button></div>`
     }
@@ -17941,6 +19125,8 @@
         return `<div class="zf dff" role="group" aria-label="Filtrar por fecha"><span class="sm">Fecha</span>${[['', 'Todas'], ['hoy', 'Hoy'], ['ayer', 'Ayer'], ['sem', 'Semana pasada'], ['rango', 'Fechas…']].map(([x, t]) => `<button class="zc ${k == x ? 'sel' : ''}" data-a="dfk" data-k="${x}">${x == 'rango' ? ic('calendar_month') : ''}${t}</button>`).join('')}</div>${k == 'rango' ? `<div class="dfr"><label>Desde<input type="date" data-ch="df1" value="${esc(S.df.d1)}"></label><label>Hasta<input type="date" data-ch="df2" value="${esc(S.df.d2)}"></label></div>` : ''}`
     };
     function listaC() {
+        const LE = S.jobs.filter(j => isListo(j) && match(j) && (!S.zf || zof(j) == S.zf) && (!S.pf || j.plataformaId == S.pf)).sort((a, b) => cmpS(b.listoISO || '', a.listoISO || '')),
+            ENT = LE.length ? `<div class="gbk gb-listo open">${gHead('listo', 'inventory_2', 'Vehículos para entregar', LE.length == 1 ? '1 vehículo esperando entrega' : LE.length + ' vehículos esperando entrega', LE.length, true)}<div class="gbb">${LE.map(j => card(j)).join('')}</div></div>` : '';
         const L = S.jobs.filter(j => j.estado == 'completado' && match(j) && (!S.zf || zof(j) == S.zf) && (!S.pf || j.plataformaId == S.pf) && dfOK(j)).sort((a, b) => cmpS(b.tiempos.completadoISO, a.tiempos.completadoISO)),
             it = j => `<div class="item"><div class="card ${S.open == j.id ? 'open' : ''}">${S.open == j.id ? detail(j) : row(j) + doneLine(j) + reaBox(j) + zl(j)}</div></div>`;
         {
@@ -17959,9 +19145,9 @@
                 return g.length ? `<div class="zh">${ic('location_on')}${esc(z.nombre)}<small>${g.length} completadas</small></div>${g.map(it).join('')}` : ''
             }).join('');
             if (o)
-                return dfInfo(L) + o + mas
+                return ENT + dfInfo(L) + o + mas
         }
-        return dfInfo(L) + (LV.map(it).join('') + mas || `<div class="empty">${S.q.trim() || S.zf || S.pf || S.df.k ? 'Sin resultados.' : 'Aún no hay órdenes completadas.'}</div>`)
+        return ENT + dfInfo(L) + (LV.map(it).join('') + mas || (ENT ? '' : `<div class="empty">${S.q.trim() || S.zf || S.pf || S.df.k ? 'Sin resultados.' : 'Aún no hay órdenes completadas.'}</div>`))
     }
     function completas() {
         return `<div class="top"><button data-a="go" data-v="home">${ic('first_page')}</button><h1>Órdenes completas</h1></div>${srch()}${dfBar()}${zfil()}<div id="lst">${listaC()}</div>`
@@ -18000,21 +19186,23 @@
          <div class="opa"><b>Agregar a «${nm}»</b><input id="op_n" placeholder="${sv ? 'Nombre (ej.: Cambio de aceite)' : 'Nombre (ej.: Filtro de aceite)'}" autocomplete="off"><select id="op_gs" data-ch="opgs2">${G.map(h => `<option value="${esc(h)}">${esc(h)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="op_g" placeholder="Nombre del nuevo grupo" style="display:${G.length ? 'none' : ''}" autocomplete="off">${sv ? '<input id="op_m" type="number" min="1" inputmode="numeric" placeholder="Minutos estándar">' : ''}<button class="w" data-a="opadd">${ic('add')} Agregar</button></div>`
     };
     function config() {
+        if (!can('cfg') && !can('tec'))
+            return noAcc('Configuración');
         const X = skyTM();
         return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
-         <section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos. Si eliges a un mecánico, en la Línea de trabajo verás su banner «Mis órdenes asignadas» al principio; administración y ventas no lo ven.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>
-         ${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
+         ${miUsr()}${AUTH_ON ? '' : `<section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos. Si eliges a un mecánico, en la Línea de trabajo verás su banner «Mis órdenes asignadas» al principio; administración y ventas no lo ven.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>`}
+         ${can('cfg') ? `${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
          ${acc('opc', 'Opciones del vehículo', 'Cambiar, Revisar y Repuestos y líquidos · agregar, renombrar, mover y quitar', opEditor())}
 
          ${zstSec()}
          ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
-         ${plkSec()}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}
-         <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
+         ${can('tec') ? plkSec() : ''}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}` : ''}
+         ${can('tec') ? `${usrSec()} <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
          ${testSec()}
          ${acc('demo', 'Modo demo', 'Datos de prueba, separados de los reales', `<p class="note">${fb ? (DM() ? 'Ahora este equipo usa datos DEMO.' : 'Ahora este equipo usa datos REALES.') : 'Los datos de este navegador son de prueba.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>${DM() ? `<button data-a="vac">${ic('delete_sweep')} Vaciar demo</button>` : ''}` : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}</div>`)}
          ${acc('mec', 'Modo mecánico', 'Usar este equipo como puesto de un taller', `<p class="note">El equipo queda con la vista simple del mecánico (su zona y sub-zona). Para volver, mantén presionado el nombre de la zona.</p><div class="btns"><button data-a="meq" data-m="mec">${ic('engineering')} Este equipo: mecánico</button></div>`)}
          ${acc('sala', 'Modo salón', 'Pantalla de la sala de espera', `<label class="swt"><input type="checkbox" data-ch="salaon" ${salaOn() ? 'checked' : ''}><i></i><span>${salaOn() ? 'Modo salón activado' : 'Modo salón desactivado'}</span></label><div class="btns"><button data-a="meq" data-m="sala" ${salaOn() ? '' : 'class="off" aria-disabled="true"'}>${ic('tv')} Ir a modo salón</button></div><p class="note">${salaOn() ? 'Al tocar «Ir a modo salón» este equipo pasa a mostrar la sala de espera.' : 'Desactivado: «Ir a modo salón» no hace nada y este equipo no entra a la sala.'}</p>`)}
-         ${acc('sky', 'Probar fondo de la sala', 'Vista previa del sol, la hora del día y el clima · no guarda nada', `<p class="note">Elige una hora para ver dónde sale, cómo cruza el cielo y dónde se esconde el sol. Solo es una prueba: no guarda nada.</p><div id="skprev" class="skp"></div><div class="skt">${SKT.map(([v, n]) => `<button class="${((S.tst && S.tst.t) || '') == v ? 'on' : ''}" data-a="stt" data-v="${v}">${n}${v && X[v] != null ? `<small>${fmtMin(X[v])}</small>` : ''}</button>`).join('')}</div><div class="btns" style="flex-wrap:wrap">${SKW.map(([v, n]) => `<button class="${((S.tst && S.tst.w) || '') == v ? 'on' : ''}" data-a="stw" data-v="${v}">${n}</button>`).join('')}</div>`)}
+         ${acc('sky', 'Probar fondo de la sala', 'Vista previa del sol, la hora del día y el clima · no guarda nada', `<p class="note">Elige una hora para ver dónde sale, cómo cruza el cielo y dónde se esconde el sol. Solo es una prueba: no guarda nada.</p><div id="skprev" class="skp"></div><div class="skt">${SKT.map(([v, n]) => `<button class="${((S.tst && S.tst.t) || '') == v ? 'on' : ''}" data-a="stt" data-v="${v}">${n}${v && X[v] != null ? `<small>${fmtMin(X[v])}</small>` : ''}</button>`).join('')}</div><div class="btns" style="flex-wrap:wrap">${SKW.map(([v, n]) => `<button class="${((S.tst && S.tst.w) || '') == v ? 'on' : ''}" data-a="stw" data-v="${v}">${n}</button>`).join('')}</div>`)}` : ''}
         </div>`
     }
     /* ============ v4 · FOTOS DEL VEHÍCULO ============
@@ -18709,14 +19897,16 @@
          ${sec('Datos de vehículo y del cliente', 'directions_car')}
          <div class="fld"><div><div class="sm">Patente vehículo</div><div class="plw"><label class="pl f"><small>CHILE</small><input class="plin" data-f="patente" placeholder="AA·BB·11" maxlength="8" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(D.patente || '')}"></label>${FEATURE_BUSCAR_PATENTE ? plkBtns('') : ''}</div>${D._known ? `<div class="sm known">${esc(D._known)}</div>` : ''}</div><div class="otw"><div class="sm">N° Orden (OT)</div><input class="otin" data-f="ot" placeholder="XXXXX" autocomplete="off" value="${esc(D.ot || '')}"></div></div>
          ${grp(D._xc, 'c', '', 'person', 'Cliente', `${f('nombre', 'Nombre cliente', 'autocapitalize=words autocomplete=name')}${f('tel', 'Teléfono o celular', 'type=tel inputmode=tel autocomplete=tel')}`, `${f('rut', 'RUT cliente', 'autocapitalize=characters')}${f('correo', 'Correo', 'type=email inputmode=email autocapitalize=none autocomplete=email')}<div class="w">${f('dir', 'Dirección', 'autocapitalize=sentences')}</div>`, 'fld')}
-         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${PSH('cat') ? plkDL(D.marca) : ''}${f('marca', 'Marca', 'autocapitalize=words' + plkAt('marca'))}${f('modelo', 'Modelo', 'autocapitalize=words' + plkAt('modelo'))}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100' + plkAt('anio'))}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada', plkAt('cil'))}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>${f('vin', 'N° de chasis (VIN)', 'autocapitalize=characters')}${f('nmotor', 'N° de motor', 'autocapitalize=characters')}${f('tipov', 'Tipo de vehículo', 'autocapitalize=words')}<div class="fl w"><label class="sm" for="f_otros">Otros datos del vehículo</label><textarea id="f_otros" data-f="otros" rows="3" style="width:100%;border-radius:12px" placeholder="Otros datos que entrega la búsqueda por patente">${esc(D.otros || '')}</textarea></div>`, 'fld')}
+         ${grp(D._xv, 'v', '', 'directions_car', 'Vehículo', `${PSH('cat') ? plkDL(D.marca) : ''}${f('marca', 'Marca', 'autocapitalize=words' + plkAt('marca'))}${f('modelo', 'Modelo', 'autocapitalize=words' + plkAt('modelo'))}${f('anio', 'Año', 'type=number inputmode=numeric min=1900 max=2100' + plkAt('anio'))}${f('km', 'Kilometraje', 'type=number inputmode=numeric min=0')}<div class="fl w"><label class="sm">Tipo de vehículo</label>${tvSel(D.tipov, 'tvnew')}</div>`, `${f('version', 'Versión', 'autocapitalize=words')}${f('motor', 'Motor')}${f('cil', 'Cilindrada', plkAt('cil'))}<div class="fl"><label class="sm" for="f_comb">Combustible</label><select id="f_comb" data-f="comb">${vOpt(D.comb, COMB)}</select></div><div class="fl"><label class="sm" for="f_trans">Tipo de transmisión</label><select id="f_trans" data-f="trans">${vOpt(D.trans, TRANS)}</select></div>${f('color', 'Color', 'autocapitalize=words')}<div><div class="sm">Venc. revisión técnica</div>${fbi('rt', 'mes/año', 'type=month')}</div>${f('vin', 'N° de chasis (VIN)', 'autocapitalize=characters')}${f('nmotor', 'N° de motor', 'autocapitalize=characters')}<div class="fl w"><label class="sm" for="f_otros">Otros datos del vehículo</label><textarea id="f_otros" data-f="otros" rows="3" style="width:100%;border-radius:12px" placeholder="Otros datos que entrega la búsqueda por patente">${esc(D.otros || '')}</textarea></div>`, 'fld')}
          ${sec('Órdenes asignadas', 'assignment_ind')}<div class="fld">${sl('mec', S.cfg.mecanicos.filter(m => m.activo), 'Mecánico')}${sl('plat', S.cfg.plataformas.filter(m => m.activo), 'Sub-zona')}<div class="w"><div class="sm">Quién ingresa la orden</div>${sl('ing', personas(), 'Ingresada por', D.ing || me)}</div></div>${rutaUI()}
          ${sec('Agregar las órdenes de trabajo', 'build')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${sel('cambiar')}</div>${bar('cambiar')}${pick('new', 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${sel('revisar')}</div>${bar('revisar')}${pick('new', 'revisar')}
          <div class="sm">Repuestos y líquidos</div>${D.rep.map((r, i) => `<div class="rr">${esc(r.grupo)}: ${esc(r.nombre)}${r.cod ? ` <small>· ${esc(r.cod)}</small>` : ''}${r.precio ? ` <small>· $${(+r.precio).toLocaleString('es-CL')}</small>` : ''}<button type="button" class="bcb" data-a="repm" data-x="new" data-i="${i}" title="Código y código de barras" aria-label="Código y código de barras">${ic('barcode_scanner')}</button><input type="number" min="1" value="${r.cant}" data-ch="rc" data-i="${i}" aria-label="Cantidad"><button data-a="repdel" data-i="${i}" title="Quitar">${ic('close')}</button></div>`).join('')}${bar('rep')}${pick('new', 'rep')}
-         <div class="cols"><div><h3>${D._edit ? 'Agregar nota a la orden' : 'Notas de la orden'}</h3><textarea data-f="notaO" rows="3" style="width:100%;border-radius:12px" placeholder="Agrega comentarios sobre la orden">${esc(D.notaO || '')}</textarea></div><div><h3>${D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo'}</h3><textarea data-f="notaV" rows="3" style="width:100%;border-radius:12px" placeholder="Estado del vehículo o eventos relevantes">${esc(D.notaV || '')}</textarea></div></div>
-         <div style="margin-top:6px"><h3>${ic('stethoscope')} ${D._edit ? 'Agregar diagnóstico del vehículo' : 'Diagnóstico del vehículo'}</h3><textarea data-f="diag" rows="3" style="width:100%;border-radius:12px" placeholder="Pega o escribe el diagnóstico: se separa solo en puntos">${esc(D.diag || '')}</textarea></div>
+         <div class="cols">${ntBox('O', D._edit ? 'Agregar nota a la orden' : 'Notas de la orden', 'Agrega comentarios sobre la orden')}${ntBox('V', D._edit ? 'Agregar nota al vehículo' : 'Notas del vehículo', 'Estado del vehículo o eventos relevantes')}</div>
+         ${dgForm()}
+         <div style="margin-top:6px"><h3>${ic('warning')} Alertas e indicaciones</h3><textarea data-f="indic" rows="3" style="width:100%;border-radius:12px" placeholder="Ej: tiene corta corriente (se activa así), la ventana no sube si se baja, la maleta tiene mal la chapa y se abre con…">${esc(D.indic || '')}</textarea></div>
+         ${gruaRow(D.grua, D.gruaCob, 'grtg', '', 'cbtg', '')}
          ${sec('Inspección', 'fact_check')}${inspBox('new')}${sec('Fotos del vehículo', 'photo_camera')}${fotosSec('new')}
          <div class="btns" style="margin-top:8px"><button disabled style="opacity:.5" title="Próximamente">${ic('qr_code_scanner')} Escanear con IA</button><button data-a="mas">${ic('tune')} Más opciones</button></div>
          ${D._mas ? `<div class="fld tm"><select data-f="prio"><option value="normal">Prioridad normal</option><option value="urgente" ${D.prio == 'urgente' ? 'selected' : ''}>Urgente</option></select><select data-f="nivel"><option value="">Combustible en estanque</option>${['Reserva', '1/4', '1/2', '3/4', 'Lleno'].map(n => `<option ${D.nivel == n ? 'selected' : ''}>${n}</option>`).join('')}</select><label class="w" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-f="espera" ${D.espera ? 'checked' : ''} style="width:auto"> El cliente espera en el local</label></div><div class="add"><input id="cu" placeholder="Otro servicio (30 min)"><button data-a="cust">${ic('add')}</button></div><div class="chips">${D.custom.map(c => `<span class="chip sel">${esc(c)}</span>`).join('')}</div>` : ''}
@@ -18731,6 +19921,10 @@
         const m = S.modal;
         if (!m)
             return '';
+        if (m.k == 'quien')
+            return quienModal();
+        if (m.k == 'llave')
+            return llaveModal();
         if (m.k == 'new')
             return create();
         if (m.k == 'cita')
@@ -18784,8 +19978,12 @@
             const j = get(m.id);
             if (!j)
                 return '';
-            const seg = j.estado == 'pausa' ? 'Seguir en pausa' : 'Continuar en proceso';
-            return `<div class="bd" data-a="cerrar"><div class="box c">${ic('task_alt', 'big t-mid')}<p><b>¿Completar esta orden?</b></p><div class="sm">${esc(j.vehiculo.patente)} · ${j.ot ? 'OT ' + esc(j.ot) : 'SOT'} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}</div><div class="sm" style="margin-top:6px">Se detiene el cronómetro y el vehículo sale del taller.</div><div class="btns" style="margin-top:16px;flex-wrap:wrap"><button data-a="comok" data-id="${j.id}">${ic('check')} Completar</button><button data-a="cerrar">${seg}</button></div></div></div>`
+            const L = isListo(j),
+                inf = `${esc(j.vehiculo.patente)} · ${j.ot ? 'OT ' + esc(j.ot) : 'SOT'} · ${esc(nm(S.cfg.plataformas, j.plataformaId))}`,
+                bC = `<button data-a="comok" data-id="${j.id}">${ic('check')} Completar · ya fue entregado</button>`,
+                bL = `<button data-a="listoset" data-id="${j.id}">${ic('inventory_2')} Listo para entregar</button>`,
+                bP = `<button data-a="${L ? 'listoback' : 'cerrar'}" data-id="${j.id}">${ic('replay')} ${L ? 'Continuar en proceso' : j.estado == 'pausa' ? 'Seguir en pausa' : 'Continuar en proceso'}</button>`;
+            return `<div class="bd" data-a="cerrar"><div class="box c">${ic(L ? 'inventory_2' : 'task_alt', 'big t-mid')}<p><b>${L ? 'Vehículo listo para entregar' : '¿Qué hacer con esta orden?'}</b></p><div class="sm">${inf}</div><div class="sm" style="margin-top:6px">${L ? 'Al completar se cierra la orden: el vehículo ya fue entregado al cliente.' : '«Listo para entregar» avisa que terminó el trabajo y espera al cliente. «Completar» cierra la orden por entregada.'}</div><div class="btns" style="margin-top:16px;flex-direction:column;align-items:stretch">${L ? bC + bP : bL + bP + bC}</div></div></div>`
         }
         if (m.k == 'sig') {
             const j = get(m.id);
@@ -19507,6 +20705,7 @@
                 mas: vMas,
                 cal: vCal,
                 rec: vRec,
+                kpis: vKpis,
                 rhist: vRHist,
                 not: vNot,
                 nset: vNset,
@@ -19517,9 +20716,10 @@
             y = app.scrollTop,
             sc = winScr().map(e => e.scrollTop),
             ds = document.querySelector('.card.open .dbody')?.scrollTop || 0; // conserva el scroll al redibujar
-        const ah = V[S.view](),
-            nh = navbar(),
-            mh = modal() + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.bcv ? bcFull() : '') + (S.shk ? shkModal() : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
+        const GT = authGate(),
+            ah = GT ? loginView() : V[S.view](),
+            nh = GT ? '' : navbar(),
+            mh = (GT ? '' : modal()) + (S.ov ? ovModal(S.ov) : '') + (S.fv ? fotoModal(S.fv) : '') + (S.bcv ? bcFull() : '') + (S.shk ? shkModal() : '') + (S.help ? helpbox() : '') + (S.toast ? `<div class="bd" style="pointer-events:none;z-index:60"><div class="box c ${S.toast.icono == 'warning' ? 'warn' : ''}">${ic(S.toast.icono, 'big t-' + ({delete: 'del',check: 'add'}[S.toast.icono] || 'mid'))}<p><b>${S.toast.txt}</b></p></div></div>` : '');
         const fk = (ah !== R.ah || mh !== R.mh) ? focusKey() : null; // v1: si se redibuja con un campo en foco, el foco (y el teclado) se conserva
         if (ah !== R.ah) {
             app.innerHTML = ah;
@@ -19978,6 +21178,7 @@
         j.opciones = {
             espera: !!D.espera,
             entregaISO: entISO(D),
+            entSH: !!D.entD && !D.entH,
             vin: (D.vin || '').trim().toUpperCase(),
             nivelComb: D.nivel || ''
         };
@@ -20033,11 +21234,26 @@
                 ch.push('nota')
             }
         };
-        nn('orden', D.notaO);
-        nn('vehiculo', D.notaV);
-        if (D.diag && D.diag.trim()) {
-            (j.diag = j.diag || []).push(...dgNew(D.diag));
-            ch.push('diagnóstico')
+        ntAll('O').forEach(x => nn('orden', x));
+        ntAll('V').forEach(x => nn('vehiculo', x));
+        {
+            const DA = dgAll();
+            if (DA.length) {
+                (j.diag = j.diag || []).push(...DA);
+                ch.push('diagnóstico')
+            }
+        }
+        if ((j.grua || '') != (D.grua || '')) {
+            j.grua = D.grua || '';
+            ch.push('grúa')
+        }
+        if ((j.gruaCob || '') != (D.grua == 'si' ? (D.gruaCob || '') : '')) {
+            j.gruaCob = D.grua == 'si' ? (D.gruaCob || '') : '';
+            ch.push('cobro de grúa')
+        }
+        if ((j.indic || '') != (D.indic || '').trim()) {
+            j.indic = (D.indic || '').trim();
+            ch.push('alertas')
         }
         if (j.estado == 'completado')
             j.tiempos.desvSeg = j.tiempos.realSeg - j.tiempos.estSeg;
@@ -20531,7 +21747,8 @@
         dgadd: d => {
             const j = get(d.id),
                 ta = $('#dgt_' + d.id),
-                v = (ta ? ta.value : '').trim();
+                v = (ta ? ta.value : '').trim(),
+                ti = (($('#dgti_' + d.id) || {}).value || '').trim();
             if (!j || !v)
                 return toast('warning', 'Escribe o pega el diagnóstico');
             const P = diagSplit(v);
@@ -20541,6 +21758,10 @@
                 if (e) {
                     e.texto = v;
                     e.puntos = P;
+                    if (ti)
+                        e.titulo = ti;
+                    else
+                        delete e.titulo;
                     e.editadoISO = now();
                     ev(j, 'diagnóstico', 'editado')
                 }
@@ -20550,6 +21771,9 @@
                 j.diag.push({
                     id: uid(),
                     texto: v,
+                    ...(ti ? {
+                        titulo: ti
+                    } : {}),
                     puntos: P,
                     autor: autor(),
                     fechaISO: now()
@@ -20557,6 +21781,7 @@
                 ev(j, 'diagnóstico', P.length + (P.length == 1 ? ' punto' : ' puntos'))
             }
             (S.dgd = S.dgd || {})[d.id] = '';
+            (S.dgtd = S.dgtd || {})[d.id] = '';
             saveJob(j);
             toast('check', 'Diagnóstico guardado')
         },
@@ -20568,7 +21793,8 @@
             S.dgEd = {
                 id: j.id,
                 eid: e.id,
-                t: e.texto
+                t: e.texto,
+                ti: e.titulo || ''
             };
             S.dgc = S.dgc || {};
             S.dgc[j.id] = false;
@@ -20744,6 +21970,9 @@
                 ru = rutaOf(j);
             D = {
                 _edit: j.id,
+                grua: j.grua || '',
+                gruaCob: j.gruaCob || '',
+                indic: j.indic || '',
                 nmotor: v.nmotor || '',
                 tipov: v.tipov || '',
                 otros: v.otros || '',
@@ -20761,7 +21990,7 @@
                 _cur: ru && isMecStep(ru[j.paso || 0]) ? ru[j.paso || 0] : '',
                 estU: manual ? u : 'min',
                 entD: ent ? ymd(new Date(ent)) : '',
-                entH: ent ? hhmm(ent) : '',
+                entH: ent && !o.entSH ? hhmm(ent) : '',
                 _mas: !!(o.espera || o.vin || o.nivelComb || j.prioridad == 'urgente'),
                 patente: v.patente,
                 ot: j.ot,
@@ -21374,6 +22603,22 @@
                 render(1)
             }
         },
+        listoset: d => {
+            const j = get(d.id);
+            S.modal = null;
+            if (j && !j.listo)
+                A.mlisto(d);
+            else
+                render(1)
+        },
+        listoback: d => {
+            const j = get(d.id);
+            S.modal = null;
+            if (j && j.listo)
+                A.mlisto(d);
+            else
+                render(1)
+        },
         comok: d => {
             S.modal = null;
             if (S.view == 'mapa') {
@@ -21906,6 +23151,7 @@
                     opciones: {
                         espera: !!D.espera,
                         entregaISO: entISO(D),
+                        entSH: !!D.entD && !D.entH,
                         vin: (D.vin || '').trim().toUpperCase(),
                         nivelComb: D.nivel || ''
                     },
@@ -21920,8 +23166,11 @@
                         desvSeg: 0
                     },
                     pausa: null,
-                    notas: [...n('orden', D.notaO), ...n('vehiculo', D.notaV)],
-                    diag: dgNew(D.diag),
+                    notas: [...ntAll('O').flatMap(x => n('orden', x)), ...ntAll('V').flatMap(x => n('vehiculo', x))],
+                    diag: dgAll(),
+                    grua: D.grua || '',
+                    gruaCob: D.grua == 'si' ? (D.gruaCob || '') : '',
+                    indic: (D.indic || '').trim(),
                     alertas: [],
                     eventos: []
                 };
@@ -22010,11 +23259,20 @@
             setTimeout(() => URL.revokeObjectURL(a.href), 4000)
         }
     };
+    const hkOn = () => {
+        try {
+            return localStorage.lubri_hk !== '0'
+        } catch (e) {
+            return true
+        }
+    };
     const HK = (() => {
         let c,
             cur = {};
         return {
             play(k, id) {
+                if (!hkOn())
+                    return;
                 try {
                     c = c || new (window.AudioContext || window.webkitAudioContext)();
                     if (c.state == 'suspended')
@@ -22125,7 +23383,7 @@
         render(1)
     });
     /* v2b · filtro de doble toque: una acción que MODIFICA datos no se repite si llega la misma otra vez en menos de 450 ms (evita eventos y avisos duplicados al tocar muchas veces seguidas) */
-    const TAPS = new Set(['ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'plka', 'plkre', 'plkcopy', 'plkdbok', 'cfok', 'citaok', 'cnew']),
+    const TAPS = new Set(['listoset', 'listoback', 'ini', 'pauok', 'com', 'reabok', 'reabnext', 'delok', 'bdelok', 'sigok', 'comall', 'fdel', 'estreset', 'save', 'hecho', 'nota', 'svadd', 'pkadd', 'cadd', 'cdel', 'svdel', 'padd', 'zadd', 'zdel', 'zmv', 'demo', 'vac', 'rst', 'mlisto', 'mfok', 'mrqm', 'mcom', 'plk', 'plka', 'plkre', 'plkcopy', 'plkdbok', 'cfok', 'citaok', 'cnew']),
         TAPG = {};
     function tapDup(b) {
         const a = b.dataset.a;
@@ -22501,6 +23759,22 @@
                 return;
             j.vehiculo[f] = x;
             ev(j, 'vehiculo', f + ': ' + x);
+            saveJob(j, 1)
+        }
+        if (k == 'jx') {
+            const j = get(t.dataset.id),
+                f = t.dataset.k;
+            if (!j)
+                return;
+            const x = f == 'indic' ? t.value.trim() : t.value;
+            if ((j[f] || '') == x)
+                return;
+            j[f] = x;
+            ev(j, 'orden', ({
+                indic: 'alertas e indicaciones',
+                grua: 'llegó en grúa',
+                gruaCob: 'cobro de la grúa'
+            })[f] + ': ' + (f == 'indic' ? x.slice(0, 80) || '—' : x == 'si' ? 'sí' : x == 'no' ? 'no' : '—'));
             saveJob(j, 1)
         }
         if (k == 'cli') {
@@ -23589,6 +24863,19 @@
          ${show.map(k => `<div class="rhd">${esc(tt(k))}<small>${by[k].length} ${by[k].length == 1 ? 'recordatorio' : 'recordatorios'} · ${by[k].filter(x => !x.r.hecho).length} sin atender</small></div>${by[k].map(rhRow).join('')}`).join('') || `<div class="mut" style="margin-top:14px">${sel ? 'No hay recordatorios este día.' : 'Aún no hay recordatorios.'}</div>`}`
     }
     Object.assign(A, {
+        hkm: () => {
+            const on = !hkOn();
+            try {
+                localStorage.lubri_hk = on ? '1' : '0'
+            } catch (e) {}
+            if (!on)
+                Object.keys(TRF.V || {}).forEach(i => HK.stop(+i));
+            document.querySelectorAll('.mhk').forEach(b => {
+                b.innerHTML = ic(on ? 'volume_up' : 'volume_off');
+                b.title = b.ariaLabel = on ? 'Silenciar bocinas' : 'Activar bocinas'
+            });
+            toast(on ? 'volume_up' : 'volume_off', on ? 'Bocinas activadas' : 'Bocinas silenciadas')
+        },
         mzoom: d => {
             const e = mzEl();
             if (!e)
@@ -23629,8 +24916,842 @@
     });
     function vMas() {
         const up = calUp().slice(0, 3);
-        return `<div class="top"><h1>Más</h1></div><div class="mas">${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button></div><div class="verb">v0.49 beta</div></div>`
+        return `<div class="top"><h1>Más</h1></div><div class="mas">${miBanner()}${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}${can('kpis') ? `<button class="mopt" data-a="go" data-v="kpis">${ic('query_stats')}<span>KPIs</span>${ic('chevron_right')}</button>` : ''}${can('cfg') || can('tec') ? `<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button>` : ''}${AUTH_ON && S.me && S.me.rol ? `<button class="mopt" data-a="salir">${ic('logout')}<span>Cerrar sesión · ${esc(S.me.nombre || S.me.email || '')}</span>${ic('chevron_right')}</button>` : ''}</div><div class="verb">v0.49 beta</div></div>`
     }
+    /* ============ v9-8-34 · MÁS › KPIs: los KPI que ya existían + trabajos más realizados, marcas y vehículos recurrentes y gráficos ============ */
+    const KT = [['res', 'query_stats', 'Resumen'], ['trab', 'build', 'Trabajos'], ['veh', 'directions_car', 'Vehículos y marcas'], ['per', 'engineering', 'Personal'], ['graf', 'bar_chart', 'Gráficos']];
+    const KCOL = ['#111111', '#2f6fd0', '#f26a21', '#2e9e5b', '#e5484d', '#7c3aed', '#f5c000', '#8a94a6'];
+    const kPer = () => `<div class="chips kpf">${[['hoy', 'Hoy'], ['7', '7 días'], ['30', '30 días'], ['todo', 'Todo'], ['rango', 'Rango']].map(([k, t]) => `<button class="chip ${(S.tpp || '30') == k ? 'sel' : ''}" data-a="tpp" data-p="${k}">${k == 'rango' ? ic('date_range') + ' ' : ''}${t}</button>`).join('')}</div>${(S.tpp || '30') == 'rango' ? `<div class="krg"><label>Desde<input type="date" id="kd1" value="${S.kd1 || ''}" max="${S.kd2 || ''}"></label><label>Hasta<input type="date" id="kd2" value="${S.kd2 || ''}" min="${S.kd1 || ''}"></label></div>` : ''}`;
+    const kData = () => {
+        const P = S.tpp || '30',
+            inT = iso => kInP(P, iso);
+        return {
+            P,
+            J: S.jobs.filter(j => inT(j.tiempos.ingresoISO)),
+            C: S.jobs.filter(j => j.estado == 'completado' && inT(j.tiempos.completadoISO))
+        }
+    };
+    const kBrand = j => String((j.vehiculo || {}).marca || '').trim();
+    const kPlate = j => (j.vehiculo || {}).patenteN || (j.vehiculo || {}).patente || '';
+    const kRows = (L, col, fmt) => {
+        const mx = Math.max(1, ...L.map(x => x[1]));
+        return L.map(x => `<div class="kr"><div class="t"><span>${x[2] || esc(x[0])}</span><span class="mut">${fmt ? fmt(x) : '<b>' + x[1] + '</b>'}</span></div><div class="bar2"><i style="width:${Math.round(x[1] / mx * 100)}%;background:${col || 'var(--ink)'}"></i></div>${x[3] ? `<div class="sm">${x[3]}</div>` : ''}</div>`).join('')
+    };
+    const kCount = (L, f) => {
+        const m = new Map();
+        L.forEach(j => {
+            const k = f(j);
+            if (!k)
+                return;
+            const o = m.get(k.toLowerCase()) || {
+                n: k,
+                v: 0,
+                pl: new Set()
+            };
+            o.v++;
+            o.pl.add(kPlate(j));
+            m.set(k.toLowerCase(), o)
+        });
+        return [...m.values()].sort((a, b) => b.v - a.v)
+    };
+    const kTile = (i, v, l) => `<div class="kp">${ic(i)}<b>${v}</b><small>${l}</small></div>`;
+    const kSec = (i, t, s) => `<div class="sec">${ic(i)} ${t}</div>${s ? `<div class="sm" style="margin:-2px 0 6px">${s}</div>` : ''}`;
+    const kEmpty = t => `<div class="mut" style="margin:8px 0">${t}</div>`;
+    /* gráficos SVG */
+    const svgBars = (it, col, h) => {
+        h = h || 110;
+        const n = it.length,
+            W = Math.max(n * 26, 260),
+            mx = Math.max(1, ...it.map(x => x[1])),
+            bw = W / n;
+        return `<svg viewBox="0 0 ${W} ${h + 34}" width="100%" role="img" style="display:block">${it.map((x, i) => {const bh = Math.round(x[1] / mx * h);return `<rect x="${(i * bw + bw * .16).toFixed(1)}" y="${h - bh + 14}" width="${(bw * .68).toFixed(1)}" height="${bh}" rx="3" fill="${col || '#111'}"/>${x[1] ? `<text x="${(i * bw + bw / 2).toFixed(1)}" y="${h - bh + 10}" text-anchor="middle" font-size="9" font-weight="700" fill="#111">${x[1]}</text>` : ''}<text x="${(i * bw + bw / 2).toFixed(1)}" y="${h + 28}" text-anchor="middle" font-size="9" fill="#555">${esc(x[0])}</text>`}).join('')}</svg>`
+    };
+    const svgPair = (lab, a, b, ca, cb) => {
+        const h = 110,
+            n = lab.length,
+            W = Math.max(n * 28, 260),
+            mx = Math.max(1, ...a, ...b),
+            bw = W / n;
+        return `<svg viewBox="0 0 ${W} ${h + 34}" width="100%" role="img" style="display:block">${lab.map((l, i) => {const ha = Math.round(a[i] / mx * h),hb = Math.round(b[i] / mx * h),x0 = i * bw + bw * .1,w = bw * .38;return `<rect x="${x0.toFixed(1)}" y="${h - ha + 14}" width="${w.toFixed(1)}" height="${ha}" rx="2" fill="${ca}"/><rect x="${(x0 + w + 1).toFixed(1)}" y="${h - hb + 14}" width="${w.toFixed(1)}" height="${hb}" rx="2" fill="${cb}"/>${a[i] ? `<text x="${(x0 + w / 2).toFixed(1)}" y="${h - ha + 10}" text-anchor="middle" font-size="8" fill="#111">${a[i]}</text>` : ''}${b[i] ? `<text x="${(x0 + w * 1.5 + 1).toFixed(1)}" y="${h - hb + 10}" text-anchor="middle" font-size="8" fill="#111">${b[i]}</text>` : ''}<text x="${(i * bw + bw / 2).toFixed(1)}" y="${h + 28}" text-anchor="middle" font-size="9" fill="#555">${esc(l)}</text>`}).join('')}</svg>`
+    };
+    const svgDonut = it => {
+        const T = it.reduce((a, x) => a + x[1], 0);
+        if (!T)
+            return kEmpty('Sin datos en este periodo.');
+        const R = 40,
+            CI = 2 * Math.PI * R;
+        let off = 0;
+        const arcs = it.map((x, i) => {
+            const len = x[1] / T * CI,
+                s = `<circle cx="60" cy="60" r="${R}" fill="none" stroke="${KCOL[i % KCOL.length]}" stroke-width="22" stroke-dasharray="${len.toFixed(2)} ${(CI - len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 60 60)"/>`;
+            off += len;
+            return s
+        }).join('');
+        return `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><svg viewBox="0 0 120 120" width="132" height="132" role="img"><circle cx="60" cy="60" r="${R}" fill="none" stroke="#eee" stroke-width="22"/>${arcs}<text x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="18" font-weight="800" fill="#111">${T}</text></svg><div style="flex:1;min-width:130px;font-size:13px">${it.map((x, i) => `<div style="display:flex;align-items:center;gap:7px;margin:3px 0"><i style="width:11px;height:11px;border-radius:3px;flex:none;background:${KCOL[i % KCOL.length]}"></i>${x[2] || ''}<span style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(x[0])}</span><b>${x[1]}</b><span class="mut">${Math.round(x[1] / T * 100)}%</span></div>`).join('')}</div></div>`
+    };
+    const kCard = (t, i, h) => `<div class="kcard"><div class="kct">${ic(i)} ${t}</div>${h}</div>`;
+    const kTabRes = () => {
+        const {J, C} = kData(),
+            all = S.jobs,
+            vh = new Set(J.map(kPlate).filter(Boolean)),
+            rec = [...vh].filter(p => all.filter(j => kPlate(j) == p).length > 1).length,
+            mr = kCount(J, kBrand),
+            svN = J.reduce((a, j) => a + (j.servicios || []).length, 0),
+            wd = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            cw = Array(7).fill(0),
+            ch = Array(24).fill(0);
+        J.forEach(j => {
+            const d = new Date(j.tiempos.ingresoISO);
+            cw[d.getDay()]++;
+            ch[d.getHours()]++
+        });
+        const bw = Math.max(...cw),
+            bh = Math.max(...ch);
+        return `<div class="sec">${ic('insights')} Nuevos indicadores</div><div class="kpg">${kTile('login', J.length, 'Ingresadas')}${kTile('task_alt', C.length, 'Completadas')}${kTile('format_list_numbered', J.length ? (svN / J.length).toFixed(1).replace('.', ',') : '—', 'Servicios por orden')}${kTile('directions_car', vh.size, 'Vehículos distintos')}${kTile('autorenew', vh.size ? Math.round(rec / vh.size * 100) + '%' : '—', 'Vehículos recurrentes')}${kTile('workspace_premium', mr.length, 'Marcas distintas')}${kTile('event', bw ? wd[cw.indexOf(bw)] : '—', 'Día más movido')}${kTile('schedule', bh ? ch.indexOf(bh) + ':00' : '—', 'Hora punta')}${kTile('stars', mr[0] ? esc(mr[0].n) : '—', 'Marca top')}</div>${mr.length ? `<div class="sec">${ic('workspace_premium')} Las 6 marcas más recurrentes</div><div class="k3">${mr.slice(0, 6).map((x, i) => `<div><span class="k3n">${i + 1}</span><div class="k3l">${brandBadge(x.n, 1)}</div><b>${esc(x.n)}</b><small>${x.v} ${x.v == 1 ? 'visita' : 'visitas'} · ${x.pl.size} ${x.pl.size == 1 ? 'vehículo' : 'vehículos'}</small></div>`).join('')}</div>` : ''}<div class="sec">${ic('query_stats')} KPI del taller</div>${kpi(null, 1)}`
+    };
+    const kTabTrab = () => {
+        const {C} = kData(),
+            sv = new Map(),
+            gr = new Map();
+        C.forEach(j => (j.servicios || []).forEach(s => {
+            if (s.hecho === false)
+                return;
+            sv.set(s.nombre, (sv.get(s.nombre) || 0) + 1);
+            const g = s.grupo || 'Otros';
+            gr.set(g, (gr.get(g) || 0) + 1)
+        }));
+        const S1 = [...sv.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10),
+            G1 = [...gr.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+        return `${kpiTop()}<div class="sec">${ic('task_alt')} Trabajos más realizados</div><div class="sm" style="margin:-2px 0 6px">Servicios terminados en órdenes completadas del periodo (${C.length} ${C.length == 1 ? 'orden' : 'órdenes'})</div>${S1.length ? kRows(S1.map(x => [x[0], x[1], esc(x[0]), Math.round(x[1] / C.length * 100) + '% de las órdenes completadas']), '#2e9e5b') : kEmpty('Aún no hay órdenes completadas en este periodo.')}${G1.length ? `<div class="sec">${ic('category')} Tipos de trabajo más realizados</div>${kRows(G1.map(x => [x[0], x[1]]), '#2f6fd0')}` : ''}`
+    };
+    const kTabVeh = () => {
+        const {J} = kData(),
+            mr = kCount(J, kBrand).slice(0, 10),
+            mo = kCount(J, j => {
+                const v = j.vehiculo || {};
+                return [v.marca, v.modelo].filter(Boolean).map(x => String(x).trim()).join(' ')
+            }).slice(0, 10),
+            vm = new Map();
+        J.forEach(j => {
+            const k = kPlate(j);
+            if (k)
+                (vm.get(k) || vm.set(k, []).get(k)).push(j)
+        });
+        const VR = [...vm.values()].filter(L => L.length > 1).sort((a, b) => b.length - a.length).slice(0, 10);
+        return `<div class="sm">${J.length} ${J.length == 1 ? 'orden ingresada' : 'órdenes ingresadas'} en el periodo</div>${kSec('workspace_premium', 'Marcas más recurrentes', 'Visitas por marca y cuántos vehículos distintos')}${mr.length ? kRows(mr.map(x => [x.n, x.v, `<span style="display:inline-flex;align-items:center;gap:7px">${brandBadge(x.n)}<b>${esc(x.n)}</b></span>`, x.pl.size + (x.pl.size == 1 ? ' vehículo' : ' vehículos')]), '#7c3aed', x => `<b>${x[1]}</b> ${x[1] == 1 ? 'visita' : 'visitas'} · ${Math.round(x[1] / J.length * 100)}%`) : kEmpty('Sin marcas registradas en este periodo.')}${kSec('directions_car', 'Modelos más recurrentes')}${mo.length ? kRows(mo.map(x => [x.n, x.v]), '#2f6fd0', x => `<b>${x[1]}</b> ${x[1] == 1 ? 'visita' : 'visitas'}`) : kEmpty('Sin datos.')}${kSec('autorenew', 'Vehículos más recurrentes', 'Vehículos que volvieron en el periodo')}${VR.length ? VR.map(L => {const v = L[0].vehiculo || {},ds = L.map(j => Date.parse(j.tiempos.ingresoISO)).sort((a, b) => a - b),cada = Math.round((ds[ds.length - 1] - ds[0]) / 864e5 / (L.length - 1));return `<div class="kr"><div class="t"><span>${plate(v.patente, 's')}</span><span class="mut"><b>${L.length}</b> visitas</span></div><div class="sm">${esc([v.marca, v.modelo].filter(Boolean).join(' ') || '—')} · última ${fdt(L.map(j => j.tiempos.ingresoISO).sort().pop())}${cada > 0 ? ' · vuelve cada ~' + cada + (cada == 1 ? ' día' : ' días') : ''}</div></div>`}).join('') : kEmpty('Ningún vehículo volvió en este periodo.')}`
+    };
+    const kTabGraf = () => {
+        const {J, C} = kData(),
+            D = [],
+            dn = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+        const fin = (S.tpp == 'rango' && S.kd2) ? new Date(S.kd2 + 'T00:00:00') : new Date();
+        for (let i = 13; i >= 0; i--) {
+            const d = new Date(fin);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() - i);
+            D.push(d)
+        }
+        const ki = D.map(d => dkey(d)),
+            ing = ki.map(k => S.jobs.filter(j => dkey(j.tiempos.ingresoISO) == k).length),
+            cmp = ki.map(k => S.jobs.filter(j => j.estado == 'completado' && j.tiempos.completadoISO && dkey(j.tiempos.completadoISO) == k).length),
+            wd = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+            cw = Array(7).fill(0),
+            ch = Array(24).fill(0);
+        J.forEach(j => {
+            const d = new Date(j.tiempos.ingresoISO);
+            cw[(d.getDay() + 6) % 7]++;
+            ch[d.getHours()]++
+        });
+        const hs = ch.map((v, h) => v ? h : -1).filter(h => h >= 0),
+            lo = Math.min(7, ...hs),
+            hi = Math.max(20, ...hs),
+            HH = [];
+        for (let h = lo; h <= hi; h++)
+            HH.push([h + '', ch[h]]);
+        const mr = kCount(J, kBrand),
+            top = mr.slice(0, 5).map(x => [x.n, x.v, brandBadge(x.n)]),
+            otros = mr.slice(5).reduce((a, x) => a + x.v, 0);
+        if (otros)
+            top.push(['Otras', otros]);
+        const zs = S.cfg.zonas.map(z => {
+            const L = C.filter(j => zof(j) == z.id);
+            return [z.nombre, L.length ? Math.round(L.reduce((a, j) => a + j.tiempos.realSeg, 0) / L.length / 60) : 0, L.length ? Math.round(L.reduce((a, j) => a + j.tiempos.estSeg, 0) / L.length / 60) : 0]
+        }).filter(x => x[1] || x[2]);
+        const zr = S.cfg.zonas.map(z => [z.nombre, J.filter(j => zof(j) == z.id).length]).filter(x => x[1]);
+        const leg = (a, b, ca, cb) => `<div class="sm" style="display:flex;gap:12px;margin-bottom:4px"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${ca}"></i> ${a}</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${cb}"></i> ${b}</span></div>`;
+        return `${kCard('Ingresadas vs completadas · 14 días' + ((S.tpp == 'rango' && S.kd2) ? ' hasta el ' + S.kd2.split('-').reverse().join('/') : ''), 'date_range', leg('Ingresadas', 'Completadas', '#2f6fd0', '#2e9e5b') + svgPair(D.map(d => d.getDate() + ''), ing, cmp, '#2f6fd0', '#2e9e5b'))}${kCard('Órdenes por día de la semana', 'calendar_view_week', svgBars(wd.map((n, i) => [n, cw[i]]), '#f26a21'))}${kCard('Ingresos por hora del día', 'schedule', svgBars(HH, '#7c3aed'))}${kCard('Marcas más recurrentes', 'workspace_premium', svgDonut(top))}${kCard('Órdenes por zona', 'location_on', svgDonut(zr))}${kCard('Tiempo real vs estimado por zona (min promedio)', 'timer', zs.length ? leg('Real', 'Estimado', '#111', '#b9c0cc') + svgPair(zs.map(x => x[0].slice(0, 9)), zs.map(x => x[1]), zs.map(x => x[2]), '#111', '#b9c0cc') : kEmpty('Aún no hay órdenes completadas en este periodo.'))}`
+    };
+    /* v9-8-36 · KPIs del Dashboard: resumen corto y general (sin datos de personas); el detalle completo está en Más › KPIs */
+    function dashKpi() {
+        const P = (S.tpp && S.tpp != 'rango') ? S.tpp : '30',
+            inT = iso => kInP(P, iso),
+            J = S.jobs.filter(j => inT(j.tiempos.ingresoISO)),
+            C = S.jobs.filter(j => j.estado == 'completado' && inT(j.tiempos.completadoISO)),
+            mr = kCount(J, kBrand).slice(0, 6);
+        const ch = `<div class="chips kpf">${[['hoy', 'Hoy'], ['7', '7 días'], ['30', '30 días'], ['todo', 'Todo']].map(([k, t]) => `<button class="chip ${P == k ? 'sel' : ''}" data-a="tpp" data-p="${k}">${t}</button>`).join('')}</div>`;
+        const zm = S.cfg.zonas.map(z => {
+                const L = C.filter(j => zof(j) == z.id && j.tiempos && j.tiempos.realSeg > 0);
+                return [z.nombre, L.length ? L.reduce((a, j) => a + j.tiempos.realSeg, 0) / L.length : 0, L.length ? L.reduce((a, j) => a + (j.tiempos.estSeg || 0), 0) / L.length : 0, L.length]
+            }).filter(x => x[1]).sort((a, b) => b[1] - a[1]).slice(0, 3),
+            zx = Math.max(1, ...zm.map(x => x[1])),
+            dem = zm.length ? `<div class="kpin" style="margin-top:12px"><div class="sec">${ic('timer')} Lo que más demora</div><div class="sm" style="margin:-2px 0 6px">Tiempo real promedio por zona en órdenes completadas</div>${zm.map(x => `<div class="kr"><div class="t"><span>${esc(x[0])}</span><span class="mut"><b>${fdur(Math.round(x[1]))}</b> · ${x[3]} ${x[3] == 1 ? 'orden' : 'órdenes'}</span></div><div class="bar2"><i style="width:${Math.round(x[1] / zx * 100)}%;background:var(--ink)"></i></div>${x[2] ? `<div class="sm">Estimado: ${fdur(Math.round(x[2]))}</div>` : ''}</div>`).join('')}</div>` : '';
+        const o = S.tpp;
+        if (o == 'rango')
+            S.tpp = '30';
+        let top;
+        window.KSH = 1;
+        window.KDASH = 1;
+        try {
+            top = kpiTop()
+        } finally {
+            window.KSH = 0;
+            window.KDASH = 0;
+            S.tpp = o
+        }
+        return `<div class="kpin">${ch}<div class="kpg">${kTile('login', J.length, 'Ingresadas')}${kTile('task_alt', C.length, 'Completadas')}${kTile('workspace_premium', mr[0] ? esc(mr[0].n) : '—', 'Marca top')}</div>
+         ${mr.length ? `<div class="sec">${ic('workspace_premium')} Marcas principales</div><div class="k3">${mr.map((x, i) => `<div><span class="k3n">${i + 1}</span><div class="k3l">${brandBadge(x.n, 1)}</div><b>${esc(x.n)}</b><small>${x.v} ${x.v == 1 ? 'visita' : 'visitas'}</small></div>`).join('')}</div>` : ''}</div>
+         <div style="margin-top:12px">${top}</div>
+        ${dem}`
+    }
+    /* v9-8-37 · tipo de vehículo (Sedán, SUV, Camioneta, Camión) y ubicación de la llave */
+    const TVI = (d, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/><circle cx="${w[0]}" cy="16" r="1.9"/><circle cx="${w[1]}" cy="16" r="1.9"/></svg>`;
+    const TV = [['Sedán', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-2.7l2.7-.8 2.5-3.5h7l3 3.5 3.3.8V16', [6.4, 17.6])], ['SUV', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16V9.8c0-.4.3-.8.7-.9l4-.9h7.4c.4 0 .8.2 1.1.5l3.2 3.3c.4.4.6.9.6 1.4V16', [6.4, 17.6])], ['Camioneta', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-3.8h7.6V8.6h4.1l3.3 3.6 3.9.8V16', [6.4, 17.6])], ['Camión', TVI('M2.5 16h1.9M8.4 16h5.2M20 16h1.5M2.5 16V6.5h10.4V16M12.9 9.6h4.4l3.2 3.3V16', [6.4, 17.6])]];
+    const tvSel = (cur, act, x) => `<div class="tvs" role="group" aria-label="Tipo de vehículo">${TV.map(([n, i]) => `<button type="button" class="tv${String(cur || '').toLowerCase() == n.toLowerCase() ? ' on' : ''}" data-a="${act}" data-t="${n}" ${x || ''}>${i}<small>${n}</small></button>`).join('')}</div>`;
+    const LLV_B = () => [...new Set(['Mesón', 'Con el cliente', ...(S.cfg.zonas || []).map(z => z.nombre)])];
+    function llaveModal() {
+        const m = S.modal,
+            j = get(m.id);
+        if (!j)
+            return '';
+        const l = j.llave || {};
+        return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('key')}<div><b style="font-size:18px">Dónde está la llave</b><div class="sm">${esc(fmtPl(j.vehiculo.patente))}${j.ot ? ' · OT ' + esc(j.ot) : ''}${l.donde ? '<br>Ahora: <b>' + esc(l.donde) + '</b> · ' + fdt(l.iso) : ''}</div></div></div>
+         <div class="chips" style="margin-top:12px;flex-wrap:wrap">${LLV_B().map(n => `<button type="button" class="chip ${l.donde == n ? 'sel' : ''}" data-a="llvset" data-id="${j.id}" data-w="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+         <div class="sec">${ic('edit_note')} Otro lugar</div><input id="llv_t" placeholder="Ej: colgada en el panel, con Pedro…" maxlength="60" autocomplete="off" style="width:100%">
+         <div class="btns" style="margin-top:16px"><button data-a="llvok" data-id="${j.id}">Guardar</button>${l.donde ? `<button data-a="llvset" data-id="${j.id}" data-w="">Quitar</button>` : ''}<button data-a="cerrar">Cerrar</button></div></div></div>`
+    }
+    function setLlave(j, w) {
+        if (w)
+            j.llave = {
+                donde: w.slice(0, 60),
+                iso: now(),
+                por: autor()
+            };
+        else
+            delete j.llave;
+        ev(j, 'llave', w ? 'llave en: ' + w : 'sin ubicación de la llave');
+        S.modal = null;
+        saveJob(j, 1);
+        render(1);
+        toast('key', w ? 'Llave: ' + w : 'Ubicación de la llave quitada')
+    }
+    Object.assign(A, {
+        llv: d => {
+            S.modal = {
+                k: 'llave',
+                id: d.id
+            };
+            render(1)
+        },
+        llvset: d => {
+            const j = get(d.id);
+            if (j)
+                setLlave(j, (d.w || '').trim())
+        },
+        llvok: d => {
+            const j = get(d.id),
+                w = ($('#llv_t')?.value || '').trim();
+            if (!j)
+                return;
+            if (!w)
+                return toast('warning', 'Escribe o elige dónde está la llave');
+            setLlave(j, w)
+        },
+        tvjob: d => {
+            const j = get(d.id);
+            if (!j)
+                return;
+            const v = j.vehiculo,
+                x = String(v.tipov || '').toLowerCase() == d.t.toLowerCase() ? '' : d.t;
+            v.tipov = x;
+            ev(j, 'vehiculo', 'tipo: ' + (x || '—'));
+            saveJob(j, 1);
+            render(1)
+        },
+        tvnew: (d, b) => {
+            const x = String(D.tipov || '').toLowerCase() == d.t.toLowerCase() ? '' : d.t;
+            D.tipov = x;
+            const g = b && b.closest && b.closest('.tvs');
+            if (g)
+                g.querySelectorAll('.tv').forEach(e => e.classList.toggle('on', !!x && e.dataset.t == x))
+        }
+    });
+    ['llvset', 'llvok', 'tvjob', 'tvnew'].forEach(x => TAPS.add(x));
+    /* v9-8-37 · saludo con el nombre de quien usa el equipo; los perfiles genéricos (Recepción 1, Caja 2…) no cuentan como persona */
+    const esGen = n => /\d\s*$/.test(String(n || '')) || /^(recepci[oó]n|caja|mes[oó]n|administraci[oó]n|ventas|bodega)$/i.test(String(n || '').trim());
+    const nomPers = () => personas().filter(p => p.nombre && !esGen(p.nombre));
+    const meNom = () => {
+        const a = autor();
+        return nomPers().find(p => p.nombre == a)
+    };
+    const hiName = () => {
+        const p = meNom();
+        return p ? esc(p.nombre.trim().split(/\s+/)[0]) : ''
+    };
+    const hiAsk = () => AUTH_ON || meNom() || !nomPers().length || MODO == 'sala' ? '' : `<button type="button" class="hiask" data-a="quien">${ic('person_add')}<span>Elige quién usa este equipo<small>${esGen(autor()) ? 'Este equipo está asignado a «' + esc(autor()) + '», que no es una persona' : 'Aún no hay una persona asignada'}</small></span>${ic('chevron_right')}</button>`;
+    const quienModal = () => `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('person')}<div><b style="font-size:18px">¿Quién usa este equipo?</b><div class="sm">Elige tu nombre: el saludo, tus órdenes y tus avisos usan esta elección</div></div></div><div class="chips" style="margin-top:12px;flex-wrap:wrap">${nomPers().map(p => `<button type="button" class="chip ${autor() == p.nombre ? 'sel' : ''}" data-a="quienset" data-n="${esc(p.nombre)}">${esc(p.nombre)}</button>`).join('')}</div><div class="btns" style="margin-top:16px"><button data-a="cerrar">Cerrar</button></div></div></div>`;
+    Object.assign(A, {
+        quien: () => {
+            S.modal = {
+                k: 'quien'
+            };
+            render(1)
+        },
+        quienset: d => {
+            try {
+                localStorage.lubri_autor = d.n
+            } catch (e) {}
+            S.modal = null;
+            render(1);
+            toast('person', 'Equipo asignado a ' + d.n)
+        }
+    });
+    ['quienset'].forEach(x => TAPS.add(x));
+    /* v9-8-39 · grúa con casillas, notas y diagnósticos múltiples en el formulario, pestaña Personal */
+    function grSvg() {
+        return '<svg class="gki" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.4 17h1.9M8.3 17h7.2M19.5 17h2.1M2.4 17v-3.3h10.3v-4.1h4.6l3.3 3.5 1 .4V17"/><circle cx="6.3" cy="17" r="1.9"/><circle cx="17.6" cy="17" r="1.9"/><path d="M4.3 13.7 10 5.6h1.6M11.6 5.6v3.8"/><path d="M11.6 9.4a1.1 1.1 0 1 1-1.1 1.1"/></svg>'
+    }
+    function gruaRow(g, c, aG, xG, aC, xC) {
+        const on = g == 'si';
+        return `<div class="gkr${on ? ' two' : ''}"><button type="button" class="gk g${on ? ' on' : ''}" data-a="${aG}" ${xG} aria-pressed="${on}">${grSvg()}<span class="gkt">Llegó en grúa</span><i class="gkc">${ic('check')}</i></button>${on ? `<button type="button" class="gk cob${c == 'si' ? ' on' : ''}" data-a="${aC}" ${xC} aria-pressed="${c == 'si'}"><span class="gkt">Se debe cobrar</span><i class="gkc">${ic('check')}</i></button>` : ''}</div>`
+    }
+    function ntBox(k, l, ph) {
+        const L = D['l' + k] || [];
+        return `<div><h3>${l}</h3>${L.map((x, i) => `<div class="fnt"><span>${esc(x)}</span><button type="button" data-a="ntdel" data-k="l${k}" data-i="${i}" title="Quitar" aria-label="Quitar">${ic('close')}</button></div>`).join('')}<div class="fadd"><textarea data-f="nota${k}" rows="2" style="width:100%;border-radius:12px" placeholder="${ph}">${esc(D['nota' + k] || '')}</textarea><button type="button" data-a="ntadd" data-k="${k}" title="Agregar otro comentario" aria-label="Agregar otro comentario">${ic('add')}</button></div></div>`
+    }
+    function dgForm() {
+        const L = D.lD || [];
+        return `<div style="margin-top:6px" class="fdg"><h3>${ic('stethoscope')} ${D._edit ? 'Agregar diagnóstico del vehículo' : 'Diagnóstico del vehículo'}</h3>${L.map((e, i) => {const n = diagSplit(e.x).length;return `<div class="fnt"><span>${e.t ? `<b>${esc(e.t)}</b>` : ''}${esc(e.x.length > 140 ? e.x.slice(0, 140) + '…' : e.x)}<br><small class="mut">${n} ${n == 1 ? 'punto' : 'puntos'}</small></span><button type="button" data-a="dgfdel" data-i="${i}" title="Quitar" aria-label="Quitar">${ic('close')}</button></div>`}).join('')}<input data-f="diagT" placeholder="Título (opcional): ej. Motor, Frenos…" maxlength="60" autocomplete="off" value="${esc(D.diagT || '')}"><div class="fadd"><textarea data-f="diag" rows="3" style="width:100%;border-radius:12px" placeholder="Pega o escribe el diagnóstico: se separa solo en puntos">${esc(D.diag || '')}</textarea><button type="button" data-a="dgfadd" title="Agregar otro diagnóstico" aria-label="Agregar otro diagnóstico">${ic('add')}</button></div></div>`
+    }
+    function ntAll(k) {
+        return [...(D['l' + k] || []), D['nota' + k]].filter(x => x && String(x).trim())
+    }
+    function dgAll() {
+        return [...(D.lD || []), {
+            t: D.diagT,
+            x: D.diag
+        }].filter(e => e && e.x && String(e.x).trim()).flatMap(e => dgNew(e.x, e.t))
+    }
+    function kTabPer() {
+        const {P, J, C} = kData(),
+            inT = iso => kInP(P, iso),
+            fm = s => s ? fdur(Math.round(s)) : '—',
+            av = (L, f) => L.length ? L.reduce((a, j) => a + f(j), 0) / L.length : 0;
+        const M = [...(S.cfg.mecanicos || []).map(m => ({
+            id: m.id,
+            n: m.nombre
+        })), {
+            id: '',
+            n: 'Sin asignar'
+        }];
+        const R = M.map(m => {
+            const L = S.jobs.filter(j => (j.mecanicoId || '') == m.id && (inT(j.tiempos.ingresoISO) || inT(j.tiempos.completadoISO) || j.estado != 'completado')).sort((a, b) => cmpS(b.tiempos.ingresoISO || '', a.tiempos.ingresoISO || '')),
+                done = L.filter(j => j.estado == 'completado' && inT(j.tiempos.completadoISO)),
+                act = L.filter(j => j.estado != 'completado'),
+                ok = done.filter(j => j.tiempos.desvSeg <= 0).length,
+                pau = L.reduce((a, j) => a + (j.eventos || []).filter(e => e.tipo == 'pausado' && inT(e.fechaISO)).length, 0),
+                sv = done.reduce((a, j) => a + (j.servicios || []).filter(s => s.hecho !== false).length, 0);
+            return {
+                m,
+                L,
+                done,
+                act,
+                ok,
+                pau,
+                sv,
+                real: av(done, j => j.tiempos.realSeg),
+                est: av(done, j => j.tiempos.estSeg || 0),
+                dv: av(done, j => j.tiempos.desvSeg || 0),
+                tot: done.reduce((a, j) => a + (j.tiempos.realSeg || 0), 0)
+            }
+        }).filter(r => r.m.id || r.L.length).sort((a, b) => b.L.length - a.L.length);
+        const card = r => {
+            const id = r.m.id || '_',
+                op = !!(S.kpe || {})[id],
+                pc = r.done.length ? Math.round(r.ok / r.done.length * 100) : null,
+                dv = Math.round(r.dv / 60);
+            return `<div class="pcd ${op ? 'open' : ''}"><button class="pch" data-a="kpe" data-id="${esc(id)}" aria-expanded="${op}"><span class="pav">${esc((r.m.n || '?').trim().charAt(0).toUpperCase())}</span><span class="pn"><b>${esc(r.m.n)}</b><small>${r.L.length} ${r.L.length == 1 ? 'orden' : 'órdenes'} · ${r.done.length} compl. · prom. ${fm(r.real)}</small></span>${ic('expand_more', 'chev')}</button>${op ? `<div class="pcb"><div class="kpg">${kTile('assignment_ind', r.L.length, 'Asignadas')}${kTile('task_alt', r.done.length, 'Completadas')}${kTile('build', r.act.length, 'En curso')}${kTile('timer', fm(r.real), 'Real promedio')}${kTile('schedule', fm(r.est), 'Estimado prom.')}${kTile('percent', pc == null ? '—' : pc + '%', 'A tiempo')}${kTile('hourglass_top', fm(r.tot), 'Tiempo total')}${kTile(dv > 0 ? 'trending_up' : 'trending_down', r.done.length ? (dv > 0 ? '+' : '') + dv + ' min' : '—', 'Desviación prom.')}${kTile('pause_circle', r.pau, 'Pausas')}</div><div class="sm" style="margin:2px 0 6px">${r.sv} ${r.sv == 1 ? 'servicio terminado' : 'servicios terminados'} en el periodo</div>${r.L.length ? r.L.slice(0, 30).map(j => `<div class="pco">${plate((j.vehiculo || {}).patente, 's')}<span>${j.ot ? 'OT ' + esc(j.ot) : 'SOT'}</span><span class="pcs">${esc(ESTADO[sc(j)] || '')} · ${fm(j.estado == 'completado' ? j.tiempos.realSeg : j.tiempos.acumSeg)}</span></div>`).join('') + (r.L.length > 30 ? `<div class="sm">y ${r.L.length - 30} más…</div>` : '') : kEmpty('Sin órdenes asignadas en este periodo.')}</div>` : ''}</div>`
+        };
+        return `${kSec('engineering', 'Personal', 'Toca a cada integrante para ver sus órdenes, tiempos y promedios')}${R.length ? R.map(card).join('') : kEmpty('Aún no hay mecánicos con órdenes en este periodo.')}`
+    }
+    Object.assign(A, {
+        kpe: d => {
+            S.kpe = S.kpe || {};
+            S.kpe[d.id] = !S.kpe[d.id];
+            render(1)
+        },
+        grtg: () => {
+            collect();
+            D.grua = D.grua == 'si' ? '' : 'si';
+            if (D.grua != 'si')
+                D.gruaCob = '';
+            render(1)
+        },
+        cbtg: () => {
+            collect();
+            D.gruaCob = D.gruaCob == 'si' ? '' : 'si';
+            render(1)
+        },
+        jxg: d => {
+            const j = get(d.id);
+            if (!j)
+                return;
+            const f = d.k,
+                x = j[f] == 'si' ? '' : 'si';
+            j[f] = x;
+            if (f == 'grua' && x != 'si')
+                j.gruaCob = '';
+            ev(j, 'orden', ({
+                grua: 'llegó en grúa',
+                gruaCob: 'cobro de la grúa'
+            })[f] + ': ' + (x == 'si' ? 'sí' : 'no'));
+            saveJob(j, 1);
+            render(1)
+        },
+        ntadd: d => {
+            collect();
+            const k = 'nota' + d.k,
+                v = (D[k] || '').trim();
+            if (!v)
+                return toast('warning', 'Escribe el comentario antes de agregarlo');
+            (D['l' + d.k] = D['l' + d.k] || []).push(v);
+            D[k] = '';
+            render(1)
+        },
+        ntdel: d => {
+            collect();
+            (D[d.k] || []).splice(+d.i, 1);
+            render(1)
+        },
+        dgfadd: () => {
+            collect();
+            const x = (D.diag || '').trim();
+            if (!x)
+                return toast('warning', 'Escribe o pega el diagnóstico antes de agregarlo');
+            (D.lD = D.lD || []).push({
+                t: (D.diagT || '').trim(),
+                x
+            });
+            D.diag = '';
+            D.diagT = '';
+            render(1)
+        },
+        dgfdel: d => {
+            collect();
+            (D.lD || []).splice(+d.i, 1);
+            render(1)
+        }
+    });
+    ['kpe', 'grtg', 'cbtg', 'jxg', 'ntadd', 'ntdel', 'dgfadd', 'dgfdel'].forEach(x => TAPS.add(x));
+    /* v9-8-43 · INICIO DE SESIÓN CON USUARIO, ROLES Y PERMISOS */
+    const AUTH_DOM = '@lubhub.app',
+        ROLES = [['dev', 'Programador'], ['admin', 'Administración'], ['ventas', 'Ventas / recepción'], ['mec', 'Mecánico'], ['sala', 'Sala']],
+        PERMS = [['kpis', 'Ver KPIs'], ['cfg', 'Configuración general'], ['tec', 'Configuración técnica (API, conexión, modos)']],
+        PERM0 = {
+            admin: {
+                kpis: 1,
+                cfg: 1,
+                tec: 0
+            },
+            ventas: {
+                kpis: 0,
+                cfg: 0,
+                tec: 0
+            },
+            mec: {
+                kpis: 0,
+                cfg: 0,
+                tec: 0
+            },
+            sala: {
+                kpis: 0,
+                cfg: 0,
+                tec: 0
+            }
+        };
+    function usrNorm(u) {
+        return String(u || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9._-]/g, '')
+    }
+    function usrMail(u) {
+        return usrNorm(u) + AUTH_DOM
+    }
+    function authGate() {
+        return AUTH_ON && !S.authBypass && !(S.me && S.me.rol)
+    }
+    function can(p) {
+        if (!AUTH_ON || S.authBypass)
+            return true;
+        const r = S.me && S.me.rol;
+        if (r == 'dev')
+            return true;
+        const t = (S.cfg && S.cfg.permisos) || PERM0;
+        return !!(t[r] && t[r][p])
+    }
+    function miUsr() {
+        const m = S.me,
+            ro = m && (ROLES.find(r => r[0] == m.rol) || [])[1];
+        if (!AUTH_ON)
+            return `<section><b>Mi usuario</b><div class="note">Inicio de sesión desactivado: este equipo usa a <b>${esc(autor())}</b>. Cuando lo actives, aquí verás tu usuario y rol.</div></section>`;
+        if (!m)
+            return '';
+        return `<section><b>Mi usuario</b><div class="li"><span><b>${esc(m.nombre || '—')}</b><br><small class="mut">@${esc(m.usuario || '')}</small></span><span class="tg">${esc(ro || '')}</span></div><div class="note">${m.rol == 'dev' ? 'Las contraseñas las cambias tú: crea el usuario de nuevo con otra clave o cámbiala en la consola de Firebase.' : 'Si olvidaste tu contraseña, pídesela al programador.'}</div><div class="btns"><button data-a="salir">${ic('logout')} Cerrar sesión</button></div></section>`
+    }
+    function miBanner() {
+        const m = AUTH_ON && S.me && S.me.rol ? S.me : null,
+            per = m && m.personaId ? paraNom(m.personaId) : '',
+            nom = m ? (per || m.nombre || m.usuario || '') : (autor() == 'sin_asignar' ? '' : autor()),
+            ro = m && (ROLES.find(r => r[0] == m.rol) || [])[1],
+            tel = m ? (m.telefono || '') : (() => {
+                try {
+                    return localStorage.lub_tel || ''
+                } catch (e) {
+                    return ''
+                }
+            })();
+        return `<div class="mib"><span class="pav">${esc((nom || '?').trim().charAt(0).toUpperCase())}</span><div class="mibt"><b>${esc(nom || 'Sin usuario seleccionado')}</b>${ro ? `<small>${esc(ro)}${m.usuario ? ' · @' + esc(m.usuario) : ''}</small>` : ''}<label class="mibp">${ic('call')}<input type="tel" data-mi="telefono" placeholder="Agregar teléfono" value="${esc(tel)}" autocomplete="tel"></label></div></div>`
+    }
+    function noAcc(t) {
+        return `<div class="top"><button data-a="go" data-v="home" aria-label="Volver">${ic('first_page')}</button><h1>${t}</h1></div><div class="mut" style="margin:18px 0">${ic('lock')} Tu usuario no tiene permiso para ver esta sección. Si la necesitas, pídesela a quien administra la app.</div>`
+    }
+    function loginView() {
+        const m = S.me;
+        if (m && !m.rol)
+            return `<div class="lgv"><h1>Sin acceso</h1><p class="note">Tu usuario existe, pero aún no tiene un rol asignado. Avisa a quien administra la app.</p><p class="note">@${esc(m.usuario || '')}${m.err ? '<br>' + esc(m.err) : ''}</p><div class="btns"><button data-a="salir">Cerrar sesión</button></div></div>`;
+        if (!S.login)
+            return `<div class="lgv"><p class="note">Conectando…</p></div>`;
+        return `<div class="lgv"><h1>Ingresar</h1><input id="lg_u" placeholder="Usuario" autocomplete="username" autocapitalize="off" autocorrect="off"><input id="lg_p" type="password" placeholder="Contraseña" autocomplete="current-password">${S.lerr ? `<p class="note" style="color:#d62020">${esc(S.lerr)}</p>` : ''}<div class="btns"><button data-a="login">Ingresar</button></div><p class="note">También puedes escanear tu QR de ingreso con la cámara del celular.</p></div>`
+    }
+    function authInit(ap) {
+        const au = FA.getAuth(ap);
+        fb.auth = au;
+        const qh = location.hash.match(/^#qr=(.+)$/);
+        if (qh) {
+            try {
+                const s = decodeURIComponent(escape(atob(decodeURIComponent(qh[1])))),
+                    i = s.indexOf(':');
+                history.replaceState(null, '', location.pathname + location.search);
+                FA.signInWithEmailAndPassword(au, usrMail(s.slice(0, i)), s.slice(i + 1)).catch(() => {
+                    S.lerr = 'El QR no es válido';
+                    render(1)
+                })
+            } catch (x) {}
+        }
+        FA.onAuthStateChanged(au, async u => {
+            if (!u) {
+                S.me = null;
+                S.login = 1;
+                render(1);
+                return
+            }
+            const us0 = String(u.email || '').replace(AUTH_DOM, '');
+            try {
+                const d = await fb.f.getDoc(fb.f.doc(fb.db, 'usuarios', u.uid));
+                let dd = d.exists() ? d.data() : null;
+                if (!dd && DEV_USUARIO && u.email && u.email.toLowerCase() == usrMail(DEV_USUARIO)) {
+                    dd = {
+                        usuario: usrNorm(DEV_USUARIO),
+                        nombre: DEV_NOMBRE,
+                        rol: 'dev'
+                    };
+                    await fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', u.uid), dd)
+                }
+                if (!dd) {
+                    S.me = {
+                        uid: u.uid,
+                        usuario: us0,
+                        rol: ''
+                    };
+                    S.login = 0;
+                    render(1);
+                    return
+                }
+                S.me = {
+                    uid: u.uid,
+                    usuario: us0,
+                    ...dd
+                }
+            }
+            catch (e) {
+                S.me = {
+                    uid: u.uid,
+                    usuario: us0,
+                    rol: '',
+                    err: String(e && e.message || e)
+                };
+                S.login = 0;
+                render(1);
+                return
+            }
+            S.login = 0;
+            try {
+                if (S.me.nombre && !S.me.personaId)
+                    localStorage.lubri_autor = S.me.nombre;
+                const want = S.me.rol == 'sala' ? 'sala' : S.me.rol == 'mec' ? 'mec' : 'admin';
+                if (sessionStorage.lub_rm != want) {
+                    sessionStorage.lub_rm = want;
+                    if (localStorage.lubri_modo != want) {
+                        localStorage.lubri_modo = want;
+                        location.reload();
+                        return
+                    }
+                }
+            } catch (e) {}
+            if (S.me.rol == 'dev')
+                fb.f.onSnapshot(fb.f.collection(fb.db, 'usuarios'), s => {
+                    S.usr = s.docs.map(x => ({
+                        id: x.id,
+                        ...x.data()
+                    }));
+                    renderLater(1)
+                }, () => {});
+            fbGo();
+            render(1)
+        })
+    }
+    function qrLoad() {
+        return new Promise((res, rej) => {
+            if (window.QRCode)
+                return res();
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+            s.onload = res;
+            s.onerror = rej;
+            document.head.appendChild(s)
+        })
+    }
+    async function qrMake(us, p) {
+        await qrLoad();
+        const el = document.createElement('div'),
+            url = location.origin + location.pathname + '#qr=' + encodeURIComponent(btoa(unescape(encodeURIComponent(us + ':' + p))));
+        new QRCode(el, {
+            text: url,
+            width: 200,
+            height: 200,
+            correctLevel: QRCode.CorrectLevel.M
+        });
+        const cv = el.querySelector('canvas');
+        return cv ? cv.toDataURL('image/png') : ((el.querySelector('img') || {}).src || '')
+    }
+    function perOpts(sel) {
+        const g = (t, L) => L && L.length ? `<optgroup label="${t}">${L.map(p => `<option value="${esc(p.id)}" ${sel == p.id ? 'selected' : ''}>${esc(p.nombre)}</option>`).join('')}</optgroup>` : '';
+        return `<option value="">— Enlazar con una persona existente —</option>${g('Mecánicos', S.cfg.mecanicos)}${g('Administrativos y ventas', S.cfg.recepcion)}`
+    }
+    function usrSec() {
+        if (AUTH_ON && !(S.me && S.me.rol == 'dev'))
+            return '';
+        const T = S.cfg.permisos || PERM0,
+            RR = ROLES.filter(r => r[0] != 'dev');
+        const tab = `<div style="overflow-x:auto"><table class="pmt"><thead><tr><th></th>${RR.map(r => `<th>${r[1]}</th>`).join('')}</tr></thead><tbody>${PERMS.map(p => `<tr><td>${p[1]}</td>${RR.map(r => `<td><input type="checkbox" data-pm="${r[0]}:${p[0]}" ${(T[r[0]] || {})[p[0]] ? 'checked' : ''}></td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+        const us = (S.usr || []).map(u => `<div class="li"><span><b>${esc(u.nombre || u.usuario || u.id)}</b><br><small class="mut">@${esc(u.usuario || '')}${u.telefono ? ' · ' + esc(u.telefono) : ''}${u.personaId ? ' · ' + esc(paraNom(u.personaId) || 'persona eliminada') : ' · sin enlazar'}</small></span><span style="display:flex;flex-direction:column;gap:4px"><select data-up="${esc(u.id)}">${perOpts(u.personaId)}</select><select data-ur="${esc(u.id)}">${ROLES.map(r => `<option value="${r[0]}" ${u.rol == r[0] ? 'selected' : ''}>${r[1]}</option>`).join('')}</select></span></div>`).join('');
+        const body = `<p class="note">Marca qué puede hacer cada rol. El Programador siempre tiene todo. ${AUTH_ON ? '' : '<b>El inicio de sesión está desactivado (AUTH_ON=false): por ahora todos ven todo.</b>'}</p>${tab}
+         <h3 style="margin:14px 0 4px">Usuarios</h3>${AUTH_ON ? (us || '<div class="mut">Aún no hay usuarios.</div>') : '<div class="mut">Se verán aquí cuando actives el inicio de sesión.</div>'}
+         ${AUTH_ON ? `<h3 style="margin:14px 0 4px">Crear usuario</h3><p class="note">Elige a qué persona ya creada corresponde (así conserva sus órdenes y recordatorios). Al crearlo sale su QR de ingreso.</p><input id="nu_us" placeholder="Usuario (ej: juan.perez)" style="width:100%;margin:4px 0" autocapitalize="off" autocorrect="off"><input id="nu_pw" placeholder="Contraseña (mínimo 6 caracteres)" style="width:100%;margin:4px 0" autocapitalize="off"><select id="nu_per" style="width:100%;margin:4px 0">${perOpts('')}</select><select id="nu_rol" style="width:100%;margin:4px 0">${ROLES.map(r => `<option value="${r[0]}" ${r[0] == 'ventas' ? 'selected' : ''}>${r[1]}</option>`).join('')}</select><input id="nu_tel" type="tel" placeholder="Teléfono (opcional)" style="width:100%;margin:4px 0"><div class="btns"><button data-a="usrnew">${ic('person_add')} Crear usuario y QR</button></div>` : ''}
+         <h3 style="margin:14px 0 4px">QR de ingreso</h3><p class="note">Elige el usuario y escribe su contraseña para generar su QR. Quien tenga el QR puede entrar: muéstraselo solo a esa persona. La contraseña no se guarda en la app.</p>${AUTH_ON && (S.usr || []).length ? `<select id="qr_us" style="width:100%;margin:4px 0"><option value="">— Elegir usuario —</option>${(S.usr || []).map(u => `<option value="${esc(u.usuario || '')}">${esc(u.nombre || u.usuario)} (@${esc(u.usuario || '')})${u.personaId ? '' : ' · sin enlazar'}</option>`).join('')}</select>` : ''}<input id="qr_pass" placeholder="Contraseña" style="width:100%;margin:4px 0" autocapitalize="off"><div class="btns"><button data-a="qrgen">${ic('qr_code_2')} Generar QR</button></div>${S.qrImg ? `<div style="text-align:center;margin:10px 0"><img src="${S.qrImg}" alt="QR de ingreso" width="200" height="200"><div class="sm">@${esc(S.qrN || '')}</div></div>` : ''}`;
+        return acc('usr', 'Usuarios y permisos', 'Crear usuarios, roles, permisos y QR de ingreso', body)
+    }
+    Object.assign(A, {
+        login: () => {
+            const u = usrNorm(($('#lg_u') || {}).value),
+                p = ($('#lg_p') || {}).value || '';
+            if (!u || !p) {
+                S.lerr = 'Escribe tu usuario y contraseña';
+                render(1);
+                return
+            }
+            S.lerr = '';
+            FA.signInWithEmailAndPassword(fb.auth, usrMail(u), p).catch(x => {
+                S.lerr = /network/.test(x.code || '') ? 'Sin conexión a internet' : 'Usuario o contraseña incorrectos';
+                render(1)
+            })
+        },
+        salir: () => {
+            try {
+                FA.signOut(fb.auth)
+            } catch (e) {}
+            try {
+                sessionStorage.removeItem('lub_rm')
+            } catch (e) {}
+            setTimeout(() => location.reload(), 300)
+        },
+        usrnew: async () => {
+            const g = i => (($('#' + i) || {}).value || '').trim(),
+                us = usrNorm(g('nu_us')),
+                p = ($('#nu_pw') || {}).value || '',
+                per = g('nu_per'),
+                rol = g('nu_rol') || 'ventas',
+                tel = g('nu_tel');
+            if (us.length < 3)
+                return toast('warning', 'El usuario debe tener al menos 3 caracteres');
+            if (p.length < 6)
+                return toast('warning', 'La contraseña debe tener al menos 6 caracteres');
+            if (!fb || !FA || !window.FAPP)
+                return toast('warning', 'Firebase no está conectado');
+            let s2;
+            try {
+                s2 = FAPP.initializeApp(FIREBASE_CONFIG, 'nu' + Date.now());
+                const a2 = FA.getAuth(s2),
+                    cr = await FA.createUserWithEmailAndPassword(a2, usrMail(us), p),
+                    uid = cr.user.uid;
+                await FA.signOut(a2);
+                await fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', uid), {
+                    usuario: us,
+                    nombre: paraNom(per) || us,
+                    personaId: per,
+                    rol,
+                    telefono: tel
+                });
+                S.qrImg = await qrMake(us, p);
+                S.qrN = us;
+                render(1);
+                toast('check', 'Usuario creado · QR listo')
+            }
+            catch (x) {
+                toast('warning', x && x.code == 'auth/email-already-in-use' ? 'Ese usuario ya existe' : x && x.code == 'auth/weak-password' ? 'La contraseña es muy débil' : 'No se pudo crear el usuario')
+            }
+            finally {
+                try {
+                    if (s2)
+                        FAPP.deleteApp(s2)
+                } catch (e) {}
+            }
+        },
+        qrgen: async () => {
+            const us = usrNorm((($('#qr_us') || {}).value) || ''),
+                p = ($('#qr_pass') || {}).value || '';
+            if (!us || !p)
+                return toast('warning', 'Elige el usuario y escribe su contraseña');
+            try {
+                S.qrImg = await qrMake(us, p);
+                S.qrN = us;
+                render(1)
+            } catch (x) {
+                toast('warning', 'No se pudo cargar el generador de QR (revisa internet)')
+            }
+        }
+    });
+    ['login', 'salir', 'usrnew', 'qrgen'].forEach(x => TAPS.add(x));
+    document.addEventListener('keydown', e => {
+        if (e.key == 'Enter' && e.target && e.target.id == 'lg_p')
+            A.login()
+    });
+    document.addEventListener('change', e => {
+        const t = e.target;
+        if (!t || !t.dataset)
+            return;
+        if (t.dataset.pm) {
+            const [r, p] = t.dataset.pm.split(':');
+            S.cfg.permisos = S.cfg.permisos || JSON.parse(JSON.stringify(PERM0));
+            (S.cfg.permisos[r] = S.cfg.permisos[r] || {})[p] = t.checked ? 1 : 0;
+            saveCfg()
+        }
+        if (t.dataset.mi) {
+            const v = t.value.trim();
+            if (AUTH_ON && S.me && S.me.uid && fb) {
+                S.me.telefono = v;
+                fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', S.me.uid), {
+                    telefono: v
+                }, {
+                    merge: true
+                }).then(() => toast('check', 'Teléfono guardado')).catch(() => toast('warning', 'No se pudo guardar el teléfono'))
+            } else {
+                try {
+                    localStorage.lub_tel = v
+                } catch (x) {}
+                toast('check', 'Teléfono guardado')
+            }
+        }
+        if (t.dataset.up && fb) {
+            const o = {
+                personaId: t.value
+            };
+            if (t.value)
+                o.nombre = paraNom(t.value);
+            fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', t.dataset.up), o, {
+                merge: true
+            }).then(() => toast('check', t.value ? 'Usuario enlazado' : 'Enlace quitado')).catch(() => toast('warning', 'No se pudo enlazar'))
+        }
+        if (t.dataset.ur && fb)
+            fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', t.dataset.ur), {
+                rol: t.value
+            }, {
+                merge: true
+            }).then(() => toast('check', 'Rol actualizado')).catch(() => toast('warning', 'No se pudo cambiar el rol'))
+    });
+
+    document.addEventListener('input', e => {
+        const t = e.target;
+        if (!t.dataset || !t.dataset.dgt)
+            return;
+        const id = t.dataset.dgt;
+        if (S.dgEd && S.dgEd.id == id)
+            S.dgEd.ti = t.value;
+        else
+            (S.dgtd = S.dgtd || {})[id] = t.value
+    });
+
+    function vKpis() {
+        if (!can('kpis'))
+            return noAcc('KPIs');
+        const t = S.kt || 'res',
+            B = {
+                res: kTabRes,
+                trab: kTabTrab,
+                veh: kTabVeh,
+                per: kTabPer,
+                graf: kTabGraf
+            };
+        let body,
+            per;
+        window.KSH = 1;
+        try {
+            per = kPer();
+            body = (B[t] || kTabRes)()
+        } finally {
+            window.KSH = 0
+        }
+        return `<div class="kstk"><div class="top"><button data-a="go" data-v="mas" aria-label="Volver">${ic('first_page')}</button><h1>KPIs</h1></div><div class="chips ktabs">${KT.map(([k, i, n]) => `<button class="chip ${t == k ? 'sel' : ''}" data-a="kt" data-v="${k}">${ic(i)} ${n}</button>`).join('')}</div>${per}</div><div class="kpx">${body}</div>`
+    }
+    Object.assign(A, {
+        kt: d => {
+            S.kt = d.v;
+            render(1)
+        }
+    });
+    {
+        const _t = A.tpp;
+        A.tpp = d => {
+            if (d.p == 'rango' && !S.kd1) {
+                S.kd1 = dkey(Date.now() - 6 * 864e5);
+                S.kd2 = dkey(new Date())
+            }
+            _t(d)
+        }
+    }
+    document.addEventListener('change', e => {
+        const t = e.target;
+        if (t && (t.id == 'kd1' || t.id == 'kd2')) {
+            S[t.id] = t.value || '';
+            if (S.kd1 && S.kd2 && S.kd1 > S.kd2) {
+                const x = S.kd1;
+                S.kd1 = S.kd2;
+                S.kd2 = x
+            }
+            render(1)
+        }
+    });
+    Object.assign(HELP, {
+        kpis: ['KPIs', [['query_stats', 'Resumen: indicadores nuevos y los KPI del taller de siempre (puntualidad, tiempos, pausas)'], ['engineering', 'Personal: resumen completo por mecánico (órdenes asignadas, tiempos, puntualidad); toca uno para ver el detalle'], ['build', 'Trabajos: más solicitados y más realizados, por tipo y por servicio'], ['directions_car', 'Vehículos y marcas: marcas, modelos y vehículos más recurrentes'], ['bar_chart', 'Gráficos: ingresadas vs completadas, por día de la semana, por hora, marcas, zonas y tiempo real vs estimado']]]
+    });
+
     function vCal() {
         const sel = S.cd2 || dkey(new Date()),
             L = calItems().filter(x => dkey(x.iso) == sel),
@@ -23727,13 +25848,7 @@
         const n = waNum(c.tel);
         return n ? `https://api.whatsapp.com/send?phone=${n}&text=${encodeURIComponent(txt)}` : ''
     };
-    const waEmo = () => {
-        try {
-            return localStorage.getItem('lubri_waemo') != '0'
-        } catch (e) {
-            return true
-        }
-    };
+    const waEmo = () => false; // v9-8-33: sin emojis (no llegaban); solo asteriscos para remarcar
     const waNoEmo = t => String(t).replace(/[\u{1F000}-\u{1FFFF}\u{2190}-\u{2BFF}\u{2139}\u{FE0F}\u{200D}]/gu, '').replace(/^[ \t]+/gm, '').replace(/[ \t]+$/gm, '');
     const waOut = t => waEmo() ? t : waNoEmo(t);
     document.addEventListener('change', e => {
@@ -23795,7 +25910,7 @@
         return `<div class="bd" data-a="cerrar"><div class="box cwa"><div style="display:flex;gap:10px;align-items:center">${ic('chat')}<div><b style="font-size:18px">${m.nuevo ? 'Cita creada · avisar al cliente' : 'WhatsApp al cliente'}</b><div class="sm">${esc(c.cli || 'Sin nombre')} · ${num ? esc(waTel(c.tel)) : '<b style="color:#b3261e">sin teléfono válido</b>'}${c.rut ? ' · ' + esc(c.rut) : ''}</div></div></div>
          <div class="cwat">${WA_T.map(([k, n]) => `<button type="button" class="${k == tpl ? 'on' : ''}" data-a="cwat" data-t="${k}">${n}</button>`).join('')}</div>
          <textarea id="cwa_t" rows="11" spellcheck="false" style="width:100%;border-radius:12px;font-size:14px;line-height:1.35">${esc(txt)}</textarea>
-         <label class="cwemo"><input type="checkbox" id="cwa_e" ${waEmo() ? 'checked' : ''}> Incluir emojis</label><div class="sm" style="margin:4px 0 0;opacity:.75">Puedes corregir el texto antes de enviarlo.</div>
+         <div class="sm" style="margin:4px 0 0;opacity:.75">Puedes corregir el texto antes de enviarlo.</div>
          ${num ? `<a id="cwa_go" class="cwago" data-a="wasent" href="${esc(href)}" target="_blank" rel="noopener">${ic('send')} Enviar por WhatsApp a ${esc(waTel(c.tel))}</a>` : `<div class="note" style="margin-top:10px">Falta un teléfono válido para WhatsApp (formato +56 9 XXXX XXXX). Toca «Editar cita» para agregarlo.</div><div class="btns" style="margin-top:8px"><button data-a="cedit" data-id="${c.id}">${ic('edit')} Editar cita</button></div>`}
          <div class="btns" style="margin-top:10px"><button data-a="cerrar">${m.nuevo ? 'Ahora no' : 'Cerrar'}</button></div></div></div>`
     }
