@@ -87,6 +87,8 @@
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
     CAMBIOS v0.49 beta (avisos como banner · configuración de notificaciones): (1) todos los avisos y mensajes bajan desde arriba como banner; eliminar, pausar y completar abren una ventana con sus botones (también al eliminar citas y recordatorios); (2) Notificaciones: lo nuevo, y al abrirlo pasa al historial (abajo) con botón para borrar; (3) Más › Notificaciones › Configurar: qué avisos salen dentro de la app y cuáles llegan al dispositivo; (4) horario del local (Configuración) y avisos de cierre; (5) selector Tomar foto / Galería en el esquema del vehículo e ícono de agregar fotos en órdenes cortas; (6) recordatorios en celeste; (7) icono de la app desde favicon.png; (8) versión v0.49 beta al final de «Más».
+    CAMBIOS v9-8-43-6: (1) Más › «Tutoriales y ayuda» (después de Configuración y antes de Cerrar sesión): menú para elegir tutorial completo, recorrido rápido o una sección (Dashboard, Línea de trabajo, Crear un nuevo trabajo, Mapa, Órdenes completas, Más) y acceso a la ayuda escrita; (2) la demostración pone en gris todo salvo la zona destacada, con un cuadro explicativo, Anterior / Siguiente / Salir y barra de avance; no guarda nada.
+    CAMBIOS v9-8-43-5: (1) en doble columna (pantallas anchas) el logo de fondo de los banners se ajusta al espacio más angosto: ocupa lo que queda libre entre marca/modelo y la patente; en una columna no cambia.
     CAMBIOS v9-8-43: (1) ingreso con USUARIO y contraseña (sin pedir correo); (2) el programador crea usuarios dentro de la app: usuario, contraseña, rol, teléfono y persona ya existente a la que se enlaza; al crearlo sale su QR; (3) Más: banner arriba del calendario con nombre, teléfono y rol de quien usa la app (el teléfono se puede editar).
     CAMBIOS v9-8-42: (1) cada usuario de inicio de sesión se puede vincular a una persona ya creada (Mecánicos o Administrativos): la app usa esa persona para el saludo, las órdenes asignadas y los recordatorios personales, sin tener que borrar ni recrear nada; (2) el QR de ingreso se genera eligiendo al usuario ya vinculado.
     CAMBIOS v9-8-41: (1) Configuración: tarjeta «Mi usuario» con nombre, correo, rol y cerrar sesión; (2) la cuenta del programador (DEV_EMAIL) queda activa automáticamente como Programador y Administración al entrar por primera vez, sin crear su documento a mano.
@@ -7817,7 +7819,7 @@
         cursor:default
     }
 
-    .cfg .li input[data-ch=cren] {
+    .cfg .li input[data-ch=cren], .cfg .li input[data-ch=cnom], .cfg .li input[data-ch=cape] {
         flex: 1;
         min-width: 0;
         border-radius: 12px;
@@ -12094,7 +12096,17 @@
 
     .rtag.para {
         background: #ede9fe;
-        color: #5b21b6
+        color:#5b21b6
+    }
+
+    .parab {
+        flex-direction: column;
+        align-items: stretch;
+        gap:2px
+    }
+
+    .parab .pchl[hidden] {
+        display: none
     }/* v9-8-29 · grupos con fondo de color y banners BLANCOS; halo del grupo «En proceso» igual que «En reparación» (sobre la cabecera, donde no se recorta); mapa con zoom; historial de recordatorios */
     .gb-proceso {
         --gc: #f26a21;
@@ -12958,7 +12970,62 @@
         flex: 1;
         min-width: 0;
         font-size: 14px;
-        background: none
+        background:none
+    }
+
+    .mibp span:not(.material-symbols-outlined) {
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width:0
+    }
+
+    .mibe {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex: none;
+        border: 1.5px solid var(--line);
+        background: #fff;
+        border-radius: 12px;
+        padding: 6px 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor:pointer
+    }
+
+    .mibe .material-symbols-outlined {
+        font-size:18px
+    }
+
+    .mib.ed {
+        align-items:flex-start
+    }
+
+    .mibb {
+        display: flex;
+        gap: 8px;
+        margin-top:10px
+    }
+
+    .mibb button {
+        border: 1.5px solid var(--line);
+        background: #fff;
+        border-radius: 12px;
+        padding: 7px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor:pointer
+    }
+
+    .mibb .pri {
+        background: var(--ink, #111);
+        color: #fff;
+        border-color: transparent
     }
 
     .lgv {
@@ -13402,6 +13469,243 @@
         :root {
             --colw: 1360px
         }
+    }/* v9-8-43 · el brillo de «En proceso» y «En reparación» palpita alrededor de TODO el banner (más fuerte, sin recortarse y sin que otra regla lo apague) */
+
+    @media (prefers-reduced-motion: no-preference) {
+        @keyframes gbfullO2 {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(242, 106, 33, 0), 0 0 0 0 rgba(242, 106, 33, 0)
+            }
+
+            50% {
+                box-shadow:0 0 0 7px rgba(242, 106, 33, .5), 0 0 22px 6px rgba(242, 106, 33, .6)
+            }
+        }
+
+        @keyframes gbfullB2 {
+            0%, 100% {
+                box-shadow:0 0 0 0 rgba(31, 111, 235, 0), 0 0 0 0 rgba(31, 111, 235, 0)
+            }
+
+            50% {
+                box-shadow:0 0 0 7px rgba(31, 111, 235, .45), 0 0 22px 6px rgba(31, 111, 235, .55)
+            }
+        }
+
+        .gb-proceso {
+            animation:gbfullO2 1.4s ease-in-out infinite !important
+        }
+
+        .rep.blink {
+            animation: gbfullB2 1.4s ease-in-out infinite !important
+        }
+    }
+
+    .gbk, .rep {
+        position: relative;
+        overflow: visible;
+        margin-left: 12px;
+        margin-right: 12px
+    }
+
+    .tv small {
+        font-size: 10px;
+        line-height: 1.1;
+        text-align: center
+    }/* v9-8-43 · pantallas anchas: los banners de la columna izquierda y derecha de una misma fila miden lo mismo (el de más contenido manda y el otro se estira); el banner abierto no estira a su vecino */
+
+    @media (min-width: 900px) {
+        .dsec:has( > .item) {
+            align-items:stretch
+        }
+
+        .dsec > .item {
+            align-items:stretch
+        }
+
+        .dsec > .item > .card {
+            flex: 1 1 auto;
+            height:auto
+        }
+
+        .dsec > .item.op {
+            align-self: start
+        }
+    }/* v9-8-43-5 · doble columna (pantallas anchas): el banner queda más angosto, así que el espacio del logo se reparte mejor: el texto ocupa solo lo que necesita, el logo toma todo el espacio libre entre marca/modelo y la patente (sin pasar por encima del texto) y no se achica de más. En una columna (celular/tablet angosta) todo queda como estaba. */
+
+    @media (min-width: 900px) {
+        .dsec:has( > .item) .row.rn .rn-v {
+            gap: 2px
+        }
+
+        .dsec:has( > .item) .row.rn .rn-v .vhl {
+            flex: 0 1 auto !important;
+            max-width: calc(100% - 56px) !important;
+            min-width: 0
+        }
+
+        .dsec:has( > .item) .row.rn .rn-v::after {
+            flex: 1 1 0 !important;
+            min-width: 52px !important;
+            height: 60px !important;
+            margin: 0 2px !important;
+            background-size: contain !important;
+            background-position: center !important;
+            opacity: .22 !important
+        }
+    }/* v9-8-43-6 · Tutoriales y ayuda: todo en gris menos la zona destacada */
+
+    #tut {
+        position: fixed;
+        inset: 0;
+        z-index: 9999
+    }
+
+    #tut .tp {
+        position: fixed;
+        background: rgba(60, 60, 60, .58);
+        -webkit-backdrop-filter: grayscale(1) blur(1.5px);
+        backdrop-filter: grayscale(1) blur(1.5px);
+        transition: top .25s, left .25s, width .25s, height .25s
+    }
+
+    #tut .th {
+        position: fixed;
+        display: none;
+        border-radius: 12px;
+        border: 2.5px solid #f26a21;
+        box-shadow: 0 0 0 4px rgba(242, 106, 33, .28);
+        transition: top .25s, left .25s, width .25s, height .25s
+    }
+
+    #tut .tc {
+        position: fixed;
+        box-sizing: border-box;
+        background: #fff;
+        color: #222;
+        border-radius: 16px;
+        padding: 12px 14px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, .4);
+        overflow: auto;
+        max-height: calc(100% - 16px);
+        font-size: 14px;
+        line-height: 1.38;
+        visibility: hidden
+    }
+
+    #tut .tc p {
+        margin: 4px 0 10px
+    }
+
+    #tut .tbar {
+        height: 4px;
+        border-radius: 4px;
+        background: #eee;
+        overflow: hidden;
+        margin-bottom:8px
+    }
+
+    #tut .tbar i {
+        display: block;
+        height: 100%;
+        background: #f26a21;
+        transition: width .25s
+    }
+
+    #tut .tn {
+        font-size: 11px;
+        color: #777;
+        font-weight:600
+    }
+
+    #tut .tt1 {
+        font-size: 16px;
+        display: block;
+        margin-top: 2px
+    }
+
+    #tut .ta {
+        display: flex;
+        align-items: center;
+        gap: 8px
+    }
+
+    #tut .ta button, #tut .tmh button {
+        font: inherit;
+        border-radius: 10px;
+        padding: 8px 14px;
+        border: 1.25px solid #ddd;
+        background: #fff;
+        color: #222;
+        cursor: pointer
+    }
+
+    #tut .ta .pri {
+        background: #f26a21;
+        border-color: #f26a21;
+        color: #fff;
+        font-weight: 700
+    }
+
+    #tut .tmh {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size:16px
+    }
+
+    #tut .tmh b {
+        flex:1
+    }
+
+    #tut .tmh button {
+        padding: 4px 6px;
+        border: 0
+    }
+
+    #tut .tmp {
+        color: #555;
+        font-size:13px
+    }
+
+    #tut .tms {
+        font-size: 12px;
+        font-weight: 700;
+        color: #777;
+        margin: 10px 0 2px;
+        text-transform: uppercase;
+        letter-spacing: .04em
+    }
+
+    #tut .tmi {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        text-align: left;
+        margin: 6px 0;
+        padding: 9px 12px;
+        border: 1.25px solid #ddd;
+        border-radius: 12px;
+        background: #fff;
+        font: inherit;
+        color: #222;
+        cursor: pointer
+    }
+
+    #tut .tmi b {
+        display: block;
+        font-size:14px
+    }
+
+    #tut .tmi small {
+        display: block;
+        color: #666;
+        font-size:12px
+    }
+
+    #tut .tmi .material-symbols-outlined {
+        color: #f26a21
     }
     </style>
 </head>
@@ -14374,6 +14678,46 @@
         return localStorage.lubri_autor || 'sin_asignar'
     };
     const personas = () => [...S.cfg.recepcion, ...S.cfg.mecanicos].filter(x => x.activo); // quienes pueden ingresar órdenes
+    /* v9-8-43 · nombre y apellido por separado: cada persona guarda nom y ape; «nombre» sigue siendo el nombre completo (nom + ape) para que todo lo demás siga igual. Las personas antiguas se separan por el primer espacio hasta que se editen. */
+    const pSplit = p => {
+        const s = String(p && p.nombre || '').trim(),
+            i = s.indexOf(' ');
+        return i < 0 ? [s, ''] : [s.slice(0, i), s.slice(i + 1).trim()]
+    };
+    const pNom = p => p && p.nom !== undefined ? p.nom : pSplit(p)[0];
+    const pApe = p => p && p.ape !== undefined ? p.ape : pSplit(p)[1];
+    const pNrm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const pCorto = (p, L) => {
+        const n = pNom(p) || p.nombre || '',
+            a = pApe(p).trim(),
+            D = (L || []).filter(q => q.id != p.id && pNrm(pNom(q)) == pNrm(n));
+        if (!D.length || !a)
+            return n;
+        const A = pNrm(a);
+        let k = 1;
+        while (k < a.length && D.some(q => pNrm(pApe(q)).slice(0, k) == A.slice(0, k)))
+            k++;
+        return n + ' ' + a.slice(0, k) + (k < a.length ? '.' : '')
+    }; // solo el nombre; si se repite, suma las letras del apellido que hagan falta para distinguir (Juan P. / Juan Pa. / Juan Pé.)
+    function setPersNom(x, nom, ape) {
+        const old = x.nombre,
+            full = (nom + ' ' + ape).trim();
+        x.nom = nom;
+        x.ape = ape;
+        if (old != full) {
+            x.nombre = full;
+            try {
+                if (localStorage.lubri_autor == old)
+                    localStorage.lubri_autor = full
+            } catch (e) {}
+            S.jobs.forEach(j => {
+                if (j.ingresadoPor && j.ingresadoPor.id == x.id && j.ingresadoPor.nombre != full) {
+                    j.ingresadoPor.nombre = full;
+                    saveJob(j, 1)
+                }
+            })
+        }
+    }
     /* v9-8-21 · DESTINATARIO de recordatorios y citas: para = 'todos' (o vacío) | id de la persona. Cada equipo se identifica por la persona asignada en Configuración (lubri_autor). */
     const meId = () => {
         const p = personas().find(x => x.nombre == autor());
@@ -14388,12 +14732,17 @@
         const p = [...S.cfg.recepcion, ...S.cfg.mecanicos].find(x => x.id == id);
         return p ? p.nombre : ''
     };
+    const paraCorto = id => {
+        const A = [...S.cfg.recepcion, ...S.cfg.mecanicos],
+            p = A.find(x => x.id == id);
+        return p ? pCorto(p, A) : ''
+    };
     const paraTag = x => {
         const L = paraL(x && x.para);
         if (!L.length)
             return '';
         const me = meId();
-        return `<span class="rtag para">${L.length == 1 && L[0] == me ? 'Solo para ti' : 'Para: ' + esc(L.map(i => i == me ? 'tú' : paraNom(i) || 'otra persona').join(', '))}</span>`
+        return `<span class="rtag para">${L.length == 1 && L[0] == me ? 'Solo para ti' : 'Para: ' + esc(L.map(i => i == me ? 'tú' : paraCorto(i) || 'otra persona').join(', '))}</span>`
     };
     const paraSel = (id, val, ch) => {
         const me = meId(),
@@ -14406,8 +14755,9 @@
                 nombre: paraNom(i) || 'otra persona'
             })),
             all = [...(me ? P.filter(p => p.id == me) : []), ...P.filter(p => p.id != me), ...ex],
-            cv = v == 'todos' || !S0.size ? 'todos' : [...S0].join(',');
-        return `<div class="parab" data-me="${esc(me)}"><div class="sm" style="font-weight:700">${ic('notifications_active')} Recordar a</div><input type="hidden" id="${id}"${ch ? ` data-ch="${ch}"` : ''} value="${esc(cv)}"><div class="chips pchs"><button type="button" class="chip pch${cv == 'todos' ? ' sel' : ''}" data-k="todos">Todos</button>${me ? `<button type="button" class="chip pch${cv == me ? ' sel' : ''}" data-k="yo">Solo a mí</button>` : `<button type="button" class="chip pch" disabled title="Elige tu nombre en Configuración">Solo a mí</button>`}</div><div class="sm" style="margin:4px 0 2px">o elige a quién (puedes marcar varias personas):</div><div class="chips pchs">${all.map(p => `<button type="button" class="chip pch${S0.has(p.id) ? ' sel' : ''}" data-k="p" data-id="${esc(p.id)}">${esc(p.nombre)}${p.id == me ? ' (yo)' : ''}</button>`).join('')}</div></div>`
+            cv = v == 'todos' || !S0.size ? 'todos' : [...S0].join(','),
+            op = cv != 'todos' && cv != me;
+        return `<div class="parab" data-me="${esc(me)}"><div class="sm" style="font-weight:700">${ic('notifications_active')} Recordar a</div><input type="hidden" id="${id}"${ch ? ` data-ch="${ch}"` : ''} value="${esc(cv)}"><div class="chips pchs"><button type="button" class="chip pch${cv == 'todos' ? ' sel' : ''}" data-k="todos">Todos</button>${me ? `<button type="button" class="chip pch${cv == me ? ' sel' : ''}" data-k="yo">Solo a mí</button>` : `<button type="button" class="chip pch" disabled title="Elige tu nombre en Configuración">Solo a mí</button>`}<button type="button" class="chip pch${op ? ' sel' : ''}" data-k="elegir">Elegir personas</button></div><div class="chips pchs pchl" ${op ? '' : 'hidden'}>${all.map(p => `<button type="button" class="chip pch${S0.has(p.id) ? ' sel' : ''}" data-k="p" data-id="${esc(p.id)}">${esc(pCorto(p, all))}${p.id == me ? ' (yo)' : ''}</button>`).join('')}</div></div>`
     };
     document.addEventListener('click', e => {
         const b = e.target.closest && e.target.closest('.parab .pch');
@@ -14415,24 +14765,30 @@
             return;
         const w = b.closest('.parab'),
             inp = w.querySelector('input[type=hidden]'),
+            pl = w.querySelector('.pchl'),
             me = w.dataset.me;
         let st = new Set(inp.value == 'todos' || !inp.value ? [] : inp.value.split(',')),
             k = b.dataset.k;
-        if (k == 'todos')
+        if (k == 'elegir') {
+            pl.hidden = false
+        } else if (k == 'todos') {
             st = new Set();
-        else if (k == 'yo')
+            pl.hidden = true
+        } else if (k == 'yo') {
             st = new Set([me]);
-        else {
+            pl.hidden = true
+        } else {
             if (st.has(b.dataset.id))
                 st.delete(b.dataset.id);
             else
                 st.add(b.dataset.id)
         }
         inp.value = st.size ? [...st].join(',') : 'todos';
-        const v = inp.value;
+        const v = inp.value,
+            cerr = pl.hidden;
         w.querySelectorAll('.pch').forEach(x => {
             const kk = x.dataset.k;
-            x.classList.toggle('sel', kk == 'todos' ? v == 'todos' : kk == 'yo' ? v == me : st.has(x.dataset.id))
+            x.classList.toggle('sel', kk == 'todos' ? v == 'todos' && cerr : kk == 'yo' ? v == me && cerr : kk == 'elegir' ? !cerr : st.has(x.dataset.id))
         });
         inp.dispatchEvent(new Event('change', {
             bubbles: true
@@ -18789,8 +19145,8 @@
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
         return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}${lock || !FEATURE_BUSCAR_PATENTE ? '' : plkBtns(j.id)}</div><div style="margin-top:3px">${esc(j.cliente.nombre)}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span>${vehTop(j)}<div class="sm">Ingreso<br><b>${ingT(t.ingresoISO)}</b></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button><button class="kb${j.llave ? ' set' : ''}" data-a="llv" data-id="${j.id}" title="${j.llave ? 'Llave: ' + esc(j.llave.donde) : 'Indicar dónde está la llave'}" aria-label="Ubicación de la llave">${ic('key')}</button></div></div><div class="dbody">
          <div class="hd" style="justify-content:space-between"><div><b style="font-size:20px">${ESTADO[sc(j)]}</b><div style="font-size:12px">Asignado a ${esc(nm(S.cfg.mecanicos, j.mecanicoId))}${j.prioridad == 'urgente' ? ' · <b>URGENTE</b>' : ''}<br>Ingresada por ${esc(j.ingresadoPor?.nombre || '—')}</div></div><div class="clk"><small>D H M S</small><b data-c="${j.id}" class="${cl == 'atraso' ? 'atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}">${clock(el(j))}</b></div></div>
-         <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : ''}
-         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"') + `<div style="grid-column:1/-1"><label>Tipo de vehículo</label>${tvSel(j.vehiculo.tipov, 'tvjob', 'data-id="' + j.id + '"' + (lock ? ' disabled' : ''))}</div>`, I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" ${lock ? 'disabled' : ''} data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
+         <div class="est">Estimado ${fdur(t.estSeg)} ${tx ? '· <span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? ' · Pausa: ' + esc(mp) : ''}</div>${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : `<div class="lockbar">${ic('lock')} Datos del cliente, chasis y N° de motor: para cambiarlos toca ${ic('edit')} Editar</div>`}
+         ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock || h == 'cli' || k == 'nmotor' ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') + grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"') + `<div style="grid-column:1/-1"><label>Tipo de vehículo</label>${tvSel(j.vehiculo.tipov, 'tvjob', 'data-id="' + j.id + '"' + (lock ? ' disabled' : ''))}</div>`, I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" disabled data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="sm">Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
          <div class="sm">Revisar del vehículo</div><div class="chips">${ch('revisar')}${lock ? '' : plus(j.id, 'revisar')}</div>${pick(j.id, 'revisar')}
@@ -19017,7 +19373,7 @@
                 return `<button class="cdh" data-a="cd" data-id="${p.id}">${ic(n ? 'expand_less' : 'expand_more')} Completadas hoy · ${cd.length}</button>${vis.map(j => card(j, 'cdi')).join('')}${n && !flt && cd.length > n ? `<button class="cdh" data-a="go" data-v="comp"${zid ? ` data-z="${zid}"` : ''}>${ic('list_alt')} Ver todas en Órdenes completas</button>` : ''}`
             };
         if (!S.cfg.plataformas.some(p => p.activo))
-            return `<div class="empty">Aún no hay zonas ni sub-zonas.<br><button data-a="go" data-v="cfg" style="margin-top:8px">${ic('settings')} Crear en Configuración</button></div>`;
+            return `<div class="empty">Aún no hay zonas ni sub-zonas.${can('cfg') ? `<br><button data-a="go" data-v="cfg" style="margin-top:8px">${ic('settings')} Crear en Configuración</button>` : '<br>Pídele a administración que las cree.'}</div>`;
         const P = S.cfg.plataformas.filter(p => p.activo && (!zid || p.zonaId == zid)),
             sec = p => {
                 const L = A.filter(j => j.plataformaId == p.id).sort((a, b) => rank[a.estado] - rank[b.estado] || cmpJ(a, b)),
@@ -19154,6 +19510,7 @@
     }
     /* v0.17 · acc(): bloque plegable de Configuración. Plegado muestra solo título + subtítulo; al tocarlo se expande (S.cx guarda cuáles están abiertos). */
     const acc = (k, t, sub, body) => `<section class="acc ${S.cx[k] ? 'open' : ''}"><button class="acch" data-a="cx" data-k="${k}" aria-expanded="${!!S.cx[k]}"><span><b>${t}</b><small>${sub}</small></span>${ic('expand_more', 'chev')}</button>${S.cx[k] ? `<div class="accb">${body}</div>` : ''}</section>`;
+    const lstPers = (k, t, help) => acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cnom" data-k="${k}" data-id="${x.id}" value="${esc(pNom(x))}" placeholder="Nombre" aria-label="Nombre" autocomplete="off"><input class="${x.activo ? '' : 'mut'}" data-ch="cape" data-k="${k}" data-id="${x.id}" value="${esc(pApe(x))}" placeholder="Apellido" aria-label="Apellido" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nombre"><input id="a_${k}" placeholder="Apellido"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`);
     const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cren" data-k="${k}" data-id="${x.id}" value="${esc(x.nombre)}" aria-label="Nombre" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
 
     /* v9-8-13 · EDITOR DE OPCIONES (Configuración): Cambiar / Revisar (S.cfg.catalogo) y Repuestos y líquidos (S.cfg.repuestos) */
@@ -19186,17 +19543,16 @@
          <div class="opa"><b>Agregar a «${nm}»</b><input id="op_n" placeholder="${sv ? 'Nombre (ej.: Cambio de aceite)' : 'Nombre (ej.: Filtro de aceite)'}" autocomplete="off"><select id="op_gs" data-ch="opgs2">${G.map(h => `<option value="${esc(h)}">${esc(h)}</option>`).join('')}<option value="__new">＋ Nuevo grupo…</option></select><input id="op_g" placeholder="Nombre del nuevo grupo" style="display:${G.length ? 'none' : ''}" autocomplete="off">${sv ? '<input id="op_m" type="number" min="1" inputmode="numeric" placeholder="Minutos estándar">' : ''}<button class="w" data-a="opadd">${ic('add')} Agregar</button></div>`
     };
     function config() {
-        if (!can('cfg') && !can('tec'))
+        if (!can('veh') && !can('cfg') && !can('tec'))
             return noAcc('Configuración');
         const X = skyTM();
         return `<div class="top"><button data-a="go" data-v="mas">${ic('first_page')}</button><h1>Configuración</h1></div><div class="cfg">
          ${miUsr()}${AUTH_ON ? '' : `<section><b>Quién usa este equipo</b><div class="note">Se guarda como autor de notas y eventos. Si eliges a un mecánico, en la Línea de trabajo verás su banner «Mis órdenes asignadas» al principio; administración y ventas no lo ven.</div><select data-ch="autor"><option value="">sin asignar</option>${personas().map(m => `<option ${autor() == m.nombre ? 'selected' : ''}>${esc(m.nombre)}</option>`).join('')}</select></section>`}
-         ${can('cfg') ? `${lstP()}${lst('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lst('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}
-         ${acc('opc', 'Opciones del vehículo', 'Cambiar, Revisar y Repuestos y líquidos · agregar, renombrar, mover y quitar', opEditor())}
-
-         ${zstSec()}
-         ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}
-         ${can('tec') ? plkSec() : ''}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}` : ''}
+         ${can('cfg') ? `${lstP()}${lstPers('mecanicos', 'Mecánicos', 'Personas asignables a una orden · toca un nombre para editarlo.')}${lstPers('recepcion', 'Administrativos y ventas', 'Personal administrativo y de ventas que ingresa las órdenes · toca un nombre para editarlo.')}${lst('motivos', 'Motivos de pausa', 'Obligatorio al pausar; sirve para analizar retrasos.')}${lst('motivosReab', 'Motivos de reapertura', 'Motivos frecuentes al volver una orden completada al taller.')}` : ''}
+         ${can('veh') ? acc('opc', 'Opciones del vehículo', 'Cambiar, Revisar y Repuestos y líquidos · agregar, renombrar, mover y quitar', opEditor()) : ''}
+         ${can('cfg') ? `${zstSec()}
+         ${acc('hor', 'Horario del local', 'Días y horas de apertura · avisos de cierre', horUI())}` : ''}
+         ${can('tec') ? `${plkSec()}${shkSec()}${acc('par', 'Parámetros', 'Avisos, animaciones, nombre del negocio y WhatsApp de supervisión', `<div class="li"><span>Aviso "por vencer": minutos antes del vencimiento (en órdenes cortas, hasta la mitad del estimado)</span><input type="number" min="1" max="240" value="${S.cfg.avisoMin || 20}" data-ch="avisoMin"></div><div class="li"><span>Avisos automáticos (por vencer / atrasada) con vibración</span><input type="checkbox" ${S.cfg.alertas === false ? '' : 'checked'} data-ch="alertas"></div><div class="li"><span>Animaciones siempre activas (ignora «reducir movimiento» del equipo)</span><input type="checkbox" ${ANIM_ON() ? 'checked' : ''} data-ch="anim"></div><div class="li"><span>Nombre del negocio</span><input value="${esc(S.cfg.negocio)}" data-ch="negocio"></div><div class="li"><span>WhatsApp de supervisión (con código de país)</span><input type="tel" placeholder="56912345678" value="${esc(S.cfg.supervision || '')}" data-ch="supervision" style="width:130px"></div>`)}` : ''}
          ${can('tec') ? `${usrSec()} <section><b>Conexión y datos</b><p class="note">${fb ? (DM() ? 'Firebase conectado · modo DEMO: se usan las colecciones separadas demo_trabajos y demo_config; tus datos reales no se tocan.' : 'Firebase conectado (tiempo real) · datos REALES.') : (S.fbErr ? 'SIN CONEXIÓN a Firebase: ' + esc(S.fbErr) + '. Los datos se guardan solo en este navegador.' : 'Modo demo: datos solo en este navegador. Pega tu config de Firebase en el archivo.')}</p><div class="btns">${fb ? `<button data-a="ping">${ic('wifi_tethering')} Probar conexión</button>` : ''}<button data-a="exp">${ic('download')} Exportar JSON</button><button data-a="rst">${ic('restart_alt')} Catálogo base</button></div></section>
          ${testSec()}
          ${acc('demo', 'Modo demo', 'Datos de prueba, separados de los reales', `<p class="note">${fb ? (DM() ? 'Ahora este equipo usa datos DEMO.' : 'Ahora este equipo usa datos REALES.') : 'Los datos de este navegador son de prueba.'}</p><div class="btns">${fb ? `<button data-a="modo">${ic('swap_horiz')} Cambiar a datos ${DM() ? 'REALES' : 'DEMO'}</button><button data-a="demo">${ic('science')} Cargar demo en Firebase</button>${DM() ? `<button data-a="vac">${ic('delete_sweep')} Vaciar demo</button>` : ''}` : `<button data-a="demo">${ic('science')} Datos demo</button><button data-a="vac">${ic('delete_sweep')} Vaciar todo</button>`}</div>`)}
@@ -23189,9 +23545,15 @@
                 v = i.value.trim();
             if (!v)
                 return;
+            const eP = d.k == 'mecanicos' || d.k == 'recepcion',
+                ap = eP ? (($('#a_' + d.k) || {}).value || '').trim() : '';
             S.cfg[d.k].push({
                 id: d.k == 'motivos' ? slug(v) : uid(),
-                nombre: v,
+                nombre: eP ? (v + ' ' + ap).trim() : v,
+                ...(eP ? {
+                    nom: v,
+                    ape: ap
+                } : {}),
                 activo: true,
                 ...(d.k == 'plataformas' ? {
                     zonaId: $('#z_plataformas')?.value || S.cfg.zonas[0].id
@@ -23431,6 +23793,381 @@
             }
         }
     });
+
+    /* ---- v9-8-43-6 · Tutoriales y ayuda: demostración guiada (pantalla en gris salvo la zona destacada) ---- */
+    const TUT = (() => {
+        const SECS = [['dash', 'dashboard', 'Dashboard', 'Saludo, mapa, globos de estado y trabajos en proceso'], ['linea', 'format_list_numbered', 'Línea de trabajo', 'Resumen, filtros y banners de las órdenes'], ['nuevo', 'add_circle', 'Crear un nuevo trabajo', 'El formulario paso a paso'], ['mapa', 'warehouse', 'Mapa de procesos', 'Zonas, buscador y zoom'], ['comp', 'assignment_turned_in', 'Órdenes completas', 'Búsqueda y filtros por fecha'], ['mas', 'more_horiz', 'Más', 'Calendario, recordatorios, KPIs y configuración']];
+        const E = s => document.querySelector(s),
+            rc = e => {
+                if (!e)
+                    return null;
+                try {
+                    e.scrollIntoView({
+                        block: 'center',
+                        behavior: 'instant'
+                    })
+                } catch (_) {}
+                const r = e.getBoundingClientRect();
+                return r.width || r.height ? {
+                    top: r.top,
+                    left: r.left,
+                    width: r.width,
+                    height: r.height
+                } : null
+            },
+            U = s => {
+                const L = [...document.querySelectorAll(s)].filter(e => e.getBoundingClientRect().height);
+                if (!L.length)
+                    return null;
+                try {
+                    L[0].scrollIntoView({
+                        block: 'center',
+                        behavior: 'instant'
+                    })
+                } catch (_) {}
+                const R = L.map(e => e.getBoundingClientRect()),
+                    t = Math.min(...R.map(r => r.top)),
+                    l = Math.min(...R.map(r => r.left)),
+                    b = Math.max(...R.map(r => r.bottom)),
+                    x = Math.max(...R.map(r => r.right));
+                return {
+                    top: t,
+                    left: l,
+                    width: x - l,
+                    height: b - t
+                }
+            },
+            TX = (s, t) => [...document.querySelectorAll(s)].find(e => e.textContent.trim() == t),
+            SEC = t => {
+                const h = [...document.querySelectorAll('#modal .sec')].find(e => e.textContent.includes(t));
+                if (!h)
+                    return null;
+                try {
+                    h.scrollIntoView({
+                        block: 'start',
+                        behavior: 'instant'
+                    })
+                } catch (_) {}
+                const r = h.getBoundingClientRect();
+                let b = r.bottom,
+                    l = r.left,
+                    x = r.right;
+                for (let n = h.nextElementSibling; n && !n.classList.contains('sec'); n = n.nextElementSibling) {
+                    const q = n.getBoundingClientRect();
+                    if (q.height) {
+                        b = Math.max(b, q.bottom);
+                        l = Math.min(l, q.left);
+                        x = Math.max(x, q.right)
+                    }
+                }
+                return {
+                    top: r.top,
+                    left: l,
+                    width: x - l,
+                    height: b - r.top
+                }
+            };
+        const sD = [
+        ['home', '.dh', 'Saludo y hora', 'Arriba ves el saludo según la hora, la fecha y el reloj en vivo.'],
+        ['home', '.dmap', 'Mapa del taller', 'Un vistazo al taller: cada zona muestra cuántos trabajos tiene. El borde parpadea suave cuando la zona está activa.'],
+        ['home', '.dgr', 'Globos de estado', 'Resumen del día: en proceso, en reparación, en pausa, en cola, listos y completadas hoy. Toca uno y te lleva a esos trabajos en la Línea de trabajo.'],
+        ['home', '.dbt', 'Accesos rápidos', '«Ver en línea de trabajo» abre la lista completa y «Nuevo trabajo» crea una orden.'],
+        ['home', '.dsec', 'Trabajos en proceso ahora', 'Cada banner muestra OT, estado, vehículo con su logo, patente, tiempo de espera o atraso y el trabajo a realizar. Tócalo para abrir su detalle.', {
+            opt: 1
+        }],
+        ['home', '#nav', 'Menú inferior', 'Desde acá cambias de sección: Dashboard, Línea de trabajo, Mapa de procesos, Órdenes completas y Más.']];
+        const sL = [
+        ['linea', '.top', 'Línea de trabajo', 'Acá están todas las órdenes del taller, por hora de llegada (las urgentes y las con fecha de entrega van primero).'],
+        ['linea', () => U('.sum'), 'Resumen de estados', 'Toca un estado (En proceso, En reparación, En cola, En pausa, Listo o Completadas) para filtrar la lista. Vuelve a tocarlo para quitar el filtro.'],
+        ['linea', '.srch', 'Buscador', 'Busca por patente, OT, cliente, marca o modelo.'],
+        ['linea', '.zf', 'Filtros', 'Filtra por zona del taller o por mecánico.', {
+            opt: 1
+        }],
+        ['linea', '#lst', 'Lista de órdenes', 'Los banners están en grupos plegables: En reparación, En proceso, En cola y En pausa. Toca uno para abrirlo: ahí inicias, pausas o completas el trabajo, y ves fotos, esquema, inspección, repuestos y notas.'],
+        ['linea', '.fabw .fab', 'Nuevo trabajo', 'Este botón crea una orden nueva. En «Crear un nuevo trabajo» (Tutoriales y ayuda) te lo explico paso a paso.']];
+        const sN = [
+        ['linea', '#modal .box>div', 'Crear nuevo trabajo', 'Así se abre el formulario. Arriba ves la hora actual y la X para cerrarlo. En esta demostración no se guarda nada.', {
+            m: 'new'
+        }],
+        ['linea', () => SEC('Tipo de trabajo'), 'Tipo de trabajo', 'Elige «En proceso» (trabajo corto del día) o «En reparación» (trabajo más largo).', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', () => SEC('Datos de vehículo'), 'Vehículo y cliente', 'Completa la patente, marca, modelo y los datos del cliente.', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', () => SEC('Agregar las órdenes'), 'Trabajos a realizar', 'Agrega los servicios del catálogo con el botón +. Cada uno suma su tiempo estimado.', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', () => SEC('Inspección'), 'Inspección', 'Registra la inspección del vehículo al ingresar.', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', () => SEC('Fotos del vehículo'), 'Fotos', 'Toma fotos o súbelas desde la galería; quedan guardadas en la orden.', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', () => SEC('Tiempos'), 'Tiempos', 'Define la hora de ingreso y el tiempo o la fecha estimada de entrega. Con eso la app calcula esperas y atrasos.', {
+            m: 'new',
+            opt: 1
+        }],
+        ['linea', '#modal [data-a="save"]', 'Guardar', 'Al guardar, la orden queda en la Línea de trabajo. Aquí no se guarda nada porque es solo una demostración.', {
+            m: 'new',
+            opt: 1
+        }]];
+        const sM = [
+        ['mapa', '.mapw', 'Mapa de procesos', 'Plano del taller con sus zonas y vehículos. Toca una zona para ver cuántos trabajos tiene por estado. E = cola de espera y P = pausa.'],
+        ['mapa', '.mzb', 'Controles del mapa', 'Reinicia el mapa y haz zoom con + y −, con el pellizco en el celular o Ctrl + rueda en el computador.', {
+            opt: 1
+        }],
+        ['mapa', '.srch', 'Buscador', 'Busca una patente, OT o cliente: el mapa muestra el proceso encontrado y su botón lo abre.', {
+            opt: 1
+        }]];
+        const sC = [
+        ['comp', '.top', 'Órdenes completas', 'Historial de los trabajos terminados.'],
+        ['comp', '.srch', 'Buscar', 'Busca por patente, OT o cliente.', {
+            opt: 1
+        }],
+        ['comp', () => rc(TX('#app button,#app .chip', 'Hoy')), 'Filtros de fecha', 'Hoy, Ayer, Semana pasada o Fechas… para un día o un rango. También puedes filtrar o agrupar por zona.', {
+            opt: 1
+        }]];
+        const sA = [
+        ['mas', '.mas', 'Más', 'Reúne el calendario de citas y las demás herramientas de la app.'],
+        ['mas', '.mz', 'Calendario', 'Citas y reaperturas del mes. Toca un día para ver lo agendado.', {
+            opt: 1
+        }],
+        ['mas', '.mbtn', 'Calendario de citas', 'Desde acá agendas citas y reaperturas.', {
+            opt: 1
+        }],
+        ['mas', '.mgap', 'Más opciones', 'Notificaciones (avisos e historial), Recordatorios, KPIs (indicadores y gráficos), Configuración y Tutoriales y ayuda.']];
+        const WEL = ['home', null, 'Bienvenido', 'Te voy a mostrar la app paso a paso. Lo que no esté destacado se pone gris. Usa Siguiente y Anterior, o Salir cuando quieras.'],
+            FIN = ['mas', null, 'Listo', 'Puedes repetir este u otro tutorial cuando quieras desde Más › Tutoriales y ayuda.'];
+        let st = [],
+            i = 0,
+            root = null,
+            tm = 0,
+            tm2 = 0,
+            dir = 1,
+            run = 0;
+        const mk = () => {
+                if (root)
+                    return root;
+                root = document.createElement('div');
+                root.id = 'tut';
+                root.innerHTML = '<i class="tp"></i><i class="tp"></i><i class="tp"></i><i class="tp"></i><i class="th"></i><div class="tc" role="dialog"></div>';
+                document.body.appendChild(root);
+                return root
+            },
+            q = s => root.querySelector(s),
+            shade = r => {
+                const W = innerWidth,
+                    H = innerHeight,
+                    P = [...root.querySelectorAll('.tp')],
+                    h = q('.th'),
+                    set = (e, t, l, w, x) => {
+                        e.style.cssText = `top:${t}px;left:${l}px;width:${w}px;height:${x}px`
+                    };
+                if (!r) {
+                    set(P[0], 0, 0, W, H);
+                    set(P[1], 0, 0, 0, 0);
+                    set(P[2], 0, 0, 0, 0);
+                    set(P[3], 0, 0, 0, 0);
+                    h.style.display = 'none';
+                    return null
+                }
+                const T = Math.max(0, r.top - 6),
+                    L = Math.max(0, r.left - 6),
+                    Wd = Math.max(20, Math.min(W - L, r.width + 12)),
+                    Hd = Math.max(20, Math.min(r.height + 12, Math.max(H * .55, 80), H - T));
+                set(P[0], 0, 0, W, T);
+                set(P[1], T + Hd, 0, W, Math.max(0, H - T - Hd));
+                set(P[2], T, 0, L, Hd);
+                set(P[3], T, L + Wd, Math.max(0, W - L - Wd), Hd);
+                h.style.cssText = `display:block;top:${T}px;left:${L}px;width:${Wd}px;height:${Hd}px`;
+                return {
+                    T,
+                    L,
+                    Wd,
+                    Hd
+                }
+            },
+            card = b => {
+                const tc = q('.tc'),
+                    s = st[i],
+                    W = innerWidth,
+                    H = innerHeight,
+                    last = i == st.length - 1;
+                tc.innerHTML = `<div class="tbar"><i style="width:${Math.round((i + 1) / st.length * 100)}%"></i></div><div class="tn">Paso ${i + 1} de ${st.length}</div><b class="tt1">${s[2]}</b><p>${s[3]}</p><div class="ta"><button data-tt="end">Salir</button><span style="flex:1"></span>${i > 0 ? '<button data-tt="prev">Anterior</button>' : ''}<button class="pri" data-tt="next">${last ? 'Terminar' : 'Siguiente'}</button></div>`;
+                tc.style.cssText = `width:${Math.min(360, W - 24)}px;top:0;left:0;visibility:hidden`;
+                const w = tc.offsetWidth,
+                    h = tc.offsetHeight;
+                let t,
+                    l;
+                if (!b) {
+                    t = (H - h) / 2;
+                    l = (W - w) / 2
+                } else {
+                    const bl = H - (b.T + b.Hd),
+                        ab = b.T;
+                    l = Math.min(Math.max(12, b.L + b.Wd / 2 - w / 2), W - w - 12);
+                    t = bl >= h + 16 ? b.T + b.Hd + 12 : ab >= h + 16 ? b.T - h - 12 : (b.T + b.Hd / 2 < H / 2 ? H - h - 12 : 12)
+                }
+                tc.style.cssText = `width:${w}px;top:${Math.max(8, t)}px;left:${l}px;visibility:visible`
+            },
+            meas = s => {
+                const t = s[1];
+                if (!t)
+                    return null;
+                try {
+                    return typeof t == 'function' ? t() : rc(E(t))
+                } catch (_) {
+                    return null
+                }
+            },
+            place = () => {
+                const s = st[i];
+                if (!s || !root || !run)
+                    return;
+                const r = meas(s);
+                if (!r && s[4] && s[4].opt && i > 0) {
+                    go(i + dir, dir);
+                    return
+                }
+                card(shade(r))
+            },
+            prep = s => {
+                const o = s[4] || {},
+                    nw = S.modal && S.modal.k == 'new';
+                if (o.m == 'new') {
+                    if (!nw) {
+                        if (S.view != s[0])
+                            A.go({
+                                v: s[0]
+                            });
+                        A.new()
+                    }
+                }
+                else {
+                    if (nw) {
+                        S.modal = null;
+                        S.pk = null;
+                        render(1)
+                    }
+                    if (S.view != s[0])
+                        A.go({
+                            v: s[0]
+                        })
+                }
+            },
+            go = (n, d) => {
+                dir = d || 1;
+                if (n >= st.length)
+                    return end();
+                if (n < 0)
+                    n = 0;
+                i = n;
+                clearTimeout(tm);
+                clearTimeout(tm2);
+                mk();
+                root.className = '';
+                shade(null);
+                q('.tc').style.visibility = 'hidden';
+                prep(st[i]);
+                const my = i;
+                tm = setTimeout(place, 430);
+                tm2 = setTimeout(() => {
+                    if (root && run && i == my)
+                        place()
+                }, 1100)
+            },
+            close = () => {
+                clearTimeout(tm);
+                clearTimeout(tm2);
+                run = 0;
+                if (root) {
+                    root.remove();
+                    root = null
+                }
+            },
+            end = () => {
+                const was = run;
+                close();
+                if (S.modal && S.modal.k == 'new') {
+                    S.modal = null;
+                    S.pk = null
+                }
+                if (was)
+                    A.go({
+                        v: 'mas'
+                    });
+                else
+                    render(1)
+            },
+            it = (k, ic0, t, d) => `<button class="tmi" data-tt="s:${k}">${ic(ic0)}<span><b>${t}</b><small>${d}</small></span></button>`,
+            menu = () => {
+                close();
+                mk();
+                shade(null);
+                const tc = q('.tc');
+                tc.innerHTML = `<div class="tmh">${ic('school')}<b>Tutoriales y ayuda</b><button data-tt="close" aria-label="Cerrar">${ic('close')}</button></div><p class="tmp">Elige cómo quieres aprender. Te voy mostrando cada parte de la app: lo que no está destacado se pone gris.</p>${it('full', 'menu_book', 'Tutorial completo', 'Todas las secciones, una tras otra')}${it('quick', 'bolt', 'Recorrido rápido (general)', 'Lo esencial de la app en pocos pasos')}<div class="tms">Por sección</div>${SECS.map(x => it(...x.slice(0, 1).concat(x.slice(1)))).join('')}<div class="tms">Más</div>${it('help', 'help', 'Ayuda escrita', 'Lista de funciones de cada pantalla')}`;
+                tc.style.cssText = `width:${Math.min(400, innerWidth - 24)}px;top:50%;left:50%;transform:translate(-50%,-50%);visibility:visible`
+            },
+            start = k => {
+                const M = {
+                    dash: sD,
+                    linea: sL,
+                    nuevo: sN,
+                    mapa: sM,
+                    comp: sC,
+                    mas: sA
+                };
+                st = k == 'full' ? [WEL, ...sD, ...sL, ...sN, ...sM, ...sC, ...sA, FIN] : k == 'quick' ? [WEL, sD[2], sD[5], sL[1], sL[4], sM[0], sC[2], sA[3], FIN] : [...M[k], FIN];
+                run = 1;
+                go(0, 1)
+            };
+        document.addEventListener('click', e => {
+            const b = e.target.closest && e.target.closest('#tut [data-tt]');
+            if (!b)
+                return;
+            e.stopPropagation();
+            const k = b.dataset.tt;
+            if (k == 'next')
+                go(i + 1, 1);
+            else if (k == 'prev')
+                go(i - 1, -1);
+            else if (k == 'end')
+                end();
+            else if (k == 'close')
+                close();
+            else if (k == 's:help') {
+                close();
+                S.help = 1;
+                render(1)
+            } else if (k.startsWith('s:'))
+                start(k.slice(2))
+        });
+        document.addEventListener('keydown', e => {
+            if (!root)
+                return;
+            if (e.key == 'Escape') {
+                run ? end() : close()
+            } else if (run && e.key == 'ArrowRight')
+                go(i + 1, 1);
+            else if (run && e.key == 'ArrowLeft')
+                go(i - 1, -1)
+        });
+        addEventListener('resize', () => {
+            if (root && run)
+                place()
+        });
+        return {
+            menu
+        }
+    })();
+    A.tut = () => TUT.menu();
+
     document.addEventListener('input', e => {
         const t = e.target;
         if (t.dataset && t.dataset.ch == 'plkdbf' && t.tagName == 'INPUT') {
@@ -23562,6 +24299,19 @@
                 shkInit(true);
             return
         }
+        if (k == 'cnom' || k == 'cape') {
+            const x = (S.cfg[t.dataset.k] || []).find(y => y.id == t.dataset.id),
+                v = t.value.trim();
+            if (!x)
+                return;
+            if (k == 'cnom' && !v) {
+                t.value = pNom(x);
+                return
+            }
+            setPersNom(x, k == 'cnom' ? v : pNom(x), k == 'cape' ? v : pApe(x));
+            saveCfg();
+            return
+        } // v9-8-43: nombre y apellido por separado
         if (k == 'cren') {
             const a = S.cfg[t.dataset.k] || [],
                 x = a.find(y => y.id == t.dataset.id),
@@ -24916,7 +25666,7 @@
     });
     function vMas() {
         const up = calUp().slice(0, 3);
-        return `<div class="top"><h1>Más</h1></div><div class="mas">${miBanner()}${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}${can('kpis') ? `<button class="mopt" data-a="go" data-v="kpis">${ic('query_stats')}<span>KPIs</span>${ic('chevron_right')}</button>` : ''}${can('cfg') || can('tec') ? `<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button>` : ''}${AUTH_ON && S.me && S.me.rol ? `<button class="mopt" data-a="salir">${ic('logout')}<span>Cerrar sesión · ${esc(S.me.nombre || S.me.email || '')}</span>${ic('chevron_right')}</button>` : ''}</div><div class="verb">v0.49 beta</div></div>`
+        return `<div class="top"><h1>Más</h1></div><div class="mas">${miBanner()}${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}${can('kpis') ? `<button class="mopt" data-a="go" data-v="kpis">${ic('query_stats')}<span>KPIs</span>${ic('chevron_right')}</button>` : ''}${can('veh') || can('cfg') || can('tec') ? `<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button>` : ''}<button class="mopt" data-a="tut">${ic('school')}<span>Tutoriales y ayuda</span>${ic('chevron_right')}</button>${AUTH_ON && S.me && S.me.rol ? `<button class="mopt" data-a="salir">${ic('logout')}<span>Cerrar sesión · ${esc(S.me.nombre || S.me.email || '')}</span>${ic('chevron_right')}</button>` : ''}</div><div class="verb">v0.49 beta</div></div>`
     }
     /* ============ v9-8-34 · MÁS › KPIs: los KPI que ya existían + trabajos más realizados, marcas y vehículos recurrentes y gráficos ============ */
     const KT = [['res', 'query_stats', 'Resumen'], ['trab', 'build', 'Trabajos'], ['veh', 'directions_car', 'Vehículos y marcas'], ['per', 'engineering', 'Personal'], ['graf', 'bar_chart', 'Gráficos']];
@@ -25115,9 +25865,14 @@
     }
     /* v9-8-37 · tipo de vehículo (Sedán, SUV, Camioneta, Camión) y ubicación de la llave */
     const TVI = (d, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/><circle cx="${w[0]}" cy="16" r="1.9"/><circle cx="${w[1]}" cy="16" r="1.9"/></svg>`;
-    const TV = [['Sedán', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-2.7l2.7-.8 2.5-3.5h7l3 3.5 3.3.8V16', [6.4, 17.6])], ['SUV', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16V9.8c0-.4.3-.8.7-.9l4-.9h7.4c.4 0 .8.2 1.1.5l3.2 3.3c.4.4.6.9.6 1.4V16', [6.4, 17.6])], ['Camioneta', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-3.8h7.6V8.6h4.1l3.3 3.6 3.9.8V16', [6.4, 17.6])], ['Camión', TVI('M2.5 16h1.9M8.4 16h5.2M20 16h1.5M2.5 16V6.5h10.4V16M12.9 9.6h4.4l3.2 3.3V16', [6.4, 17.6])]];
-    const tvSel = (cur, act, x) => `<div class="tvs" role="group" aria-label="Tipo de vehículo">${TV.map(([n, i]) => `<button type="button" class="tv${String(cur || '').toLowerCase() == n.toLowerCase() ? ' on' : ''}" data-a="${act}" data-t="${n}" ${x || ''}>${i}<small>${n}</small></button>`).join('')}</div>`;
-    const LLV_B = () => [...new Set(['Mesón', 'Con el cliente', ...(S.cfg.zonas || []).map(z => z.nombre)])];
+    const tvK = s => {
+        s = String(s || '').trim().toLowerCase();
+        return /^sed[aá]n/.test(s) ? 'sedán/hatchback' : s
+    }; // las órdenes antiguas con «Sedán» cuentan como Sedán/Hatchback
+    const TV = [['Sedán/Hatchback', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-2.7l2.7-.8 2.5-3.5h7l3 3.5 3.3.8V16', [6.4, 17.6])], ['SUV', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16V9.8c0-.4.3-.8.7-.9l4-.9h7.4c.4 0 .8.2 1.1.5l3.2 3.3c.4.4.6.9.6 1.4V16', [6.4, 17.6])], ['Camioneta', TVI('M2.5 16h1.9M8.4 16h7.2M19.6 16h1.9M2.5 16v-3.8h7.6V8.6h4.1l3.3 3.6 3.9.8V16', [6.4, 17.6])], ['Camión', TVI('M2.5 16h1.9M8.4 16h5.2M20 16h1.5M2.5 16V6.5h10.4V16M12.9 9.6h4.4l3.2 3.3V16', [6.4, 17.6])]];
+    const tvSel = (cur, act, x) => `<div class="tvs" role="group" aria-label="Tipo de vehículo">${TV.map(([n, i]) => `<button type="button" class="tv${tvK(cur) == tvK(n) ? ' on' : ''}" data-a="${act}" data-t="${n}" ${x || ''}>${i}<small>${n.replace('/', '/<wbr>')}</small></button>`).join('')}</div>`;
+    const LLV_A = ['Mesón', 'Caja', 'Con el cliente'],
+        LLV_B = () => [...new Set([...LLV_A, ...(S.cfg.zonas || []).map(z => z.nombre)])];
     function llaveModal() {
         const m = S.modal,
             j = get(m.id);
@@ -25125,7 +25880,7 @@
             return '';
         const l = j.llave || {};
         return `<div class="bd" data-a="cerrar"><div class="box"><div style="display:flex;gap:10px;align-items:center">${ic('key')}<div><b style="font-size:18px">Dónde está la llave</b><div class="sm">${esc(fmtPl(j.vehiculo.patente))}${j.ot ? ' · OT ' + esc(j.ot) : ''}${l.donde ? '<br>Ahora: <b>' + esc(l.donde) + '</b> · ' + fdt(l.iso) : ''}</div></div></div>
-         <div class="chips" style="margin-top:12px;flex-wrap:wrap">${LLV_B().map(n => `<button type="button" class="chip ${l.donde == n ? 'sel' : ''}" data-a="llvset" data-id="${j.id}" data-w="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+         ${(() => {const ch = n => `<button type="button" class="chip ${l.donde == n ? 'sel' : ''}" data-a="llvset" data-id="${j.id}" data-w="${esc(n)}">${esc(n)}</button>`;return `<div class="sm" style="margin-top:10px">Atención <span class="mut">· Mesón = en el mesón, con nosotros</span></div><div class="chips" style="flex-wrap:wrap">${LLV_A.map(ch).join('')}</div><div class="sm" style="margin-top:10px">Zonas del taller</div><div class="chips" style="flex-wrap:wrap">${(S.cfg.zonas || []).map(z => ch(z.nombre)).join('')}</div>`})()}
          <div class="sec">${ic('edit_note')} Otro lugar</div><input id="llv_t" placeholder="Ej: colgada en el panel, con Pedro…" maxlength="60" autocomplete="off" style="width:100%">
          <div class="btns" style="margin-top:16px"><button data-a="llvok" data-id="${j.id}">Guardar</button>${l.donde ? `<button data-a="llvset" data-id="${j.id}" data-w="">Quitar</button>` : ''}<button data-a="cerrar">Cerrar</button></div></div></div>`
     }
@@ -25171,14 +25926,14 @@
             if (!j)
                 return;
             const v = j.vehiculo,
-                x = String(v.tipov || '').toLowerCase() == d.t.toLowerCase() ? '' : d.t;
+                x = tvK(v.tipov) == tvK(d.t) ? '' : d.t;
             v.tipov = x;
             ev(j, 'vehiculo', 'tipo: ' + (x || '—'));
             saveJob(j, 1);
             render(1)
         },
         tvnew: (d, b) => {
-            const x = String(D.tipov || '').toLowerCase() == d.t.toLowerCase() ? '' : d.t;
+            const x = tvK(D.tipov) == tvK(d.t) ? '' : d.t;
             D.tipov = x;
             const g = b && b.closest && b.closest('.tvs');
             if (g)
@@ -25248,10 +26003,12 @@
             av = (L, f) => L.length ? L.reduce((a, j) => a + f(j), 0) / L.length : 0;
         const M = [...(S.cfg.mecanicos || []).map(m => ({
             id: m.id,
-            n: m.nombre
+            n: m.nombre,
+            c: pCorto(m, S.cfg.mecanicos)
         })), {
             id: '',
-            n: 'Sin asignar'
+            n: 'Sin asignar',
+            c: 'Sin asignar'
         }];
         const R = M.map(m => {
             const L = S.jobs.filter(j => (j.mecanicoId || '') == m.id && (inT(j.tiempos.ingresoISO) || inT(j.tiempos.completadoISO) || j.estado != 'completado')).sort((a, b) => cmpS(b.tiempos.ingresoISO || '', a.tiempos.ingresoISO || '')),
@@ -25259,7 +26016,13 @@
                 act = L.filter(j => j.estado != 'completado'),
                 ok = done.filter(j => j.tiempos.desvSeg <= 0).length,
                 pau = L.reduce((a, j) => a + (j.eventos || []).filter(e => e.tipo == 'pausado' && inT(e.fechaISO)).length, 0),
-                sv = done.reduce((a, j) => a + (j.servicios || []).filter(s => s.hecho !== false).length, 0);
+                sv = done.reduce((a, j) => a + (j.servicios || []).filter(s => s.hecho !== false).length, 0),
+                svm = new Map();
+            done.forEach(j => (j.servicios || []).forEach(s => {
+                if (s.hecho === false)
+                    return;
+                svm.set(s.nombre, (svm.get(s.nombre) || 0) + 1)
+            }));
             return {
                 m,
                 L,
@@ -25268,6 +26031,7 @@
                 ok,
                 pau,
                 sv,
+                top: [...svm.entries()].sort((a, b) => b[1] - a[1]),
                 real: av(done, j => j.tiempos.realSeg),
                 est: av(done, j => j.tiempos.estSeg || 0),
                 dv: av(done, j => j.tiempos.desvSeg || 0),
@@ -25279,9 +26043,16 @@
                 op = !!(S.kpe || {})[id],
                 pc = r.done.length ? Math.round(r.ok / r.done.length * 100) : null,
                 dv = Math.round(r.dv / 60);
-            return `<div class="pcd ${op ? 'open' : ''}"><button class="pch" data-a="kpe" data-id="${esc(id)}" aria-expanded="${op}"><span class="pav">${esc((r.m.n || '?').trim().charAt(0).toUpperCase())}</span><span class="pn"><b>${esc(r.m.n)}</b><small>${r.L.length} ${r.L.length == 1 ? 'orden' : 'órdenes'} · ${r.done.length} compl. · prom. ${fm(r.real)}</small></span>${ic('expand_more', 'chev')}</button>${op ? `<div class="pcb"><div class="kpg">${kTile('assignment_ind', r.L.length, 'Asignadas')}${kTile('task_alt', r.done.length, 'Completadas')}${kTile('build', r.act.length, 'En curso')}${kTile('timer', fm(r.real), 'Real promedio')}${kTile('schedule', fm(r.est), 'Estimado prom.')}${kTile('percent', pc == null ? '—' : pc + '%', 'A tiempo')}${kTile('hourglass_top', fm(r.tot), 'Tiempo total')}${kTile(dv > 0 ? 'trending_up' : 'trending_down', r.done.length ? (dv > 0 ? '+' : '') + dv + ' min' : '—', 'Desviación prom.')}${kTile('pause_circle', r.pau, 'Pausas')}</div><div class="sm" style="margin:2px 0 6px">${r.sv} ${r.sv == 1 ? 'servicio terminado' : 'servicios terminados'} en el periodo</div>${r.L.length ? r.L.slice(0, 30).map(j => `<div class="pco">${plate((j.vehiculo || {}).patente, 's')}<span>${j.ot ? 'OT ' + esc(j.ot) : 'SOT'}</span><span class="pcs">${esc(ESTADO[sc(j)] || '')} · ${fm(j.estado == 'completado' ? j.tiempos.realSeg : j.tiempos.acumSeg)}</span></div>`).join('') + (r.L.length > 30 ? `<div class="sm">y ${r.L.length - 30} más…</div>` : '') : kEmpty('Sin órdenes asignadas en este periodo.')}</div>` : ''}</div>`
+            return `<div class="pcd ${op ? 'open' : ''}"><button class="pch" data-a="kpe" data-id="${esc(id)}" aria-expanded="${op}"><span class="pav">${esc((r.m.n || '?').trim().charAt(0).toUpperCase())}</span><span class="pn"><b>${esc(r.m.n)}</b><small>${r.L.length} ${r.L.length == 1 ? 'orden' : 'órdenes'} · ${r.done.length} compl. · prom. ${fm(r.real)}</small></span>${ic('expand_more', 'chev')}</button>${op ? `<div class="pcb"><div class="kpg">${kTile('assignment_ind', r.L.length, 'Asignadas')}${kTile('task_alt', r.done.length, 'Completadas')}${kTile('build', r.act.length, 'En curso')}${kTile('timer', fm(r.real), 'Real promedio')}${kTile('schedule', fm(r.est), 'Estimado prom.')}${kTile('percent', pc == null ? '—' : pc + '%', 'A tiempo')}${kTile('hourglass_top', fm(r.tot), 'Tiempo total')}${kTile(dv > 0 ? 'trending_up' : 'trending_down', r.done.length ? (dv > 0 ? '+' : '') + dv + ' min' : '—', 'Desviación prom.')}${kTile('pause_circle', r.pau, 'Pausas')}</div><div class="sm" style="margin:2px 0 6px">${r.sv} ${r.sv == 1 ? 'servicio terminado' : 'servicios terminados'} en el periodo</div>${r.top.length ? `<div class="sec">${ic('task_alt')} Servicios más realizados</div>${r.top.slice(0, 5).map(x => `<div class="pco"><span>${esc(x[0])}</span><span class="pcs">${x[1]}</span></div>`).join('')}` : ''}${r.L.length ? `<div class="sec">${ic('history')} Últimas órdenes</div>${r.L.slice(0, 3).map(j => `<div class="pco">${plate((j.vehiculo || {}).patente, 's')}<span>${j.ot ? 'OT ' + esc(j.ot) : 'SOT'}</span><span class="pcs">${esc(ESTADO[sc(j)] || '')} · ${fm(j.estado == 'completado' ? j.tiempos.realSeg : j.tiempos.acumSeg)}</span></div>`).join('')}` : kEmpty('Sin órdenes asignadas en este periodo.')}</div>` : ''}</div>`
         };
-        return `${kSec('engineering', 'Personal', 'Toca a cada integrante para ver sus órdenes, tiempos y promedios')}${R.length ? R.map(card).join('') : kEmpty('Aún no hay mecánicos con órdenes en este periodo.')}`
+        const gs = new Map();
+        R.forEach(r => r.top.forEach(x => gs.set(x[0], (gs.get(x[0]) || 0) + x[1])));
+        const G = [...gs.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6),
+            tA = R.reduce((a, r) => a + r.L.length, 0),
+            tC = R.reduce((a, r) => a + r.done.length, 0),
+            tO = R.reduce((a, r) => a + r.ok, 0);
+        const gen = R.length ? `<div class="kpg">${kTile('assignment_ind', tA, 'Asignadas')}${kTile('task_alt', tC, 'Completadas')}${kTile('percent', tC ? Math.round(tO / tC * 100) + '%' : '—', 'A tiempo')}</div>${kCard('Completadas por persona', 'engineering', tC ? svgBars(R.map(r => [r.m.c, r.done.length]), '#2f6fd0') : kEmpty('Aún no hay órdenes completadas en este periodo.'))}${kCard('Servicios más realizados · todo el equipo', 'task_alt', G.length ? svgDonut(G) : kEmpty('Aún no hay servicios terminados en este periodo.'))}` : '';
+        return `${kSec('engineering', 'Personal', 'Resumen de todo el equipo y, más abajo, el detalle de cada integrante')}${gen}${R.length ? kSec('person', 'Por persona', 'Toca a cada integrante para ver sus servicios, tiempos y promedios') + R.map(card).join('') : kEmpty('Aún no hay mecánicos con órdenes en este periodo.')}`
     }
     Object.assign(A, {
         kpe: d => {
@@ -25355,25 +26126,29 @@
     /* v9-8-43 · INICIO DE SESIÓN CON USUARIO, ROLES Y PERMISOS */
     const AUTH_DOM = '@lubhub.app',
         ROLES = [['dev', 'Programador'], ['admin', 'Administración'], ['ventas', 'Ventas / recepción'], ['mec', 'Mecánico'], ['sala', 'Sala']],
-        PERMS = [['kpis', 'Ver KPIs'], ['cfg', 'Configuración general'], ['tec', 'Configuración técnica (API, conexión, modos)']],
+        PERMS = [['kpis', 'Ver KPIs'], ['veh', 'Opciones del vehículo'], ['cfg', 'Configuración del taller (zonas, motivos, horario, personal)'], ['tec', 'Configuración técnica (API, conexión, parámetros, usuarios)']],
         PERM0 = {
             admin: {
                 kpis: 1,
+                veh: 1,
                 cfg: 1,
                 tec: 0
             },
             ventas: {
                 kpis: 0,
+                veh: 1,
                 cfg: 0,
                 tec: 0
             },
             mec: {
                 kpis: 0,
+                veh: 1,
                 cfg: 0,
                 tec: 0
             },
             sala: {
                 kpis: 0,
+                veh: 0,
                 cfg: 0,
                 tec: 0
             }
@@ -25393,8 +26168,9 @@
         const r = S.me && S.me.rol;
         if (r == 'dev')
             return true;
-        const t = (S.cfg && S.cfg.permisos) || PERM0;
-        return !!(t[r] && t[r][p])
+        const t = (S.cfg && S.cfg.permisos) || PERM0,
+            v = (t[r] || {})[p];
+        return !!(v === undefined ? (PERM0[r] || {})[p] : v)
     }
     function miUsr() {
         const m = S.me,
@@ -25410,14 +26186,21 @@
             per = m && m.personaId ? paraNom(m.personaId) : '',
             nom = m ? (per || m.nombre || m.usuario || '') : (autor() == 'sin_asignar' ? '' : autor()),
             ro = m && (ROLES.find(r => r[0] == m.rol) || [])[1],
-            tel = m ? (m.telefono || '') : (() => {
+            pe = m && m.personaId && m.rol != 'sala' ? [...S.cfg.recepcion, ...S.cfg.mecanicos].find(x => x.id == m.personaId) : null,
+            ls = k => {
                 try {
-                    return localStorage.lub_tel || ''
+                    return localStorage[k] || ''
                 } catch (e) {
                     return ''
                 }
-            })();
-        return `<div class="mib"><span class="pav">${esc((nom || '?').trim().charAt(0).toUpperCase())}</span><div class="mibt"><b>${esc(nom || 'Sin usuario seleccionado')}</b>${ro ? `<small>${esc(ro)}${m.usuario ? ' · @' + esc(m.usuario) : ''}</small>` : ''}<label class="mibp">${ic('call')}<input type="tel" data-mi="telefono" placeholder="Agregar teléfono" value="${esc(tel)}" autocomplete="tel"></label></div></div>`
+            },
+            tel = m ? (m.telefono || '') : ls('lub_tel'),
+            mail = m ? (m.correo || '') : ls('lub_mail');
+        const av = `<span class="pav">${esc((nom || '?').trim().charAt(0).toUpperCase())}</span>`,
+            cab = `<b>${esc(nom || 'Sin usuario seleccionado')}</b>${ro ? `<small>${esc(ro)}${m.usuario ? ' · @' + esc(m.usuario) : ''}</small>` : ''}`;
+        if (S.mbed)
+            return `<div class="mib ed">${av}<div class="mibt">${cab}${pe ? `<label class="mibp">${ic('badge')}<input id="mi_nom" placeholder="Nombre" value="${esc(pNom(pe))}" autocomplete="given-name"><input id="mi_ape" placeholder="Apellido" value="${esc(pApe(pe))}" autocomplete="family-name"></label>` : ''}<label class="mibp">${ic('call')}<input id="mi_tel" type="tel" placeholder="Teléfono" value="${esc(tel)}" autocomplete="tel"></label><label class="mibp">${ic('mail')}<input id="mi_mail" type="email" placeholder="Correo" value="${esc(mail)}" autocomplete="email" autocapitalize="off"></label><div class="mibb"><button data-a="mbsave" class="pri">${ic('check')} Guardar</button><button data-a="mbcancel">Cancelar</button></div></div></div>`;
+        return `<div class="mib">${av}<div class="mibt">${cab}<div class="mibp">${ic('call')}<span class="${tel ? '' : 'mut'}">${tel ? esc(tel) : 'Sin teléfono'}</span></div><div class="mibp">${ic('mail')}<span class="${mail ? '' : 'mut'}">${mail ? esc(mail) : 'Sin correo'}</span></div></div><button class="mibe" data-a="mbedit" aria-label="Editar mis datos">${ic('edit')}<span>Editar</span></button></div>`
     }
     function noAcc(t) {
         return `<div class="top"><button data-a="go" data-v="home" aria-label="Volver">${ic('first_page')}</button><h1>${t}</h1></div><div class="mut" style="margin:18px 0">${ic('lock')} Tu usuario no tiene permiso para ver esta sección. Si la necesitas, pídesela a quien administra la app.</div>`
@@ -25513,10 +26296,49 @@
                     }));
                     renderLater(1)
                 }, () => {});
+            if (S.me.rol == 'dev')
+                fb.f.onSnapshot(fb.f.collection(fb.db, 'claves'), s => {
+                    S.clv = {};
+                    s.docs.forEach(x => {
+                        const d = x.data();
+                        if (d.usuario)
+                            S.clv[d.usuario] = d.clave
+                    });
+                    renderLater(1)
+                }, () => {});
             fbGo();
             render(1)
         })
     }
+    async function claveAuth(us, p, fn) {
+        let s2;
+        try {
+            s2 = FAPP.initializeApp(FIREBASE_CONFIG, 'ck' + Date.now());
+            const a2 = FA.getAuth(s2),
+                cr = await FA.signInWithEmailAndPassword(a2, usrMail(us), p),
+                r = fn ? await fn(cr.user) : cr.user.uid;
+            await FA.signOut(a2);
+            return r
+        } finally {
+            try {
+                if (s2)
+                    FAPP.deleteApp(s2)
+            } catch (e) {}
+        }
+    } // entra como esa persona en una app aparte (sin cerrar tu sesión) para verificar o cambiar su contraseña
+    async function claveSave(us, p, uid) {
+        uid = uid || ((S.usr || []).find(u => u.usuario == us) || {}).id;
+        if (!uid || !fb)
+            return;
+        try {
+            await fb.f.setDoc(fb.f.doc(fb.db, 'claves', uid), {
+                usuario: us,
+                clave: p
+            })
+        } catch (e) {
+            console.warn('No se pudo guardar la contraseña (¿publicaste las reglas nuevas?)', e)
+        }
+    } // colección «claves»: solo la lee y escribe el Programador
     function qrLoad() {
         return new Promise((res, rej) => {
             if (window.QRCode)
@@ -25550,12 +26372,12 @@
             return '';
         const T = S.cfg.permisos || PERM0,
             RR = ROLES.filter(r => r[0] != 'dev');
-        const tab = `<div style="overflow-x:auto"><table class="pmt"><thead><tr><th></th>${RR.map(r => `<th>${r[1]}</th>`).join('')}</tr></thead><tbody>${PERMS.map(p => `<tr><td>${p[1]}</td>${RR.map(r => `<td><input type="checkbox" data-pm="${r[0]}:${p[0]}" ${(T[r[0]] || {})[p[0]] ? 'checked' : ''}></td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-        const us = (S.usr || []).map(u => `<div class="li"><span><b>${esc(u.nombre || u.usuario || u.id)}</b><br><small class="mut">@${esc(u.usuario || '')}${u.telefono ? ' · ' + esc(u.telefono) : ''}${u.personaId ? ' · ' + esc(paraNom(u.personaId) || 'persona eliminada') : ' · sin enlazar'}</small></span><span style="display:flex;flex-direction:column;gap:4px"><select data-up="${esc(u.id)}">${perOpts(u.personaId)}</select><select data-ur="${esc(u.id)}">${ROLES.map(r => `<option value="${r[0]}" ${u.rol == r[0] ? 'selected' : ''}>${r[1]}</option>`).join('')}</select></span></div>`).join('');
+        const tab = `<div style="overflow-x:auto"><table class="pmt"><thead><tr><th></th>${RR.map(r => `<th>${r[1]}</th>`).join('')}</tr></thead><tbody>${PERMS.map(p => `<tr><td>${p[1]}</td>${RR.map(r => `<td><input type="checkbox" data-pm="${r[0]}:${p[0]}" ${((T[r[0]] || {})[p[0]] === undefined ? (PERM0[r[0]] || {})[p[0]] : (T[r[0]] || {})[p[0]]) ? 'checked' : ''}></td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+        const us = (S.usr || []).map(u => `<div class="li"><span><b>${esc(paraNom(u.personaId) || u.nombre || u.usuario || u.id)}</b><br><small class="mut">@${esc(u.usuario || '')}${u.telefono ? ' · ' + esc(u.telefono) : ''}${u.personaId ? ' · ' + esc(paraNom(u.personaId) || 'persona eliminada') : ' · sin enlazar'}</small></span><span style="display:flex;flex-direction:column;gap:4px"><select data-up="${esc(u.id)}">${perOpts(u.personaId)}</select><select data-ur="${esc(u.id)}">${ROLES.map(r => `<option value="${r[0]}" ${u.rol == r[0] ? 'selected' : ''}>${r[1]}</option>`).join('')}</select></span></div>`).join('');
         const body = `<p class="note">Marca qué puede hacer cada rol. El Programador siempre tiene todo. ${AUTH_ON ? '' : '<b>El inicio de sesión está desactivado (AUTH_ON=false): por ahora todos ven todo.</b>'}</p>${tab}
          <h3 style="margin:14px 0 4px">Usuarios</h3>${AUTH_ON ? (us || '<div class="mut">Aún no hay usuarios.</div>') : '<div class="mut">Se verán aquí cuando actives el inicio de sesión.</div>'}
          ${AUTH_ON ? `<h3 style="margin:14px 0 4px">Crear usuario</h3><p class="note">Elige a qué persona ya creada corresponde (así conserva sus órdenes y recordatorios). Al crearlo sale su QR de ingreso.</p><input id="nu_us" placeholder="Usuario (ej: juan.perez)" style="width:100%;margin:4px 0" autocapitalize="off" autocorrect="off"><input id="nu_pw" placeholder="Contraseña (mínimo 6 caracteres)" style="width:100%;margin:4px 0" autocapitalize="off"><select id="nu_per" style="width:100%;margin:4px 0">${perOpts('')}</select><select id="nu_rol" style="width:100%;margin:4px 0">${ROLES.map(r => `<option value="${r[0]}" ${r[0] == 'ventas' ? 'selected' : ''}>${r[1]}</option>`).join('')}</select><input id="nu_tel" type="tel" placeholder="Teléfono (opcional)" style="width:100%;margin:4px 0"><div class="btns"><button data-a="usrnew">${ic('person_add')} Crear usuario y QR</button></div>` : ''}
-         <h3 style="margin:14px 0 4px">QR de ingreso</h3><p class="note">Elige el usuario y escribe su contraseña para generar su QR. Quien tenga el QR puede entrar: muéstraselo solo a esa persona. La contraseña no se guarda en la app.</p>${AUTH_ON && (S.usr || []).length ? `<select id="qr_us" style="width:100%;margin:4px 0"><option value="">— Elegir usuario —</option>${(S.usr || []).map(u => `<option value="${esc(u.usuario || '')}">${esc(u.nombre || u.usuario)} (@${esc(u.usuario || '')})${u.personaId ? '' : ' · sin enlazar'}</option>`).join('')}</select>` : ''}<input id="qr_pass" placeholder="Contraseña" style="width:100%;margin:4px 0" autocapitalize="off"><div class="btns"><button data-a="qrgen">${ic('qr_code_2')} Generar QR</button></div>${S.qrImg ? `<div style="text-align:center;margin:10px 0"><img src="${S.qrImg}" alt="QR de ingreso" width="200" height="200"><div class="sm">@${esc(S.qrN || '')}</div></div>` : ''}`;
+         <h3 style="margin:14px 0 4px">QR de ingreso</h3><p class="note">Elige al usuario y toca Generar: no hace falta escribir la contraseña si ya está guardada. Quien tenga el QR puede entrar: muéstraselo solo a esa persona. Si el usuario no está en la lista, créalo arriba en «Crear usuario».</p>${AUTH_ON && (S.usr || []).length ? (() => {const op = (u) => `<option value="${esc(u.usuario || '')}">${esc(paraNom(u.personaId) || u.nombre || u.usuario)} (@${esc(u.usuario || '')})${(S.clv || {})[u.usuario] ? '' : ' · sin contraseña guardada'}</option>`;return `<select id="qr_us" style="width:100%;margin:4px 0"><option value="">— Elegir usuario —</option>${(S.usr || []).map(op).join('')}</select><input id="qr_pass" placeholder="Contraseña (solo si no está guardada)" style="width:100%;margin:4px 0" autocapitalize="off"><div class="btns"><button data-a="qrgen">${ic('qr_code_2')} Generar QR</button></div><h3 style="margin:14px 0 4px">Cambiar contraseña · QR de nuevo ingreso</h3><p class="note">Elige al usuario y escribe la contraseña nueva: se cambia en Firebase y sale un QR nuevo. El QR anterior deja de servir.</p><select id="qc_us" style="width:100%;margin:4px 0"><option value="">— Elegir usuario —</option>${(S.usr || []).map(op).join('')}</select><input id="qc_new" placeholder="Contraseña nueva (mínimo 6 caracteres)" style="width:100%;margin:4px 0" autocapitalize="off"><input id="qc_old" placeholder="Contraseña actual (solo si no está guardada)" style="width:100%;margin:4px 0" autocapitalize="off"><div class="btns"><button data-a="qrcambio">${ic('key')} Cambiar y generar QR</button></div>`})() : ''}${S.qrImg ? `<div style="text-align:center;margin:10px 0"><img src="${S.qrImg}" alt="QR de ingreso" width="200" height="200"><div class="sm">@${esc(S.qrN || '')}</div></div>` : ''}`;
         return acc('usr', 'Usuarios y permisos', 'Crear usuarios, roles, permisos y QR de ingreso', body)
     }
     Object.assign(A, {
@@ -25572,6 +26394,54 @@
                 S.lerr = /network/.test(x.code || '') ? 'Sin conexión a internet' : 'Usuario o contraseña incorrectos';
                 render(1)
             })
+        },
+        mbedit: () => {
+            S.mbed = 1;
+            render(1)
+        },
+        mbcancel: () => {
+            S.mbed = 0;
+            render(1)
+        },
+        mbsave: () => {
+            const tel = (($('#mi_tel') || {}).value || '').trim(),
+                mail = (($('#mi_mail') || {}).value || '').trim();
+            if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))
+                return toast('warning', 'Ese correo no parece válido');
+            const pe = AUTH_ON && S.me && S.me.personaId && S.me.rol != 'sala' ? [...S.cfg.recepcion, ...S.cfg.mecanicos].find(x => x.id == S.me.personaId) : null;
+            if (pe && $('#mi_nom')) {
+                const nn = $('#mi_nom').value.trim(),
+                    aa = (($('#mi_ape') || {}).value || '').trim();
+                if (!nn)
+                    return toast('warning', 'El nombre no puede quedar vacío');
+                if (nn != pNom(pe) || aa != pApe(pe)) {
+                    setPersNom(pe, nn, aa);
+                    saveCfg()
+                }
+            }
+            if (AUTH_ON && S.me && S.me.uid && fb) {
+                fb.f.setDoc(fb.f.doc(fb.db, 'usuarios', S.me.uid), {
+                    telefono: tel,
+                    correo: mail
+                }, {
+                    merge: true
+                }).then(() => {
+                    S.me.telefono = tel;
+                    S.me.correo = mail;
+                    S.mbed = 0;
+                    render(1);
+                    toast('check', 'Datos guardados')
+                }).catch(() => toast('warning', 'No se pudo guardar'))
+            }
+            else {
+                try {
+                    localStorage.lub_tel = tel;
+                    localStorage.lub_mail = mail
+                } catch (x) {}
+                S.mbed = 0;
+                render(1);
+                toast('check', 'Datos guardados')
+            }
         },
         salir: () => {
             try {
@@ -25609,6 +26479,8 @@
                     rol,
                     telefono: tel
                 });
+                await claveSave(us, p, uid);
+                (S.clv = S.clv || {})[us] = p;
                 S.qrImg = await qrMake(us, p);
                 S.qrN = us;
                 render(1);
@@ -25626,19 +26498,59 @@
         },
         qrgen: async () => {
             const us = usrNorm((($('#qr_us') || {}).value) || ''),
-                p = ($('#qr_pass') || {}).value || '';
-            if (!us || !p)
-                return toast('warning', 'Elige el usuario y escribe su contraseña');
+                typed = ($('#qr_pass') || {}).value || '';
+            if (!us)
+                return toast('warning', 'Elige el usuario');
+            const st = (S.clv || {})[us],
+                p = st || typed;
+            if (!p)
+                return toast('warning', 'Ese usuario no tiene la contraseña guardada: escríbela una vez');
             try {
+                if (!st) {
+                    try {
+                        await claveAuth(us, p)
+                    } catch (x) {
+                        return toast('warning', 'La contraseña no es correcta')
+                    }
+                    await claveSave(us, p);
+                    (S.clv = S.clv || {})[us] = p
+                }
                 S.qrImg = await qrMake(us, p);
                 S.qrN = us;
                 render(1)
             } catch (x) {
-                toast('warning', 'No se pudo cargar el generador de QR (revisa internet)')
+                toast('warning', 'No se pudo generar el QR (revisa internet)')
+            }
+        },
+        qrcambio: async () => {
+            const us = usrNorm((($('#qc_us') || {}).value) || ''),
+                nw = ($('#qc_new') || {}).value || '',
+                typed = ($('#qc_old') || {}).value || '';
+            if (!us)
+                return toast('warning', 'Elige el usuario');
+            if (nw.length < 6)
+                return toast('warning', 'La contraseña nueva debe tener al menos 6 caracteres');
+            const old = (S.clv || {})[us] || typed;
+            if (!old)
+                return toast('warning', 'Escribe la contraseña actual: no está guardada');
+            try {
+                const uid = await claveAuth(us, old, async u => {
+                    await FA.updatePassword(u, nw);
+                    return u.uid
+                });
+                await claveSave(us, nw, uid);
+                (S.clv = S.clv || {})[us] = nw;
+                S.qrImg = await qrMake(us, nw);
+                S.qrN = us;
+                render(1);
+                toast('check', 'Contraseña cambiada · QR nuevo listo')
+            } catch (x) {
+                toast('warning', /credential|password|invalid|wrong/i.test((x && x.code) || '') ? 'La contraseña actual no es correcta' : 'No se pudo cambiar la contraseña')
             }
         }
     });
-    ['login', 'salir', 'usrnew', 'qrgen'].forEach(x => TAPS.add(x));
+    ;
+    ['login', 'salir', 'usrnew', 'qrgen', 'qrcambio', 'mbedit', 'mbcancel', 'mbsave'].forEach(x => TAPS.add(x));
     document.addEventListener('keydown', e => {
         if (e.key == 'Enter' && e.target && e.target.id == 'lg_p')
             A.login()
