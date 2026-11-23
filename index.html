@@ -14041,7 +14041,14 @@
     .pschips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
     .pschip{font-size:12.5px;padding:5px 11px;border-radius:30px}
     .pschip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-    .psjob{border:1.5px solid var(--line2);border-radius:20px;padding:12px;margin-top:8px;display:grid;gap:8px}
+    .psjob{border:2px solid var(--c,var(--line2));border-radius:20px;padding:12px;margin-top:8px;display:grid;gap:8px;position:relative}
+    @media (prefers-reduced-motion: no-preference){
+        @keyframes psO{0%,100%{box-shadow:0 0 0 0 rgba(242,106,33,0),0 0 0 0 rgba(242,106,33,0)}50%{box-shadow:0 0 0 6px rgba(242,106,33,.5),0 0 20px 5px rgba(242,106,33,.55)}}
+        @keyframes psB{0%,100%{box-shadow:0 0 0 0 rgba(31,111,235,0),0 0 0 0 rgba(31,111,235,0)}50%{box-shadow:0 0 0 6px rgba(31,111,235,.45),0 0 20px 5px rgba(31,111,235,.55)}}
+        .psjob.ps-proceso{animation:psO 1.4s ease-in-out infinite}
+        .psjob.ps-rep{animation:psB 1.4s ease-in-out infinite}
+    }
+    .psplg{display:flex;align-items:center;gap:10px;min-width:0}.psplg .lgm,.psplg .lgi{flex:none;max-height:44px;max-width:64px}
     .pshd{display:flex;justify-content:space-between;align-items:center;gap:8px}
     .psmv{font-weight:700;font-size:15px;line-height:1.2}
     .psst{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:var(--c,var(--ink))}
@@ -30942,6 +30949,8 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
     const psEst = j => {
         if (isListo(j))
             return ['Listo para entregar', 'var(--completado)'];
+        if (isRep(j) && j.estado == 'proceso')
+            return ['En reparación', 'var(--reparacion)'];
         return ({cola: ['En cola', 'var(--cola)'], proceso: ['En proceso', 'var(--proceso)'], pausa: ['En pausa', 'var(--pausa)'], completado: ['Completado', 'var(--completado)']})[j.estado] || [j.estado || '—', 'var(--ink)']
     };
     function pscJob(j) {
@@ -30971,8 +30980,8 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             act.push(`<button data-a="pslisto" data-id="${j.id}">${ic('inventory_2')} ${j.listo ? 'Quitar «listo»' : 'Listo para entregar'}</button>`);
         if (j.estado != 'completado')
             act.push(`<button data-a="pscom" data-id="${j.id}">${ic('task_alt')} Completar</button>`);
-        return `<div class="psjob">
-          <div class="pshd">${plate(v.patente || '', 's')}<span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}</span></div>
+        return `<div class="psjob ${j.estado == 'completado' ? '' : isListo(j) ? 'ps-listo' : isRep(j) && j.estado == 'proceso' ? 'ps-rep' : 'ps-' + j.estado}" style="--c:${e[1]}">
+          <div class="pshd"><div class="psplg">${plate(v.patente || '', 's')}${v.marca ? brandBadge(v.marca, 1) : ''}</div><span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}${isRep(j) && j.estado != 'proceso' && j.estado != 'completado' ? ' · reparación' : ''}</span></div>
           <div class="psmv">${esc(vh || 'Vehículo sin datos')}${v.color ? ` <span class="pssub">· ${esc(v.color)}</span>` : ''}${v.km ? ` <span class="pssub">· ${(+v.km).toLocaleString('es-CL')} km</span>` : ''}</div>
           ${fila('assignment', `<b>${j.ot ? 'OT ' + esc(j.ot) : 'Sin OT (SOT)'}</b> · ingreso ${esc(ingT(t.ingresoISO))}${j.prioridad == 'urgente' ? ' · <b style="color:var(--pausa)">URGENTE</b>' : ''}`)}
           ${fila('person', c.nombre ? `<b>${esc(c.nombre)}</b>${c.telefono ? ` · <a href="tel:${esc(String(c.telefono).replace(/[^0-9+]/g, ''))}">${esc(c.telefono)}</a>` : ''}` : '<span class="pssub">Sin datos del cliente</span>')}
@@ -30992,7 +31001,9 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
     function pscModal() {
         const P = S.ps || {},
             n = P.n || '',
-            top = `<div class="psh">${ic('document_scanner')}<div><b>Escanear patente</b><div class="sm">${P.step == 'read' ? 'Leyendo la foto…' : 'Datos del vehículo al tiro'}</div></div><button type="button" class="psx" data-a="cerrar" aria-label="Cerrar">${ic('close')}</button></div>`;
+            top = `<div class="psh">${ic('document_scanner')}<div><b>Escanear patente</b><div class="sm">${P.step == 'read' ? 'Leyendo la foto…' : P.step == 'pick' ? 'Elige cómo cargar la foto' : 'Datos del vehículo al tiro'}</div></div><button type="button" class="psx" data-a="cerrar" aria-label="Cerrar">${ic('close')}</button></div>`;
+        if (P.step == 'pick')
+            return `<div class="bd" data-a="cerrar"><div class="box psc">${top}<div class="btns" style="margin-top:12px;display:grid;gap:10px"><button data-a="psfoto" style="padding:16px">${ic('photo_camera')} Tomar foto</button><button data-a="psgal" style="padding:16px">${ic('photo_library')} Subir de galería</button><button data-a="psman" style="padding:12px">${ic('keyboard')} Escribir patente a mano</button></div></div></div>`;
         if (P.step == 'read')
             return `<div class="bd" data-a="cerrar"><div class="box psc">${top}<div class="psrd">${P.th ? `<img src="${P.th}" alt="">` : ''}<div class="psspin"></div><div>Leyendo patente…</div></div></div></div>`;
         const J = n ? psJobs(n) : [],
@@ -31006,8 +31017,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             mid = (J.length > 1 ? `<div class="sm">${J.length} órdenes con esta patente:</div><div class="pschips">${J.map(x => `<button class="pschip ${x.id == j.id ? 'on' : ''}" data-a="pspick" data-id="${x.id}">${x.ot ? 'OT ' + esc(x.ot) : 'SOT'} · ${esc(psEst(x)[0])}</button>`).join('')}</div>` : '') + pscJob(j);
             bot += `<button data-a="psgo" data-id="${j.id}" style="background:var(--c-rojo,var(--ink));color:#fff;border-color:transparent">${ic('open_in_new')} Ir a la OT</button>`
         } else if (n) {
-            mid = `<div class="psnf">${ic('search_off')}<b>No hay órdenes con ${esc(fmtPat(n))}</b><div class="sm">Puedes crear una orden nueva con esta patente.</div></div>${near.length ? `<div class="sm" style="margin-top:6px">¿Será alguna de estas?</div><div class="pschips">${near.map(x => `<button class="pschip" data-a="pssel" data-n="${esc(x[0])}">${esc(fmtPat(x[0]))}${x[1] ? ' · activa' : ''}</button>`).join('')}</div>` : ''}`;
-            bot += `<button data-a="psnew" style="background:var(--c-rojo,var(--ink));color:#fff;border-color:transparent">${ic('add')} Crear orden nueva</button>`
+            mid = `<div class="psnf">${ic('search_off')}<b>No hay órdenes con ${esc(fmtPat(n))}</b><div class="sm">Puedes crear una orden nueva con esta patente.</div><button data-a="psnew" style="margin-top:10px;width:100%;padding:14px;font-weight:700;background:var(--c-rojo,var(--ink));color:#fff;border-color:transparent">${ic('add')} Crear orden nueva con ${esc(fmtPat(n))}</button></div>${near.length ? `<div class="sm" style="margin-top:6px">¿Será alguna de estas?</div><div class="pschips">${near.map(x => `<button class="pschip" data-a="pssel" data-n="${esc(x[0])}">${esc(fmtPat(x[0]))}${x[1] ? ' · activa' : ''}</button>`).join('')}</div>` : ''}`;
         } else
             mid = `<div class="psnf">${ic('image_search')}<b>No pude leer la patente</b><div class="sm">Escríbela arriba o intenta otra foto, más cerca y de frente.</div></div>`;
         return `<div class="bd" data-a="cerrar"><div class="box psc">${top}${inp}${dud ? `<div class="pswarn">${ic('warning')}<div>${esc(dud)}</div></div>` : ''}${mid}<div class="btns" style="margin-top:12px">${bot}</div></div></div>`
@@ -31024,21 +31034,32 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
     });
     Object.assign(A, {
         psopen: () => {
-            if (!iaKey()) { /* sin clave de IA: se puede igual escribir la patente a mano */
+            S.ps = {step: 'pick'};
+            S.modal = {k: 'pscan'};
+            render(1)
+        },
+        psfile: cam => {
+            if (!iaKey()) {
                 S.ps = {step: 'res', n: '', conf: 'manual', err: 'Para leer la patente con la cámara falta la clave de Gemini (Configuración › IA). Mientras tanto, escribe la patente aquí.'};
-                S.modal = {k: 'pscan'};
                 render(1);
                 return
             }
             const i = document.createElement('input');
             i.type = 'file';
             i.accept = 'image/*';
-            i.setAttribute('capture', 'environment');
+            if (cam)
+                i.setAttribute('capture', 'environment');
             i.onchange = () => {
                 if (i.files && i.files[0])
                     A.psrun(i.files[0])
             };
             i.click()
+        },
+        psfoto: () => A.psfile(true),
+        psgal: () => A.psfile(false),
+        psman: () => {
+            S.ps = {step: 'res', n: '', conf: 'manual'};
+            render(1)
         },
         psrun: async f => {
             const tok = ++psTok,
