@@ -14048,6 +14048,13 @@
         .psjob.ps-proceso{animation:psO 1.4s ease-in-out infinite}
         .psjob.ps-rep{animation:psB 1.4s ease-in-out infinite}
     }
+    .psjob{grid-template-columns:minmax(0,1fr);max-width:100%;box-sizing:border-box}
+    .psjob>*{min-width:0}
+    .psrow>div{min-width:0;overflow-wrap:anywhere}
+    .psmv{overflow-wrap:anywhere}
+    .psfld input,.psfld select{min-width:0;width:100%;box-sizing:border-box}
+    .psc{overflow-x:hidden}.psc *{box-sizing:border-box}
+    .psjob .fase{margin:2px 0}
     .psplg{display:flex;align-items:center;gap:10px;min-width:0}.psplg .lgm,.psplg .lgi{flex:none;max-height:44px;max-width:64px}
     .pshd{display:flex;justify-content:space-between;align-items:center;gap:8px}
     .psmv{font-weight:700;font-size:15px;line-height:1.2}
@@ -30892,6 +30899,7 @@ Reglas: copia el texto tal como se ve; si no se lee o no está en la foto deja "
        Si no hay orden con esa patente: «Crear orden nueva» con la patente ya escrita (y los datos del cliente si el vehículo ya vino antes). */
     const PS_PROMPT = `Eres un lector de patentes (placas) de vehículos chilenos. Recibes la foto de una patente de auto, camioneta, moto o remolque (puede tener reflejos, suciedad o estar tomada de lado). Responde SOLO con un JSON válido, sin texto antes ni después ni bloques de código, con esta forma exacta: {"patente":"","confianza":"alta","dudas":""}
 Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: BBCD12 o AB1234). Formatos habituales en Chile: 4 letras + 2 números (las letras son solo consonantes, nunca vocales), 2 letras + 4 números y, en motos, 3 letras + 2 números. Si dudas entre 0/O, 1/I, 8/B, 5/S, 2/Z o 6/G, elige la lectura que respete el formato. Si hay varias patentes, usa la más grande o central. "confianza" es "alta" si se lee con claridad, "media" si algún carácter es dudoso o "baja" si casi no se lee. Si no se ve ninguna patente, deja "patente" vacío y explica en "dudas". No inventes caracteres.`;
+    const psSinPrecio = s => String(s || '').split('·').filter(p => !/\$|\b(saldo|abono|total|precio|valor|neto|iva)\b/i.test(p)).join('·').replace(/\s+/g, ' ').trim();
     let psTok = 0;
     const psN = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''),
         psOK = n => /^([A-Z]{4}\d{2}|[A-Z]{2}\d{4}|[A-Z]{3}\d{2})$/.test(n),
@@ -30912,6 +30920,31 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             });
             return [...m.entries()].sort((x, y) => y[1] - x[1]).slice(0, 3)
         };
+    /* lectura con reintentos: la IA a veces responde «sobrecargada» o lee mal a la primera; se prueba hasta 3 veces y se queda con la lectura de formato válido */
+    async function psRead(b64) {
+        let best = null,
+            lastErr = null;
+        for (let k = 0; k < 3; k++) {
+            try {
+                const r = await psCall(b64),
+                    n = psN(r.patente);
+                if (n && psOK(n))
+                    return r;
+                if (n && !best)
+                    best = r
+            } catch (e) {
+                lastErr = e;
+                if (/clave|API key|bloque/i.test(String(e && e.message)))
+                    throw e
+            }
+            await new Promise(ok => setTimeout(ok, 700 * (k + 1)))
+        }
+        if (best)
+            return best;
+        if (lastErr)
+            throw lastErr;
+        return {patente: '', confianza: 'baja', dudas: 'No se alcanzó a leer. Acércate y toma la foto de frente.'}
+    }
     async function psCall(b64) {
         const mdl = iaModel(),
             mk = think => JSON.stringify({
@@ -30983,6 +31016,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
         return `<div class="psjob ${j.estado == 'completado' ? '' : isListo(j) ? 'ps-listo' : isRep(j) && j.estado == 'proceso' ? 'ps-rep' : 'ps-' + j.estado}" style="--c:${e[1]}">
           <div class="pshd"><div class="psplg">${plate(v.patente || '', 's')}${v.marca ? brandBadge(v.marca, 1) : ''}</div><span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}${isRep(j) && j.estado != 'proceso' && j.estado != 'completado' ? ' · reparación' : ''}</span></div>
           <div class="psmv">${esc(vh || 'Vehículo sin datos')}${v.color ? ` <span class="pssub">· ${esc(v.color)}</span>` : ''}${v.km ? ` <span class="pssub">· ${(+v.km).toLocaleString('es-CL')} km</span>` : ''}</div>
+          ${faseBox(j)}
           ${fila('assignment', `<b>${j.ot ? 'OT ' + esc(j.ot) : 'Sin OT (SOT)'}</b> · ingreso ${esc(ingT(t.ingresoISO))}${j.prioridad == 'urgente' ? ' · <b style="color:var(--pausa)">URGENTE</b>' : ''}`)}
           ${fila('person', c.nombre ? `<b>${esc(c.nombre)}</b>${c.telefono ? ` · <a href="tel:${esc(String(c.telefono).replace(/[^0-9+]/g, ''))}">${esc(c.telefono)}</a>` : ''}` : '<span class="pssub">Sin datos del cliente</span>')}
           ${j.estado != 'completado' ? fila('warehouse', `${esc(zn ? zn.nombre + ' · ' : '')}${esc(pl ? pl.nombre : '—')}${mec ? ` · <span class="pssub">${esc(mec)}</span>` : ''}`) : ''}
@@ -30990,7 +31024,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
           ${sv.length ? fila('build', `${hechos} de ${sv.length} servicios hechos<div class="pssub">${esc(sv.slice(0, 3).map(s => s.nombre).join(' · '))}${sv.length > 3 ? ' · +' + (sv.length - 3) : ''}</div>`) : ''}
           ${al.length ? fila('warning', `<b>${al.length} ${al.length == 1 ? 'alerta abierta' : 'alertas abiertas'}</b>`) : ''}
           ${rq.map(r => fila('alarm', `${esc(ingT(r.iso))} · ${esc(r.texto)}`)).join('')}
-          ${nt ? fila('sticky_note_2', `<span class="pssub">${esc(String(nt.texto).slice(0, 110))}${String(nt.texto).length > 110 ? '…' : ''}</span>`) : ''}
+          ${nt ? fila('sticky_note_2', `<span class="pssub">${esc(psSinPrecio(nt.texto).slice(0, 110))}${psSinPrecio(nt.texto).length > 110 ? '…' : ''}</span>`) : ''}
           ${act.length ? `<div class="pssec">Estado</div><div class="psact">${act.join('')}</div>` : ''}
           <div class="pssec">Nota rápida</div>
           <div class="psfld"><input id="psn" placeholder="Ej.: falta repuesto, cliente avisó…" autocomplete="off"><button data-a="psnota" data-id="${j.id}" aria-label="Guardar nota">${ic('add')}</button></div>
@@ -31044,15 +31078,22 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
                 render(1);
                 return
             }
+            /* el input debe estar dentro de la página: en iPhone, uno suelto a veces nunca avisa que se eligió la foto */
+            document.querySelectorAll('input.psfi').forEach(x => x.remove());
             const i = document.createElement('input');
             i.type = 'file';
             i.accept = 'image/*';
+            i.className = 'psfi';
+            i.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0';
             if (cam)
                 i.setAttribute('capture', 'environment');
-            i.onchange = () => {
-                if (i.files && i.files[0])
-                    A.psrun(i.files[0])
-            };
+            i.addEventListener('change', () => {
+                const f = i.files && i.files[0];
+                if (f)
+                    setTimeout(() => A.psrun(f), 0);
+                setTimeout(() => i.remove(), 60000)
+            });
+            document.body.appendChild(i);
             i.click()
         },
         psfoto: () => A.psfile(true),
@@ -31070,7 +31111,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             const vivo = () => psTok == tok && S.modal && S.modal.k == 'pscan';
             try {
                 const b = await iaImg(f),
-                    r = await psCall(b);
+                    r = await psRead(b);
                 if (!vivo())
                     return;
                 const n = psN(r.patente);
