@@ -86,6 +86,7 @@
     se reinician o vacían desde Configuración. Con Firebase la app arranca VACÍA:
     crea primero mecánicos, personal de recepción y talleres en Configuración.
 
+    CAMBIOS v0.51 beta (escanear patente): nuevo botón «Escanear patente» en el Dashboard (entre «Ver en línea de trabajo» y «Nuevo trabajo»). Se saca una foto a la patente, la IA (misma clave de Configuración › IA) la lee y se muestra la orden con estado, cliente, zona, servicios, alertas y recordatorios; desde ahí se puede iniciar/pausar/dejar listo/completar, dejar una nota o un recordatorio, e «Ir a la OT». Si la patente no tiene orden, «Crear orden nueva» abre el formulario con la patente (y los datos del cliente si el vehículo ya vino). Se puede corregir o escribir la patente a mano.
     CAMBIOS v0.50 beta (escanear OT con IA): el botón «Escanear OT con IA» (arriba del formulario) ya funciona: se toma o elige 1 a 4 fotos de la pantalla del sistema antiguo, la IA (Google Gemini; la clave se ingresa en Configuración › IA y se guarda solo en ese equipo) lee la OT y abre la ventana «Datos encontrados» (como la de la patente) con casillas y «Copiar datos»; lo que no se puede copiar queda como nota de la orden. Datos:  N° OT, patente, marca, modelo, año, km, color, cilindrada, cliente, RUT, teléfono, dirección, revisión técnica, recepción a cargo, mecánico, servicios del catálogo, otros servicios y repuestos con código y precio; compara con mecánicos, recepción, catálogo, marcas y órdenes existentes y avisa dudas o duplicados.
     CAMBIOS v0.50 beta (órdenes asignadas por fecha): la sección «Órdenes asignadas» abre mostrando solo hoy y tiene filtro de fecha (Todas, Hoy, Ayer, Semana pasada, Fechas…) para no mostrar tanto.
     CAMBIOS v0.50 beta (órdenes asignadas): Más › «Órdenes asignadas»: lista todas las órdenes agrupadas por persona, con selector Recepción / Mecánicos, filtro Activas / Completadas / Todas, buscador y filtro por una o varias personas (con contador).
@@ -14015,6 +14016,50 @@
     .fbar button,.fsrc button{height:44px;min-height:44px;padding:0 10px;font-size:13px}
     .fth,.fadd{width:72px!important;height:72px!important;min-width:72px!important}
 </style>
+
+    <style id="psc-css">
+    /* v0.51 beta · ESCANEAR PATENTE */
+    .dbt .dscan{flex:0 0 auto;width:78px;flex-direction:column;justify-content:center;gap:2px;padding:6px 4px;text-align:center;font-size:11px;line-height:1.1;color:var(--ink);border:1.25px solid var(--line)}
+    .dbt .dscan .material-symbols-outlined{font-size:28px}
+    .dbt .dgo:not(.dscan){padding:8px 8px;gap:6px}
+    @media (max-width:400px){.dbt{gap:6px}.dbt .dnew{font-size:13.5px;padding:10px 4px}.dbt .dgo:not(.dscan){font-size:11px}.dbt .dgo:not(.dscan) .material-symbols-outlined{font-size:26px}.dbt .dscan{width:68px}}
+    .psc{max-width:460px}
+    .psh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .psh>.material-symbols-outlined{font-size:30px}
+    .psh>div{flex:1;min-width:0}
+    .psh b{font-size:18px}
+    .psx{padding:4px;border-radius:50%;line-height:0;border-color:var(--line2)}
+    .psq{display:flex;gap:8px;margin:6px 0 8px}
+    .psq input{flex:1;font-size:20px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:8px 10px}
+    .psq button{display:flex;align-items:center;padding:6px 14px}
+    .pswarn{display:flex;gap:8px;align-items:flex-start;background:#fff4d6;border:1px solid #f5c000;border-radius:14px;padding:8px 10px;font-size:12.5px;margin:0 0 8px}
+    .pswarn .material-symbols-outlined{font-size:20px;color:#a87400}
+    .psrd{display:flex;flex-direction:column;align-items:center;gap:12px;padding:26px 10px;color:var(--mut)}
+    .psrd img{max-height:110px;max-width:100%;border-radius:14px;object-fit:cover}
+    .psspin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--proceso);animation:pssp .8s linear infinite}
+    @keyframes pssp{to{transform:rotate(360deg)}}
+    .pschips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+    .pschip{font-size:12.5px;padding:5px 11px;border-radius:30px}
+    .pschip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .psjob{border:1.5px solid var(--line2);border-radius:20px;padding:12px;margin-top:8px;display:grid;gap:8px}
+    .pshd{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .psmv{font-weight:700;font-size:15px;line-height:1.2}
+    .psst{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:var(--c,var(--ink))}
+    .psst i{width:10px;height:10px;border-radius:50%;background:var(--c,var(--ink))}
+    .psrow{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.3}
+    .psrow>.material-symbols-outlined{font-size:18px;color:var(--mut);margin-top:1px}
+    .psrow a{color:inherit}
+    .pssub{font-size:12px;color:var(--mut)}
+    .psact{display:flex;flex-wrap:wrap;gap:6px}
+    .psact button{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:13px;padding:7px 10px}
+    .psact .material-symbols-outlined{font-size:18px}
+    .psfld{display:flex;gap:6px}
+    .psfld input,.psfld select{flex:1;font-size:13px}
+    .psfld button{display:flex;align-items:center;padding:5px 12px}
+    .pssec{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin:2px 0 -2px}
+    .psnf{text-align:center;padding:16px 8px 8px;display:grid;gap:4px;justify-items:center}
+    .psnf>.material-symbols-outlined{font-size:38px;color:var(--mut)}
+    </style>
 </head>
 <body>
     <div id="app"></div>
@@ -14923,7 +14968,7 @@
             gl = (e, n, i) => `<div class="gl ${!n ? 'z0' : ''}" role="button" tabindex="0" data-a="dflt" data-e="${e}" title="${e == 'completado' ? 'Completadas hoy' : ESTADO[e]}"><b>${n}</b><i class="dot ${e}"></i>${ic(i, 'g-' + e)}</div>`,
             prow = j => `<div class="item"><div class="card"><div class="row rn"${lgBg(j)} data-a="dpop" data-id="${j.id}"><div class="rn1"><span class="otb ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span><span class="rn-st">${esc(nm(S.cfg.plataformas, j.plataformaId))}<small class="rn-z"> · ${esc(zn(zof(j))?.nombre || '—')}</small></span><i class="dot ${sc(j)}"></i></div><div class="rn2"><div class="rn-v">${vehLine(j)}</div><div class="rc"><div class="rfw">${plate(j.vehiculo.patente, 's')}</div>${estado(j)[0] ? `<span class="tg rt st ${estado(j)[1]}">${estado(j)[0]}</span>` : ''}${ingEst(j)}</div></div><div class="sv">${esc(j.titulo || sv(j))}</div></div></div>${side(j)}</div>`;
         return `<div class="dh"><h1 class="dg">Hola${hiName() ? ' ' + hiName() : ''},<br><span data-greet data-g="${greet()}">${greetH()}</span></h1><div class="dt"><div data-date>${dDate()}</div><b data-time>${dTime()}</b></div></div>${hiAsk()}
-         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion || c.listo ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${c.listo ? gl('listo', c.listo, 'inventory_2') : ''}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
+         <div class="dmap"><div class="mapw">${mapaSvg(0, 1)}</div><div class="dgr"><div class="gg${c.reparacion || c.listo ? ' g5' : ''}">${gl('proceso', c.proceso, 'build')}${c.reparacion ? gl('reparacion', c.reparacion, 'handyman') : ''}${gl('pausa', c.pausa, 'error')}${gl('cola', c.cola, 'time_auto')}${c.listo ? gl('listo', c.listo, 'inventory_2') : ''}${gl('completado', done, 'task_alt')}</div></div></div><div class="dbt"><button class="dgo" data-a="go" data-v="linea">${ic('format_list_numbered')}<span>Ver en línea<br>de trabajo</span></button><button class="dgo dscan" data-a="psopen" title="Escanear patente con la cámara" aria-label="Escanear patente">${ic('document_scanner')}<span>Escanear<br>patente</span></button><button class="fab dnew" data-a="new">${ic('add')} Nuevo trabajo</button></div>
          ${fb && !DM() && !S.jobs.length ? `<div class="empty">Aún no hay órdenes reales en la base.<br><button data-a="modo" style="margin-top:8px">${ic('science')} Usar datos DEMO</button></div>` : ''}
          <div class="dsec"><h2>Trabajos en proceso ahora</h2>${P.map(prow).join('') || '<div class="mut">Ningún trabajo en proceso en este momento.</div>'}</div>${PL.length ? `<div class="dsec"><h2>Vehículos para entregar</h2>${PL.map(prow).join('')}</div>` : ''}${remSec()}
          <div class="dsec"><h2>Talleres activos</h2>${Zs.map(z => `<button class="zk" data-a="go" data-v="zona" data-z="${z.id}">${esc(z.nombre)}</button>`).join('') || '<div class="mut">Ningún taller con procesos, pausas o colas.</div>'}</div>
@@ -20865,6 +20910,8 @@
             return llaveModal();
         if (m.k == 'new')
             return create();
+        if (m.k == 'pscan')
+            return pscModal();
         if (m.k == 'cita')
             return citaModal();
         if (m.k == 'rqe')
@@ -24532,7 +24579,7 @@
         ['home', '.dh', 'Saludo y hora', 'Arriba ves el saludo según la hora, la fecha y el reloj en vivo.'],
         ['home', '.dmap', 'Mapa del taller', 'Un vistazo al taller: cada zona muestra cuántos trabajos tiene. El borde parpadea suave cuando la zona está activa.'],
         ['home', '.dgr', 'Globos de estado', 'Resumen del día: en proceso, en reparación, en pausa, en cola, listos y completadas hoy. Toca uno y te lleva a esos trabajos en la Línea de trabajo.'],
-        ['home', '.dbt', 'Accesos rápidos', '«Ver en línea de trabajo» abre la lista completa y «Nuevo trabajo» crea una orden.'],
+        ['home', '.dbt', 'Accesos rápidos', '«Ver en línea de trabajo» abre la lista completa, «Escanear patente» lee una patente con la cámara y te muestra su orden al tiro, y «Nuevo trabajo» crea una orden.'],
         ['home', '.dsec', 'Trabajos en proceso ahora', 'Cada banner muestra OT, estado, vehículo con su logo, patente, tiempo de espera o atraso y el trabajo a realizar. Tócalo para abrir su detalle.', {
             opt: 1
         }],
@@ -30830,6 +30877,262 @@ Reglas: copia el texto tal como se ve; si no se lee o no está en la foto deja "
             setTimeout(() => m.remove(), 0)
         };
         setTimeout(() => document.addEventListener('click', kill, true), 0)
+    });
+
+    /* ============ v0.51 beta · ESCANEAR PATENTE ============
+       Botón del Dashboard: foto de la patente → la IA (Gemini, la misma clave de Configuración › IA) lee la patente → se busca la orden
+       y se muestran los datos principales con acciones rápidas (estado, nota, recordatorio) y «Ir a la OT».
+       Si no hay orden con esa patente: «Crear orden nueva» con la patente ya escrita (y los datos del cliente si el vehículo ya vino antes). */
+    const PS_PROMPT = `Eres un lector de patentes (placas) de vehículos chilenos. Recibes la foto de una patente de auto, camioneta, moto o remolque (puede tener reflejos, suciedad o estar tomada de lado). Responde SOLO con un JSON válido, sin texto antes ni después ni bloques de código, con esta forma exacta: {"patente":"","confianza":"alta","dudas":""}
+Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: BBCD12 o AB1234). Formatos habituales en Chile: 4 letras + 2 números (las letras son solo consonantes, nunca vocales), 2 letras + 4 números y, en motos, 3 letras + 2 números. Si dudas entre 0/O, 1/I, 8/B, 5/S, 2/Z o 6/G, elige la lectura que respete el formato. Si hay varias patentes, usa la más grande o central. "confianza" es "alta" si se lee con claridad, "media" si algún carácter es dudoso o "baja" si casi no se lee. Si no se ve ninguna patente, deja "patente" vacío y explica en "dudas". No inventes caracteres.`;
+    let psTok = 0;
+    const psN = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''),
+        psOK = n => /^([A-Z]{4}\d{2}|[A-Z]{2}\d{4}|[A-Z]{3}\d{2})$/.test(n),
+        psPat = j => psN(j.vehiculo && (j.vehiculo.patenteN || j.vehiculo.patente)),
+        psJobs = n => S.jobs.filter(j => psPat(j) == n).sort((a, b) => ((a.estado == 'completado') - (b.estado == 'completado')) || cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO)),
+        psNear = n => { /* patentes casi iguales (1 carácter distinto) por si la lectura se equivocó en una letra o número */
+            const m = new Map();
+            S.jobs.forEach(j => {
+                const p = psPat(j);
+                if (!p || p == n || p.length != n.length)
+                    return;
+                let d = 0;
+                for (let i = 0; i < n.length && d < 2; i++)
+                    if (p[i] != n[i])
+                        d++;
+                if (d == 1)
+                    m.set(p, (m.get(p) || j.estado != 'completado'))
+            });
+            return [...m.entries()].sort((x, y) => y[1] - x[1]).slice(0, 3)
+        };
+    async function psCall(b64) {
+        const mdl = iaModel(),
+            mk = think => JSON.stringify({
+                systemInstruction: {parts: [{text: PS_PROMPT}]},
+                contents: [{role: 'user', parts: [{inlineData: {mimeType: 'image/jpeg', data: b64}}, {text: 'Lee la patente de la foto y responde solo con el JSON.'}]}],
+                generationConfig: Object.assign({temperature: 0, maxOutputTokens: 2048, responseMimeType: 'application/json'}, think ? {thinkingConfig: {thinkingBudget: 0}} : {})
+            }),
+            go = think => fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(mdl) + ':generateContent', {
+                method: 'POST',
+                headers: {'content-type': 'application/json', 'x-goog-api-key': iaKey()},
+                body: mk(think)
+            });
+        let think = /gemini-2\.5-flash/.test(mdl) && !/lite/.test(mdl),
+            r = await go(think),
+            j = await r.json().catch(() => ({}));
+        if (!r.ok && think && r.status == 400) { /* el modelo no acepta ese ajuste: se reintenta normal */
+            r = await go(false);
+            j = await r.json().catch(() => ({}))
+        }
+        if (!r.ok) {
+            const msg = (j.error && j.error.message) || 'Error ' + r.status + ' de la IA';
+            if (r.status == 401 || r.status == 403 || /API key/i.test(msg))
+                throw new Error('La clave de Gemini no es válida o no tiene permiso. Ingrésala de nuevo en Configuración › IA.');
+            throw new Error(msg)
+        }
+        if (j.promptFeedback && j.promptFeedback.blockReason)
+            throw new Error('La IA bloqueó la imagen. Prueba con otra foto.');
+        const tx = ((((j.candidates || [])[0] || {}).content || {}).parts || []).map(x => x.text || '').join('\n'),
+            a = tx.indexOf('{'),
+            b = tx.lastIndexOf('}');
+        if (a < 0 || b <= a)
+            throw new Error('No pude leer la foto. Intenta de nuevo, más cerca y de frente.');
+        return JSON.parse(tx.slice(a, b + 1))
+    }
+    const psEst = j => {
+        if (isListo(j))
+            return ['Listo para entregar', 'var(--completado)'];
+        return ({cola: ['En cola', 'var(--cola)'], proceso: ['En proceso', 'var(--proceso)'], pausa: ['En pausa', 'var(--pausa)'], completado: ['Completado', 'var(--completado)']})[j.estado] || [j.estado || '—', 'var(--ink)']
+    };
+    function pscJob(j) {
+        const v = j.vehiculo || {},
+            c = j.cliente || {},
+            t = j.tiempos || {},
+            e = psEst(j),
+            pl = (S.cfg.plataformas || []).find(x => x.id == j.plataformaId),
+            zn = pl && (S.cfg.zonas || []).find(z => z.id == pl.zonaId),
+            mec = j.mecanicoId ? nm(S.cfg.mecanicos, j.mecanicoId) : '',
+            mv = j.pausa && j.pausa.motivo ? ((S.cfg.motivos || []).find(m => m.id == j.pausa.motivo || m.nombre == j.pausa.motivo) || {}).nombre || (j.pausa.motivo == ESP_ID ? 'Cambio de estación' : j.pausa.motivo) : '',
+            sv = j.servicios || [],
+            hechos = sv.filter(s => s.hecho).length,
+            al = (j.alertas || []).filter(a => a.estado == 'abierta'),
+            rq = (j.recordatorios || []).filter(r => !r.hecho).sort((a, b) => cmpS(a.iso, b.iso)).slice(0, 2),
+            nt = (j.notas || []).slice(-1)[0],
+            vh = [v.marca, v.modelo, v.anio].filter(Boolean).join(' '),
+            fila = (i, h) => `<div class="psrow">${ic(i)}<div>${h}</div></div>`,
+            act = [];
+        if (j.estado == 'cola')
+            act.push(`<button data-a="psini" data-id="${j.id}">${ic('play_arrow')} Iniciar</button>`);
+        if (j.estado == 'pausa')
+            act.push(`<button data-a="psini" data-id="${j.id}">${ic('play_arrow')} Reanudar</button>`);
+        if (j.estado == 'proceso' && !j.listo)
+            act.push(`<button data-a="pspau" data-id="${j.id}">${ic('pause')} Pausar</button>`);
+        if (j.estado == 'proceso' || j.estado == 'pausa' || j.estado == 'cola')
+            act.push(`<button data-a="pslisto" data-id="${j.id}">${ic('inventory_2')} ${j.listo ? 'Quitar «listo»' : 'Listo para entregar'}</button>`);
+        if (j.estado != 'completado')
+            act.push(`<button data-a="pscom" data-id="${j.id}">${ic('task_alt')} Completar</button>`);
+        return `<div class="psjob">
+          <div class="pshd">${plate(v.patente || '', 's')}<span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}</span></div>
+          <div class="psmv">${esc(vh || 'Vehículo sin datos')}${v.color ? ` <span class="pssub">· ${esc(v.color)}</span>` : ''}${v.km ? ` <span class="pssub">· ${(+v.km).toLocaleString('es-CL')} km</span>` : ''}</div>
+          ${fila('assignment', `<b>${j.ot ? 'OT ' + esc(j.ot) : 'Sin OT (SOT)'}</b> · ingreso ${esc(ingT(t.ingresoISO))}${j.prioridad == 'urgente' ? ' · <b style="color:var(--pausa)">URGENTE</b>' : ''}`)}
+          ${fila('person', c.nombre ? `<b>${esc(c.nombre)}</b>${c.telefono ? ` · <a href="tel:${esc(String(c.telefono).replace(/[^0-9+]/g, ''))}">${esc(c.telefono)}</a>` : ''}` : '<span class="pssub">Sin datos del cliente</span>')}
+          ${j.estado != 'completado' ? fila('warehouse', `${esc(zn ? zn.nombre + ' · ' : '')}${esc(pl ? pl.nombre : '—')}${mec ? ` · <span class="pssub">${esc(mec)}</span>` : ''}`) : ''}
+          ${j.estado == 'proceso' || j.estado == 'pausa' ? fila('timer', `${dur(Math.round(el(j) / 60))}${t.estSeg ? ' de ' + dur(Math.round(t.estSeg / 60)) + ' estimados' : ''}${mv ? ` · pausa: ${esc(mv)}` : ''}`) : ''}
+          ${sv.length ? fila('build', `${hechos} de ${sv.length} servicios hechos<div class="pssub">${esc(sv.slice(0, 3).map(s => s.nombre).join(' · '))}${sv.length > 3 ? ' · +' + (sv.length - 3) : ''}</div>`) : ''}
+          ${al.length ? fila('warning', `<b>${al.length} ${al.length == 1 ? 'alerta abierta' : 'alertas abiertas'}</b>`) : ''}
+          ${rq.map(r => fila('alarm', `${esc(ingT(r.iso))} · ${esc(r.texto)}`)).join('')}
+          ${nt ? fila('sticky_note_2', `<span class="pssub">${esc(String(nt.texto).slice(0, 110))}${String(nt.texto).length > 110 ? '…' : ''}</span>`) : ''}
+          ${act.length ? `<div class="pssec">Estado</div><div class="psact">${act.join('')}</div>` : ''}
+          <div class="pssec">Nota rápida</div>
+          <div class="psfld"><input id="psn" placeholder="Ej.: falta repuesto, cliente avisó…" autocomplete="off"><button data-a="psnota" data-id="${j.id}" aria-label="Guardar nota">${ic('add')}</button></div>
+          <div class="pssec">Recordatorio</div>
+          <div class="psfld"><input id="pst" placeholder="¿Qué hay que recordar?" autocomplete="off"><select id="psw"><option value="30">30 min</option><option value="60" selected>1 hora</option><option value="120">2 horas</option><option value="tm">Mañana 9:00</option></select><button data-a="psrem" data-id="${j.id}" aria-label="Crear recordatorio">${ic('alarm_add')}</button></div>
+        </div>`
+    }
+    function pscModal() {
+        const P = S.ps || {},
+            n = P.n || '',
+            top = `<div class="psh">${ic('document_scanner')}<div><b>Escanear patente</b><div class="sm">${P.step == 'read' ? 'Leyendo la foto…' : 'Datos del vehículo al tiro'}</div></div><button type="button" class="psx" data-a="cerrar" aria-label="Cerrar">${ic('close')}</button></div>`;
+        if (P.step == 'read')
+            return `<div class="bd" data-a="cerrar"><div class="box psc">${top}<div class="psrd">${P.th ? `<img src="${P.th}" alt="">` : ''}<div class="psspin"></div><div>Leyendo patente…</div></div></div></div>`;
+        const J = n ? psJobs(n) : [],
+            j = J.find(x => x.id == P.sel) || J[0],
+            near = n && !J.length ? psNear(n) : [],
+            dud = P.err || (n && (P.conf == 'media' || P.conf == 'baja' || (P.conf != 'manual' && !psOK(n))) ? 'La lectura no es 100% segura: revisa la patente antes de seguir.' : ''),
+            inp = `<div class="psq"><input id="psq" value="${esc(n ? fmtPat(n) : '')}" placeholder="Escribe la patente" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search"><button type="button" data-a="pssearch" aria-label="Buscar patente">${ic('search')}</button></div>`;
+        let mid = '',
+            bot = `<button data-a="psopen">${ic('photo_camera')} Escanear otra</button>`;
+        if (j) {
+            mid = (J.length > 1 ? `<div class="sm">${J.length} órdenes con esta patente:</div><div class="pschips">${J.map(x => `<button class="pschip ${x.id == j.id ? 'on' : ''}" data-a="pspick" data-id="${x.id}">${x.ot ? 'OT ' + esc(x.ot) : 'SOT'} · ${esc(psEst(x)[0])}</button>`).join('')}</div>` : '') + pscJob(j);
+            bot += `<button data-a="psgo" data-id="${j.id}" style="background:var(--c-rojo,var(--ink));color:#fff;border-color:transparent">${ic('open_in_new')} Ir a la OT</button>`
+        } else if (n) {
+            mid = `<div class="psnf">${ic('search_off')}<b>No hay órdenes con ${esc(fmtPat(n))}</b><div class="sm">Puedes crear una orden nueva con esta patente.</div></div>${near.length ? `<div class="sm" style="margin-top:6px">¿Será alguna de estas?</div><div class="pschips">${near.map(x => `<button class="pschip" data-a="pssel" data-n="${esc(x[0])}">${esc(fmtPat(x[0]))}${x[1] ? ' · activa' : ''}</button>`).join('')}</div>` : ''}`;
+            bot += `<button data-a="psnew" style="background:var(--c-rojo,var(--ink));color:#fff;border-color:transparent">${ic('add')} Crear orden nueva</button>`
+        } else
+            mid = `<div class="psnf">${ic('image_search')}<b>No pude leer la patente</b><div class="sm">Escríbela arriba o intenta otra foto, más cerca y de frente.</div></div>`;
+        return `<div class="bd" data-a="cerrar"><div class="box psc">${top}${inp}${dud ? `<div class="pswarn">${ic('warning')}<div>${esc(dud)}</div></div>` : ''}${mid}<div class="btns" style="margin-top:12px">${bot}</div></div></div>`
+    }
+    document.addEventListener('input', e => {
+        if (e.target && e.target.id == 'psq')
+            e.target.value = fmtPat(e.target.value)
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key == 'Enter' && e.target && e.target.id == 'psq') {
+            e.preventDefault();
+            A.pssearch()
+        }
+    });
+    Object.assign(A, {
+        psopen: () => {
+            if (!iaKey()) { /* sin clave de IA: se puede igual escribir la patente a mano */
+                S.ps = {step: 'res', n: '', conf: 'manual', err: 'Para leer la patente con la cámara falta la clave de Gemini (Configuración › IA). Mientras tanto, escribe la patente aquí.'};
+                S.modal = {k: 'pscan'};
+                render(1);
+                return
+            }
+            const i = document.createElement('input');
+            i.type = 'file';
+            i.accept = 'image/*';
+            i.setAttribute('capture', 'environment');
+            i.onchange = () => {
+                if (i.files && i.files[0])
+                    A.psrun(i.files[0])
+            };
+            i.click()
+        },
+        psrun: async f => {
+            const tok = ++psTok,
+                th = URL.createObjectURL(f);
+            S.ps = {step: 'read', tok, th};
+            S.modal = {k: 'pscan'};
+            render(1);
+            const vivo = () => psTok == tok && S.modal && S.modal.k == 'pscan';
+            try {
+                const b = await iaImg(f),
+                    r = await psCall(b);
+                if (!vivo())
+                    return;
+                const n = psN(r.patente);
+                S.ps = {step: 'res', n, conf: String(r.confianza || '').toLowerCase(), err: n ? '' : (r.dudas || '')}
+            } catch (e) {
+                if (!vivo())
+                    return;
+                S.ps = {step: 'res', n: '', conf: 'manual', err: String(e && e.message || e).slice(0, 200)}
+            } finally {
+                URL.revokeObjectURL(th)
+            }
+            render(1)
+        },
+        pssearch: () => {
+            const n = psN($('#psq') && $('#psq').value);
+            if (!n)
+                return toast('warning', 'Escribe la patente');
+            S.ps = {step: 'res', n, conf: 'manual'};
+            render(1)
+        },
+        pssel: d => {
+            S.ps = {step: 'res', n: psN(d.n), conf: 'manual'};
+            render(1)
+        },
+        pspick: d => {
+            if (S.ps)
+                S.ps.sel = d.id;
+            render(1)
+        },
+        psgo: d => {
+            S.modal = null;
+            A.dopen({id: d.id})
+        },
+        psnew: () => {
+            const n = S.ps && S.ps.n;
+            if (!n)
+                return toast('warning', 'Falta la patente');
+            try { /* si había un borrador de otra patente, se respalda y se parte limpio */
+                const raw = localStorage.lubri_draft,
+                    dr = raw && JSON.parse(raw);
+                if (dr && dr.patente && psN(dr.patente) != n) {
+                    localStorage.lubri_draft_prev = raw;
+                    localStorage.removeItem('lubri_draft')
+                }
+            } catch (e) {}
+            S.modal = null;
+            A.new();
+            D.patente = fmtPat(n);
+            D._ap = null;
+            render(1);
+            if (S.jobs.some(j => psPat(j) == n))
+                autofill(n)
+        },
+        psini: d => mover(d.id, 'iniciar'),
+        pspau: d => A.pau(d),
+        pscom: d => A.com(d),
+        pslisto: d => A.mlisto(d),
+        psnota: d => {
+            const j = get(d.id),
+                v = ($('#psn') && $('#psn').value || '').trim();
+            if (!j)
+                return;
+            if (!v)
+                return toast('warning', 'Escribe la nota');
+            j.notas.push({id: uid(), tipo: 'orden', texto: v, autor: autor(), fechaISO: now()});
+            ev(j, 'nota', 'orden');
+            saveJob(j);
+            toast('check', 'Nota guardada')
+        },
+        psrem: d => {
+            const j = get(d.id),
+                t = ($('#pst') && $('#pst').value || '').trim(),
+                w = $('#psw') ? $('#psw').value : '60';
+            if (!j)
+                return;
+            if (!t)
+                return toast('warning', 'Escribe qué hay que recordar');
+            const iso = new Date(qMs(w)).toISOString();
+            (j.recordatorios = j.recordatorios || []).push({id: uid(), iso, texto: t, para: 'todos', autor: autor(), creadaISO: now()});
+            ev(j, 'recordatorio', 'programado para ' + ingT(iso) + ' · ' + t);
+            saveJob(j);
+            toast('alarm', 'Recordatorio programado')
+        }
     });
     await initDB();
     render(1);
