@@ -14030,7 +14030,7 @@
     .psh b{font-size:18px}
     .psx{padding:4px;border-radius:50%;line-height:0;border-color:var(--line2)}
     .psq{display:flex;gap:8px;margin:6px 0 8px}
-    .psq input{flex:1;font-size:20px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:8px 10px}
+    .psq input{flex:1;font-size:20px;font-weight:700;letter-spacing:.02em;text-align:center;padding:8px 10px}
     .psq button{display:flex;align-items:center;padding:6px 14px}
     .pswarn{display:flex;gap:8px;align-items:flex-start;background:#fff4d6;border:1px solid #f5c000;border-radius:14px;padding:8px 10px;font-size:12.5px;margin:0 0 8px}
     .pswarn .material-symbols-outlined{font-size:20px;color:#a87400}
@@ -14048,6 +14048,7 @@
         .psjob.ps-proceso{animation:psO 1.4s ease-in-out infinite}
         .psjob.ps-rep{animation:psB 1.4s ease-in-out infinite}
     }
+    .sln{font-size:3.4px;font-weight:700;fill:#fff;stroke:rgba(0,0,0,.4);stroke-width:.45px;paint-order:stroke;opacity:.95;text-anchor:middle;dominant-baseline:central;pointer-events:none}
     .psjob{grid-template-columns:minmax(0,1fr);max-width:100%;box-sizing:border-box}
     .psjob>*{min-width:0}
     .psrow>div{min-width:0;overflow-wrap:anywhere}
@@ -14999,6 +15000,7 @@
                 cal: 'mas',
                 rec: 'mas',
                 kpis: 'mas',
+                inf: 'mas',
                 asig: 'mas',
                 not: 'mas',
                 nset: 'mas',
@@ -15524,7 +15526,7 @@
                 return o
             },
             // quita puntos alineados y retrocesos
-            addSlot = (k, x, y, w, h, dir, zy, ay) => {
+            addSlot = (k, x, y, w, h, dir, zy, ay, nn) => {
                 const cx = x + w / 2,
                     cy = y + h / 2,
                     gR = (g, Lx) => {
@@ -15585,6 +15587,7 @@
                     cx,
                     cy,
                     dir,
+                    n: nn,
                     raw: R,
                     pin,
                     pout: PO,
@@ -15604,7 +15607,7 @@
                         x0 = z.x + (z.w - sw) / 2,
                         y0 = z.y + (z.h - n * sh) / 2; // v9-8-29: una columna de plazas hacia abajo
                     for (let i = 0; i < n; i++)
-                        addSlot(z.id, x0, y0 + i * sh, sw, sh, 'H', z.y);
+                        addSlot(z.id, x0, y0 + i * sh, sw, sh, 'H', z.y, null, i + 1);
                     lay[z.id] = {
                         cx: z.x + z.w + r + .5,
                         cy: z.y + z.h / 2
@@ -15621,9 +15624,9 @@
                         x1 = z.x + (z.w - 2 * sw - gp) / 2,
                         y0 = z.y + .8; // v9-8-30: autos de lado (horizontales): 4 frente a 4, cada grupo en columna (uno debajo del otro); el número de la zona va DEBAJO del bloque para no tapar autos
                     for (let i = 0; i < a; i++)
-                        addSlot(z.id, x1, y0 + i * sh, sw, sh, 'H', z.y);
+                        addSlot(z.id, x1, y0 + i * sh, sw, sh, 'H', z.y, null, i * 2 + 1);
                     for (let i = 0; i < b; i++)
-                        addSlot(z.id, x1 + sw + gp, y0 + i * sh, sw, sh, 'H', z.y);
+                        addSlot(z.id, x1 + sw + gp, y0 + i * sh, sw, sh, 'H', z.y, null, i * 2 + 2);
                     lay[z.id] = {
                         cx: z.x + z.w / 2,
                         cy: Math.min(z.y + z.h - r - .4, y0 + m * sh + r + 1.6)
@@ -15636,7 +15639,7 @@
                         x0 = Math.max(z.x + .8, z.x + z.w - 2 - n * sw),
                         y0 = z.y + (z.h - sh) / 2; // v9-8-29: plazas en fila horizontal, pegadas a la derecha (la tercera queda hacia la izquierda)
                     for (let i = 0; i < n; i++)
-                        addSlot(z.id, x0 + i * sw, y0, sw, sh, 'V', z.y);
+                        addSlot(z.id, x0 + i * sw, y0, sw, sh, 'V', z.y, null, i + 1);
                     lay[z.id] = {
                         cx: x0 - z.x >= 2 * r + 1.2 ? (z.x + x0) / 2 : z.x + z.w / 2,
                         cy: x0 - z.x >= 2 * r + 1.2 ? z.y + z.h / 2 : z.y - r - .6
@@ -15652,7 +15655,7 @@
                     for (let b = 0; b < nb; b++) {
                         const y0 = nb == 1 ? z.y + 3.3 : z.y + 3.3 + b * (z.h - 6.6 - bh) / (nb - 1);
                         for (let k = 0; k < 2 && b * 2 + k < n; k++)
-                            addSlot(z.id, x0, y0 + k * sh, sw, sh, 'H', z.y)
+                            addSlot(z.id, x0, y0 + k * sh, sw, sh, 'H', z.y, null, b * 2 + k + 1)
                     }
                     lay[z.id] = {
                         cx: z.w >= x0 - z.x + sw + 2 * r + 1.6 ? x0 + sw + r + .8 : z.x + z.w + r + .5,
@@ -15669,7 +15672,7 @@
                         x0 = left ? z.x + 4 : z.x + z.w - 2 - rw,
                         y0 = z.y + Math.max(0, (z.h - rows * sh) / 2);
                     for (let i = 0; i < n; i++)
-                        addSlot(z.id, x0 + (i % cols) * sw, y0 + Math.floor(i / cols) * sh, sw, sh, 'V', z.y);
+                        addSlot(z.id, x0 + (i % cols) * sw, y0 + Math.floor(i / cols) * sh, sw, sh, 'V', z.y, null, i + 1);
                     lay[z.id] = {
                         cx: left ? x0 + rw + (z.x + z.w - x0 - rw) / 2 : z.x + (x0 - z.x) / 2,
                         cy: z.y + z.h / 2
@@ -16294,15 +16297,21 @@
             }),
             want = v => {
                 const j = get(v.job);
-                if (!j || j.estado == 'cola' || esp(j))
-                    return 'E';
+                if (!j || enEspZ(j) || esp(j) || (j.estado == 'cola' && !(j.pz && !j.zesp)))
+                    return 'E'; /* en espera sale del puesto y va al lote; en cola también, salvo que se haya dejado esperando en su zona (pz) */
                 const z = zof(j);
-                if (j.estado == 'pausa' && SLOTS.some(o => o.k == 'P'))
+                if (j.estado == 'pausa' && !j.pz && SLOTS.some(o => o.k == 'P'))
                     return 'P';
                 return SLOTS.some(o => o.k == z) ? z : 'E'
             },
             // v9-8-19: cola (E) y pausa (P) esperan fuera de la plataforma
-            free = (k, v) => SLOTS.find(o => o.k == k && !o.o && (!o.rsv || o.rsv === v)),
+            free = (k, v) => {
+                const ok = o => o.k == k && !o.o && (!o.rsv || o.rsv === v),
+                    j = v && v.job ? get(v.job) : null,
+                    num = j && k != 'E' && k != 'P' ? spNum(pof(j)) : null,
+                    m = num ? SLOTS.find(o => ok(o) && o.n == num) : null;
+                return m || SLOTS.find(ok)
+            },
             own = (v, o) => {
                 o.o = 1;
                 o.v = v;
@@ -16603,6 +16612,37 @@
                                 else {
                                     v.ns = o;
                                     mvMark(v.job, 'zona', 0, k)
+                                }
+                            }
+                        }
+                        else if (k != 'E' && k != 'P') {
+                            /* misma zona, otra sub-zona: el auto pasa a la plaza que lleva el número de su sub-zona; si dos autos se cambian entre sí, se intercambian */
+                            const jj = get(v.job),
+                                num = jj ? spNum(pof(jj)) : null;
+                            if (num && v.slot.n != num) {
+                                const tg = SLOTS.find(q => q.k == k && q.n == num);
+                                if (tg) {
+                                    if (!tg.o && (!tg.rsv || tg.rsv === v)) {
+                                        own(v, tg);
+                                        if (snap)
+                                            place(v, tg);
+                                        else {
+                                            v.ns = tg;
+                                            mvMark(v.job, 'zona', 0, k)
+                                        }
+                                    } else if (tg.v && tg.v !== v && tg.v.job && !tg.v.leave && tg.v.st == 'park' && !tg.v.ns) {
+                                        const w = tg.v,
+                                            wj = get(w.job),
+                                            a0 = v.slot;
+                                        if (wj && spNum(pof(wj)) == a0.n) {
+                                            place(v, tg);
+                                            place(w, a0);
+                                            tg.o = 1;
+                                            tg.v = v;
+                                            a0.o = 1;
+                                            a0.v = w
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -16946,7 +16986,7 @@
             const gt = o => `<g class="mz${o} ${c.late ? 'late' : ''} ${hz === z.id ? 'hit' : ''} ${!ed && !dash && S.mf && !nb ? 'dim' : ''} ${ed && S.zs == z.id ? 'sel' : ''} ${z.activo === false ? 'off' : ''}" ${dash ? 'role="img"' : `data-a="${ed ? 'zsel' : 'zpop'}" data-z="${z.id}" role="button" tabindex="0"`} aria-label="${esc(z.nombre)}: ${c.total} trabajos${c.pausa ? `, ${c.pausa} en pausa` : ''}">`;
             ZO.push(gt(' mzo') + `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" stroke-width=".6"/>${!ed && c.total ? `<circle class="zring" style="stroke:${ZDK[S.cfg.zonas.indexOf(z) % ZDK.length]}" cx="${cx}" cy="${cy}" r="${(r + .75).toFixed(2)}"/>` : ''}<text class="zn" x="${cx}" y="${cy}" font-size="${(r * 1.2).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${c.total}</text>${!ed && !dash && c.pausa ? zbang(cx, cy, r) : ''}${nb ? zbub(cx, cy, r, nb, S.mf) : ''}</g>`);
             return gt('') + `<rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${ZCOL[S.cfg.zonas.indexOf(z) % ZCOL.length]}"/>${ed && z.w >= 14 ? `<text class="zt" x="${z.x + z.w / 2}" y="${z.y + 3.2}" font-size="2.6" text-anchor="middle">${esc(z.nombre)}</text>` : ''}</g>`
-        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : o.k == 'P' ? ' sp' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') +
+        }).join('') + TRF.SLOTS.map((o, i) => `<rect class="sl${o.k == 'E' ? ' se' : o.k == 'P' ? ' sp' : ''}" data-s="${i}" x="${o.x.toFixed(2)}" y="${o.y.toFixed(2)}" width="${o.w}" height="${o.h}"/>`).join('') + TRF.SLOTS.filter(o => o.n && o.k != 'E' && o.k != 'P').map(o => `<text class="sln" x="${o.cx.toFixed(2)}" y="${o.cy.toFixed(2)}">${o.n}</text>`).join('') +
         `<g class="eq" role="img" aria-label="Zona de espera de cola: ${S.jobs.filter(j => j.estado != 'completado' && (j.estado == 'cola' || esp(j))).length} vehículos"><rect x="4.8" y="75.9" width="10.7" height="20.4" rx="5.35" fill="#f9ab33"/><text x="10.15" y="82.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">E</text><text x="10.15" y="90.6" font-size="6.6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#333">${S.jobs.filter(j => j.estado != 'completado' && (j.estado == 'cola' || esp(j))).length}</text></g><g class="eq eqr" role="img" aria-label="Zona de espera de pausa: ${S.jobs.filter(j => j.estado == 'pausa' && !esp(j)).length} vehículos"><rect x="49.8" y="93.4" width="9.6" height="14.4" rx="4.8" fill="#e5484d"/><text x="54.6" y="98.4" font-size="5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">P</text><text x="54.6" y="104" font-size="6" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#fff">${S.jobs.filter(j => j.estado == 'pausa' && !esp(j)).length}</text></g>` + (ed ? '' : carsSvg(vh)) + ZO.join('') + '</svg>'
     }
     const leg = () => `<div class="leg">${ZA().map((z, i) => `<button class="zc" data-a="zpop" data-z="${z.id}"><b>${String.fromCharCode(65 + i)}</b>${esc(z.nombre)}<small>${cnt(zjobs(z.id)).total}</small>${cnt(zjobs(z.id)).pausa ? '<span class="zbg" title="Tiene trabajos en pausa">!</span>' : ''}</button>`).join('')}</div>`;
@@ -17089,7 +17129,7 @@
             ps = S.cfg.plataformas.filter(p => p.zonaId == z.id);
         return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:16px">Sub-zonas de ${esc(z.nombre)}</b><div class="sm">Plataformas o puestos de trabajo dentro de esta zona. Puedes cambiarles el nombre o moverlas a otra zona.</div>
          ${ps.map(p => `<div class="li"><input class="${p.activo ? '' : 'mut'}" data-ch="pnom" data-id="${p.id}" value="${esc(p.nombre)}" aria-label="Nombre"><select data-ch="pzona" data-id="${p.id}" aria-label="Zona">${zopts(p.zonaId)}</select><button data-a="cact" data-k="plataformas" data-id="${p.id}" title="Mostrar u ocultar">${ic(p.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="plataformas" data-id="${p.id}" title="Eliminar">${ic('delete')}</button></div>`).join('') || '<div class="mut" style="margin:8px 0">Esta zona aún no tiene sub-zonas.</div>'}
-         <div class="add"><input id="n_pz" placeholder="Nueva sub-zona"><button data-a="padd" data-z="${z.id}" title="Agregar">${ic('add')}</button></div>
+         <div class="add"><input id="n_pz" placeholder="Nueva sub-zona"><button data-a="padd" data-z="${z.id}" title="Agregar">${ic('add')}</button></div><div class="ctr"><button data-a="pesp" data-z="${z.id}">${ic('hourglass_top')} Agregar sub-zona de espera (${esc(z.nombre)})</button></div>
          <div class="btns" style="margin-top:12px"><button data-a="cerrar">Listo</button></div></div></div>`
     }
     function mapaedit() {
@@ -18371,7 +18411,7 @@
         const j = get(id),
             t = j.tiempos;
         if (a == 'iniciar') {
-            const bl = S.jobs.find(x => x.plataformaId == j.plataformaId && x.estado == 'proceso' && x.id != id);
+            const bl = S.jobs.find(x => x.plataformaId == j.plataformaId && x.estado == 'proceso' && x.id != id && !isEsp(j.plataformaId));
             if (bl)
                 return hiBlock(bl);
             ev(j, j.estado == 'pausa' ? 'reanudado' : 'iniciado');
@@ -19769,6 +19809,7 @@
             ch = c => j.servicios.map((s, i) => s.cat == c ? (lock ? `<span class="chip sy ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="cursor:default;--c:${sysOf(s)[2]}">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</span>` : `<button class="chip sy ${s.hecho ? 'done' : ''} ${c == 'revisar' ? 'k2' : ''}" style="--c:${sysOf(s)[2]}" data-a="hecho" data-id="${j.id}" data-i="${i}" title="Marcar como hecho">${s.hecho ? ic('check') : ''}${esc(s.nombre)}</button>`) : '').join('');
         return `<div class="det"><div class="dtop"><div class="hd"><i class="dot ${sc(j)}"></i><div><div class="plw">${plate(j.vehiculo.patente, 'l')}</div></div><span class="badge ${j.ot ? '' : 'none'}">${esc(j.ot || 'SOT')}</span>${priBar(j)}<span class="hbrk"></span><div class="hrow2">${vehTop(j)}<div class="sm ient">Ing: <b>${ingT(t.ingresoISO)}</b>${(j.opciones || {}).entregaISO ? '<br>Ent: <b>' + ingT(j.opciones.entregaISO) + '</b>' : ''}</div></div><button class="x" data-a="tog" data-id="${j.id}" title="Cerrar">${ic('close')}</button><button class="kb${j.llave ? ' set' : ''}" data-a="llv" data-id="${j.id}" title="${j.llave ? 'Llave: ' + esc(j.llave.donde) : 'Indicar dónde está la llave'}" aria-label="Ubicación de la llave">${ic('key')}</button></div></div><div class="dbody">
          <div class="stb"><div class="stl"><b class="stn">${ESTADO[sc(j)]}</b><div class="mr"><small>MEC</small> <b>${esc(nm(S.cfg.mecanicos, j.mecanicoId))}</b></div><div class="mr"><small>RSP</small> <b>${esc(recNom(j))}</b></div><div class="stp">${tx ? '<span class="tg ' + cl + (j.estado == 'completado' ? ' st' : '') + '">' + tx + '</span>' : ''}${mp ? '<small>Pausa: ' + esc(mp) + '</small>' : ''}</div></div><div class="str"><div class="ckr ckl"><i>D</i><i>H</i><i>M</i><i>S</i></div><div class="ckr cka" data-ci="${j.id}">${ckH(arr(j), 4)}</div><div class="stw">${ic('build')}<div class="ckr${cl == 'atraso' ? ' atraso' + (j.estado == 'proceso' ? ' run' : '') : ''}" data-c="${j.id}" data-h3="4">${ckH(el(j), 4)}</div></div><div class="ste"><small>Est:</small><div class="ckr">${t.estSeg ? ckH(t.estSeg, 3) : '<i class="e"></i><i>—</i>'}</div></div></div></div>${faseBox(j)}${resBox(j)}${trabBox(j)}${rutaLine(j)}${reaBox(j)}${zespBox(j)}${lock ? `<div class="lockbar">${ic('lock')} Orden cerrada · para corregir o agregar datos toca ${ic('edit')} Editar</div>` : `<div class="lockbar">${ic('lock')} Datos del cliente, chasis y N° de motor: para cambiarlos toca ${ic('edit')} Editar</div>`}
+         ${espBtn(j, 0)}
          ${(() => {const xc = S.xc || {},SL = (k, l, L) => `<div><label>${l}</label><select data-ch="veh" ${lock ? 'disabled' : ''} data-k="${k}" data-id="${j.id}">${vOpt(j.vehiculo[k], L)}</select></div>`,I = (h, k, l, x='') => `<div><label>${l}</label><input data-ch="${h}" ${lock || h == 'cli' || k == 'nmotor' ? 'disabled' : ''} data-k="${k}" data-id="${j.id}" ${x} value="${esc(String((h == 'cli' ? j.cliente : j.vehiculo)[k] ?? ''))}"></div>`;return (xc[j.id + ':c'] ? grp(xc[j.id + ':c'], 'c', j.id, 'person', 'Cliente', I('cli', 'nombre', 'Nombre') + I('cli', 'telefono', 'Teléfono', 'type="tel"'), I('cli', 'rut', 'RUT') + I('cli', 'correo', 'Correo', 'type="email"') + `<div style="grid-column:1/3">${I('cli', 'direccion', 'Dirección')}</div>`, 'vg') : '') + (xc[j.id + ':v'] ? grp(xc[j.id + ':v'], 'v', j.id, 'directions_car', 'Vehículo', (PSH('cat') ? plkDL(j.vehiculo.marca) : '') + I('veh', 'marca', 'Marca', plkAt('marca')) + I('veh', 'modelo', 'Modelo', plkAt('modelo')) + I('veh', 'anio', 'Año', 'type="number" inputmode="numeric" min="1900" max="2100"' + plkAt('anio')) + I('veh', 'km', 'Kilometraje', 'type="number" inputmode="numeric" min="0" placeholder="0"') + `<div style="grid-column:1/-1"><label>Tipo de vehículo</label>${tvSel(j.vehiculo.tipov, 'tvjob', 'data-id="' + j.id + '"' + (lock ? ' disabled' : ''))}</div>`, I('veh', 'version', 'Versión') + I('veh', 'motor', 'Motor') + I('veh', 'cil', 'Cilindrada', plkAt('cil')) + SL('combustible', 'Combustible', COMB) + SL('transmision', 'Tipo de transmisión', TRANS) + I('veh', 'color', 'Color') + I('veh', 'rt', 'Venc. revisión técnica', 'type="month"') + `<div><label>N° de chasis (VIN)</label><input data-ch="veh" disabled data-k="vin" data-id="${j.id}" value="${esc(String((j.opciones || {}).vin || ''))}"></div>` + I('veh', 'nmotor', 'N° de motor') + `<div style="grid-column:1/3"><label>Otros datos del vehículo</label><textarea data-ch="veh" ${lock ? 'disabled' : ''} data-k="otros" data-id="${j.id}" rows="3" style="width:100%;border-radius:12px">${esc(String(j.vehiculo.otros || ''))}</textarea></div>`, 'vg') : '')})()}${otros(j)}
          ${sec('Órdenes asignadas', 'assignment')}
          <div class="og">${ic('swap_horiz')} Cambiar del vehículo</div><div class="chips">${ch('cambiar')}${lock ? '' : plus(j.id, 'cambiar')}</div>${pick(j.id, 'cambiar')}
@@ -20145,7 +20186,7 @@
     }
     /* v0.17 · acc(): bloque plegable de Configuración. Plegado muestra solo título + subtítulo; al tocarlo se expande (S.cx guarda cuáles están abiertos). */
     const acc = (k, t, sub, body) => `<section class="acc ${S.cx[k] ? 'open' : ''}"><button class="acch" data-a="cx" data-k="${k}" aria-expanded="${!!S.cx[k]}"><span><b>${t}</b><small>${sub}</small></span>${ic('expand_more', 'chev')}</button>${S.cx[k] ? `<div class="accb">${body}</div>` : ''}</section>`;
-    const lstPers = (k, t, help) => acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cnom" data-k="${k}" data-id="${x.id}" value="${esc(pNom(x))}" placeholder="Nombre" aria-label="Nombre" autocomplete="off"><input class="${x.activo ? '' : 'mut'}" data-ch="cape" data-k="${k}" data-id="${x.id}" value="${esc(pApe(x))}" placeholder="Apellido" aria-label="Apellido" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nombre"><input id="a_${k}" placeholder="Apellido"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`);
+    const lstPers = (k, t, help) => acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cnom" data-k="${k}" data-id="${x.id}" value="${esc(pNom(x))}" placeholder="Nombre" aria-label="Nombre" autocomplete="off"><input class="${x.activo ? '' : 'mut'}" data-ch="cape" data-k="${k}" data-id="${x.id}" value="${esc(pApe(x))}" placeholder="Apellido" aria-label="Apellido" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>${k == 'mecanicos' ? `<div class="zpick" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-2px 0 10px;padding-left:2px"><small class="mut">Sectores:</small>${S.cfg.zonas.filter(z => z.activo !== false).map(z => { const on = Array.isArray(x.zonas) ? x.zonas.includes(z.id) : x.zonaPpal == z.id; return `<button type="button" data-a="mzt" data-id="${x.id}" data-z="${z.id}" aria-pressed="${on}" style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;border:1.5px solid #002D7A;background:${on ? '#002D7A' : 'transparent'};color:${on ? '#fff' : 'inherit'}">${esc(z.nombre)}</button>` }).join('')}</div>` : ''}`).join('')}<div class="add"><input id="n_${k}" placeholder="Nombre"><input id="a_${k}" placeholder="Apellido"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`);
     const lst = (k, t, help) => `${acc(k, t, help, `${S.cfg[k].map(x => `<div class="li"><input class="${x.activo ? '' : 'mut'}" data-ch="cren" data-k="${k}" data-id="${x.id}" value="${esc(x.nombre)}" aria-label="Nombre" autocomplete="off"><button data-a="cact" data-k="${k}" data-id="${x.id}" title="Activar/desactivar">${ic(x.activo ? 'visibility' : 'visibility_off')}</button><button data-a="cdel" data-k="${k}" data-id="${x.id}" title="Eliminar">${ic('delete')}</button></div>`).join('')}<div class="add"><input id="n_${k}" placeholder="Nuevo"><button data-a="cadd" data-k="${k}" title="Agregar">${ic('add')}</button></div>`)}`;
 
     /* v9-8-13 · EDITOR DE OPCIONES (Configuración): Cambiar / Revisar (S.cfg.catalogo) y Repuestos y líquidos (S.cfg.repuestos) */
@@ -20926,6 +20967,10 @@
             return create();
         if (m.k == 'pscan')
             return pscModal();
+        if (m.k == 'patio')
+            return ptModal();
+        if (m.k == 'espq')
+            return espqModal();
         if (m.k == 'cita')
             return citaModal();
         if (m.k == 'rqe')
@@ -21705,6 +21750,7 @@
                 cal: vCal,
                 rec: vRec,
                 kpis: vKpis,
+                inf: vInf,
                 asig: vAsig,
                 rhist: vRHist,
                 not: vNot,
@@ -22049,7 +22095,7 @@
             S.modal = null;
             return render(1)
         }
-        if (j.estado == 'proceso' && D.plat != j.plataformaId && S.jobs.some(x => x.plataformaId == D.plat && x.estado == 'proceso' && x.id != j.id))
+        if (j.estado == 'proceso' && D.plat != j.plataformaId && !isEsp(D.plat) && S.jobs.some(x => x.plataformaId == D.plat && x.estado == 'proceso' && x.id != j.id))
             return toast('warning', 'Ya hay un trabajo en proceso en esa sub-zona');
         const e1 = (j.eventos || []).find(x => x.tipo == 'iniciado'),
             tI = j.tiempos,
@@ -22190,10 +22236,11 @@
             nivelComb: D.nivel || ''
         };
         if (j.estado == 'cola') {
-            if (D.zesp && !j.zesp) {
+            const wz = D.zesp || isEsp(D.plat);
+            if (wz && !j.zesp) {
                 j.zesp = now();
                 ch.push('zona de espera')
-            } else if (!D.zesp && j.zesp) {
+            } else if (!wz && j.zesp) {
                 j.zesp = null;
                 ch.push('pasó a plataforma')
             }
@@ -24231,7 +24278,7 @@
                         vin: (D.vin || '').trim().toUpperCase(),
                         nivelComb: D.nivel || ''
                     },
-                    zesp: D.zesp ? now() : null,
+                    zesp: (D.zesp || isEsp(D.plat)) ? now() : null,
                     tiempos: {
                         ingresoISO: ingISOd(D._ingEdit ? D.ingreso : '', D._ingDEdit ? D.ingD : ''),
                         estSeg: D._estEdit && +D.estMin > 0 ? Math.round(+D.estMin * 60 * EF[D.estU || 'min']) : sv.reduce((a, s) => a + s.estSeg, 0),
@@ -26436,7 +26483,7 @@
     });
     function vMas() {
         const up = calUp().slice(0, 3);
-        return `<div class="mas">${miBanner()}${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}<button class="mopt" data-a="go" data-v="asig">${ic('assignment_ind')}<span>Órdenes asignadas</span>${ic('chevron_right')}</button>${can('kpis') ? `<button class="mopt" data-a="go" data-v="kpis">${ic('query_stats')}<span>KPIs</span>${ic('chevron_right')}</button>` : ''}${can('veh') || can('cfg') || can('tec') ? `<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button>` : ''}<button class="mopt" data-a="tut">${ic('school')}<span>Tutoriales y ayuda</span>${ic('chevron_right')}</button>${AUTH_ON && S.me && S.me.rol ? `<button class="mopt" data-a="salir">${ic('logout')}<span>Cerrar sesión · ${esc(S.me.nombre || S.me.email || '')}</span>${ic('chevron_right')}</button>` : ''}</div><div class="verb">v0.50 beta</div></div>`
+        return `<div class="mas">${miBanner()}${monthGrid(null, 'cday')}<h2>Próximas citas y reaperturas</h2>${up.map(x => calRow(x)).join('') || '<div class="mut">No hay citas ni reaperturas próximas.</div>'}<button class="mbtn" data-a="go" data-v="cal">${ic('event')} Ir al calendario de citas</button><div class="mgap">${notBtn()}${recBtn()}<button class="mopt" data-a="go" data-v="asig">${ic('assignment_ind')}<span>Órdenes asignadas</span>${ic('chevron_right')}</button>${can('veh') || can('cfg') || can('tec') ? `<button class="mopt" data-a="ptopen">${ic('local_parking')}<span>Revisión de patio</span>${ic('chevron_right')}</button>` : ''}${can('kpis') ? `<button class="mopt" data-a="go" data-v="kpis">${ic('query_stats')}<span>KPIs</span>${ic('chevron_right')}</button>` : ''}<button class="mopt" data-a="go" data-v="inf">${ic('summarize')}<span>Informes y resúmenes</span>${ic('chevron_right')}</button>${can('veh') || can('cfg') || can('tec') ? `<button class="mopt" data-a="go" data-v="cfg">${ic('settings')}<span>Ir a configuración</span>${ic('chevron_right')}</button>` : ''}<button class="mopt" data-a="tut">${ic('school')}<span>Tutoriales y ayuda</span>${ic('chevron_right')}</button>${AUTH_ON && S.me && S.me.rol ? `<button class="mopt" data-a="salir">${ic('logout')}<span>Cerrar sesión · ${esc(S.me.nombre || S.me.email || '')}</span>${ic('chevron_right')}</button>` : ''}</div><div class="verb">v0.50 beta</div></div>`
     }
 
     /* ============ v0.50 beta · ESCANEAR OT CON IA: foto de la pantalla del sistema antiguo → datos del formulario ============
@@ -26744,17 +26791,17 @@ Reglas: copia el texto tal como se ve; si no se lee o no está en la foto deja "
             n: Object.keys(F).length
         }
     }
-    const iaImg = file => new Promise((ok, no) => {
+    const iaImg = (file, mx, q) => new Promise((ok, no) => {
         const url = URL.createObjectURL(file),
             im = new Image();
         im.onload = () => {
-            const k = Math.min(1, 1800 / Math.max(im.width, im.height)),
+            const k = Math.min(1, (mx || 1800) / Math.max(im.width, im.height)),
                 c = document.createElement('canvas');
             c.width = Math.round(im.width * k);
             c.height = Math.round(im.height * k);
             c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
             URL.revokeObjectURL(url);
-            ok(c.toDataURL('image/jpeg', .85).split(',')[1])
+            ok(c.toDataURL('image/jpeg', q || .85).split(',')[1])
         };
         im.onerror = () => {
             URL.revokeObjectURL(url);
@@ -30901,8 +30948,61 @@ Reglas: copia el texto tal como se ve; si no se lee o no está en la foto deja "
 Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: BBCD12 o AB1234). Formatos habituales en Chile: 4 letras + 2 números (las letras son solo consonantes, nunca vocales), 2 letras + 4 números y, en motos, 3 letras + 2 números. Si dudas entre 0/O, 1/I, 8/B, 5/S, 2/Z o 6/G, elige la lectura que respete el formato. Si hay varias patentes, usa la más grande o central. "confianza" es "alta" si se lee con claridad, "media" si algún carácter es dudoso o "baja" si casi no se lee. Si no se ve ninguna patente, deja "patente" vacío y explica en "dudas". No inventes caracteres.`;
     const psSinPrecio = s => String(s || '').split('·').filter(p => !/\$|\b(saldo|abono|total|precio|valor|neto|iva)\b/i.test(p)).join('·').replace(/\s+/g, ' ').trim();
     let psTok = 0;
+    function ensureEsp(zid) { /* sub-zona de espera de una zona: si no existe, se crea como «Zona (espera)» */
+        let p = (S.cfg.plataformas || []).find(x => x.espera && x.zonaId == zid);
+        if (!p) {
+            const z = (S.cfg.zonas || []).find(x => x.id == zid);
+            p = {id: uid(), nombre: (z ? z.nombre : 'Zona') + ' (espera)', activo: true, zonaId: zid, espera: true};
+            S.cfg.plataformas.push(p);
+            saveCfg()
+        }
+        return p
+    }
+    /* número de plaza de una sub-zona: el número con que termina su nombre («Mecánica 4» → 4) */
+    const spNum = p => {
+        const m = p && /(\d+)\s*$/.exec(String(p.nombre || ''));
+        return m ? +m[1] : null
+    };
+    const enEspZ = j => {
+        const p = pof(j), z = zn(zof(j));
+        return !!((p && (p.espera || /espera/i.test(p.nombre))) || (z && /espera/i.test(z.nombre)))
+    };
+    const espBtn = (j, mini) => (j && j.estado != 'completado' && enEspZ(j) && !(j.estado == 'cola' && j.zesp) && !esp(j))
+        ? `<button type="button" data-a="espq" data-id="${j.id}" ${mini ? 'data-sc="1"' : ''} style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:${mini ? 12 : 10}px;margin:8px 0;font-weight:700;border-radius:14px">${ic('hourglass_top')} Pasar a espera</button>` : '';
+    function espqModal() {
+        const m = S.modal, ids = (m.ids || [m.id]).filter(Boolean), js = ids.map(get).filter(Boolean);
+        if (!js.length)
+            return '';
+        const z = zn(zof(js[0])), zname = js.every(j => zof(j) == zof(js[0])) && z ? z.nombre : 'su zona',
+            who = js.length == 1 ? plateTxt(js[0]) : js.length + ' vehículos';
+        return `<div class="bd" data-a="cerrar"><div class="box"><b style="font-size:16px">${ic('hourglass_top')} ${esc(who)} en espera</b><div class="sm" style="margin:6px 0 12px">¿El vehículo se va a la zona de espera o espera en ${esc(zname)}?</div>
+        <div style="display:grid;gap:8px"><button type="button" data-a="espzl" style="padding:14px;font-weight:700;text-align:left">${ic('hourglass_top')} Va a la zona de espera<div class="sm" style="font-weight:400">Sale de su puesto y lo deja libre</div></button><button type="button" data-a="espzn" style="padding:14px;font-weight:700;text-align:left">${ic('garage')} Espera en ${esc(zname)}<div class="sm" style="font-weight:400">Ocupa su puesto (la plaza de su sub-zona)</div></button><button type="button" data-a="esppau" style="padding:12px">${ic('pause')} Pausar el trabajo</button><button type="button" data-a="cerrar" style="padding:12px">Cancelar</button></div></div></div>`
+    }
+    const espJobs = () => { const m = S.modal || {}; return (m.ids || [m.id]).map(get).filter(Boolean) };
+    const espEnd = (ic_, msg) => {
+        const m = S.modal || {};
+        S.modal = m.back ? {k: m.back} : m.sc ? {k: 'pscan'} : null;
+        if (m.back == 'patio' && S.pt)
+            S.pt.sel = {};
+        render(1);
+        toast(ic_, msg)
+    };
+    const plateTxt = j => fmtPat(psPat(j));
+    const isEsp = id => !!((S.cfg.plataformas || []).find(p => p.id == id) || {}).espera;
+    const psAdd = n => { /* agrega al lote la orden activa de esa patente */
+        const j = psJobs(n).find(x => x.estado != 'completado'),
+            L0 = S.psL || (S.psL = {on: false, ids: []});
+        if (!j) {
+            toast('warning', fmtPat(n) + ': sin orden activa');
+            return false
+        }
+        if (!L0.ids.includes(j.id))
+            L0.ids.push(j.id);
+        toast('check', fmtPat(n) + ' agregada (' + L0.ids.length + ')');
+        return true
+    };
     const psN = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''),
-        psOK = n => /^([A-Z]{4}\d{2}|[A-Z]{2}\d{4}|[A-Z]{3}\d{2})$/.test(n),
+        psOK = n => /^[A-Z0-9]{6}$/.test(n) || /^([A-Z]{4}\d{2}|[A-Z]{2}\d{4}|[A-Z]{3}\d{2})$/.test(n),
         psPat = j => psN(j.vehiculo && (j.vehiculo.patenteN || j.vehiculo.patente)),
         psJobs = n => S.jobs.filter(j => psPat(j) == n).sort((a, b) => ((a.estado == 'completado') - (b.estado == 'completado')) || cmpS(b.tiempos.ingresoISO, a.tiempos.ingresoISO)),
         psNear = n => { /* patentes casi iguales (1 carácter distinto) por si la lectura se equivocó en una letra o número */
@@ -30924,7 +31024,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
     async function psRead(b64) {
         let best = null,
             lastErr = null;
-        for (let k = 0; k < 3; k++) {
+        for (let k = 0; k < 2; k++) {
             try {
                 const r = await psCall(b64),
                     n = psN(r.patente);
@@ -31017,6 +31117,7 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
           <div class="pshd"><div class="psplg">${plate(v.patente || '', 's')}${v.marca ? brandBadge(v.marca, 1) : ''}</div><span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}${isRep(j) && j.estado != 'proceso' && j.estado != 'completado' ? ' · reparación' : ''}</span></div>
           <div class="psmv">${esc(vh || 'Vehículo sin datos')}${v.color ? ` <span class="pssub">· ${esc(v.color)}</span>` : ''}${v.km ? ` <span class="pssub">· ${(+v.km).toLocaleString('es-CL')} km</span>` : ''}</div>
           ${faseBox(j)}
+          ${espBtn(j, 1)}
           ${fila('assignment', `<b>${j.ot ? 'OT ' + esc(j.ot) : 'Sin OT (SOT)'}</b> · ingreso ${esc(ingT(t.ingresoISO))}${j.prioridad == 'urgente' ? ' · <b style="color:var(--pausa)">URGENTE</b>' : ''}`)}
           ${fila('person', c.nombre ? `<b>${esc(c.nombre)}</b>${c.telefono ? ` · <a href="tel:${esc(String(c.telefono).replace(/[^0-9+]/g, ''))}">${esc(c.telefono)}</a>` : ''}` : '<span class="pssub">Sin datos del cliente</span>')}
           ${j.estado != 'completado' ? fila('warehouse', `${esc(zn ? zn.nombre + ' · ' : '')}${esc(pl ? pl.nombre : '—')}${mec ? ` · <span class="pssub">${esc(mec)}</span>` : ''}`) : ''}
@@ -31036,15 +31137,29 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
         const P = S.ps || {},
             n = P.n || '',
             top = `<div class="psh">${ic('document_scanner')}<div><b>Escanear patente</b><div class="sm">${P.step == 'read' ? 'Leyendo la foto…' : P.step == 'pick' ? 'Elige cómo cargar la foto' : 'Datos del vehículo al tiro'}</div></div><button type="button" class="psx" data-a="cerrar" aria-label="Cerrar">${ic('close')}</button></div>`;
-        if (P.step == 'pick')
-            return `<div class="bd" data-a="cerrar"><div class="box psc">${top}<div class="btns" style="margin-top:12px;display:grid;gap:10px"><button data-a="psfoto" style="padding:16px">${ic('photo_camera')} Tomar foto</button><button data-a="psgal" style="padding:16px">${ic('photo_library')} Subir de galería</button><button data-a="psman" style="padding:12px">${ic('keyboard')} Escribir patente a mano</button></div></div></div>`;
+        if (P.step == 'pick') {
+            const L0 = S.psL || (S.psL = {on: false, ids: []}),
+                LJ = L0.ids.map(id => get(id)).filter(j => j && j.estado != 'completado'),
+                pats = [...new Set(S.jobs.filter(j => j.estado != 'completado').map(j => fmtPat(psPat(j))))];
+            L0.ids = LJ.map(j => j.id);
+            return `<div class="bd" data-a="cerrar"><div class="box psc">${top}
+              <div class="psfld" style="margin-top:12px"><input id="psq" list="psdl" placeholder="Buscar patente (ej.: gcwv99)" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="button" data-a="pssearch" aria-label="Buscar">${ic('search')}</button></div>
+              <datalist id="psdl">${pats.map(p => `<option value="${esc(String(p).replace(/[^A-Za-z0-9]/g, ''))}">`).join('')}</datalist>
+              <div class="psact" style="margin-top:8px"><button data-a="psfoto">${ic('photo_camera')} Foto</button><button data-a="psgal">${ic('photo_library')} Galería</button></div>
+              <div class="pssub" style="margin-top:4px">Buscar por texto es gratis; la foto usa IA y gasta tokens.</div>
+              <div style="margin-top:10px"><button type="button" class="pschip ${L0.on ? 'on' : ''}" data-a="pslote">${ic('checklist')} Modo lote: ${L0.on ? 'activado (cada patente se agrega)' : 'apagado'}</button></div>
+              ${LJ.length ? `<div class="pssec" style="margin-top:12px">Lote · ${LJ.length} vehículo${LJ.length > 1 ? 's' : ''}</div>${LJ.map(j => { const e = psEst(j); return `<div class="psrow" style="align-items:center;margin-top:6px">${plate((j.vehiculo || {}).patente || '', 's')}<span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}</span><button type="button" data-a="psdel" data-id="${j.id}" aria-label="Quitar" style="margin-left:auto;padding:4px 8px">${ic('close')}</button></div>` }).join('')}
+              <div class="psact" style="margin-top:10px"><button data-a="pslini">${ic('play_arrow')} En proceso</button><button data-a="pslrdy">${ic('inventory_2')} Listo p/ entregar</button><button data-a="pslcom">${ic('task_alt')} Completar</button></div>
+              <div style="margin-top:6px"><button type="button" data-a="pslclr" style="width:100%">Vaciar lote</button></div>` : (L0.on ? '<div class="pssub" style="margin-top:10px">Lote vacío: busca o escanea patentes para agregarlas.</div>' : '')}
+            </div></div>`
+        }
         if (P.step == 'read')
             return `<div class="bd" data-a="cerrar"><div class="box psc">${top}<div class="psrd">${P.th ? `<img src="${P.th}" alt="">` : ''}<div class="psspin"></div><div>Leyendo patente…</div></div></div></div>`;
         const J = n ? psJobs(n) : [],
             j = J.find(x => x.id == P.sel) || J[0],
             near = n && !J.length ? psNear(n) : [],
             dud = P.err || (n && (P.conf == 'media' || P.conf == 'baja' || (P.conf != 'manual' && !psOK(n))) ? 'La lectura no es 100% segura: revisa la patente antes de seguir.' : ''),
-            inp = `<div class="psq"><input id="psq" value="${esc(n ? fmtPat(n) : '')}" placeholder="Escribe la patente" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search"><button type="button" data-a="pssearch" aria-label="Buscar patente">${ic('search')}</button></div>`;
+            inp = `<div class="psq"><input id="psq" value="${esc(n ? n.toLowerCase() : '')}" placeholder="Escribe la patente" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"><button type="button" data-a="pssearch" aria-label="Buscar patente">${ic('search')}</button></div>`;
         let mid = '',
             bot = `<button data-a="psopen">${ic('photo_camera')} Escanear otra</button>`;
         if (j) {
@@ -31056,10 +31171,108 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             mid = `<div class="psnf">${ic('image_search')}<b>No pude leer la patente</b><div class="sm">Escríbela arriba o intenta otra foto, más cerca y de frente.</div></div>`;
         return `<div class="bd" data-a="cerrar"><div class="box psc">${top}${inp}${dud ? `<div class="pswarn">${ic('warning')}<div>${esc(dud)}</div></div>` : ''}${mid}<div class="btns" style="margin-top:12px">${bot}</div></div></div>`
     }
-    document.addEventListener('input', e => {
-        if (e.target && e.target.id == 'psq')
-            e.target.value = fmtPat(e.target.value)
-    });
+    /* ===== Revisión de patio: marcar los vehículos que SÍ están, invertir la selección y sacar (completar) los que no ===== */
+    const ptAct = () => S.jobs.filter(j => j.estado != 'completado').sort((a, b) => String(psPat(a)).localeCompare(String(psPat(b))));
+    const ptR = () => { /* vuelve a dibujar sin perder el punto donde ibas en la lista */
+        const q = () => document.querySelector('.ptbox'),
+            y = q() ? q().scrollTop : 0;
+        render(1);
+        if (q())
+            q().scrollTop = y
+    };
+    /* grupos de la revisión: un bloque por sector (zona), luego las esperas y, al final, los que no tienen sector */
+    const inEsp = j => isEsp(j.plataformaId) || (j.estado == 'cola' && !!j.zesp);
+    function ptGroups(all) {
+        const zs = (S.cfg.zonas || []).filter(z => z.activo !== false),
+            used = new Set(),
+            G = [],
+            add = (title, icon, items, esp) => {
+                if (items.length) {
+                    G.push({title, icon, items, esp});
+                    items.forEach(j => used.add(j.id))
+                }
+            };
+        zs.forEach(z => add(z.nombre, 'location_on', all.filter(j => !inEsp(j) && zof(j) == z.id), false));
+        zs.forEach(z => add(z.nombre + ' (espera)', 'hourglass_top', all.filter(j => inEsp(j) && zof(j) == z.id), true));
+        add('Sin sector asignado', 'help', all.filter(j => !used.has(j.id)), false);
+        return G
+    }
+    const ptSubs = () => {
+        const zs = (S.cfg.zonas || []).filter(z => z.activo !== false), zi = id => { const x = zs.findIndex(z => z.id == id); return x < 0 ? 99 : x };
+        return (S.cfg.plataformas || []).filter(p => p.activo !== false).sort((a, b) => zi(a.zonaId) - zi(b.zonaId) || (spNum(a) || 0) - (spNum(b) || 0) || String(a.nombre).localeCompare(b.nombre))
+    };
+    function ptGroupsSub(all) {
+        const G = [], used = new Set();
+        ptSubs().forEach(p => {
+            const z = (S.cfg.zonas || []).find(x => x.id == p.zonaId), it = all.filter(j => j.plataformaId == p.id);
+            it.forEach(j => used.add(j.id));
+            G.push({title: (z ? z.nombre + ' · ' : '') + p.nombre, icon: p.espera ? 'hourglass_top' : 'garage', items: it, pid: p.id, conf: !p.espera && it.length > 1})
+        });
+        const rest = all.filter(j => !used.has(j.id));
+        if (rest.length)
+            G.push({title: 'Sin sub-zona', icon: 'help', items: rest});
+        return G
+    }
+    function ptMove(pid) {
+        const p = (S.cfg.plataformas || []).find(x => x.id == pid), s = (S.pt || {}).sel || {}, js = ptAct().filter(j => s[j.id]);
+        if (!p)
+            return toast('warning', 'Elige la sub-zona de destino');
+        if (!js.length)
+            return toast('warning', 'No hay vehículos marcados');
+        let ok = 0, no = 0, run = S.jobs.some(x => x.plataformaId == pid && x.estado == 'proceso' && !js.includes(x));
+        js.forEach(j => {
+            if (j.plataformaId == pid)
+                return;
+            if (j.estado == 'proceso' && !p.espera && run) {
+                no++;
+                return
+            }
+            j.plataformaId = pid;
+            j.pz = !p.espera;
+            if (j.estado == 'cola')
+                j.zesp = p.espera ? now() : null;
+            if (j.estado == 'proceso' && !p.espera)
+                run = true;
+            saveJob(j);
+            ok++
+        });
+        S.pt.sel = {};
+        S.pt.panel = '';
+        S.modal = {k: 'patio'};
+        ptR();
+        toast(ok ? 'drive_file_move' : 'warning', ok + ' movido' + (ok == 1 ? '' : 's') + ' a ' + p.nombre + (no ? ' · ' + no + ' no (esa sub-zona ya tiene un trabajo en proceso)' : ''))
+    }
+    function ptModal() {
+        const P = S.pt = S.pt || {sel: {}}, sel = P.sel, all = ptAct(), n = all.filter(j => sel[j.id]).length,
+            sub = P.mode == 'sub', G = sub ? ptGroupsSub(all) : ptGroups(all),
+            row = j => {
+                const e = psEst(j), v = j.vehiculo || {}, c = j.cliente || {}, on = !!sel[j.id],
+                    pl = (S.cfg.plataformas || []).find(x => x.id == j.plataformaId),
+                    info = [sub ? '' : (pl ? pl.nombre : ''), c.nombre || ''].filter(Boolean).join(' · ');
+                return `<button type="button" data-a="pttog" data-id="${j.id}" style="display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:4px 10px;text-align:left;padding:10px;border:2px solid ${on ? 'var(--ink,#111)' : 'var(--line2,#ddd)'};border-radius:14px;background:${on ? 'rgba(0,0,0,.07)' : 'transparent'};width:100%;min-width:0">
+                  <span style="grid-row:span 2">${ic(on ? 'check_box' : 'check_box_outline_blank')}</span><span>${plate(v.patente || '', 's')}</span>
+                  <span style="min-width:0;overflow-wrap:anywhere;font-weight:600;font-size:14px">${esc([v.marca, v.modelo].filter(Boolean).join(' ') || 'Vehículo')}</span>
+                  <span style="grid-column:2/4;min-width:0;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:12px;opacity:.85"><span class="psst" style="--c:${e[1]}"><i></i>${esc(e[0])}</span>${info ? `<span style="min-width:0;overflow-wrap:anywhere">${esc(info)}</span>` : ''}</span></button>`
+            },
+            stat = (v, l) => `<div style="flex:1;border:1.5px solid var(--line2,#ddd);border-radius:14px;padding:8px;text-align:center"><div style="font-size:22px;font-weight:800">${v}</div><div class="sm">${l}</div></div>`,
+            ab = (a, ic_, l, off) => `<button type="button" data-a="${a}" ${off ? 'disabled' : ''} style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;font-size:11px;font-weight:700;border-radius:12px;min-width:0">${ic(ic_)}<span>${l}</span></button>`,
+            dests = (() => { const zs = (S.cfg.zonas || []).filter(z => z.activo !== false); return zs.map(z => { const ps = ptSubs().filter(p => p.zonaId == z.id); return ps.length ? `<optgroup label="${esc(z.nombre)}">${ps.map(p => `<option value="${p.id}">${esc(p.nombre)}</option>`).join('')}</optgroup>` : '' }).join('') })();
+        return `<div class="bd" data-a="cerrar"><div class="box psc ptbox" style="max-height:92vh;overflow-y:auto;padding-bottom:0">
+          <div class="psh" style="background:linear-gradient(135deg,rgba(0,0,0,.06),transparent);border-radius:16px;padding:10px">${ic('local_parking')}<div><b style="font-size:17px">Revisión de patio</b><div class="sm">Marca los que SÍ están, invierte y actúa sobre el resto</div></div><button type="button" class="psx" data-a="cerrar" aria-label="Cerrar">${ic('close')}</button></div>
+          <button type="button" data-a="ptsync" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:10px;font-weight:700;border-radius:14px">${ic('sync')} Sincronizar con mapa</button>
+          <div class="psfld" style="margin-top:10px"><input id="ptq" list="ptdl" placeholder="Marcar por patente (ej.: gcwv99)" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="button" data-a="ptadd" aria-label="Marcar">${ic('check')}</button></div>
+          <datalist id="ptdl">${all.map(j => `<option value="${esc(psPat(j))}">`).join('')}</datalist>
+          <div style="display:flex;gap:8px;margin:10px 0 6px">${stat(n, 'marcados')}${stat(all.length - n, 'sin marcar')}${stat(all.length, 'en el sistema')}</div>
+          <div class="psact" style="margin:6px 0"><button type="button" class="pschip ${sub ? '' : 'on'}" data-a="ptmode" data-m="zona">${ic('location_on')} Por zona</button><button type="button" class="pschip ${sub ? 'on' : ''}" data-a="ptmode" data-m="sub">${ic('garage')} Por sub-zona</button></div>
+          <div class="psact"><button type="button" data-a="ptall">${ic('select_all')} Todos</button><button type="button" data-a="ptnone">${ic('deselect')} Ninguno</button><button type="button" data-a="ptinv" style="font-weight:700">${ic('swap_horiz')} Invertir</button></div>
+          ${P.panel == 'mv' ? `<div style="margin-top:10px;border:2px solid var(--ink,#111);border-radius:16px;padding:10px"><b>Mover ${n} marcado${n == 1 ? '' : 's'} a otra zona / sub-zona</b><div class="psfld" style="margin-top:8px"><select id="ptdst">${dests}</select><button type="button" data-a="ptmvgo">${ic('check')} Mover</button></div></div>` : ''}
+          ${sub ? '<div class="pssub" style="margin-top:8px">Marca vehículos y usa «Mover aquí» en la sub-zona de destino. En rojo: sub-zonas con más de un vehículo.</div>' : ''}
+          ${G.map((g, gi) => { const gn = g.items.filter(j => sel[j.id]).length;
+            return `<div style="margin-top:12px;border:1.5px solid ${g.conf ? '#c0392b' : 'var(--line2,#ddd)'};border-radius:18px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:${g.conf ? 'rgba(192,57,43,.1)' : 'rgba(0,0,0,.05)'}">${ic(g.icon)}<b style="flex:1;min-width:0;overflow-wrap:anywhere;font-size:15px">${esc(g.title)}</b><span class="sm">${g.conf ? g.items.length + ' en la misma' : gn + '/' + g.items.length}</span>${g.pid ? `<button type="button" data-a="ptmvto" data-p="${g.pid}" style="padding:4px 10px;font-size:12px" ${n ? '' : 'disabled'}>Mover aquí</button>` : ''}${g.items.length ? `<button type="button" data-a="ptgrp" data-g="${gi}" style="padding:4px 10px;font-size:12px">${gn == g.items.length ? 'Quitar' : 'Marcar'}</button>` : ''}</div>${g.items.length ? `<div style="display:grid;gap:6px;padding:8px">${g.items.map(row).join('')}</div>` : '<div class="sm" style="padding:8px 12px;opacity:.7">Libre</div>'}</div>` }).join('') || '<div class="mut" style="margin-top:12px">No hay órdenes activas.</div>'}
+          <div style="position:sticky;bottom:0;padding:8px 0;background:var(--bg,#fff);margin-top:12px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">${ab('ptmv', 'drive_file_move', 'Mover', !n)}${ab('ptswap', 'swap_vert', 'Intercambiar', n < 2)}${ab('ptesp', 'hourglass_top', 'Espera', !n)}${ab('ptdel', 'delete', 'Eliminar', !n)}${ab('ptcom', 'task_alt', 'Completar', !n)}</div>
+        </div></div>`
+    }
+
     document.addEventListener('keydown', e => {
         if (e.key == 'Enter' && e.target && e.target.id == 'psq') {
             e.preventDefault();
@@ -31110,11 +31323,17 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             render(1);
             const vivo = () => psTok == tok && S.modal && S.modal.k == 'pscan';
             try {
-                const b = await iaImg(f),
+                const b = await iaImg(f, 1000, .7),
                     r = await psRead(b);
                 if (!vivo())
                     return;
                 const n = psN(r.patente);
+                if (n && S.psL && S.psL.on) {
+                    psAdd(n);
+                    S.ps = {step: 'pick'};
+                    render(1);
+                    return
+                }
                 S.ps = {step: 'res', n, conf: String(r.confianza || '').toLowerCase(), err: n ? '' : (r.dudas || '')}
             } catch (e) {
                 if (!vivo())
@@ -31129,8 +31348,286 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
             const n = psN($('#psq') && $('#psq').value);
             if (!n)
                 return toast('warning', 'Escribe la patente');
+            if (S.psL && S.psL.on) {
+                psAdd(n);
+                S.ps = {step: 'pick'};
+                render(1);
+                return
+            }
             S.ps = {step: 'res', n, conf: 'manual'};
             render(1)
+        },
+        pslote: () => {
+            const L0 = S.psL || (S.psL = {on: false, ids: []});
+            L0.on = !L0.on;
+            S.ps = {step: 'pick'};
+            render(1)
+        },
+        psdel: d => {
+            const L0 = S.psL;
+            if (L0)
+                L0.ids = L0.ids.filter(x => x != d.id);
+            S.ps = {step: 'pick'};
+            render(1)
+        },
+        pslclr: () => {
+            if (S.psL)
+                S.psL.ids = [];
+            S.ps = {step: 'pick'};
+            render(1)
+        },
+        pslini: () => {
+            let ok = 0, no = 0;
+            ((S.psL || {}).ids || []).forEach(id => {
+                const j = get(id);
+                if (!j || j.estado == 'completado' || j.estado == 'proceso')
+                    return;
+                if (S.jobs.find(x => x.plataformaId == j.plataformaId && x.estado == 'proceso' && x.id != id)) {
+                    no++;
+                    return
+                }
+                mover(id, 'iniciar');
+                ok++
+            });
+            S.modal = {k: 'pscan'};
+            S.ps = {step: 'pick'};
+            render(1);
+            toast(ok ? 'check' : 'warning', ok + ' en proceso' + (no ? ' · ' + no + ' no se pudo (su plataforma ya tiene un trabajo en proceso)' : ''))
+        },
+        pslrdy: () => {
+            let ok = 0;
+            ((S.psL || {}).ids || []).forEach(id => {
+                const j = get(id);
+                if (j && j.estado != 'completado' && !j.listo) {
+                    A.mlisto({id});
+                    ok++
+                }
+            });
+            S.modal = {k: 'pscan'};
+            S.ps = {step: 'pick'};
+            render(1);
+            toast('check', ok + ' marcada' + (ok == 1 ? '' : 's') + ' como lista' + (ok == 1 ? '' : 's') + ' para entregar')
+        },
+        pslcom: () => {
+            const ids = ((S.psL || {}).ids || []).filter(id => { const j = get(id); return j && j.estado != 'completado' });
+            if (!ids.length)
+                return toast('warning', 'El lote está vacío');
+            if (!confirm('¿Completar ' + ids.length + ' orden' + (ids.length > 1 ? 'es' : '') + ' del lote?'))
+                return;
+            ids.forEach(id => mover(id, 'completar'));
+            S.psL.ids = [];
+            S.modal = {k: 'pscan'};
+            S.ps = {step: 'pick'};
+            render(1);
+            toast('task_alt', ids.length + ' completada' + (ids.length > 1 ? 's' : ''))
+        },
+        espq: d => {
+            S.modal = {k: 'espq', id: d.id, sc: d.sc ? 1 : 0};
+            render(1)
+        },
+        espzl: () => {
+            const js = espJobs();
+            js.forEach(j => {
+                if (j.estado == 'proceso')
+                    mover(j.id, 'pausar', '');
+                j.pz = false;
+                if (j.estado == 'cola')
+                    j.zesp = now();
+                else {
+                    j.pausa = j.pausa || {motivo: '', desdeISO: now()};
+                    j.pausa.espera = true
+                }
+                saveJob(j, 1)
+            });
+            espEnd('hourglass_top', js.length + ' en la zona de espera')
+        },
+        espzn: () => {
+            const js = espJobs();
+            let ok = 0, no = 0;
+            js.forEach(j => {
+                if (enEspZ(j)) {
+                    no++;
+                    return
+                }
+                j.pz = true;
+                j.zesp = null;
+                if (j.pausa && j.pausa.espera)
+                    j.pausa.espera = false;
+                saveJob(j, 1);
+                ok++
+            });
+            espEnd(ok ? 'garage' : 'warning', ok + ' espera' + (ok == 1 ? '' : 'n') + ' en su zona, ocupando su puesto' + (no ? ' · ' + no + ' está en una sub-zona de espera: muévelo antes a una sub-zona normal' : ''))
+        },
+        esppau: () => {
+            const js = espJobs();
+            js.forEach(j => {
+                if (j.estado != 'pausa')
+                    mover(j.id, 'pausar', '')
+            });
+            espEnd('pause', js.length + ' en pausa')
+        },
+        ptsync: () => {
+            const js = ptAct();
+            if (!confirm('¿Sincronizar con el mapa?\n\n• Los vehículos en una sub-zona normal (ej.: Mecánica 1 a 8) ocupan su puesto.\n• Los que están en una sub-zona «(espera)» van a la zona de espera y dejan su puesto libre.\n\nLos que dejaste esperando a propósito en la zona de espera no se tocan.'))
+                return;
+            let pl = 0, es = 0;
+            js.forEach(j => {
+                if (!j.plataformaId)
+                    return;
+                if (enEspZ(j)) {
+                    if (j.pz || (j.estado == 'cola' && !j.zesp)) {
+                        j.pz = false;
+                        if (j.estado == 'cola')
+                            j.zesp = j.zesp || now();
+                        saveJob(j, 1)
+                    }
+                    es++
+                } else if ((j.estado == 'cola' || j.estado == 'proceso') && !j.zesp) {
+                    if (!j.pz) {
+                        j.pz = true;
+                        saveJob(j, 1)
+                    }
+                    pl++
+                }
+            });
+            TRF.reset();
+            S.modal = {k: 'patio'};
+            ptR();
+            toast('sync', pl + ' en su puesto · ' + es + ' en la zona de espera')
+        },
+        pesp: d => {
+            ensureEsp(d.z);
+            saveCfg()
+        },
+        ptgrp: d => {
+            const s = (S.pt = S.pt || {sel: {}}).sel,
+                g = (s && S.pt.mode == 'sub' ? ptGroupsSub : ptGroups)(ptAct())[+d.g];
+            if (!g)
+                return;
+            const todos = g.items.every(j => s[j.id]);
+            g.items.forEach(j => {
+                if (todos)
+                    delete s[j.id];
+                else
+                    s[j.id] = 1
+            });
+            ptR()
+        },
+        ptesp: () => {
+            const s = (S.pt || {}).sel || {}, ids = ptAct().filter(j => s[j.id]).map(j => j.id);
+            if (!ids.length)
+                return toast('warning', 'No hay vehículos marcados');
+            S.modal = {k: 'espq', ids, back: 'patio'};
+            render(1)
+        },
+        ptopen: () => {
+            S.pt = {sel: {}};
+            S.modal = {k: 'patio'};
+            render(1)
+        },
+        pttog: d => {
+            const s = (S.pt = S.pt || {sel: {}}).sel;
+            if (s[d.id])
+                delete s[d.id];
+            else
+                s[d.id] = 1;
+            ptR()
+        },
+        ptall: () => {
+            const s = (S.pt = S.pt || {sel: {}}).sel = {};
+            ptAct().forEach(j => s[j.id] = 1);
+            ptR()
+        },
+        ptnone: () => {
+            (S.pt = S.pt || {}).sel = {};
+            ptR()
+        },
+        ptinv: () => {
+            const o = (S.pt = S.pt || {sel: {}}).sel,
+                s = {};
+            ptAct().forEach(j => {
+                if (!o[j.id])
+                    s[j.id] = 1
+            });
+            S.pt.sel = s;
+            ptR();
+            toast('swap_horiz', Object.keys(s).length + ' marcados (los que no estaban marcados)')
+        },
+        ptadd: () => {
+            const n = psN($('#ptq') && $('#ptq').value);
+            if (!n)
+                return toast('warning', 'Escribe la patente');
+            const all = ptAct(),
+                ex = all.filter(j => psPat(j) == n),
+                js = ex.length ? ex : n.length >= 3 ? all.filter(j => psPat(j).includes(n)) : [];
+            if (!js.length)
+                return toast('warning', n + ': sin orden activa');
+            const s = (S.pt = S.pt || {sel: {}}).sel;
+            js.forEach(j => s[j.id] = 1);
+            ptR();
+            toast('check', js.length == 1 ? fmtPat(psPat(js[0])) + ' marcada' : js.length + ' patentes marcadas')
+        },
+        ptmode: d => {
+            (S.pt = S.pt || {sel: {}}).mode = d.m;
+            ptR()
+        },
+        ptmv: () => {
+            (S.pt = S.pt || {sel: {}}).panel = S.pt.panel == 'mv' ? '' : 'mv';
+            ptR()
+        },
+        ptmvgo: () => ptMove($('#ptdst') && $('#ptdst').value),
+        ptmvto: d => ptMove(d.p),
+        ptswap: () => {
+            const s = (S.pt || {}).sel || {}, js = ptAct().filter(j => s[j.id]);
+            if (js.length < 2)
+                return toast('warning', 'Marca al menos 2 vehículos');
+            const ps = js.map(j => j.plataformaId);
+            if (new Set(ps).size < 2)
+                return toast('warning', 'Los marcados están en la misma sub-zona: usa Mover para repartirlos');
+            const bl = js.some((j, i) => j.estado == 'proceso' && ps[(i + 1) % js.length] != j.plataformaId && !isEsp(ps[(i + 1) % js.length]) && S.jobs.some(x => x.plataformaId == ps[(i + 1) % js.length] && x.estado == 'proceso' && !js.includes(x)));
+            if (bl)
+                return toast('warning', 'Una sub-zona de destino ya tiene un trabajo en proceso');
+            js.forEach((j, i) => {
+                const d = ps[(i + 1) % js.length];
+                j.plataformaId = d;
+                j.pz = !isEsp(d);
+                if (isEsp(d) && j.estado == 'cola')
+                    j.zesp = now();
+                else if (j.estado == 'cola')
+                    j.zesp = null;
+                saveJob(j, 1)
+            });
+            S.pt.sel = {};
+            S.modal = {k: 'patio'};
+            render(1);
+            toast('swap_vert', js.length == 2 ? 'Sub-zonas intercambiadas' : js.length + ' vehículos rotaron de sub-zona')
+        },
+        ptdel: () => {
+            const s = (S.pt || {}).sel || {}, ids = ptAct().filter(j => s[j.id]).map(j => j.id);
+            if (!ids.length)
+                return toast('warning', 'No hay vehículos marcados');
+            if (!confirm('¿Eliminar ' + (ids.length == 1 ? 'la orden marcada' : ids.length + ' órdenes marcadas') + '? No se puede deshacer.'))
+                return;
+            if (ids.length > 1 && !confirm('Segunda confirmación: se eliminarán ' + ids.length + ' órdenes de forma permanente. ¿Eliminar de todos modos?'))
+                return;
+            ids.forEach(id => delJob(id));
+            S.pt.sel = {};
+            S.modal = {k: 'patio'};
+            ptR();
+            toast('delete', ids.length + ' eliminada' + (ids.length > 1 ? 's' : ''))
+        },
+        ptcom: () => {
+            const s = (S.pt || {}).sel || {},
+                ids = ptAct().filter(j => s[j.id]).map(j => j.id);
+            if (!ids.length)
+                return toast('warning', 'No hay vehículos marcados');
+            if (!confirm('¿Completar ' + ids.length + ' orden' + (ids.length > 1 ? 'es' : '') + ' marcada' + (ids.length > 1 ? 's' : '') + '? Se sacan de la línea de trabajo.'))
+                return;
+            ids.forEach(id => mover(id, 'completar'));
+            S.pt.sel = {};
+            S.modal = {k: 'patio'};
+            ptR();
+            toast('task_alt', ids.length + ' completada' + (ids.length > 1 ? 's' : ''))
         },
         pssel: d => {
             S.ps = {step: 'res', n: psN(d.n), conf: 'manual'};
@@ -31197,6 +31694,110 @@ Reglas: "patente" va en MAYÚSCULAS, sin espacios, puntos ni guiones (ejemplo: B
         }
     });
     await initDB();
+    /* ============ INFORMES Y RESÚMENES · informe de zona (carta, fondo blanco) guardado, compartible e imprimible/PDF ============ */
+    function infLoad() { try { return JSON.parse(localStorage.getItem('lubri_informes') || '[]') } catch (e) { return [] } }
+    function infSave(L) { try { localStorage.setItem('lubri_informes', JSON.stringify(L.slice(0, 40))); return true } catch (e) { toast('warning', 'No se pudo guardar (almacenamiento lleno)'); return false } }
+    const infPl = p => { const s = String(p || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase(); return s.length == 6 ? s.slice(0, 2) + '·' + s.slice(2, 4) + '·' + s.slice(4) : (s || 'S/P') };
+    const infD = iso => iso ? new Date(iso).toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—';
+    const infDias = iso => { if (!iso) return null; const a = new Date(); a.setHours(0, 0, 0, 0); const b = new Date(iso); b.setHours(0, 0, 0, 0); return Math.round((b - a) / 864e5) };
+    const INF_EST = { proceso: ['En proceso', '#f26a21'], reparacion: ['En reparación', '#002D7A'], cola: ['En cola', '#f5c000'], pausa: ['En pausa', '#B60802'], listo: ['Listo', '#2eb34a'] };
+    function infData(zid) {
+        const z = S.cfg.zonas.find(x => x.id == zid), ps = S.cfg.plataformas.filter(p => p.zonaId == zid), ids = ps.map(p => p.id), pe = p => !!(p && (p.espera || /espera/i.test(p.nombre || ''))), puestos = ps.filter(p => p.activo !== false && !pe(p)).length || 1;
+        const J = S.jobs.filter(j => j.estado != 'completado' && ids.includes(j.plataformaId)).map(j => {
+            const d = infDias(j.opciones && j.opciones.entregaISO), v = j.vehiculo || {}, p = ps.find(x => x.id == j.plataformaId);
+            return { pat: infPl(v.patente), marca: v.marca || '', modelo: v.modelo || '', km: v.km || 0, mec: j.mecanicoId ? nm(S.cfg.mecanicos, j.mecanicoId) : '', est: j.estado, urg: j.prioridad == 'urgente', pl: p ? p.nombre : '', sn: spNum(p) || 0,
+                espera: !!(enEspZ(j) || esp(j) || (j.estado == 'cola' && j.zesp)),
+                svcs: (j.servicios || []).map(s => s.nombre || s.name || s.titulo || s.servicio || s.cod || '').filter(Boolean).slice(0, 4),
+                ing: j.tiempos && j.tiempos.ingresoISO || '', cli: !!(j.opciones && j.opciones.espera), gr: j.grua == 'si', rest: Math.max(0, ((j.tiempos && j.tiempos.estSeg) || 0) - ((j.tiempos && j.tiempos.acumSeg) || 0)), ns: (j.servicios || []).length, snm: (j.servicios || []).map(s => s.nombre || s.name || s.titulo || s.servicio || s.cod || '').filter(Boolean), ent: j.opciones && j.opciones.entregaISO || '', dias: d, late: d != null && d < 0 }
+        }).sort((a, b) => (b.urg - a.urg) || ((a.dias == null) - (b.dias == null)) || ((a.dias || 0) - (b.dias || 0)));
+        const M = {}, pp = {}; (S.cfg.mecanicos || []).forEach(m => { if (m.activo !== false && (Array.isArray(m.zonas) ? m.zonas.includes(zid) : m.zonaPpal == zid)) { M[m.nombre] = []; pp[m.nombre] = 1 } });
+        J.filter(j => j.mec && !j.espera).forEach(j => { const a = M[j.mec] = M[j.mec] || []; if (j.est == 'proceso' || j.est == 'reparacion') a.push(j.pat) });
+        const mecs = Object.keys(M).map(n => ({ n, veh: M[n], carga: Math.min(100, Math.round(M[n].length / puestos * 100)), ppal: !!pp[n] })).sort((a, b) => (b.ppal - a.ppal) || (b.veh.length - a.veh.length));
+        const c = e => J.filter(j => j.est == e).length, ing = J.filter(j => j.ing).map(j => Math.max(0, -infDias(j.ing))), enP = J.filter(j => !j.espera).length;
+        const TS = {}; J.forEach(j => j.snm.forEach(n => TS[n] = (TS[n] || 0) + 1)); const top = Object.keys(TS).map(n => ({ n, c: TS[n] })).sort((a, b) => b.c - a.c).slice(0, 5);
+        return { zona: z ? z.nombre : 'Zona', top, puestos, fechaISO: now(), J, mecs, resumen: '', k: { total: J.length, enPuestos: enP, enEspera: J.length - enP, proceso: c('proceso'), reparacion: c('reparacion'), cola: c('cola'), pausa: c('pausa'), listo: c('listo'), late: J.filter(j => j.late).length, ocup: Math.min(100, Math.round(enP / puestos * 100)), sinEnt: J.filter(j => j.dias == null).length, urg: J.filter(j => j.urg).length, v1: J.filter(j => !j.late && j.dias != null && j.dias <= 1).length, hoy: J.filter(j => j.dias == 0).length, sem: J.filter(j => j.dias != null && j.dias >= 0 && j.dias <= 7).length, ingHoy: J.filter(j => j.ing && infDias(j.ing) == 0).length, compHoy: S.jobs.filter(j => j.estado == 'completado' && ids.includes(j.plataformaId) && j.tiempos && j.tiempos.completadoISO && infDias(j.tiempos.completadoISO) == 0).length, hPend: Math.round(J.reduce((a, j) => a + j.rest, 0) / 360) / 10, nSvc: J.reduce((a, j) => a + j.ns, 0), cli: J.filter(j => j.cli).length, gru: J.filter(j => j.gr).length, maxD: ing.length ? Math.max.apply(null, ing) : null, avg: ing.length ? Math.round(ing.reduce((a, b) => a + b, 0) / ing.length * 10) / 10 : 0 } }
+    }
+    function infLocal(d) {
+        const k = d.k, P = j => '<b>' + j.pat + '</b>', L = (a, n) => a.slice(0, n).map(P).join(', ') + (a.length > n ? ' y ' + (a.length - n) + ' más' : ''), has = e => d.J.filter(j => j.est == e && !j.espera),
+            pro = d.J.filter(j => (j.est == 'proceso' || j.est == 'reparacion') && !j.espera), cola = has('cola'), pau = has('pausa'), esp_ = d.J.filter(j => j.espera), late = d.J.filter(j => j.late), urg = d.J.filter(j => !j.late && j.dias != null && j.dias <= 1), t = [];
+        t.push(`La zona ${esc(d.zona)} tiene <b>${k.total} vehículos</b>: ${k.enPuestos} en ${esc(d.zona)} y ${k.enEspera} en espera. Por estado hay ${k.proceso + (k.reparacion || 0)} en proceso, ${k.cola} en cola y ${k.pausa} en pausa; la ocupación de puestos es ${k.ocup}% (${d.puestos} puestos). ` + (late.length ? `Hay <b>${late.length} atrasados</b> (${L(late, 3)}).` : 'No hay vehículos atrasados.'));
+        t.push(pro.length ? `En proceso ahora: ${pro.slice(0, 4).map(j => P(j) + (j.mec ? ' (' + esc(j.mec) + ')' : '')).join(', ')}${pro.length > 4 ? ' y ' + (pro.length - 4) + ' más' : ''}.` : 'Ningún vehículo está en proceso en este momento.');
+        const w = []; if (cola.length) w.push('en cola: ' + L(cola, 3)); if (pau.length) w.push('en pausa: ' + L(pau, 3)); if (esp_.length) w.push('en espera: ' + L(esp_, 3)); if (w.length) t.push('Pendientes, ' + w.join('; ') + '.');
+        const c = []; if (urg.length) c.push(`Lo más urgente: ${L(urg, 3)} (entrega en 1 día o menos).`);
+        if (d.mecs.length > 1) { const h = d.mecs[0], l = d.mecs[d.mecs.length - 1]; c.push(`${esc(h.n)} tiene la mayor carga (${h.veh.length} de ${d.puestos}) y ${esc(l.n)} la menor (${l.veh.length} de ${d.puestos}), por lo que puede recibir apoyo.`) } else if (d.mecs.length == 1) c.push(`Todo lo asignado está con ${esc(d.mecs[0].n)}.`);
+        if (k.sinEnt) c.push(`${k.sinEnt} vehículo${k.sinEnt > 1 ? 's' : ''} sin entrega programada: conviene fijar fecha.`);
+        if (c.length) t.push(c.join(' '));
+        return t.map(x => '<p>' + x + '</p>').join('')
+    }
+    async function infIA(d) {
+        const k = iaKey(); if (!k) return null;
+        const t = `Eres el asistente de un taller mecánico. Resume en español, en 2 párrafos cortos (máx. 110 palabras en total), sin markdown, el estado de la zona ${d.zona}: ${d.k.total} vehículos, ${d.k.proceso} en proceso, ${d.k.cola} en cola, ${d.k.pausa} en pausa, ${d.k.late} atrasados; ${d.k.enPuestos} en ${d.zona} y ${d.k.enEspera} en espera. Cita las patentes más urgentes, quién tiene más y menos carga y qué conviene hacer hoy. No inventes datos. Vehículos (patente | estado | mecánico | días para entrega): ` + d.J.map(j => `${j.pat} | ${j.est}${j.espera ? ' (en espera)' : ''} | ${j.mec || 'sin asignar'} | ${j.dias == null ? 'sin entrega' : j.dias}`).join('; ');
+        const ac = new AbortController(), tm = setTimeout(() => ac.abort(), 15000);
+        try {
+            const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${iaModel()}:generateContent?key=${encodeURIComponent(k)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: t }] }] }), signal: ac.signal });
+            const j = await r.json(), x = j.candidates && j.candidates[0].content.parts.map(p => p.text || '').join('').trim();
+            return x ? x.split(/\n\s*\n/).map(p => '<p>' + esc(p.replace(/\*/g, '')) + '</p>').join('') : null
+        } catch (e) { return null } finally { clearTimeout(tm) }
+    }
+    const INF_CSS = `:root{--ink:#1C2633;--mut:#5f6b7a;--line:#6b7686;--line2:#d6dbe2;--azul:#002D7A;--rojo:#B60802;--soft:#f1f3f7;--ia:#7c3aed;--iabg:#f4effe}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:12.5px/1.4 Inter,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:8.5in;height:11in;margin:0 auto;padding:.5in;background:#fff;display:flex;flex-direction:column;gap:14px;break-after:page;overflow:hidden}.page:last-child{break-after:auto}header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:8px;gap:12px}.brand{font-weight:800;font-size:13px}.brand span{color:var(--rojo)}h1{margin:2px 0 0;font-size:24px;font-weight:800;color:var(--azul)}.meta{color:var(--mut);font-size:11.5px;text-align:right}.sec{font-size:12px;font-weight:800;color:var(--azul);text-transform:uppercase;letter-spacing:.8px;margin:0 0 8px}.box{border:1.5px solid var(--line2);border-radius:12px;padding:12px;break-inside:avoid}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}table{width:100%;border-collapse:collapse}th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);text-align:left;padding:0 6px 6px 0}td{padding:7px 6px 7px 0;border-top:1px solid var(--line2)}td.n{text-align:center;font-weight:700}.pls{display:flex;flex-wrap:wrap;gap:5px}.pl{display:inline-block;border:2px solid var(--line);border-radius:7px;background:#FCFCFC;padding:1px 8px 2px;font-weight:700;font-size:12.5px;letter-spacing:1px;white-space:nowrap}.pl.l{font-size:16px;padding:2px 10px 3px;border-radius:9px}.car{display:flex;align-items:center;gap:6px}.cb{flex:1;height:7px;border-radius:9px;background:var(--soft);overflow:hidden;min-width:40px}.cb i{display:block;height:100%}.kpi{display:flex;gap:14px;align-items:center}.leg{display:flex;flex-direction:column;gap:5px;font-size:11.5px}.leg div{display:flex;gap:7px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}.cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kp{border:1.5px solid var(--line2);border-left:5px solid var(--c);border-radius:10px;padding:6px 9px;background:var(--soft)}.kp b{display:block;font-size:22px;line-height:1.1}.kp span{font-size:10.5px;color:var(--mut);font-weight:600}.ia{background:var(--iabg);border-color:#d9ccf7}.ia .sec{color:var(--ia)}.ia p{margin:0 0 6px}.src{font-size:10.5px;color:var(--mut)}.prio{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}.prio li{display:flex;align-items:center;gap:8px;padding:5px 7px;border:1.5px solid var(--line2);border-radius:10px}.pos{width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:11px;flex:none}.when{margin-left:auto;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;text-align:right}.vg{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}.v{border:1.5px solid var(--line2);border-radius:12px;padding:9px;background:var(--soft);break-inside:avoid;display:flex;flex-direction:column;gap:6px}.vh{display:flex;justify-content:space-between;align-items:center;gap:6px}.vm{font-size:11px;color:var(--mut);font-weight:600}.st{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700}.chips{display:flex;flex-wrap:wrap;gap:4px}.chip{border:1.5px solid var(--c);border-left-width:5px;border-radius:8px;padding:1px 7px;font-size:11px;background:#fff}.dates{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut);border-top:1px solid var(--line2);padding-top:5px}.dates b{color:var(--ink)}footer{margin-top:auto;display:flex;justify-content:space-between;font-size:10px;color:var(--mut);border-top:1px solid var(--line2);padding-top:6px}@page{size:letter;margin:0}.gh{display:flex;justify-content:space-between;align-align:center;align-items:center;border-bottom:1.5px solid var(--line2);padding-bottom:6px}@media screen{body{background:#e9ecf1;padding:12px 0}.page{margin:0 auto 12px;box-shadow:0 1px 6px #0002}}@media print{body{background:#fff;padding:0}}`;
+    function infHtml(r) {
+        const d = r.data, k = d.k, pre = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">', fh = new Date(d.fechaISO).toLocaleString('es-CL', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const CSS2 = `.page{gap:10px;padding:.45in .5in}.cnt{gap:6px}.kp{padding:4px 8px}.kp b{font-size:18px}.kp span{font-size:10px}.cols{display:grid;grid-template-columns:1fr 1.15fr;grid-template-rows:minmax(0,1fr);gap:10px;align-items:stretch;flex:1;min-height:0}.colx{display:flex;flex-direction:column;gap:10px;min-width:0;min-height:0}#prsec{flex:1;min-height:0;overflow:hidden}.box{padding:9px 10px}.sec{margin:0 0 6px}.ia p{font-size:11.5px;line-height:1.35;margin:0 0 5px}.prio{grid-template-columns:1fr;gap:4px}.prio li{padding:3px 7px}.pl.l{font-size:14px;padding:1px 8px 2px}.pos{width:20px;height:20px;font-size:10.5px}.mb{padding:4px 0;border-top:1px solid var(--line2)}.mb:first-of-type{border-top:0;padding-top:0}.mh{display:flex;align-items:center;gap:8px;margin-bottom:3px}.mh b{flex:1}.mh .car{width:84px}.pl{font-size:11.5px;padding:0 6px 1px}.dense .mb{padding:2px 0}.dense .mh{margin-bottom:1px}.dense .pl{font-size:10.5px}.dense .box{padding:7px 9px}.tg{font-size:9.5px;font-weight:700;color:#5f6b7a;border:1px solid #d6dbe2;border-radius:99px;padding:0 6px}.kg{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.kr{display:flex;justify-content:space-between;gap:6px;border-top:1px solid var(--line2);padding:3px 0;font-size:10.5px;color:#5f6b7a}.kr b{color:var(--ink)}.sv{display:flex;align-items:center;gap:6px;font-size:10.5px;padding:2px 0}.sv span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sv i{display:block;height:6px;border-radius:9px;background:#002D7A}.vg{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;align-content:start}.gh{grid-column:1/-1;margin-top:2px}.v{padding:5px 8px;gap:3px;border-radius:10px}.v .pl{font-size:13px}.vm{font-size:10.5px;line-height:1.3}.chip{font-size:10px;padding:0 6px;border-left-width:4px}.dates{font-size:10px;padding-top:2px}.st{font-size:10px}`;
+        const A_ = d.J.filter(j => !j.espera).sort((a, b) => (a.sn - b.sn)), B_ = d.J.filter(j => j.espera), est = 1 + Math.max(1, Math.ceil(d.J.length / 12));
+        const ep = (k.enPuestos != null ? k.enPuestos : k.total), ee = k.enEspera || 0, pro = (k.proceso || 0) + (k.reparacion || 0), N = v => v == null ? '—' : v;
+        const pg = n => `Hoja <span class="pn">${n}</span> de <span class="pt">${est}</span>`;
+        const hd = (t, n) => `<header><div><div class="brand">JJ Carrasco <span>×</span> lub HUB</div><h1>${t}</h1></div><div class="meta">${esc(fh)}<br>Informe Nº ${String(r.nro).padStart(3, '0')} · ${pg(n)}</div></header>`, ft = n => `<footer><span>JJ Carrasco × lub HUB · Informe de zona ${esc(d.zona)}</span><span>${pg(n)}</span></footer>`;
+        const kp = (n, l, c) => `<div class="kp" style="--c:${c}"><b>${n}</b><span>${l}</span></div>`;
+        const seg = [[k.proceso, '#f26a21', 'En proceso'], [k.reparacion || 0, '#002D7A', 'En reparación'], [k.cola, '#f5c000', 'En cola'], [k.pausa, '#B60802', 'En pausa'], [k.listo || 0, '#2eb34a', 'Listo']].filter((s, i) => s[0] > 0 || i == 0 || i == 2 || i == 3), tot = Math.max(1, seg.reduce((a, s) => a + s[0], 0));
+        let off = 0; const arcs = seg.map(([n, c]) => { const l = n / tot * 251.3, s = `<circle cx="60" cy="60" r="40" stroke="${c}" stroke-dasharray="${l.toFixed(1)} 251.3" stroke-dashoffset="${(-off).toFixed(1)}"/>`; off += l; return s }).join('');
+        const anyP = d.mecs.some(x => x.ppal), mt = d.mecs.map(m => `<div class="mb"><div class="mh"><b>${esc(m.n)}</b>${anyP && m.ppal === false ? '<span class="tg">Apoyo</span>' : ''}<span class="src">${m.veh.length} en proceso</span><div class="car"><div class="cb"><i style="width:${m.carga}%;background:${m.carga > 60 ? '#B60802' : m.carga > 30 ? '#f26a21' : '#2eb34a'}"></i></div><b>${m.carga}%</b></div></div><div class="pls">${m.veh.slice(0, 2).map(p => `<span class="pl">${p}</span>`).join('')}${m.veh.length > 2 ? `<span class="src">+${m.veh.length - 2} más</span>` : ''}${m.veh.length ? '' : '<span class="src">Sin vehículos en proceso</span>'}</div></div>`).join('') || '<p class="src">No hay mecánicos asignados a esta zona.</p>';
+        const col = j => j.late ? '#B60802' : j.dias == null ? '#5f6b7a' : j.dias <= 1 ? '#B60802' : j.dias <= 3 ? '#f26a21' : '#2eb34a', tx = j => j.dias == null ? 'sin entrega programada' : j.dias < 0 ? 'atrasado ' + (-j.dias) + (j.dias == -1 ? ' día' : ' días') : j.dias == 0 ? 'entrega hoy' : j.dias == 1 ? 'queda 1 día' : 'quedan ' + j.dias + ' días';
+        const pr = d.J.slice(0, 40).map((j, i) => `<li><span class="pos">${i + 1}</span><span class="pl l">${j.pat}</span><span class="src">${esc(j.pl || '')}</span><span class="when" style="color:${col(j)}">${j.dias == null ? '' : `<i class="dot" style="background:${col(j)}"></i>`}${tx(j)}</span></li>`).join('') || '<li style="color:#5f6b7a">Sin vehículos en la zona.</li>';
+        const src = r.data.resumenIA ? 'Resumen generado con IA a partir de los datos de este informe.' : 'Resumen automático con los datos de este informe (la IA no estuvo disponible).';
+        const x1 = [['Entregas hoy', k.hoy], ['Entregas en 7 días', k.sem], ['Vencen en 1 día o menos', k.v1], ['Sin entrega programada', k.sinEnt], ['Ingresaron hoy', k.ingHoy], ['Completados hoy', k.compHoy], ['Horas por hacer', k.hPend == null ? null : k.hPend + ' h'], ['Servicios pendientes', k.nSvc], ['Cliente espera en local', k.cli], ['Llegaron en grúa', k.gru], ['Marcados urgentes', k.urg], ['Antigüedad prom.', (k.avg || 0) + ' días'], ['Más antiguo en zona', k.maxD == null ? null : k.maxD + ' días']];
+        const ts = (d.top || []), tmx = Math.max(1, ...ts.map(x => x.c));
+        const topH = ts.length ? `<section class="box opt"><h2 class="sec">Servicios más pedidos</h2>${ts.map(x => `<div class="sv"><span>${esc(x.n)}</span><i style="width:${Math.max(6, Math.round(x.c / tmx * 70))}px"></i><b>${x.c}</b></div>`).join('')}</section>` : '';
+        const item = j => { const s = INF_EST[j.est] || [j.est, '#5f6b7a']; return `<article class="v"><div class="vh"><span class="pl l">${j.pat}</span><span class="st" style="color:${s[1]}"><i class="dot" style="background:${s[1]}"></i>${s[0]}${j.urg ? ' · URGENTE' : ''}</span></div><div class="vm">${j.pl ? '<b>' + esc(j.pl) + '</b> · ' : ''}${esc([j.marca, j.modelo].filter(Boolean).join(' ') || 'Vehículo')}${j.km ? ' · ' + j.km.toLocaleString('es-CL') + ' km' : ''}<br>Mecánico: <b>${esc(j.mec || 'sin asignar')}</b></div><div class="chips">${j.svcs.slice(0, 3).map((x, i) => `<span class="chip" style="--c:${['#002D7A', '#f26a21', '#f5c000'][i % 3]}">${esc(x)}</span>`).join('') || '<span class="vm">Sin servicios registrados</span>'}</div><div class="dates"><span>Ing: <b>${infD(j.ing)}</b></span><span>Entrega: <b>${infD(j.ent)}</b></span></div></article>` };
+        const gh = (t, n) => `<div class="gh" data-t="${esc(t)}"><h2 class="sec" style="margin:0">${esc(t)}</h2><span class="src">${n} vehículo${n == 1 ? '' : 's'}</span></div>`;
+        const stage = (A_.length ? gh('Vehículos en ' + d.zona, A_.length) + A_.map(item).join('') : '') + (B_.length ? gh('Vehículos en ' + d.zona + ' en espera', B_.length) + B_.map(item).join('') : '') || '<p class="src">Sin vehículos en la zona.</p>';
+        const SC = `<script>(function(){function over(p){return p.scrollHeight>p.clientHeight+1}function paginate(){var st=document.getElementById('stage'),tp=document.getElementById('tpl');if(!st||!tp||st.getAttribute('data-done'))return;st.setAttribute('data-done','1');var items=[].slice.call(st.children),cur,lastH=null;function np(){var p=tp.content.firstElementChild.cloneNode(true);document.body.insertBefore(p,st);return{p:p,vg:p.querySelector('.vg')}}cur=np();items.forEach(function(it){var isH=it.classList.contains('gh');cur.vg.appendChild(it);if(over(cur.p)){cur.vg.removeChild(it);var orph=null,lc=cur.vg.lastElementChild;if(lc&&lc.classList.contains('gh')){orph=lc;cur.vg.removeChild(lc)}if(!cur.vg.children.length&&!orph){cur.vg.appendChild(it);return}cur=np();if(orph)cur.vg.appendChild(orph);else if(!isH&&lastH){var c=lastH.cloneNode(true);c.querySelector('h2').textContent=lastH.getAttribute('data-t')+' (cont.)';cur.vg.appendChild(c)}cur.vg.appendChild(it)}if(isH)lastH=it});st.parentNode.removeChild(st);var ps=document.querySelectorAll('.page'),i,j,a,b;for(i=0;i<ps.length;i++){a=ps[i].querySelectorAll('.pn');b=ps[i].querySelectorAll('.pt');for(j=0;j<a.length;j++)a[j].textContent=i+1;for(j=0;j<b.length;j++)b[j].textContent=ps.length}}function fit(){var s=document.getElementById('prsec');if(!s)return;var ul=s.querySelector('.prio'),m=s.querySelector('.pm'),li=ul.children,tot=+s.getAttribute('data-tot'),i,n=li.length;for(i=0;i<n;i++)li[i].style.display='';function setM(k){if(tot>k){m.textContent='+ '+(tot-k)+' vehículos más en las hojas siguientes.';m.style.display=''}else m.style.display='none'}setM(n);while(n>1&&s.scrollHeight>s.clientHeight+1){n--;li[n].style.display='none';setM(n)}var L=document.getElementById('lcol');if(L){if(L.scrollHeight>L.clientHeight+1)L.classList.add('dense');var o=L.querySelectorAll('.opt'),q=o.length;while(q>0&&L.scrollHeight>L.clientHeight+1){o[--q].style.display='none'}}}var ran=0;function once(){if(ran)return;ran=1;paginate();fit()}window.addEventListener('load',function(){if(document.fonts&&document.fonts.ready){document.fonts.ready.then(once);setTimeout(once,1500)}else once()});window.addEventListener('beforeprint',function(){once();fit()})})();<\/script>`;
+        let h = `<section class="page">${hd('Informe de zona: ' + esc(d.zona), 1)}<div class="cnt">${kp(k.total, 'Vehículos en la zona', '#002D7A')}${kp(ep, 'En ' + esc(d.zona), '#002D7A')}${kp(ee, 'En espera', '#6b7686')}${kp(k.late, 'Atrasados', '#B60802')}${kp(pro, 'En proceso', '#f26a21')}${kp(k.cola, 'En cola', '#f5c000')}${kp(k.pausa, 'En pausa', '#B60802')}${kp((k.ocup != null ? k.ocup : Math.min(100, Math.round(ep / d.puestos * 100))) + '%', 'Ocupación de puestos', '#2eb34a')}</div><div class="cols"><div class="colx" id="lcol"><section class="box"><h2 class="sec">Mecánicos asignados</h2>${mt}<p class="src" style="margin:5px 0 0">Se muestran las 2 patentes más urgentes en proceso. «Apoyo»: no tiene este sector asignado. Carga sobre ${d.puestos} puestos.</p></section><section class="box"><h2 class="sec">Estados e indicadores de la zona</h2><div class="kpi"><svg width="84" height="84" viewBox="0 0 120 120"><g transform="rotate(-90 60 60)" fill="none" stroke-width="22"><circle cx="60" cy="60" r="40" stroke="#e6e9ef"/>${arcs}</g><text x="60" y="64" text-anchor="middle" font-size="22" font-weight="800" fill="#1C2633">${k.total}</text></svg><div class="leg">${seg.map(([n, c, l]) => `<div><i class="dot" style="background:${c}"></i><b>${n}</b> ${l}</div>`).join('')}</div></div><div class="kg" style="margin-top:6px">${x1.filter(x => x[1] != null).map(([a, b]) => `<div class="kr"><span>${a}</span><b>${b}</b></div>`).join('')}</div></section>${topH}</div><div class="colx"><section class="box ia"><h2 class="sec">✦ ${r.data.resumenIA ? 'Resumen IA' : 'Resumen'}</h2>${r.data.resumen}<p class="src">${src}</p></section><section class="box" id="prsec" data-tot="${d.J.length}"><h2 class="sec">Posición de prioridad</h2><ol class="prio">${pr}</ol><p class="pm src" style="margin:6px 0 0;display:none"></p></section></div></div>${ft(1)}</section><template id="tpl"><section class="page">${hd('Vehículos en la zona', '')}<div class="vg"></div>${ft('')}</section></template><div id="stage" hidden>${stage}</div>`;
+        return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Informe de zona ${esc(d.zona)} Nº ${r.nro}</title>${pre}<style>${INF_CSS}${CSS2}</style></head><body>${h}${SC}</body></html>`
+    }
+    function infView(id) {
+        const r = infLoad().find(x => x.id == id); if (!r) return;
+        infClose(); const o = document.createElement('div'); o.id = 'infov';
+        o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column';
+        const bt = 'display:inline-flex;align-items:center;gap:6px;border:1.5px solid #002D7A;border-radius:99px;padding:8px 14px;font:700 13px Inter,Arial,sans-serif;cursor:pointer;';
+        o.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid #d6dbe2;background:#fff"><button id="infx" style="${bt}background:#fff;color:#002D7A">${ic('close')}Cerrar</button><span style="flex:1;font:700 14px Inter,Arial,sans-serif;color:#1C2633;min-width:80px">Informe Nº ${String(r.nro).padStart(3, '0')}</span><button id="infs" style="${bt}background:#fff;color:#002D7A">${ic('share')}Compartir</button><button id="infp" style="${bt}background:#002D7A;color:#fff">${ic('picture_as_pdf')}PDF / Imprimir</button></div><iframe id="inff" style="flex:1;border:0;width:100%;background:#fff"></iframe>`;
+        document.body.appendChild(o); const f = o.querySelector('#inff'); f.srcdoc = infHtml(r);
+        o.querySelector('#infx').onclick = infClose; o.querySelector('#infp').onclick = () => { try { f.contentWindow.focus(); f.contentWindow.print() } catch (e) { toast('warning', 'No se pudo abrir la impresión') } }; o.querySelector('#infs').onclick = () => infShare(id)
+    }
+    function infClose() { const o = document.getElementById('infov'); if (o) o.remove() }
+    async function infShare(id) {
+        const r = infLoad().find(x => x.id == id); if (!r) return; const nmf = `Informe_${r.data.zona.replace(/\W+/g, '_')}_${r.fechaISO.slice(0, 10)}.html`, f = new File([infHtml(r)], nmf, { type: 'text/html' });
+        try { if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: 'Informe de zona ' + r.data.zona }); return } } catch (e) { if (e && e.name == 'AbortError') return }
+        const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = nmf; document.body.appendChild(a); a.click(); a.remove(); toast('check_circle', 'Archivo descargado: ábrelo e imprime como PDF')
+    }
+    function vInf() {
+        const L = infLoad(), Z = ZA();
+        return `<div class="top"><button data-a="go" data-v="mas" title="Volver">${ic('arrow_back')}</button><div><h1>Informes y resúmenes</h1><div class="sm">${L.length} guardados · formato carta, imprimible y PDF</div></div></div><div class="mas"><h2>Generar informe de zona</h2><div class="mgap">${Z.map(z => `<button class="mopt" data-a="infgen" data-z="${z.id}">${ic('summarize')}<span>${esc(z.nombre)}</span>${ic('add')}</button>`).join('') || '<div class="mut">No hay zonas activas.</div>'}</div><h2 style="margin-top:18px">Informes guardados</h2><div class="mgap">${L.map(r => `<div class="mopt" style="cursor:default"><span style="flex:1;min-width:0"><b>Nº ${String(r.nro).padStart(3, '0')} · ${esc(r.data.zona)}</b><br><small class="mut">${new Date(r.fechaISO).toLocaleString('es-CL', { dateStyle: 'medium', timeStyle: 'short' })} · ${r.data.k.total} vehículos</small></span><button data-a="infopen" data-id="${r.id}" title="Abrir" style="background:none;border:0;color:inherit">${ic('visibility')}</button><button data-a="infdel" data-id="${r.id}" title="Eliminar" style="background:none;border:0;color:inherit">${ic('delete')}</button></div>`).join('') || '<div class="mut">Aún no hay informes. Genera el primero arriba.</div>'}</div></div>`
+    }
+    Object.assign(A, {
+        infgen: async d => {
+            toast('auto_awesome', 'Generando informe…'); const x = infData(d.z); const ia = await infIA(x); x.resumenIA = !!ia; x.resumen = ia || infLocal(x);
+            const L = infLoad(), nro = (L.reduce((m, r) => Math.max(m, r.nro || 0), 0)) + 1, r = { id: uid(), nro, fechaISO: now(), zonaId: d.z, data: x };
+            if (infSave([r, ...L])) { render(1); infView(r.id) }
+        },
+        mzt: d => {
+            const x = (S.cfg.mecanicos || []).find(y => y.id == d.id); if (!x) return;
+            const a = Array.isArray(x.zonas) ? x.zonas.slice() : (x.zonaPpal ? [x.zonaPpal] : []), i = a.indexOf(d.z);
+            if (i >= 0) a.splice(i, 1); else a.push(d.z);
+            x.zonas = a; x.zonaPpal = a[0] || ''; saveCfg()
+        },
+        infopen: d => infView(d.id),
+        infdel: d => { if (confirm('¿Eliminar este informe guardado?')) { infSave(infLoad().filter(r => r.id != d.id)); render(1) } }
+    });
     render(1);
     setTimeout(() => {
         fotoClean();
